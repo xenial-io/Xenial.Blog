@@ -19,15 +19,14 @@ h2
 { 
 	font-size: 2.5em;
 }
-a, a:visited 
+a
 { 
 	text-decoration: none; 
 	color:#13678b;
 }
 a:hover 
-{
-	color:white; 
-	background: #13678b
+{ 
+	text-decoration: underline;
 }
 ul 
 {
