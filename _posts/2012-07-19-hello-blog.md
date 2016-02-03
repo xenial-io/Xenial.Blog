@@ -1,9 +1,11 @@
 --- 
-layout: post
-title: "Hello Blog"
-author: "Manuel Grundner"
-comments: false
+ layout: post
+ title: "Hello Blog"
+ author: "Manuel Grundner"
+ comments: false
 ---
+
+Welcome to my new blog!
 
 ```cs
 namespace Delegate.Blog

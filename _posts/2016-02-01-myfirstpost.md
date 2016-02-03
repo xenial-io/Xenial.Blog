@@ -1,8 +1,8 @@
 --- 
 layout: post
 title: "My First Post"
-author: "Author"
-comments: true
+author: "Manuel Grundner"
+comments: false
 ---
 
 ## Hello world...

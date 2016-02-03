@@ -1,7 +1,9 @@
 ---
  layout: post 
- title: Real MTier with DevExpress (Part 1)
- comments: true
+ title: "Real MTier with DevExpress (Part 1)"
+ comments: false
+ author: "Manuel Grundner"
+ excerpt_separator: <!--more-->
 ---
 Technologie overview
 ------
@@ -15,6 +17,8 @@ Phew, that has done well. :)
 Our main product is published to a wide range of clients, from small size scaling up to the enterprise sector. 
 
 One thing i really miss in our Portfolio are native apps for all kind of customers mobile devices. One real need for native apps is offline availability of the clients data (enterprise customers need to access their data anytime, regardless of connectionstate). So a Web solution will **NOT** meet our customers needs. Gladly we found [Mono For Android][3] and the [MonoTouch][4] framework from the [Xamarin][5] guys.
+
+<!--more-->
 
 Technologie decision 
 --------------------
