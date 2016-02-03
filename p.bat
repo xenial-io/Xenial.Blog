@@ -1,0 +1,1 @@
+cmd /K pretzel.exe %*

@@ -1,0 +1,20 @@
+{
+    "version": "0.1.0",
+    "command": "pretzel",
+    "isShellCommand": false,
+    "tasks": [
+        {
+            "taskName": "bake",        
+            "showOutput": "always",
+            "isBuildCommand": true
+        },
+        {
+            "taskName": "taste",
+            "showOutput": "always",
+            "isBuildCommand": false,
+            "isTestCommand": true,
+            "isWatching": false,
+            "echoCommand": false
+        }
+    ]
+}
