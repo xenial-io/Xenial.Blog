@@ -32,8 +32,7 @@
                     </ul>
                     {% endif %}
                 </div>
-                {{ post.excerpt }}
-                
+                {{ post.excerpt }}                
                 <p>
                     <a class="postlink" href="{{ post.url }}">Read more...</a>
                 </p>
@@ -47,7 +46,7 @@
 <ul class="postArchive">
     {% for post in site.posts offset:5 %}
     <li>
-        <span class="olderpostdate"> {{ post.date | date: "%d %b"  }} </span> <a class="postlink" href="{{ post.url }}">{{ post.title }}</a>
+        <span class="olderpostdate"> {{ post.date | date: "%d %b"  }} </span><a class="postlink" href="{{ post.url }}">{{ post.title }}</a><span class="author"> by {% if post.author %}{{ post.author }}{% else %}Manuel Grundner{% endif %}</span>
     </li>
     {% endfor %}
 </ul>

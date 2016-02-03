@@ -90,8 +90,14 @@ img
 { 
 	font-size: 0.8em; 
 	color : #aaaaaa;
-	width: 150px;
-	margin-right: 15px;
+	width: 50px;
+    float: left;
+}
+.olderpostdate + a{
+    margin-left: 10px;
+}
+.olderpostdate + a + span.author {
+    font-size: 0.7em;
 }
 .idea h1, .entry h1 
 {
