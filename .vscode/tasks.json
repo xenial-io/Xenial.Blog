@@ -4,7 +4,7 @@
     "isShellCommand": false,
     "tasks": [
         {
-            "taskName": "bake",        
+            "taskName": "bake",
             "showOutput": "always",
             "isBuildCommand": true
         },
@@ -15,6 +15,9 @@
             "isTestCommand": true,
             "isWatching": false,
             "echoCommand": false
+        },
+        {
+            "taskName": "ingredient"
         }
     ]
 }
