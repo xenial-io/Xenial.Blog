@@ -1,7 +1,8 @@
 ---
-layout: post
-title: About
-comments: false
+ layout: post
+ title: About
+ comments: false
+ navigation: false
 ---
 
 New Site

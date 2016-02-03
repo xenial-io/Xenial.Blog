@@ -10,12 +10,23 @@
 		</span> {{ content }}
     </div>
 </div>
+
+{% if page.navigation == false %}
+<hr/>
+<div id="page-navigation">
+    <div class="left"> <a href="/" title="Home">&larr; Home</a> </div>
+    <div class="right">&nbsp;</div>
+    <div class="clear">&nbsp;</div>
+</div>
+
+{% else %}
 <hr />
 <div id="page-navigation">
     <div class="left"> {% if page.previous.url %} <a href="{{page.previous.url}}" title="Previous Post: {{page.previous.title}}">&larr; {{page.previous.title}}</a>        {% endif %} </div>
     <div class="right"> {% if page.next.url %} <a href="{{page.next.url}}" title="next Post: {{page.next.title}}">{{page.next.title}} &rarr; </a>        {% endif %} </div>
     <div class="clear">&nbsp;</div>
 </div>
+{% endif %}
 
 {% if page.comments == true %}
 <hr />
