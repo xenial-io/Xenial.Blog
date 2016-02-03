@@ -278,6 +278,51 @@ Demo Source
 The source can be found at [Bitbucket][22]
 
 
+# Imported Comments #
+
+## Dennis 23 Jul, 2012 ## 
+> DevExpress, please think of us developers when designing your APIs, not business analysts and script kiddies :(
+
+You certainly have the point here, and I as a developer can fully understand your "righteous anger". However, there is always the other side of the medal. By introducing EditorBrowsable(Never) and internal-use-only methods, and even keeping certain classes undocumented in our docs we try to save lives of a good number (if not the majority - call them VB.NET guys, if you want;-)) of our clients, so that they do not run into problems in the future by using some hidden APIs or suffering from changes or even removal of some undocumented classes. This "care" may affect guys like you, though. I am uncertain whether the golden mean exists here, but I think we are at least do our best maintaining the "balance", and let's be fair, not having "every second method we like to use is fucking Browsable(false) or internal ";-)
+
+> Then, all of a sudden, DevExpress announced support for OData in combination with XPO. Hurray! Getting the hands on the first versions and the result was sobering. :(
+
+Yeah, that is true. It was the first and unofficial/open-source implementation solely created by Azret and then posted on CodePlex. Later we just included his dlls into the installer to avoid versioning pain with often DXperience updates. The official (it also complies with MS OData implementation) OData support was added in XPO in 12.1 and we highly recommend everyone consider migrating to this version.
+
+Finally, I really liked your blog posts, keep them coming! It will be interesting to see how you will implement business logic, and not just expose an OData feed. At the moment I think that the only feasible way to keep several client applications that share a common business model/logic is using the XAF application server that will provide security, validation, audit and other business logic. In one turn, OData service used by mobile, WinRT, whatever clients will connect to this application server instead of the direct access to the datatabase. Let's also do not forget that although OData can be a "common denominator", it is not "ideal", especially as compared to basic feature XAF/XPO provide (I am talking about the lack of support for unsigned integers, enumerations, readonly properties, reference properties in descendants and numerous filtering limitations). Probably, this is not critical for mobile clients, though.
+
+## Manuel 25 Jul, 2012 ##
+
+> You certainly have the point here, and I as a developer can fully understand your "righteous anger". However, there is always the other side of the medal. By introducing EditorBrowsable(Never) and internal-use-only methods, and even keeping certain classes undocumented in our docs we try to save lives of a good number (if not the majority - call them VB.NET guys, if you want;-)) of our clients, so that they do not run into problems in the future by using some hidden APIs or suffering from changes or even removal of some undocumented classes. This "care" may affect guys like you, though. I am uncertain whether the golden mean exists here, but I think we are at least do our best maintaining the "balance", and let's be fair, not having "every second method we like to use is fucking Browsable(false) or internal ";-)
+
+Dennis, don't get me wrong at this point. I love XAF. I love the way things (can) flow. But if you try to spring out of this box, you can really get sad (as a developer). It took's me months (in a kind of a working solution) to integrate Unity in our product to get a easy way to reuse and change our business logic. Since we are using XAF since 9.x (i guess) there was no way to migrate to DomainComponents. You could provide extensibility points to ease such tasks, but i see no effort of DexExpress to evolve this. So my anger. Nothing personally :)
+
+> Yeah, that is true. It was the first and unofficial/open-source implementation solely created by Azret and then posted on CodePlex. Later we just included his dlls into the installer to avoid versioning pain with often DXperience updates. The official (it also complies with MS OData implementation) OData support was added in XPO in 12.1 and we highly recommend everyone consider migrating to this version.
+
+Yes you are right, maybe i didn't made this clear enough. From a developer perspective its often hard to say if its supported or not supported. I know that the first announce was only a blog serious of Azret. :) (and he did a good job)
+
+> Finally, I really liked your blog posts, keep them coming! It will be interesting to see how you will implement business logic, and not just expose an OData feed. At the moment I think that the only feasible way to keep several client applications that share a common business model/logic is using the XAF application server that will provide security, validation, audit and other business logic. In one turn, OData service used by mobile, WinRT, whatever clients will connect to this application server instead of the direct access to the datatabase. Let's also do not forget that although OData can be a "common denominator", it is not "ideal", especially as compared to basic feature XAF/XPO provide (I am talking about the lack of support for unsigned integers, enumerations, readonly properties, reference properties in descendants and numerous filtering limitations). Probably, this is not critical for mobile clients, though.
+
+According to the blog post (as a serious) there will be lot of space to (re-) "implement" some features (like security).
+
+The limitations of OData seam logic, cause of the wide based client set (JS/ PHP / etc. don't even know enumerations).
+
+In the point of "ideal" i must be inconsistent with your opinion. Cause its base layer is simple HTTP it IS in fact ideal. The whole bunch of overhead such as SOAP/WCF is removed. Mobile clients are to a fact of 99% data consumers. The filtering can be tricky, and maybe there is no 100% generic approach to filter them (but through meta-data services maybe :) ).
+
+The thinking of getting the data is an other approach like in a classic DBAL (like XPO). Save time on the client -> Better user-experience.
+
+greetings Manuel.
+
+Ps: I think i get the next article available on Monday :)
+
+## Manuel 25 Jul, 2012 ##
+
+Finally i like to say that your products are great, and we CAN build great applications with DexExpress frameworks. But sometimes it's hard in a developer perspective.. Drag a module into your project? Yes. But do stuff that comes out of the box? Hard.
+
+If you could provide a set of instructions (maybe covered by FxCOP rules) we could realize a real open source based framework solution. The instructions don't have to be a full blown documentation, but a small "how to use devex internals" to use code such as in your system controllers used (reading source is sometimes really hard, to get all of your thoughts correct)
+
+If you like to refer to eXpand i have do disagree. eXpand is great, but the reintegration of modules takes partially weeks... or is simply not reinterateable cause of dependencies. We CAN make a plugin able architecture. we only have to work on it.
+
   [1]: http://www.devexpress.com/
   [2]: http://www.devexpress.com/Subscriptions/DXperience/WhatsNew2012v1/xaf.xml
   [3]: http://xamarin.com/monoforandroid
