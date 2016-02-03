@@ -25,7 +25,7 @@ State
 
 Its not yet ready for full productive use, but it will soon (for sql anywhere about Aug 15 2012).
 
-##Some parts are still missing:
+## Some parts are still missing: ##
 
  - Altering columns taking place in indexes, would cause an error on most databases 
  - Same for foreign keys  
