@@ -2,7 +2,7 @@
 layout: post
 title: "My First Post"
 author: "Manuel Grundner"
-comments: false
+comments: true
 ---
 
 ## Hello world...
