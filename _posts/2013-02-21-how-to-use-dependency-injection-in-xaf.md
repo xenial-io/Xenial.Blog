@@ -3,12 +3,8 @@
  title: "How to use Dependency Injection in XAF"
  comments: false
  author: "Manuel Grundner"
- excerpt_separator: <!--more-->
 ---
-#Dependency injection#
-
 XAF has the ability to provide DI over Domain-Componants, we use XPO so we don't have a chance to use this feature (and yes, i **hate static** methods! (**testing testing testing**))
-<!--more-->
 
 [http://en.wikipedia.org/wiki/Dependency_injection](http://en.wikipedia.org/wiki/Dependency_injection)
 
