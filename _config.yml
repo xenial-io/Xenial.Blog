@@ -1,2 +1,8 @@
 pretzel: 
     engine: liquid
+exclude:
+   - build.ps1
+   - build.cake
+   - .gitignore
+   - .git
+   - tools\
