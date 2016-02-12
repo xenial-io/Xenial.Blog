@@ -1,6 +1,6 @@
 ---
  layout: post 
- title: New post
+ title: "DevExpress 13.2 Review - Part 1"
  comments: false
  tags: ["13.2", "XAF", "DevExpress", "XPO"]
 ---
@@ -190,4 +190,4 @@ Stay tuned for the second/third/fourth/..nth part, there are a lot of new things
 And many more!
 Greetings Manuel
 
->Note: you can see the sourcecode (as usual) in my public github repo.
+>Note: you can see the sourcecode (as usual) in my public [github repo](https://github.com/biohazard999/DX13_2).
