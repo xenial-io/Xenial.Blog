@@ -1,4 +1,10 @@
 pretzel: 
     engine: liquid
     
-exclude: ["publish.ps1", "build.cake", "build.ps1", "tools\\", ".git", ".gitignore"]
+exclude:
+  - publish.ps1
+  - build.cake
+  - build.ps1
+  - tools\
+  - .git
+  - .gitignore"
