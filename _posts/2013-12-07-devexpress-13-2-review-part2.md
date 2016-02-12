@@ -1,8 +1,8 @@
 ---
- layout: post 
+ layout: post
  title: "DevExpress 13.2 Review - Part 2"
  comments: false
- tags: ["13.2", "XAF", "DevExpress", "XPO"]
+ tags: ["13-2", "XAF", "DevExpress", "XPO"]
 ---
 In the last review, I showed only some of the new small improvements I noticed during migration, so now go to the great stuff!
 

@@ -4,19 +4,28 @@
 	<body>
 		<div class="container">
             <div class="row">
-                <div class="ten columns">
+                <div class="nine columns">
                     {{content}}
                 </div>
-                <nav class="two columns">
-                    <a href="/" id="home" title="home" alt="home"><img src="/img/logo.png" alt="Site Name" /></a>
+                <nav class="three columns">
+                    <a href="/" id="home" title="home" alt="home"><img src="/img/logo.png" class="u-max-full-width" /></a>
                     <ul class="fa-ul">
                         <li><i class="fa-li fa fa-home"></i> <a href="/" >Home</a></li>
-                        <li><i class="fa-li fa fa-info"></i> <a href="/about.html" >About</a></li>
-                        <li><i class="fa-li fa fa-archive"></i> <a href="/archive.html" >Archive</a></li>
-                        <li><i class="fa-li fa fa-trophy"></i> <a href="/vs-achievements.html" >Achievements</a></li>                        
+                        <li><i class="fa-li fa fa-info"></i> <a href="/about" >About</a></li>
+                        <li><i class="fa-li fa fa-archive"></i> <a href="/archive" >Archive</a></li>
+                        <li><i class="fa-li fa fa-tag"></i> <a href="/tags" >Tags</a></li>
+                        <li><i class="fa-li fa fa-trophy"></i> <a href="/achievements" >Achievements</a></li>
+                        <li><i class="fa-li fa fa-github-square"></i> <a href="//github.com/biohazard999/" target="_blank">Github</a></li>
+                        <li><i class="fa-li fa fa-twitter-square"></i> <a href="//twitter.com/biohaz999" target="_blank">Twitter</a></li>
                         <li><i class="fa-li fa fa-rss-square rss"></i> <a href="/rss.xml" >RSS</a></li>
                         <li><i class="fa-li fa fa-rss-square atom"></i> <a href="/atom.xml" >Atom</a></li>
-                    </ul>                    
+                    </ul>
+                    <figure>
+                        <a href="https://www.devexpress.com/Home/Community/mvp.xml" target="_blank">
+                            <img src="/img/DevExpress-Logo-Large-Color.png" title="DevExpress-MVP" alt="DevExpress-MVP" />
+                            <figcaption>I am an DevExpress MVP</figcaption>
+                        </a>
+                    </figure>
                 </nav>
             </div>
 		</div>
@@ -28,7 +37,7 @@
             $(function() {
                 $('article img').featherlight({
                     targetAttr: 'src'
-                });    
+                });  
             });            
         </script>
 	</body>

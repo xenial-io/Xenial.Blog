@@ -1,2 +1,4 @@
 pretzel: 
     engine: liquid
+    
+tags1: ["1", "2"]

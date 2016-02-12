@@ -2,7 +2,7 @@
  layout: post 
  title: "How to use Dependency Injection in XAF (ASP.NET WebApi/WebMvc) Part 3"
  comments: false    
- tags: ["XAF", "XPO", "Web", "WebApi", "UnitTesting", "Unity", "NUnit", "MVC", "async", "await"]
+ tags: ["XAF", "XPO", "Web", "WebApi", "Testing", "UnitTesting", "Unity", "NUnit", "MVC", "async", "await"]
 ---
 How to add support for ASP.NET WebAPI / MVC4 in XAF?
 It is not quite complicated, but took me also some hours of work to get it running.

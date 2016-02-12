@@ -2,7 +2,7 @@
  layout: post 
  title: "How to use Dependency Injection in XAF (UnitTesting) Part 2"
  comments: false
- tags: ["unittesting", "XAF", "XPO", "Unity", "DI", "DependencyInjection", "NUnit"]
+ tags: ["Testing","UnitTesting", "XAF", "XPO", "Unity", "DI", "NUnit"]
 ---
 It's not a really easy task to correctly UnitTest a XAF/XPO application, but as we all know, UnitTesting is a very important part of our work today.
 

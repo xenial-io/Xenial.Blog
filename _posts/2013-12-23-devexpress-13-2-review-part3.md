@@ -2,7 +2,7 @@
  layout: post 
  title: "DevExpress 13.2 Review - Part 3"
  comments: false
- tags: ["13.2", "XAF", "DevExpress", "XPO"]
+ tags: ["13-2", "XAF", "DevExpress", "XPO"]
 ---
 After some days of hard work, not able to blog, here is my third part of the DevExpress review.
 
@@ -23,13 +23,9 @@ Greetins Manuel
 
 ---
 
-Xpand.ExpressApp.Win.Para.WindowsIntegration
-============================================
+### The WindowsIntegrationWindowsFormsModule
 
 Deeper Windows Integration Features to XAF/Xpand
-
-
-## The WindowsIntegrationWindowsFormsModule ##
 
 This Module allows you to integrate the [TaskbarAssistent](http://documentation.devexpress.com/#WindowsForms/clsDevExpressUtilsTaskbarTaskbarAssistanttopic "TaskbarAssistent Component") into XAF.
 

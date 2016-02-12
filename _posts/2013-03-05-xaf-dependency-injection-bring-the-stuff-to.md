@@ -2,7 +2,7 @@
 layout: post
 title: "XAF Dependency Injection - bring the stuff together"
 comments: false
-tags: ["XPO", "XAF", "WebApi", "Web", "WebMvc", "MVC", "Unity", "UnitTesting", "DependencyInjection", "DI", "async", "await"]
+tags: ["XPO", "XAF", "WebApi", "Web", "WebMvc", "MVC", "Unity", "UnitTesting", "DI", "async", "await"]
 ---
 ## XAF Dependency Injection - bring the stuff together #
 

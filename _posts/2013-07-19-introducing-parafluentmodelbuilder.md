@@ -3,7 +3,6 @@
  title: "Introducing Para.FluentModelBuilder"
  comments: false
  tags: ["XAF", "XPO", "UnitTesting"]
- excerpt_separator: <!--more-->
 ---
 I like to introduce a little Framework about mapping/decorating XPO/EntityFramework classes in XAF using the typesystem XAF provided without having to 'pollute' your model-assembly with DevExpress.ExpressApp assemblies:
 

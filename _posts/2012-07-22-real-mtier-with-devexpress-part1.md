@@ -1,9 +1,8 @@
 ---
- layout: post 
- title: "Real MTier with DevExpress (Part 1)"
- comments: false
- author: "Manuel Grundner"
- excerpt_separator: <!--more-->
+layout: post 
+title: "Real MTier with DevExpress (Part 1)"
+comments: false
+tags: ["XAF", "OData", "T4", "WCF", "WinRT", "XPO"]
 ---
 Technologie overview
 ------
