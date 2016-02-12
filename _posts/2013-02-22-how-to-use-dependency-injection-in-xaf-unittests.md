@@ -557,7 +557,7 @@ public class XafTest_MyBo1 : XafTest<MyBo1>
 
 Boring. Nothing special here. but a lot slower:
 
-![](http://blog.paraoffice.at/get/screenshots/XAFDISolution/XAFDISolution_2013-02-22_17-12-35.png)
+![](/img/posts/2013/XAFDISolution_2013-02-22_17-12-35.png)
 
 Now the XafApplicationModel part:
 
