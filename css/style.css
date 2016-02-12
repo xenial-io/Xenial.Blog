@@ -150,6 +150,18 @@ nav figure {
     display: none;
 }
 
+.mobilenav .nav-ul li {
+    margin-bottom: 0;
+}
+
+.noscroll {
+    overflow: hidden;
+}
+
+.mobilenav {
+    overflow-y: auto;
+}
+
 @media (min-width: 400px) {
     .icon {
         display: block;
@@ -168,8 +180,8 @@ nav figure {
 
 /* Larger than desktop */
 @media (min-width: 1000px) {
-    .mobilenav .nav-ul li {
-        margin-bottom: 0;
+    .mobilenav .fa-lg {
+        font-size: initial;
     }
     .mobilenav .nav-ul span.fa-stack {
         margin-right: 0px;
