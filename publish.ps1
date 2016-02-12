@@ -49,7 +49,7 @@ function UploadToFtp($artifacts, $ftp_uri, $user, $pass){
 
     foreach($item in Get-ChildItem -recurse $artifacts){ 
 
-        $relpath = [system.io.path]::GetFullPath($item.FullName).SubString([system.io.path]::GetFullPath($artifacts).Length + 3)
+        $relpath = [system.io.path]::GetFullPath($item.FullName).SubString([system.io.path]::GetFullPath($artifacts).Length + 2)
         #$relpath = [system.string]::Replace("\", "/")
         $ftpPath = $ftp_uri+$relpath;
         
@@ -201,7 +201,7 @@ function GetStream($creds, $url, $meth){
     return New-Object IO.StreamReader $response.GetResponseStream()
 }
 
-$localPath = "." + $Source;
+$localPath = $Source;
 $targetPath = $Ftp + $Target;
 "localPath $localPath"
 "targetPath $targetPath"
