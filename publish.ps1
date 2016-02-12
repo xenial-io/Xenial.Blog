@@ -4,7 +4,8 @@ Param(
     [string]$Target,
     [string]$Ftp,
     [string]$Username,
-    [string]$Password
+    [string]$Password,
+    [switch]$WhatIf = $false
 )
 
 #Connect to ftp webclient
@@ -51,21 +52,24 @@ function UploadToFtp($artifacts, $ftp_uri, $user, $pass){
 
         $fullPath = [system.io.path]::GetFullPath($item.FullName)
         $artifactsFullPath = [system.io.path]::GetFullPath($artifacts)
-        $relpath = $fullPath.SubString($artifactsFullPath.Length + 1)
+        $relpath = $fullPath.SubString($artifactsFullPath.Length)
         #$relpath = [system.string]::Replace("\", "/")
         $ftpPath = $ftp_uri+$relpath;
         
         Write-Host  
         Write-Host ----UploadFile----
         $uri = New-Object System.Uri($ftpPath)   
-        Write-Host FTP: $ftp_uri
+        Write-Host Item: $item.FullName
+        Write-Host Is-Directory: ($item.Attributes -eq "Directory")
         Write-Host FullPath: $fullPath
         Write-Host ArtifactsFullPath: $artifactsFullPath 
         Write-Host RelPath: $relpath
         Write-Host Uploading $item
-        Write-Host To $uri
-         
-        continue
+        Write-Host To $uri.ToString()
+        
+        if ($WhatIf -eq $true) {
+            continue;
+        }
         
         if ($item.Attributes -eq "Directory"){
             try{
