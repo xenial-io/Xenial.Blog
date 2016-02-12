@@ -17,6 +17,7 @@ Oh and before i forget:
 **Xpand.ExpressApp.Win.Para.*** will be a new part of our applications, that allows me to write and share Xpand (XAF) modules, without having to violate our internal source licence.
 
 Greetins Manuel
+<!--more-->
 
 ---
 

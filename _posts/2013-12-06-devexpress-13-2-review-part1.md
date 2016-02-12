@@ -10,6 +10,8 @@ First of all I'd like to say happy birthday to DevExpress for their 15th Anniver
 
 The first thing i normally start with a new DevExpress release is to fire up the ProjectConverter:
 
+<!--more-->
+
 ### New ProjectConverter ###
 The old one:
 

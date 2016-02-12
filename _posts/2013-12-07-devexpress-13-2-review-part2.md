@@ -6,9 +6,7 @@
 ---
 In the last review, I showed only some of the new small improvements I noticed during migration, so now go to the great stuff!
 
-## WinForms ##
-
-### TaskbarAssistant
+## WinForms TaskbarAssistant
 
 The TaskbarAssistent component can help you to integrate the small features of Windows every windows user loves, a seamless and easy to use *Quickstart/Recently used/CustomCommand/Preview/Whatever* -menu for your application.
 
@@ -18,6 +16,8 @@ The TaskbarAssistent component can help you to integrate the small features of W
 Till now you had to deal with unmanaged code to bring this in your application, or use the [WindowsAPICodePack](http://archive.msdn.microsoft.com/WindowsAPICodePack) but this is very unhandy.
 
 So DevExpress gave us a new API to handle this straight forward, so we can focus on our clients!
+
+<!--more-->
 
 #### Use the designer ####
 
