@@ -2,7 +2,7 @@
  layout: post 
  title: "How to use Dependency Injection in XAF (UnitTesting) Part 2"
  comments: false
- tags: ["unittesting", "XAF", "XPO", "Unity", "DI", "DependencyInjection", "NUnit"]
+ tags: ["Testing","UnitTesting", "XAF", "XPO", "Unity", "DI", "NUnit"]
 ---
 It's not a really easy task to correctly UnitTest a XAF/XPO application, but as we all know, UnitTesting is a very important part of our work today.
 
@@ -557,7 +557,7 @@ public class XafTest_MyBo1 : XafTest<MyBo1>
 
 Boring. Nothing special here. but a lot slower:
 
-![](http://blog.paraoffice.at/get/screenshots/XAFDISolution/XAFDISolution_2013-02-22_17-12-35.png)
+![](/img/posts/2013/XAFDISolution_2013-02-22_17-12-35.png)
 
 Now the XafApplicationModel part:
 

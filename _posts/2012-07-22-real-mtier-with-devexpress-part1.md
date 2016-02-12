@@ -1,9 +1,8 @@
 ---
- layout: post 
- title: "Real MTier with DevExpress (Part 1)"
- comments: false
- author: "Manuel Grundner"
- excerpt_separator: <!--more-->
+layout: post 
+title: "Real MTier with DevExpress (Part 1)"
+comments: false
+tags: ["XAF", "OData", "T4", "WCF", "WinRT", "XPO"]
 ---
 Technologie overview
 ------
@@ -272,14 +271,12 @@ I don't know why this is no where documented. Neither on the [Mono][18] Document
 Further steps
 -------------
 
-In our [next post][20] we implement the android client to see some action!
-
-This blog post is part of the [real mtier with devexpress series][21]
+In our next post we implement the android client to see some action!
 
 
 Demo Source
 -----------
-The source can be found at [Bitbucket][22]
+The source can be found at [Bitbucket][20]
 
 
 # Imported Comments #
@@ -339,13 +336,11 @@ If you like to refer to eXpand i have do disagree. eXpand is great, but the rein
   [10]: http://www.devexpress.com/Products/NET/ORM/
   [11]: http://www.devexpress.com/Subscriptions/DXperience/WhatsNew2012v1/index.xml?page=58
   [12]: http://www.devexpress.com/Support/Center/p/Q408635.aspx
-  [13]: http://blog.paraoffice.at/get/screenshots/odata-t4-winrt-mono-for-android-and-devexpres/MultitierSolution_OData_Project.png
-  [14]: http://blog.paraoffice.at/get/screenshots/odata-t4-winrt-mono-for-android-and-devexpres/Add%20Service%20Reference_2012-07-22_11-36-10.png
+  [13]: /img/posts/2013/MultitierSolution_OData_Project.png
+  [14]: /img/posts/2013/Add_Service_Reference.png
   [15]: http://social.msdn.microsoft.com/Forums/en-US/winappswithcsharp/thread/c699fd8e-6178-4e1c-9a02-6db7a2b4db87
   [16]: http://fizzylogic.azurewebsites.net/2011/05/06/using-odata-with-mono-for-android/
-  [17]: http://blog.paraoffice.at/get/screenshots/odata-t4-winrt-mono-for-android-and-devexpres/External%20Tools_2012-07-22_13-33-32.png
+  [17]: /img/posts/2013/External_Tools.png
   [18]: http://www.mono-project.com/WCF_Development
   [19]: http://docs.xamarin.com/ios/tutorials/Working_with_Web_Services
-  [20]: http://blog.paraoffice.at/real-mtier-with-devexpress-part2
-  [21]: http://blog.paraoffice.at/real-mtier-with-devexpress
-  [22]: https://bitbucket.org/biohazard999/multitiersolutionxaf
+  [20]: https://bitbucket.org/biohazard999/multitiersolutionxaf

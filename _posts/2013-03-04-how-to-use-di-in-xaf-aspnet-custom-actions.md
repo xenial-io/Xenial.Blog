@@ -245,11 +245,11 @@ The `DefaultApi2` will handle our custom actions that will accept a id in the ur
 
 Then we can call fiddler:
 
-![Call Fiddler](http://blog.paraoffice.at/get/screenshots/XAFDISolution4/fiddler.png)
+![Call Fiddler](/img/posts/2013/fiddler.png)
 
 Result: 
 
-![Result from fiddler](http://blog.paraoffice.at/get/screenshots/XAFDISolution4/fiddler2.png)
+![Result from fiddler](/img/posts/2013/fiddler2.png)
 
 
 # WebMvc #
@@ -366,9 +366,9 @@ Extent the Index.cshtml:
 
 # Action! #
 
-![Call it](http://blog.paraoffice.at/get/screenshots/XAFDISolution4/MVC.png)
+![Call it](/img/posts/2013/MVC.png)
 
-![See the action!](http://blog.paraoffice.at/get/screenshots/XAFDISolution4/MVC2.png)
+![See the action!](/img/posts/2013/MVC2.png)
 
 ## Source is updated: ##
 

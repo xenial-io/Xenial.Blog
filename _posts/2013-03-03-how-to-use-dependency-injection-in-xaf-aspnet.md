@@ -2,7 +2,7 @@
  layout: post 
  title: "How to use Dependency Injection in XAF (ASP.NET WebApi/WebMvc) Part 3"
  comments: false    
- tags: ["XAF", "XPO", "Web", "WebApi", "UnitTesting", "Unity", "NUnit", "MVC", "async", "await"]
+ tags: ["XAF", "XPO", "Web", "WebApi", "Testing", "UnitTesting", "Unity", "NUnit", "MVC", "async", "await"]
 ---
 How to add support for ASP.NET WebAPI / MVC4 in XAF?
 It is not quite complicated, but took me also some hours of work to get it running.
@@ -330,7 +330,7 @@ public static class Bootstrapper
 
 > Note that the WebApi and WebMvc are using `.Net 4.5` to use the nice async/await featues we build the protable assembly with support for `.Net 4.0` support to use the calls from our *legacy* XAFSolution.
 
-![Portable Lib](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/2013-03-03%2012_49_53-Add_Portable_Class_Library.png)
+![Portable Lib](/img/posts/2013/2013-03-03-12_49_53-Add_Portable_Class_Library.png)
 
 Here is the very simple `MyBo1-DTO`
 
@@ -956,31 +956,31 @@ Nice or is it? :)
 
 Let's check out [fiddler](http://www.fiddler2.com/fiddler2/) an see if we can get some [JSON](http://www.json.org/) from our api.
 
-![Fiddler input](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/fiddler_input.png)
+![Fiddler input](/img/posts/2013/fiddler_input.png)
 
 Outputs:
 
-![Fiddler output](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/fiddler_output.png)
+![Fiddler output](/img/posts/2013/fiddler_output.png)
 
 
 Nice!
 Lets input some data:
 
-![Post from fiddler](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/post_from_fiddler.png)
+![Post from fiddler](/img/posts/2013/post_from_fiddler.png)
 
-![XAF Post from fiddler](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/XAF_Post_From_Fiddler.png)
+![XAF Post from fiddler](/img/posts/2013/XAF_Post_From_Fiddler.png)
 
 Update some data:
 
-![Update from Fiddler](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/put_from_fiddler.png)
+![Update from Fiddler](/img/posts/2013/put_from_fiddler.png)
 
-![XAF Update from fiddler](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/XAF_Put_From_Fiddler.png)
+![XAF Update from fiddler](/img/posts/2013/XAF_Put_From_Fiddler.png)
 
 And delete it:
 
-![Delete from fiddler](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/delete_from_fiddler.png)
+![Delete from fiddler](/img/posts/2013/delete_from_fiddler.png)
 
-![XAF Delete from fiddler](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/XAF_Delete_From_Fiddler.png)
+![XAF Delete from fiddler](/img/posts/2013/XAF_Delete_From_Fiddler.png)
 
 
 > As you maybe noticed, i've never startet the application so far. The unit-testing works like a charm.
@@ -1667,35 +1667,35 @@ Index.cshtml
 
 List:
 
-![List MVC](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/MVC_List.png)
+![List MVC](/img/posts/2013/MVC_List.png)
 
 Create:
 
-![MVC Create](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/MVC_Create.png)
+![MVC Create](/img/posts/2013/MVC_Create.png)
 
 Result:
-![MVC Create Result](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/MVC_Create2.png)
+![MVC Create Result](/img/posts/2013/MVC_Create2.png)
 
 Details:
 
-![MVC Details](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/MVC_Details.png)
+![MVC Details](/img/posts/2013/MVC_Details.png)
 
 Edit:
 
-![MVC Edit](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/MVC_Edit.png)
+![MVC Edit](/img/posts/2013/MVC_Edit.png)
 
 Result:
 
-![MVC Edit Result](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/MVC_Edit1.png)
+![MVC Edit Result](/img/posts/2013/MVC_Edit1.png)
 
 Delete:
 
-![MVC Delete](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/MVC_Delete.png)
+![MVC Delete](/img/posts/2013/MVC_Delete.png)
 
 
 Result:
 
-![MVC Delete Result](http://blog.paraoffice.at/get/screenshots/XAFDISolution3/MVC_Delete1.png)
+![MVC Delete Result](/img/posts/2013/MVC_Delete1.png)
 
 # Missing Parts #
 

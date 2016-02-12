@@ -3,25 +3,25 @@ layout: nil
 ---
 <?xml version="1.0"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>blog.delegate.at</title>
-  <link href="http://blog.delegate.at/"/>
-  <link type="application/atom+xml" rel="self" href="http://blog.delegate.at/atom.xml"/>
+  <title>Feed Name</title>
+  <link href="http://domain/"/>
+  <link type="application/atom+xml" rel="self" href="http://domain/atom.xml"/>
   <updated>{{ site.time | date_to_xmlschema }}</updated>
-  <id>http://blog.delegate.at/</id>
+  <id>http://domain/</id>
   <author>
-    <name>Manuel Grundner</name>
-    <email>m.grundner@delegate.at</email>
+    <name>Author</name>
+    <email>Email</email>
   </author>
 
   {% for post in site.posts %}
   <entry>
-    <id>http://blog.delegate.at{{ post.url }}</id>
-    <link type="text/html" rel="alternate" href="http://blog.delegate.at{{ post.url }}"/>
+    <id>http://domain/{{ post.url }}</id>
+    <link type="text/html" rel="alternate" href="http://domain/{{ post.url }}"/>
     <title>{{ post.title | xml_escape }}</title>
     <updated>{{ post.date | date_to_xmlschema }}</updated>
     <author>
-      <name>Manuel Grundner</name>
-      <uri>http://blog.delegate.at/</uri>
+      <name>Author</name>
+      <uri>http://domain/</uri>
     </author>
     <content type="html">{{ post.content | xml_escape }}</content>
   </entry>

@@ -1,0 +1,15 @@
+---
+layout : post
+title : Tags
+tag: " "
+---
+
+<ul>
+{% for post in site.pages %}
+    {% if post.tag and post.tag != " " %}
+        <li>
+            <a href="/Tags/{{ post.tag }}">{{ post.tag }}</a>
+        </li>
+    {% endif %} 
+{% endfor %}
+</ul>

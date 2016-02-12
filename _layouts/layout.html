@@ -1,29 +1,46 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 	{% include head.html %}
 	<body>
-		<div id="container">
-			<div id="side">
-				<a href="/" id="home" title="Home" alt="Home"><img src="/img/logo.png" alt="delegate.at" /></a>
-				<div id="hometext"><a href="/" >blog.delegate.at</a></div>
-				<div class="section">
-					<ul>
-						<li><a href="/about.html">about</a></li>
-						<li><a href="/rss.xml"><img src="/img/25.png" /> RSS</a></li>
-                        <li><a href="/atom.xml"><img src="/img/25.png" /> Atom</a></li>
-					</ul>
-				</div>
-			</div>
-			<div id="content">
-				{{content}}
-			</div>
+		<div class="container">
+            <nav class="mobilenav">
+                <a class="brand" href="/" id="home" title="home" alt="home"><img src="/img/logo.png" class="u-max-full-width" /></a>
+                <ul class="fa-lg nav-ul">
+                    <li><a href="/"><span class="fa-stack"><i class="fa fa-stack-2x fa-circle"></i><i class="fa-li fa fa-stack-1x fa-inverse fa-home"></i></span>Home</a></li>
+                    <li><a href="/about"><span class="fa-stack"><i class="fa fa-stack-2x fa-circle"></i><i class="fa-li fa fa-stack-1x fa-inverse fa-info"></i></span>About</a></li>
+                    <li><a href="/archive"><span class="fa-stack"><i class="fa fa-stack-2x fa-circle"></i><i class="fa-li fa fa-stack-1x fa-inverse fa-archive"></i></span>Archive</a></li>
+                    <li><a href="/tags"><span class="fa-stack"><i class="fa fa-stack-2x fa-circle"></i><i class="fa-li fa fa-stack-1x fa-inverse fa-tag"></i></span>Tags</a></li>
+                    <li><a href="/achievements"><span class="fa-stack"><i class="fa fa-stack-2x fa-circle"></i><i class="fa-li fa fa-stack-1x fa-inverse fa-trophy"></i></span>Achievements</a></li>
+                    <li><a href="//github.com/biohazard999/" target="_blank"><span class="fa-stack github"><i class="fa fa-stack-2x fa-circle"></i><i class="fa-li fa fa-stack-1x fa-inverse fa-github-square"></i></span>Github</a></li>
+                    <li><a href="//twitter.com/biohaz999" target="_blank"><span class="fa-stack twitter"><i class="fa fa-stack-2x fa-circle"></i><i class="fa-li fa fa-stack-1x fa-inverse fa-twitter-square"></i></span>Twitter</a></li>
+                    <li><a href="/rss.xml"><span class="fa-stack rss"><i class="fa fa-stack-2x fa-circle"></i><i class="fa-li fa fa-stack-1x fa-inverse fa-rss-square"></i></span>RSS</a></li>
+                    <li><a href="/atom.xml"><span class="fa-stack atom"><i class="fa fa-stack-2x fa-circle"></i><i class="fa-li fa fa-stack-1x fa-inverse fa-rss-square"></i></span>Atom</a></li>
+                </ul>
+                <figure class="only-lg">
+                    <a href="https://www.devexpress.com/Home/Community/mvp.xml" target="_blank">
+                        <img src="/img/DevExpress-Logo-Large-Color.png" title="DevExpress-MVP" alt="DevExpress-MVP" />
+                        <figcaption>I am an DevExpress MVP</figcaption>
+                    </a>
+                </figure>
+            </nav>
+            <a href="javascript:void(0)" class="icon">
+                <div class="hamburger">
+                    <div class="menui top-menu"></div>
+                    <div class="menui mid-menu"></div>
+                    <div class="menui bottom-menu"></div>
+                </div>
+            </a>
+            <div class="row">
+                <div class="twelve columns">
+                    {{content}}
+                </div>               
+            </div>
 		</div>
-		<script src="//cdn.jsdelivr.net/highlight.js/8.4/highlight.min.js"></script>
-        <script type="text/javascript">
-            hljs.registerLanguage("razor", function (b) {
-            var a = "foreach|0 var|0 if|0 in|0 else|0 model|0 using|0 false|0true|0 null|0 int|0 for|0 double|0 decimal|0 float|0 string|0 new|0";
-            return { k: a, c: [{ cN: "built_in", b: "Html|Scripts|RenderBody|RenderSection|Styles" }, { cN: "comment", b: "@[*]", e: "[*]@" }, { cN: "start", b: /[@][?\\w]*/, i: /[@][{*]/ }, { cN: "string", b: '"((?!@))', e: '"', i: "\\n" }, { b: "<", e: ">", i: "</?", sL: "xml", c: [{ b: '"@', e: '"', sL: "razor" }] }] }});
-        </script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
 		<script>hljs.initHighlightingOnLoad();</script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script src="//cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.js"></script>
+        <script src="/js/fastclick.js"></script>
+        <script src="/js/app.js"></script>
 	</body>
 </html>
