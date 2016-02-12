@@ -9,7 +9,9 @@ After some days of hard work, not able to blog, here is my third part of the Dev
 This times i focused, as promised, about integrating the WinForms TaskbarAssistant into XAF.
 
 
-Cause i don't wan't to repeat myself here is the [readme][1] that can also be found on [github][2]. If i have time over the holidays, i try to make a screencast that explain my solution in further detail and show the little pitfalls i encountered. But, as expected, it was very easy to integrate in XAF and till now my absolute favorite of the 13.2 release. (i hate to write native calls on my own :D)
+Cause i don't want to repeat myself here is the [readme][1] that can also be found on [github][2]. 
+If i have time over the holidays, i try to make a screencast that explain my solution in further detail and show the little pitfalls I encountered.
+ But, as expected, it was very easy to integrate in XAF and till now my absolute favorite of the 13.2 release. (i hate to write native calls on my own :D)
 
 So here is the readme & *happy holidays to everybody* :)
 
