@@ -312,3 +312,61 @@ Press 'Q' to stop the web host...
 Okay our build pipeline is ready, so lets hop over to Visual Studio Team Services
 
 ## Visual Studio Team Services
+
+First lets add the `tools/` folder to out `.gitignore` file.
+
+```txt
+_site/
+.sass-cache/
+.jekyll-metadata
+tools/
+```
+
+And commit our changes
+
+```cmd
+git add .
+git commit -m "added cake build script"
+```
+
+### Get started for Free
+
+I will now cover how to get access to the VSTS. Follow the [instructions](//www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx) to get an account.
+
+Create a new Team Project and use Git for the Version Control.
+
+![Visual Studio Team Project](/img/posts/2016/vsts1.png)
+
+> Note i skipped that step, cause i already have a team project
+
+To build our blog we need to store it on a remote git repository. You can use [github](//github.com) for this. I will use the TFS build in one, but only the source mapping will change.
+
+Go to the code Tab, and add a new repository. Choose Git and a name, hit create.
+
+![Visual Studio Team Project](/img/posts/2016/vsts2.png)
+![Visual Studio Team Project](/img/posts/2016/vsts3.png)
+
+We will see the following page.
+
+![Visual Studio Team Project](/img/posts/2016/vsts4.png)
+
+Grab the code from Push an exising repository and invoke it on the command line. Hit refresh in the browser:
+
+
+![Visual Studio Team Project](/img/posts/2016/vsts5.png)
+
+Awesome! Now we have our source code online and can build it using the new build engine VSTS offers.
+
+### Build it
+
+Hit the build setup now button:
+
+![Visual Studio Team Project](/img/posts/2016/vsts6.png)
+
+Lets start with an empty build hit next:
+
+![Visual Studio Team Project](/img/posts/2016/vsts7.png)
+
+Check `Continuous integration` and hit Create:
+
+![Visual Studio Team Project](/img/posts/2016/vsts8.png)
