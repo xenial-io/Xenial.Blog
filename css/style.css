@@ -161,6 +161,16 @@ nav figure {
     overflow-y: auto;
 }
 
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+.clear {
+    clear: both;
+}
+
 @media (min-width: 400px) {
     .icon {
         display: block;
