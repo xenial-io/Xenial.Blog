@@ -2,7 +2,7 @@
 layout: nil
 ---
 <?xml version="1.0"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
     <title>{{ site.feed-name }}</title>
     <link>{{ site.site-url }}/</link>
@@ -11,17 +11,20 @@ layout: nil
     <category>Development Dev </category>
     <language>en-au</language>
     <managingEditor>{{ site.author-email }}</managingEditor>
-    <pubDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %Z" }}</pubDate>
-    <lastBuildDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %Z" }}</lastBuildDate>
+    <pubDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %z" </pubDate>
+    <lastBuildDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %z" }}</lastBuildDate>
     {% for post in site.posts %}
     <item>
       <title>{{ post.title | xml_escape }}</title>
       <link>{{ site.site-url }}{{ post.url }}</link>
-      <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %Z" }}</pubDate>
-      <author>{{ site.author-email }}</author>
-      <dc:creator>{{ site.author }}</dc:creator>
+      <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
+      <author>{{ site.author-email }} ({{ site.author }})</author>
       <guid isPermaLink="true">{{ site.site-url }}{{ post.url }}</guid>
-      <description>{{ post.content | xml_escape }}</description>
+      {% if post.excerpt %}
+          <description>{{ post.excerpt | xml_escape }}</description>
+      {% else %}
+          <description>{{ post.content | xml_escape }}</description>
+      {% endif %}
     </item>
     {% endfor %}
   </channel> 
