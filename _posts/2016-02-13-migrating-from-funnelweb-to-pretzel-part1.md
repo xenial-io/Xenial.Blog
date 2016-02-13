@@ -32,7 +32,7 @@ Or using Powershell
 iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
 ```
 
-Next we install pretzel, initialize git and the blogengine:
+Next we install `pretzel`, initialize `git` and install the default template:
 
 ```
 choco install pretzel -y

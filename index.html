@@ -19,12 +19,12 @@ title : blog.delegate.at
                 {{ post.excerpt }}
                 <br />
                 <a href="{{ post.url }}">Read more...</a>
-                {% endif %}
                 <br />
+                {% endif %}                
                 {% if post.comments %}
                 <a href="{{ post.url }}#disqus_thread">Comments</a>
-                {% endif %}
                 <br />
+                {% endif %}                
                 <ul class="tags fa-ul">
                    {% for tag in post.tags %}
                        <li><i class="fa fa-tag"></i> <a href="/tags/{{ tag }}">{{ tag }}</a></li>
