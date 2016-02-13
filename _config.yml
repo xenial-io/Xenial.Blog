@@ -7,4 +7,5 @@ exclude:
   - build.ps1
   - tools\
   - .git
-  - .gitignore"
+  - .gitignore
+  - add-tag.cmd

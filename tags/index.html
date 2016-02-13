@@ -8,7 +8,7 @@ tag: " "
 {% for post in site.pages %}
     {% if post.tag and post.tag != " " %}
         <li>
-            <a href="/Tags/{{ post.tag }}">{{ post.tag }}</a>
+            <a href="/tags/{{ post.tag }}">{{ post.tag }}</a>
         </li>
     {% endif %} 
 {% endfor %}
