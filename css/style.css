@@ -12,10 +12,9 @@ article img {
     box-sizing: border-box;
 }
 
-ul.tags {
-    
+ul.tags {    
     margin: 0;
-    padding: 0;
+    padding: 10px 0 0 0;
 }
 ul.tags li { 
     display: inline; 

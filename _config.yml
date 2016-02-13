@@ -9,3 +9,5 @@ exclude:
   - .git
   - .gitignore
   - add-tag.cmd
+
+author: "Manuel Grundner"
