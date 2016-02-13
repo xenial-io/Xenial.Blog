@@ -16,6 +16,12 @@
                 "-Target Only-Bake"
             ]
         },
+         {
+            "taskName": "Full-Bake",
+            "showOutput": "always",
+            "isBuildCommand": true,
+            "suppressTaskName": true
+        },
         {
             "taskName": "Clean",
             "showOutput": "always",
@@ -26,10 +32,22 @@
             ]
         },
         {
-            "taskName": "Full-Bake",
+            "taskName": "Ingredient",
             "showOutput": "always",
             "isBuildCommand": true,
-            "suppressTaskName": true
+            "suppressTaskName": true,
+            "args": [
+                "-Target Ingredient"
+            ]
+        },
+        {
+            "taskName": "Draft",
+            "showOutput": "always",
+            "isBuildCommand": true,
+            "suppressTaskName": true,
+            "args": [
+                "-Target Draft"
+            ]
         },
         {
             "taskName": "Taste",
@@ -42,9 +60,6 @@
             "args": [
                 "-Target Only-Taste"
             ]
-        },
-        {
-            "taskName": "ingredient"
         }
     ]
 }

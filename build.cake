@@ -47,11 +47,7 @@ Task("Only-Bake")
 
 Task("Bake")
   .IsDependentOn("UnzipPretzel")
-  .IsDependentOn("Only-Bake")
-  .Does(() =>
-{
-  
-});
+  .IsDependentOn("Only-Bake");
 
 Task("Only-Taste")
   .Does(() =>
@@ -73,11 +69,44 @@ Task("Only-Taste")
 
 Task("Taste")
   .IsDependentOn("UnzipPretzel")
-  .IsDependentOn("Only-Taste")
+  .IsDependentOn("Only-Taste");
+
+Task("Draft")
   .Does(() =>
 {
-  
+   using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
+   {
+      Arguments = "ingredient --drafts"
+   }))
+   {
+        process.WaitForExit();
+        var result = process.GetExitCode();
+        Information("Exit code: {0}", result);
+        
+        if(result != 0){
+            throw new Exception("Pretzel did not ingredient correctly: Error-Code: " + result); 
+        }
+   }
 });
+
+Task("Ingredient")
+  .Does(() =>
+{
+   using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
+   {
+      Arguments = "ingredient"
+   }))
+   {
+        process.WaitForExit();
+        var result = process.GetExitCode();
+        Information("Exit code: {0}", result);
+        
+        if(result != 0){
+            throw new Exception("Pretzel did not ingredient correctly: Error-Code: " + result); 
+        }
+   }
+});
+
 
 Task("Default")
   .IsDependentOn("Bake");
