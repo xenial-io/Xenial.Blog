@@ -1,6 +1,7 @@
 "use strict";
 // HAMBURGLERv2
 
+/*
 function togglescroll() {
   $('body').on('touchstart', function(e) {
     if ($('body').hasClass('noscroll')) {
@@ -8,6 +9,7 @@ function togglescroll() {
     }
   });
 }
+*/
 
 // PUSH ESC KEY TO EXIT
 $(document).keydown(function(e) {
@@ -28,7 +30,8 @@ $(document).ready(function() {
         targetAttr: 'src'
     });
         
-    togglescroll();
+        
+    //togglescroll();
     $(".icon").click(function() {
         $(".mobilenav").fadeToggle(500);
         $(".top-menu").toggleClass("top-animate");
