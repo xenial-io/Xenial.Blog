@@ -2,13 +2,15 @@
 layout: nil
 ---
 <?xml version="1.0"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <channel>
     <title>{{ site.feed-name }}</title>
     <link>{{ site.site-url }}/</link>
     <atom:link href="{{ site.site-url }}/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
+    <category>Development Dev </category>
     <language>en-au</language>
+    <managingEditor>{{ site.author-email }}</managingEditor>
     <pubDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %Z" }}</pubDate>
     <lastBuildDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %Z" }}</lastBuildDate>
     {% for post in site.posts %}
@@ -16,8 +18,9 @@ layout: nil
       <title>{{ post.title | xml_escape }}</title>
       <link>{{ site.site-url }}{{ post.url }}</link>
       <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %Z" }}</pubDate>
-      <author>{{ site.author }}</author>
-      <guid>{{ site.site-url }}{{ post.url }}</guid>
+      <author>{{ site.author-email }}</author>
+      <dc:creator>{{ site.author }}</dc:creator>
+      <guid isPermaLink="true">{{ site.site-url }}{{ post.url }}</guid>
       <description>{{ post.content | xml_escape }}</description>
     </item>
     {% endfor %}
