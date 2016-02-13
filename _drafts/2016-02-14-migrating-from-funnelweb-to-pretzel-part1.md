@@ -370,3 +370,99 @@ Lets start with an empty build hit next:
 Check `Continuous integration` and hit Create:
 
 ![Visual Studio Team Project](/img/posts/2016/vsts8.png)
+
+Technically we got everything to build our site, but the new build system is so awesome, lets checkout the Marketplace to build it even fancier!
+
+![Visual Studio Team Project](/img/posts/2016/vsts9.png)
+
+Search for the cake extention, hit it and click on install:
+
+![Visual Studio Team Project](/img/posts/2016/vsts10.png)
+![Visual Studio Team Project](/img/posts/2016/vsts11.png)
+
+Go through the installation process and go back to your build.
+
+Hit Add build step and add 4 steps: `Delete Files` `Cake` `Copy Files` and `Publish Build Artifacts`
+
+![Visual Studio Team Project](/img/posts/2016/vsts12.png)
+
+#### Parameters
+
+The Delete Files should take the following parameters:
+
+Contents:
+
+```cmd
+_site/**
+tools/**
+```
+
+The Cake step is ready to go.
+
+For the Copy Files Step we need the following.
+
+Source Folder
+
+```cmd
+$(build.sourcesdirectory)
+```
+
+Contents:
+
+```cmd
+_site\**
+publish.ps1
+```
+
+Target Folder:
+
+```cmd
+$(build.artifactstagingdirectory)
+```
+
+For the Publish Build Artifacts step we need the following:
+
+Path to Publish:
+
+```cmd
+$(build.artifactstagingdirectory)
+```
+
+Artifact Name:
+
+```cmd
+drop
+```
+
+Artifact Type:
+
+```cmd
+Server
+```
+
+All build steps should now look something like this:
+
+![Visual Studio Team Project](/img/posts/2016/vsts13.png)
+![Visual Studio Team Project](/img/posts/2016/vsts14.png)
+![Visual Studio Team Project](/img/posts/2016/vsts15.png)
+![Visual Studio Team Project](/img/posts/2016/vsts16.png)
+
+
+Hit save and give the build a name:
+
+![Visual Studio Team Project](/img/posts/2016/vsts17.png)
+
+Queue a new Build and lets look:
+
+![Visual Studio Team Project](/img/posts/2016/vsts18.png)
+
+Awesome all green!
+
+Lets check the artifacts:
+
+![Visual Studio Team Project](/img/posts/2016/vsts19.png)
+
+It seems we forgot to exclude the tools directory from the pretzel `_config.yml`
+
+Lets fix this.
+
