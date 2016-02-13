@@ -1,20 +1,47 @@
 {
     "version": "0.1.0",
-    "command": "pretzel",
-    "isShellCommand": false,
+    "command": "PowerShell.exe",
+    "isShellCommand": true,
+    "args": [
+        "-NoProfile",
+        "./build.ps1"
+    ],
     "tasks": [
         {
-            "taskName": "bake",
+            "taskName": "Bake",
             "showOutput": "always",
-            "isBuildCommand": true
+            "isBuildCommand": true,
+            "suppressTaskName": true,
+            "args": [
+                "-Target Only-Bake"
+            ]
         },
         {
-            "taskName": "taste",
+            "taskName": "Clean",
+            "showOutput": "always",
+            "isBuildCommand": true,
+            "suppressTaskName": true,
+            "args": [
+                "-Target Clean"
+            ]
+        },
+        {
+            "taskName": "Full-Bake",
+            "showOutput": "always",
+            "isBuildCommand": true,
+            "suppressTaskName": true
+        },
+        {
+            "taskName": "Taste",
             "showOutput": "always",
             "isBuildCommand": false,
             "isTestCommand": true,
             "isWatching": false,
-            "echoCommand": false
+            "echoCommand": false,
+            "suppressTaskName": true,
+            "args": [
+                "-Target Only-Taste"
+            ]
         },
         {
             "taskName": "ingredient"

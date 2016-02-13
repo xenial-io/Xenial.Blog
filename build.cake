@@ -27,28 +27,59 @@ Task("UnzipPretzel")
    DeleteFile("Tools/Pretzel.zip");
 });
 
-Task("Bake")
-  .IsDependentOn("UnzipPretzel")
+Task("Only-Bake")
   .Does(() =>
 {
-   StartProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings{
+   using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
+   {
       Arguments = "bake"
-   });
+   }))
+   {
+        process.WaitForExit();
+        var result = process.GetExitCode();
+        Information("Exit code: {0}", result);
+        
+        if(result != 0){
+            throw new Exception("Pretzel did not bake correctly: Error-Code: " + result); 
+        }
+   }
+});
+
+Task("Bake")
+  .IsDependentOn("UnzipPretzel")
+  .IsDependentOn("Only-Bake")
+  .Does(() =>
+{
+  
+});
+
+Task("Only-Taste")
+  .Does(() =>
+{
+   using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
+   {
+      Arguments = "taste"
+   }))
+   {
+        process.WaitForExit();
+        var result = process.GetExitCode();
+        Information("Exit code: {0}", result);
+        
+        if(result != 0){
+            throw new Exception("Pretzel did not taste correctly: Error-Code: " + result); 
+        }
+   }
 });
 
 Task("Taste")
   .IsDependentOn("UnzipPretzel")
+  .IsDependentOn("Only-Taste")
   .Does(() =>
 {
-   StartProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings{
-      Arguments = "taste"
-   });
+  
 });
 
 Task("Default")
-  .IsDependentOn("Bake")
-  .Does(() =>
-{
-});
+  .IsDependentOn("Bake");
 
 RunTarget(target);
