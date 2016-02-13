@@ -23,7 +23,11 @@ layout: nil
       <name>{{ site.author }}</name>
       <uri>{{ site.main-url }}/</uri>
     </author>
-    <content type="html">{{ post.content | xml_escape }}</content>
+     {% if post.excerpt %}
+          <summary>{{ post.excerpt | xml_escape }}</summary>
+      {% else %}
+          <content type="html">{{ post.content | xml_escape }}</content>
+      {% endif %}
   </entry>
   {% endfor %}
 </feed>
