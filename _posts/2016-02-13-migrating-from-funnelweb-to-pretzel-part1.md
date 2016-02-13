@@ -128,3 +128,28 @@ Okay, lets check this in what we have so far.
 git add .
 git commit -m "Pretzel blog is running"
 ```
+
+Now we need to get sure we don't have files in our `_site` directory that are not needed
+
+```
+pretzel bake --cleantarget
+explorer .\_site
+```
+
+![_site in the explorer](/img/posts/2016/pretzel2.png)
+
+Open `_config.yml` and add a few lines we need in future blog posts.
+
+```yaml
+pretzel: 
+    engine: liquid
+    
+exclude:
+  - publish.ps1
+  - build.cake
+  - build.ps1
+  - tools\
+  - .git
+  - .gitignore
+  - add-tag.cmd
+```
