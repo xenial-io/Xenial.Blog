@@ -149,7 +149,8 @@ exclude:
   - build.cake
   - build.ps1
   - tools\
-  - .git
+  - .vscode\
+  - .git\
   - .gitignore
   - add-tag.cmd
 ```
