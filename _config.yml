@@ -11,3 +11,8 @@ exclude:
   - add-tag.cmd
 
 author: "Manuel Grundner"
+author-email: "m.grundner@delegate.at"
+main-url: "https://www.delegate.at"
+site-name: "blog.delegate.at"
+feed-name: "blog.delegate.at"
+site-url: "https://blog.delegate.at"
