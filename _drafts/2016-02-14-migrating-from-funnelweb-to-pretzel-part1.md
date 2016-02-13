@@ -4,7 +4,7 @@
  comments: true
  tags: [Pretzel, Git, Cake, VSTS, VisualStudioTeamServices]
 ---
-In our [last post](/posts/2016/02/13/2016-02-13-migrating-from-funnelweb-to-pretzel-part1.html) we got up and running with pretzel.
+In our [last post](/2016/02/13/migrating-from-funnelweb-to-pretzel-part1.html) we got up and running with pretzel.
 
 This time we will look how we setup [Visual-Studio-Team-Services](//www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx) to build our blog.
 As a Build-Tool we will use [Cake](//cakebuild.net/) cause we can write our build scripts handy in C#.
@@ -462,7 +462,5 @@ Lets check the artifacts:
 
 ![Visual Studio Team Project](/img/posts/2016/vsts19.png)
 
-It seems we forgot to exclude the tools directory from the pretzel `_config.yml`
-
-Lets fix this.
+Everything is perfect. We now have a build pipeline that will trigger our builds as soon we push changes to remote repository!
 
