@@ -164,3 +164,7 @@ git commit -m "Pretzel now excludes tools we need in the future"
 Alright! That was easy. 
 
 The next time we look how we build the blog in [Visual-Studio-Team-Services](//www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx) (former VSO, Visual-Studio-Online, now VSTS).
+
+The source-code in available on [github](//github.com/biohazard999/migrating-from-funnelweb-to-pretzel) i will provide a [seperate branch](//github.com/biohazard999/migrating-from-funnelweb-to-pretzel/tree/part1) for every post. Master contains the most recent one.
+
+Greetings Manuel
