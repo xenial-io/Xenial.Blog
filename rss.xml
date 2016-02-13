@@ -10,14 +10,14 @@ layout: nil
     <description></description>
     <category>Development Dev </category>
     <language>en-au</language>
-    <managingEditor>{{ site.author-email }}</managingEditor>
-    <pubDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
-    <lastBuildDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %z" }}</lastBuildDate>
+    <managingEditor>{{ site.author-email }} ({{ site.author }})</managingEditor>
+    <pubDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S +0100" }}</pubDate>
+    <lastBuildDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S +0100" }}</lastBuildDate>
     {% for post in site.posts %}
     <item>
       <title>{{ post.title | xml_escape }}</title>
       <link>{{ site.site-url }}{{ post.url }}</link>
-      <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
+      <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S +0100" }}</pubDate>
       <author>{{ site.author-email }} ({{ site.author }})</author>
       <guid isPermaLink="true">{{ site.site-url }}{{ post.url }}</guid>
       {% if post.excerpt %}
