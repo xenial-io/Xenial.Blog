@@ -464,3 +464,10 @@ Lets check the artifacts:
 
 Everything is perfect. We now have a build pipeline that will trigger our builds as soon we push changes to remote repository!
 
+Theoretically we are good to go, download the artifacts and upload the changes to some Webserver, but i'd like to have a full working pipeline to preview my changes on a real server, before i upload them.
+
+The next time we will use some Powershell, Azure Websites and the new [Release Management](//msdn.microsoft.com/Library/vs/alm/Release/overview) from VSTS to publish our Blog to Test/Production websites.
+
+The source-code in available on [github](//github.com/biohazard999/migrating-from-funnelweb-to-pretzel) i will provide a [seperate branch](//github.com/biohazard999/migrating-from-funnelweb-to-pretzel/tree/part2) for every post. Master contains the most recent one.
+
+Greetings Manuel
