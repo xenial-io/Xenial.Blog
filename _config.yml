@@ -12,7 +12,7 @@ exclude:
 
 author: "Manuel Grundner"
 author-email: "m.grundner@delegate.at"
-main-url: "https://www.delegate.at"
+main-url: "http://www.delegate.at"
 site-name: "blog.delegate.at"
 feed-name: "blog.delegate.at"
-site-url: "https://blog.delegate.at"
+site-url: "http://blog.delegate.at"
