@@ -2,7 +2,7 @@
  layout: post 
  title: "Migrating from FunnelWeb to Pretzel - Part 1"
  comments: true
- tags: [Pretzel, Jekyll]
+ tags: [Pretzel, Jekyll, Git]
 ---
 After now almost 2.5 years, I start blogging again.
 But with the old FunnelWeb system it would'nt be much fun.
@@ -18,7 +18,7 @@ According to the [documentation](//github.com/Code52/pretzel/wiki/Installing-Pre
 
 Using [Chocolatey](//chocolatey.org/) its a few keystrokes away.
 
-Install `Chocolatey` if you don't have it allready.
+Install `Chocolatey` if you don't have it allready. Fire up a admin commandpromt.
 
 For the commandline:
 
@@ -86,7 +86,7 @@ Everything in this directory except `_site` should go under versioncontrol.
 Lets start by getting a `.gitignore` file.
 I used the `Jekyll` one because `Pretzel` is a port of `Jekyll` written in C#
 
-```
+```powershell
 powershell
 Invoke-WebRequest https://raw.githubusercontent.com/github/gitignore/master/Jekyll.gitignore -OutFile ".gitignore"
 exit
@@ -98,7 +98,7 @@ Let's look at git:
 git status
 ```
 
-```
+```dos
 On branch master
 
 Initial commit
@@ -153,3 +153,12 @@ exclude:
   - .gitignore
   - add-tag.cmd
 ```
+
+Lets checkin this.
+
+```
+git add .
+git commit -m "Pretzel now excludes tools we need in the future"
+```
+
+Alright! That was easy. The next time we look how we build the blog in [Visual-Studio-Team-Services)[//www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx] (former VSO, Visual-Studio-Online, now VSTS).
