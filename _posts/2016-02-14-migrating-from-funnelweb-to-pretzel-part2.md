@@ -333,6 +333,8 @@ git commit -m "added cake build script"
 
 I will now cover how to get access to the VSTS. Follow the [instructions](//www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx) to get an account.
 
+> I found this [blog post](https://blogs.msdn.microsoft.com/visualstudioalm/2016/02/10/get-your-code-hosted-for-free-in-vsts/) to get ready and running.
+
 Create a new Team Project and use Git for the Version Control.
 
 ![Visual Studio Team Project](/img/posts/2016/vsts1.png)
