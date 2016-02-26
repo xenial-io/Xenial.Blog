@@ -3,7 +3,7 @@
  title: Nuget Packages for DevExpress Components
  comments: true
 ---
-For many years [Nuget](//nuget.org) is the defacto [standard](//www.hanselman.com/blog/NuGetForTheEnterpriseNuGetInAContinuousIntegrationAutomatedBuildSystem.aspx) for the dotnet ecosystem. It's [easy](//www.hanselman.com/blog/CreatingANuGetPackageIn7EasyStepsPlusUsingNuGetToIntegrateASPNETMVC3IntoExistingWebFormsApplications.aspx) and powerfull.
+For many years [NuGet](//nuget.org) is the defacto [standard](//www.hanselman.com/blog/NuGetForTheEnterpriseNuGetInAContinuousIntegrationAutomatedBuildSystem.aspx) for the dotnet ecosystem. It's [easy](//www.hanselman.com/blog/CreatingANuGetPackageIn7EasyStepsPlusUsingNuGetToIntegrateASPNETMVC3IntoExistingWebFormsApplications.aspx) and powerful.
 
 Many vendors provide their components via nuget, however, at the time writing this post, [DevExpress](//devexpress.com) does (for whatever reason) not.
 
@@ -17,7 +17,7 @@ After reading the [support forums](//www.devexpress.com/support/center) i found 
 
 They provide packages for [DevExtreme](//www.nuget.org/packages?q=DevExtreme+) but not for their .NET components.
 
-A few years ago [CaioProiete](/github.com/CaioProiete) provided nuspec to build your own, but that requires a lot of manual work to ajust the specs when there is a new DevExpress version.
+A few years ago [CaioProiete](/github.com/CaioProiete) provided [nuspec-files](//github.com/CaioProiete/DevExpress-NuGet) to build your own, but that requires a lot of manual work to ajust the specs when there is a new DevExpress version.
 
 So i wrote a [tool](//github.com/biohazard999/DXNugetPackageBuilder/) that scans the assemblies, and builds packages for them.
 
