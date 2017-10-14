@@ -1,10 +1,24 @@
+html, body, * {
+    font-family: Consolas, monaco, monospace;
+}
 body {
     padding-top: 1em;
+    background-color: #1E1E1E;
+    color: #DCDCDC;
+}
+
+a {
+    color: #569CD6;
+}
+a:hover {
+    color: #569CD6;
 }
 
 code {
     max-height: 600px;
     overflow: auto;
+    background-color: #FFFFFF;
+    color: #000000;
 }
 
 article img {
@@ -34,14 +48,13 @@ nav figure {
 
 /* Hamburgler */
 * {
-  font-family: 'helvetica nue', sans-serif;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: transparent;
   /* For some Androids */
 }
 
 .top-animate {
-  background: #fff !important;
+  background: #1E1E1E !important;
   top: 13px !important;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
@@ -52,7 +65,7 @@ nav figure {
 }
 
 .bottom-animate {
-  background: #fff !important;
+  background: #1E1E1E !important;
   top: 13px !important;
   -webkit-transform: rotate(-225deg);
   transform: rotate(-225deg);
@@ -63,7 +76,7 @@ nav figure {
   width: 25px;
   height: 2px;
   border-radius: 10px;
-  background-color: #1EAEDB;
+  background-color: #569CD6;
 }
 
 .mid-menu {
@@ -71,7 +84,7 @@ nav figure {
   width: 25px;
   height: 2px;
   border-radius: 10px;
-  background-color: #1EAEDB;
+  background-color: #569CD6;
 }
 
 .bottom-menu {
@@ -79,11 +92,11 @@ nav figure {
   width: 25px;
   height: 2px;
   border-radius: 10px;
-  background-color: #1EAEDB;
+  background-color: #569CD6;
 }
 
 .menui {
-  background: #1EAEDB;
+  background: #569CD6;
   transition: 0.6s ease;
   transition-timing-function: cubic-bezier(.75, 0, .29, 1.01);
   margin-top: 10px;
@@ -111,7 +124,7 @@ nav figure {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: #1EAEDB;
+  background: #569CD6;
 }
 
 .mobilenav li {
@@ -120,7 +133,7 @@ nav figure {
 }
 
 .mobilenav li a {
-  color: #fff;
+  color: #1E1E1E;
   text-decoration: none;
   font-weight: bold;
   width: 100%;
@@ -131,7 +144,7 @@ nav figure {
 }
 
 .mobilenav .fa-inverse{
-    color: #1EAEDB;
+    color: #569CD6;
 }
 .mobilenav span.fa-stack {
     margin-right: 10px;
@@ -206,19 +219,22 @@ nav figure {
     }
     
     .mobilenav .fa-stack {
-        color: #fff;
-    }        
+        color: #569CD6;
+    }   
+    .mobilenav .fa-inverse {
+        color: #1E1E1E;
+    }     
     .mobilenav .fa-stack.rss .fa-inverse {
-        color: #FF6600;
+        color: #1E1E1E;
     }
     .mobilenav .fa-stack.atom .fa-inverse {
-        color: #0DC030;
+        color: #1E1E1E;
     }
     .mobilenav .fa-stack.github .fa-inverse {
-        color: #333;
+        color: #1E1E1E;
     }
     .mobilenav .fa-stack.twitter .fa-inverse {
-        color: #1DA1F2;
+        color: #1E1E1E;
     }
     .mobilenav {
         position: initial;
@@ -232,7 +248,7 @@ nav figure {
     
     .mobilenav li a {
         font-size: 100%;
-        color: #1EAEDB;
+        color: #569CD6;
         text-decoration: underline;
         font-weight: normal;
         width: initial;
@@ -242,7 +258,7 @@ nav figure {
         padding: 0;
     }
     .mobilenav li a:hover {
-        color: #0FA0CE; 
+        color: #569CD6; 
     }
     .row {
         margin-right: 230px;
