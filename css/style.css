@@ -184,6 +184,10 @@ nav figure {
     clear: both;
 }
 
+a.brand img {
+    border-radius: 50%;
+}
+
 @media (min-width: 400px) {
     .icon {
         display: block;
