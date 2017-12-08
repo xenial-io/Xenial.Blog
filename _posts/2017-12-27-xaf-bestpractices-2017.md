@@ -195,3 +195,70 @@ namespace Scissors.ExpressApp.TokenEditor.Win
     }
 }
 ```
+
+That wraps it up for Modules so far, as i continue to develop more on the `TokenEditorWindowsFormsModule` you'll starting to see more code.
+
+
+## The new csproj format
+
+Thanks to the movement of .NET-Core we are getting a new csproj format thats much easier to handle (esp in source control) so lets have a look at the 3 Modules:
+
+### Scissors.ExpressApp
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp" Version="17.2.3" />
+  </ItemGroup>
+
+</Project>
+```
+
+### Scissors.ExpressApp.Win
+
+```xml 
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.Win" Version="17.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Scissors.ExpressApp\Scissors.ExpressApp.csproj" />
+  </ItemGroup>
+
+</Project>
+```
+
+### Scissors.ExpressApp.TokenEditor.Win
+
+```xml 
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <!--<AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>-->
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.Win" Version="17.2.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Scissors.ExpressApp.Win\Scissors.ExpressApp.Win.csproj" />
+    <ProjectReference Include="..\..\..\Scissors.ExpressApp\Scissors.ExpressApp.csproj" />
+  </ItemGroup>
+</Project>
+```
+
+There is almost no code! As you might have spotted, at the time of writing this post DevExpress didn't provide nugets for XAF, so i build this little [tool](https://github.com/biohazard999/DXNugetPackageBuilder) and used my last [blog post how to use VSTS to host them](http://blog.delegate.at/2016/05/10/how-to-build-an-xaf-application-with-visual-studio-team-services.html)
+With the rise of netstandard2.0 i hope we'll able to see a shift to 
