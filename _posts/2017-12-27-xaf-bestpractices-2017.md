@@ -6,7 +6,7 @@
 
 It's been a while since I blogged. The reason why I try to blog again was this [post](https://www.devexpress.com/Support/Center/Question/Details/T148978/how-to-measure-and-improve-the-application-s-performance#comment-22ceb33d-dc7c-439b-af68-fade58081a11) in the support forum. Especially about how I layout a XAF-Module in a real world scenario.
 
-The most important thing i care about is code. I like to be explicit about code and discoverable things. So i don't like designer files and to much reflection magic.
+The most important thing i care about is code. I like to be explicit about code and discoverable things. So i don't like designer files and too much reflection magic.
 
 This will be an ongoing series of posts, so stay tuned.
 
@@ -130,7 +130,7 @@ namespace Scissors.ExpressApp.Model.Core
 
         public NullDiffsStore(Assembly assembly)
             => _Assembly = assembly;
-        
+
         public override string Name => $"{nameof(NullDiffsStore)} of the assembly '{_Assembly.FullName}'";
 
         public override void Load(ModelApplicationBase model)
@@ -161,9 +161,9 @@ namespace Scissors.ExpressApp.Win
 }
 ```
 
-As for the method `AndModuleTypes` on the `ModuleTypeList`: It's just a simple extention method to help keeping the code clean:
+As for the method `AndModuleTypes` on the `ModuleTypeList`: It's just a simple extension method to help keeping the code clean:
 
-```cs 
+```cs
 using System;
 using System.Linq;
 using DevExpress.ExpressApp;
@@ -175,13 +175,13 @@ namespace Scissors.ExpressApp
         public static ModuleTypeList AndModuleTypes(this ModuleTypeList moduleTypeList, params Type[] types)
         {
             moduleTypeList.AddRange(types);
-            return moduleTypeList;            
+            return moduleTypeList;
         }
     }
 }
 ```
 
-So basically we are ready to consume our base classes to build a TokenEditorModule.
+So basically we are ready to consume our base classes to build a `TokenEditorModule`.
 
 ```cs
 using System;
@@ -197,7 +197,6 @@ namespace Scissors.ExpressApp.TokenEditor.Win
 ```
 
 That wraps it up for Modules so far, as i continue to develop more on the `TokenEditorWindowsFormsModule` you'll starting to see more code.
-
 
 ## The new csproj format
 
@@ -221,7 +220,7 @@ Thanks to the movement of .NET-Core we are getting a new csproj format thats muc
 
 ### Scissors.ExpressApp.Win
 
-```xml 
+```xml
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -241,7 +240,7 @@ Thanks to the movement of .NET-Core we are getting a new csproj format thats muc
 
 ### Scissors.ExpressApp.TokenEditor.Win
 
-```xml 
+```xml
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
@@ -261,4 +260,6 @@ Thanks to the movement of .NET-Core we are getting a new csproj format thats muc
 ```
 
 There is almost no code! As you might have spotted, at the time of writing this post DevExpress didn't provide nugets for XAF, so i build this little [tool](https://github.com/biohazard999/DXNugetPackageBuilder) and used my last [blog post how to use VSTS to host them](http://blog.delegate.at/2016/05/10/how-to-build-an-xaf-application-with-visual-studio-team-services.html)
-With the rise of netstandard2.0 i hope we'll able to see a shift to 
+With the rise of `netstandard2.0` i hope we'll able to see a shift of XAF to `netstandard` as well.
+
+There are some drawbacks using the new project format though. Currently there is no support for the `ModelEditor` and designer support for `WinForms`. But most of the time I don't care about that.
