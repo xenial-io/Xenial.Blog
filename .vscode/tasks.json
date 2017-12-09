@@ -54,7 +54,7 @@
             "showOutput": "always",
             "isBuildCommand": false,
             "isTestCommand": true,
-            "isWatching": false,
+            "isBackground": false,
             "echoCommand": false,
             "suppressTaskName": true,
             "args": [
