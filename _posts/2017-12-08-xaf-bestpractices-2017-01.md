@@ -1,6 +1,6 @@
 ---
  layout: post 
- title: XAF best practices 2017
+ title: XAF best practices 2017-01
  comments: true
 ---
 
