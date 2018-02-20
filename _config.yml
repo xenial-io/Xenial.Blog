@@ -8,6 +8,7 @@ exclude:
   - tools\
   - .vscode\
   - .git\
+  - .git
   - .gitignore
   - add-tag.cmd
 
