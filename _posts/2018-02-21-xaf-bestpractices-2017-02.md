@@ -451,7 +451,7 @@ So in the static constructor of the `LabelStringEditorDescriptorsFactoryExtentio
 
 So first of all we need to update the `LabelEditorDemosFeatureCenterWindowsFormsModule` module to reference the `LabelEditorWindowsFormsModule`. But wait? Will this raise coupling? Yes it does. I'll address this problem is a later blog post.
 
-```cs 
+```cs
 using System;
 using DevExpress.ExpressApp;
 using Scissors.ExpressApp;
