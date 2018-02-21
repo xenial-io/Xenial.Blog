@@ -2,6 +2,7 @@
  layout: post 
  title: XAF best practices 2017-01
  comments: true
+ tags: ["DevExpress", "XAF", "BestPractices"]
 ---
 
 It's been a while since I blogged. The reason why I try to blog again was this [post](https://www.devexpress.com/Support/Center/Question/Details/T148978/how-to-measure-and-improve-the-application-s-performance#comment-22ceb33d-dc7c-439b-af68-fade58081a11) in the support forum. Especially about how I layout a XAF-Module in a real world scenario.

@@ -2,6 +2,7 @@
  layout: post
  title: XAF best practices 2017-02
  comments: true
+ tags: ["DevExpress", "XAF", "BestPractices"]
 ---
 
 In the last post I described how i like to layout `Modules` and the `csproj` file. Today i like to go on with editors.
