@@ -144,3 +144,31 @@ namespace Scissors.ExpressApp
 As you can see it's a helper base class designed to work with an `ObjectView` (for example `ListViews` or `DetailViews`) and a specific `BusinessObject`. There are 2 additional methods you can overwrite: `OnCurrentObjectChanging` and `OnCurrentObjectChanged`. These are designed to subscribe and unsubscribe to events from the targeted `BusinessObject`.
 Also all the casting of the current and selected objects are handled.
 The both events `CurrentObjectChanging` and `CurrentObjectChanged` are for convenient use from other controllers. Also the additional `BusinessObjectViewController<TObjectType>` class is to avoid duplication if we don't care about the `View` at all.
+
+There are of course 2 base classes we can provide:
+
+```cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DevExpress.ExpressApp;
+
+namespace Scissors.ExpressApp
+{
+    public class BusinessObjectDetailViewController<TObjectType> : BusinessObjectViewController<DetailView, TObjectType>
+        where TObjectType : class
+    {
+    }
+    public class BusinessObjectListViewController<TObjectType> : BusinessObjectViewController<ListView, TObjectType>
+        where TObjectType : class
+    {
+    }
+}
+```
+
+Note another important pattern in the `BusinessObjectViewController` class. We always unsubscribe from events before we subscribe to them (in the `OnActivated` method), and we unsubscribe before the base call in the `OnDeactivated`. This will avoid duplicated subscriptions, as well as helping with managing the correct lifetime of events and avoid memory leaks later on.
+
+For `Controllers` in general, try to override the `OnActivated` and `OnDeactivated` and don't use the event approach. It's a lot saver to do. If you still use the `designer.cs` approach, stop it. One merge conflict later and your stuff stops working, and you got no clue why.
+Another thing is: You open a Controller file and see in the constructor whats going on. What `BusinessObject` are you dealing with, what `ViewId` and so on. No more digging in the `designer` or the `designer.cs` file to look for errors.
