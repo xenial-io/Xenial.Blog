@@ -293,3 +293,77 @@ Nice!
 As you can see in the `Execute` handler of the action we don't need to cast anymore, are typesafe and it's easy to use.
 
 > Note: There was a bug in the last post: You have to specify the `AutoSizeMode` of the `LabelControl` to `LabelAutoSizeMode.None` for correct wordwrap inside of a `LayoutControl`
+
+```cs
+using System;
+using System.Linq;
+using DevExpress.ExpressApp.Model;
+using DevExpress.ExpressApp.Win.Editors;
+using DevExpress.Utils;
+using DevExpress.XtraEditors;
+
+namespace Scissors.ExpressApp.LabelEditor.Win.Editors
+{
+    public class LabelStringPropertyEditor : WinPropertyEditor
+    {
+        public LabelStringPropertyEditor(Type objectType, IModelMemberViewItem model)
+            : base(objectType, model)
+                => ControlBindingProperty = nameof(Control.Text);
+
+        protected override object CreateControlCore()
+        {
+            var control = new LabelControl
+            {
+                AllowHtmlString = true,
+                AutoSizeMode = LabelAutoSizeMode.None, //THIS WAS MISSING
+            };
+
+            control.Appearance.TextOptions.WordWrap = WordWrap.Wrap;
+
+            return control;
+        }
+
+        public new LabelControl Control => (LabelControl)base.Control;
+    }
+}
+```
+
+But wait, there is one step I was missing. Registering the controller!
+
+```cs
+using System;
+using System.Linq;
+using Scissors.FeatureCenter.Modules.LabelEditorDemos.Controllers;
+
+namespace Scissors.FeatureCenter.Modules.LabelEditorDemos
+{
+    public static class LabelEditorDemosControllers
+    {
+        public static readonly Type[] Types = new[]
+        {
+            typeof(LabelDemoModelObjectViewController)
+        };
+    }
+}
+```
+
+Like the `BusinessObjects` we define a separate class for the controller types. And then we need to register them.
+
+```cs
+using System;
+using System.Collections.Generic;
+using Scissors.ExpressApp;
+using Scissors.FeatureCenter.Modules.LabelEditorDemos.BusinessObjects;
+
+namespace Scissors.FeatureCenter.Modules.LabelEditorDemos
+{
+    public sealed class LabelEditorDemosFeatureCenterModule : ScissorsBaseModule
+    {
+        protected override IEnumerable<Type> GetDeclaredExportedTypes()
+            => LabelEditorDemosBusinessObjects.Types;
+
+        protected override IEnumerable<Type> GetDeclaredControllerTypes()
+            => LabelEditorDemosControllers.Types;
+    }
+}
+```
