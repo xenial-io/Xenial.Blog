@@ -9,16 +9,16 @@ In my last post we had a look how I like to implement `BusinessObjects` and a si
 
 ## Controllers
 
-As you know there are normally 2 types of Controllers. ViewControllers and WindowControllers. Thats very basic and not that accurate for a real application. Most of the time you deal with different types of things in an application. BusinessLogic, view, state and so on.  
-Most of the applications i saw did a really bad job when it's about seperating all this concernces. So let's have a look at `ViewControllers` first.
+As you know there are normally 2 types of Controllers. `ViewControllers` and `WindowControllers`. Thats very basic and not that accurate for a real application. Most of the time you deal with different types of things in an application. `BusinessLogic`, view, state and so on.  
+Most of the applications i saw did a really bad job when it's about separating all this concerns. So let's have a look at `ViewControllers` first.
 
 First of all: delete those stupid designer files. They will haunt you later on.
 
 ### ViewControllers
 
-If you implement BusinessLogic most of the controllers will fit for one Type of BusinessObject. This is especially true for controllers with `Actions`.
+If you implement business logic most of the controllers will fit for one Type of `BusinessObject`. This is especially true for controllers with `Actions`.
 
-Normally i like to call them BusinessObjectViewController, this is a good descriptive name for them (if they act for List and DetailViews and a single BusinessObject).
+Normally i like to call them `BusinessObjectViewController`, this is a good descriptive name for them (if they act for List and `DetailViews` and a single `BusinessObject`).
 
 So let's have a look:
 
@@ -172,3 +172,124 @@ Note another important pattern in the `BusinessObjectViewController` class. We a
 
 For `Controllers` in general, try to override the `OnActivated` and `OnDeactivated` and don't use the event approach. It's a lot saver to do. If you still use the `designer.cs` approach, stop it. One merge conflict later and your stuff stops working, and you got no clue why.
 Another thing is: You open a Controller file and see in the constructor whats going on. What `BusinessObject` are you dealing with, what `ViewId` and so on. No more digging in the `designer` or the `designer.cs` file to look for errors.
+
+### Actions
+
+Let's talk about `Actions`.
+Actions are the main interaction (and abstraction) point of user interface in XAF. These are placed usually in the toolbar. So let's talk about the declaration.
+
+```cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.ExpressApp.Templates;
+using DevExpress.Persistent.Base;
+using Scissors.ExpressApp;
+using Scissors.FeatureCenter.Modules.LabelEditorDemos.BusinessObjects;
+
+#pragma warning disable IDE0021
+
+namespace Scissors.FeatureCenter.Modules.LabelEditorDemos.Controllers
+{
+    public class LabelDemoModelObjectViewController : BusinessObjectViewController<LabelDemoModel>
+    {
+        public SimpleAction LoremIpsumSimpleAction { get; }
+
+        public LabelDemoModelObjectViewController()
+        {
+            LoremIpsumSimpleAction = new SimpleAction(this, $"{GetType().FullName}.{nameof(LoremIpsumSimpleAction)}", PredefinedCategory.Edit)
+            {
+                Caption = "Insert Lorem Ipsum",
+                ImageName = "BO_Skull",
+                PaintStyle = ActionItemPaintStyle.Image,
+                ToolTip = "Inserts the famous lorem ipsum text into the selected demo object",
+                SelectionDependencyType = SelectionDependencyType.RequireSingleObject,
+            };
+
+            LoremIpsumSimpleAction.Execute += (s, e) =>
+            {
+                var txt = LoremIpsum(10, 10, 10, 10, 5);
+                CurrentObject.Text = txt;
+            };
+        }
+
+        static string LoremIpsum(
+            int minWords,
+            int maxWords,
+            int minSentences,
+            int maxSentences,
+            int numParagraphs)
+        {
+
+            var words = new[]
+            {
+                "lorem", "ipsum", "dolor", "sit", "amet", "consectetuer",
+                "adipiscing", "elit", "sed", "diam", "nonummy", "nibh", "euismod",
+                "tincidunt", "ut", "laoreet", "dolore", "magna", "aliquam", "erat"
+            };
+
+            var rand = new Random();
+
+            var numSentences = rand.Next(maxSentences - minSentences) + minSentences + 1;
+
+            var numWords = rand.Next(maxWords - minWords) + minWords + 1;
+
+            var result = new StringBuilder();
+
+            for(var p = 0; p < numParagraphs; p++)
+            {
+                for(var s = 0; s < numSentences; s++)
+                {
+                    for(var w = 0; w < numWords; w++)
+                    {
+                        if(w > 0)
+                        {
+                            result.Append(" ");
+                        }
+
+                        if(rand.Next(0, 100) % 2 == 0)
+                        {
+                            result.Append("<b>");
+                            result.Append(words[rand.Next(words.Length)]);
+                            result.Append("</b>");
+                        }
+                        else
+                        {
+                            result.Append(words[rand.Next(words.Length)]);
+                        }
+                    }
+                    result.Append(". ");
+                }
+                result.Append(Environment.NewLine);
+            }
+
+            return result.ToString();
+        }
+    }
+}
+```
+
+So let's have a look:
+
+  1. First of all we implement a public property with a getter only for the Action which is good. You should always do this.
+  2. The action has a full Id path. (namespace.controller.action) that is very handy if you really got a lot actions in your application.
+  3. We defined the category right (this EDIT's the business object)
+  4. We have a caption, tooltip and an image
+  5. We defined the `PaintStyle` (if you got a lot of actions, you really want only a few actions to have text, especially with low resolutions).
+
+Thats all fine so far, but there is one gotcha here: coupling of business logic to an controller. Thats bad. We have no easy way to test stuff inside an controller.
+But thats another best practice i get into A LOT in future blog posts.
+
+As for the controller naming: `LabelDemoModel`-`ObjectViewController`. Name of the `BusinessObject` plus `ObjectViewController`. So it's clear when reading the name what is going on in this controller.
+
+Let's see it in action:
+
+![Demo of the LoremIpsumSimpleAction](/img/posts/2018/2018-03-10_ActionDemo.png)
+
+Nice!
+As you can see in the `Execute` handler of the action we don't need to cast anymore, are typesafe and it's easy to use.
+
+> Note: There was a bug in the last post: You have to specify the `AutoSizeMode` of the `LabelControl` to `LabelAutoSizeMode.None` for correct wordwrap inside of a `LayoutControl`
