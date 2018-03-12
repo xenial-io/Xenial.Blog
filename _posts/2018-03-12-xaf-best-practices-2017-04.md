@@ -247,7 +247,7 @@ And cause the DevExpress team implemented several operators you can write even m
 var criteria = BugModel.Field.Operand(m => m.Done).Not() & BugModel.Field.Operand(m => m.User).IsNotNull() & BugModel.Field.Operand(m => m.States[StateModel.Field.Operand(s => s.Active).Count() > 0];
 ```
 
-It's a little bit more verbose, but on the other hand it's easy to read, refactor and you get full intellisense!
+It's a little bit more verbose, but on the other hand it's easy to read, refactor and you get full intellisense! The other methods on the `ExpressionHelper<T>` class are for dealing with the `ObjectType` of an XPO class a lot. But most of the time you don't need them.
 
 Another thing I like to do very often is add a class that collects the CriteriaOperators used in an module in the `Contracts` or `Domain` assembly. So you can reuse the criterias:
 
