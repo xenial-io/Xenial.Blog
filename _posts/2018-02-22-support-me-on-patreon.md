@@ -2,7 +2,7 @@
  layout: post 
  title: Support me on patreon
  comments: true
- tags: ["Patreon"]
+ tags: ["Patreon", "Misc"]
 ---
 
 As you maybe know, writing blog posts is really fun, and i try to blog as often as I can. My New Year's resolution is to try to blog at least twice per week. But it is also very time consuming. For the last 2 blog posts i needed almost a week to write, cause i really build the projects i blog about. Also keeping the infrastructure running (Build-Server, Webspace, Domain) costs time and money.
