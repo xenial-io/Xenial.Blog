@@ -4,7 +4,9 @@ title: Archive
 ---
 <h1>{{ page.title }}</h1>
 
-<ul class="postArchive">
+<input type="text" id="searchbox" />
+
+<ul class="postArchive" id="searchlist">
 {% for post in site.posts %}
 	<li>
 		<span class="olderpostdate"> {{ post.date | date: "%Y-%m-%d"  }} </span> <a class="postlink" href="{{ post.url }}">{{ post.title }}</a>

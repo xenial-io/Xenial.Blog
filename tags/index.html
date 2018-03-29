@@ -4,7 +4,9 @@ title : Tags
 tag: " "
 ---
 
-<ul>
+<input type="text" id="searchbox" />
+
+<ul id="searchlist">
 {% for post in site.pages %}
     {% if post.tag and post.tag != " " %}
         <li>

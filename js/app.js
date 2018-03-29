@@ -47,5 +47,17 @@ $(document).ready(function() {
             $(".bottom-menu").addClass("bottom-animate");
           }
       }
-    });        
+    });
+
+    $.extend($.expr[":"], {
+        "containsIN": function(elem, i, match, array) {
+            return (elem.textContent || elem.innerText || "").toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+        }
+    });
+
+    $("#searchbox").keyup(function() {
+        var filter = $(this).val();
+        $("#searchlist").find("a:not(:containsIN(" + filter + "))").parent().slideUp();
+        $("#searchlist").find("a:containsIN(" + filter + ")").parent().slideDown();
+    });
 }); 
