@@ -1,0 +1,1 @@
+tools\Pretzel\Pretzel.exe ingredient -n="%*"
