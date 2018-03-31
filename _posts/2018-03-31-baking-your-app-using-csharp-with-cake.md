@@ -12,7 +12,7 @@ When you work in a team, or are tired of building your solution with [VisualStud
 [Cake](//cakebuild.net/) provides a build.ps1 in there docs but I came accross some problems in the past with it, version pinning.
 If you build an app on a build server, nothing is more problematic, than having a build that worked totally fine one day, and out of a sudden it breaks. Build tools should not update them self automatically, unless you can 100% trust that updates don't break your stuff. So let's start.
 
-Usually I put all my build tools in a subfolder called tools. Cause everything is on nuget now a days let's put a `tools\packages.config` there.
+Usually I put all my build tools in a subfolder called tools. Cause everything is on nuget now a days, so let's put a `tools\packages.config` there.
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -31,7 +31,7 @@ if not exist tools\nuget.exe powershell -Command "Invoke-WebRequest https://dist
 tools\cake\cake.exe build.cake -target=%*
 ```
 
-The first line will download the latest version of nuget. Why the latest? Cause I 100% trust the nuget team not to break stuff. ;)
+The first line will download the latest version of nuget, if it does not exist, and install the packages without version. Why the latest? Cause I 100% trust the nuget team not to break stuff. ;)
 The second line will launch the build tool with a file called `build.cake` and passes all params to the target param (so we can use parameters in the build script).
 
 ## Build-Script
