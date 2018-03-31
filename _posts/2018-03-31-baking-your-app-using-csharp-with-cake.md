@@ -378,4 +378,26 @@ It's so nice to write your build in an easy to read and maintain language. Every
 
 If you like to use VS-Code and like syntax highligthing, they provide a [plugin](//cakebuild.net/docs/editors/vscode).
 
+So let's do what the doc's say add `Cake.Bakery` to the `packages.config` file.
+
+``` xml
+<?xml version="1.0" encoding="utf-8"?>
+<packages>
+    <package id="Cake" version="0.26.1" />
+    <package id="Cake.Bakery" version="0.2.0" />	
+</packages>
+```
+``` cmd
+cd tools & nuget.exe install -ExcludeVersion & cd ..
+```
+
+Reopen VSCode and lets have a look:
+
+
+![Output of VSCode](/img/posts/2018/2018-03-31-cake8.png)
+
+![Intellisence of VSCode](/img/posts/2018/2018-03-31-cake9.png)
+
+Profit!
+
 You can look at the [repository](//github.com/biohazard999/Scissors.FeatureCenter/) and the [build file](//github.com/biohazard999/Scissors.FeatureCenter/blob/master/build.cake) on my [github](//github.com/biohazard999/) account.
