@@ -1,4 +1,4 @@
-var target = Argument("target", "Default");
+var target = string.IsNullOrEmpty(Argument("target", "Default")) ? "Default" : Argument("target", "Default");
 
 Task("Clean")
   .Does(() =>
