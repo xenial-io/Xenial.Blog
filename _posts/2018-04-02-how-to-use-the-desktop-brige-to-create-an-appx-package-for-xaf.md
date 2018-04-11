@@ -36,7 +36,13 @@ To get started to use the Desktop-Brigde make sure you got the following bits in
 
 > The Desktop Bridge was introduced in Windows 10, version 1607, and it can only be used in projects that target Windows 10 Anniversary Update (10.0; Build 14393) or a later release in Visual Studio.
 
-So let's follow the instructions:
+First make sure you got the right tools installed in Visual Studio.
+1. `.NET descktop development`
+2. `Universal Windows Platform development`
+
+![Adding the packaging project](/img/posts/2018/2018-04-09-packaging-project-install-visualstudio.png)
+
+So let's follow the [instructions](//docs.microsoft.com/en-us/windows/uwp/porting/desktop-to-uwp-packaging-dot-net):
 
 1. In Visual Studio, open the solution that contains your desktop application project.
 2. Add a Windows Application Packaging Project project to your solution.  
