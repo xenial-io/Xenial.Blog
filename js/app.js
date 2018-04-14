@@ -60,4 +60,6 @@ $(document).ready(function() {
         $("#searchlist").find("a:not(:containsIN(" + filter + "))").parent().slideUp();
         $("#searchlist").find("a:containsIN(" + filter + ")").parent().slideDown();
     });
+
+    videojs.options.fluid = true;
 }); 

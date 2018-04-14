@@ -17,6 +17,6 @@ main-url: http://www.delegate.at
 site-name: blog.delegate.at
 feed-name: blog.delegate.at
 site-url: http://blog.delegate.at
-version: 0.1.0+125
-commit: a653d29e11d6430be1d04926ec08e64bbf40c62d
+version: 0.1.0+131
+commit: 72ed23e1faaf16d9066e1cf89f867c43f7f88899
 last-update: 2018-04-14

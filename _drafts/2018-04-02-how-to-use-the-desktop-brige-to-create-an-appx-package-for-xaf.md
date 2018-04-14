@@ -107,4 +107,16 @@ Let's run. Okay the icon is missing. So go into the `Scissors.FeatureCenter.Win`
 
 ![Packaging project: add icon to the win manifest](/img/posts/2018/2018-04-09-packaging-project-add-icon-to-manifest-win.png)
 
-Run again. Fine! Everything looks pretty damn good!
+Run again. Fine! Everything looks pretty damn good! But it takes almost 8 seconds to launch.
+
+<!-- markdownlint-disable MD033 -->
+<video class="video-js" controls preload="auto" width="auto" height="auto" poster="/img/posts/2018/2018-04-09-packaging-project-run-win.png" data-setup="{}">
+  <source src="/img/posts/2018/2018-04-09-packaging-project-run-win.webm" type='video/webm'>
+  <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a web browser that
+    <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+  </p>
+</video>
+<!-- markdownlint-enable MD033 -->
+
+So let's focus next on 
