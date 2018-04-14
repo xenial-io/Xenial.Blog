@@ -1,4 +1,5 @@
 var target = string.IsNullOrEmpty(Argument("target", "Default")) ? "Default" : Argument("target", "Default");
+var pretzelVersion = "0.7.1";
 
 Task("Clean")
   .Does(() =>
@@ -6,18 +7,19 @@ Task("Clean")
   if(FileExists("Tools/Pretzel.zip"))
     DeleteFile("Tools/Pretzel.zip");
   if(DirectoryExists("Tools/Pretzel"))
-    DeleteDirectory("Tools/Pretzel", true);
+    DeleteDirectory("Tools/Pretzel", new DeleteDirectorySettings {
+      Recursive = true
+    });
   if(DirectoryExists("_site"))
-    DeleteDirectory("_site", true);
+    DeleteDirectory("_site", new DeleteDirectorySettings {
+      Recursive = true
+    });
 });
 
 
 Task("DownloadPretzel")
   .IsDependentOn("Clean")
-  .Does(() =>
-{
-   DownloadFile("https://github.com/Code52/pretzel/releases/download/v0.4.0/Pretzel.0.4.0.zip", "Tools/Pretzel.zip");
-});
+  .Does(() => DownloadFile($"https://github.com/Code52/pretzel/releases/download/v{pretzelVersion}/Pretzel.{pretzelVersion}.zip", "Tools/Pretzel.zip"));
 
 Task("UnzipPretzel")
   .IsDependentOn("DownloadPretzel")
