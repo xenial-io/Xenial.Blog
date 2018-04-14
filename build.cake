@@ -1,5 +1,51 @@
+#tool "nuget:?package=GitVersion.CommandLine"
+#addin nuget:?package=Cake.Yaml
+#addin nuget:?package=YamlDotNet&version=4.2.1
+
+using YamlDotNet.Serialization;
+
 var target = string.IsNullOrEmpty(Argument("target", "Default")) ? "Default" : Argument("target", "Default");
 var pretzelVersion = "0.7.1";
+
+public class Pretzel
+{
+  [YamlMember(Alias = "engine", ApplyNamingConventions = false)]
+  public string Engine {get;set;}
+}
+
+public class BlogConfig {
+  [YamlMember(Alias = "pretzel", ApplyNamingConventions = false)]
+  public Pretzel Pretzel {get;set;} = new Pretzel();
+  [YamlMember(Alias = "exclude", ApplyNamingConventions = false)]
+  public List<string> Exclude {get;set;} = new List<string>();
+  [YamlMember(Alias = "author", ApplyNamingConventions = false)]
+  public string Author { get; set; }    
+
+  [YamlMember(Alias = "author-email", ApplyNamingConventions = false)]
+  public string AuthorEmail { get; set; }    
+
+  [YamlMember(Alias = "disqus-shortname", ApplyNamingConventions = false)]
+  public string DisqusShortname { get; set; }    
+
+  [YamlMember(Alias = "main-url", ApplyNamingConventions = false)]
+  public string MainUrl { get; set; }    
+  
+  [YamlMember(Alias = "site-name", ApplyNamingConventions = false)]
+  public string SiteName { get; set; }    
+    
+  [YamlMember(Alias = "feed-name", ApplyNamingConventions = false)]
+  public string FeedName { get; set; }    
+    
+  [YamlMember(Alias = "site-url", ApplyNamingConventions = false)]
+  public string SiteUrl { get; set; }      
+  [YamlMember(Alias = "version", ApplyNamingConventions = false)]
+  public string Version { get; set; }
+  [YamlMember(Alias = "commit", ApplyNamingConventions = false)]
+  public string Commit { get; set; }    
+  [YamlMember(Alias = "last-update", ApplyNamingConventions = false)]
+  public string LastUpdate { get; set; }    
+
+}
 
 Task("Clean")
   .Does(() =>
@@ -29,7 +75,19 @@ Task("UnzipPretzel")
    DeleteFile("Tools/Pretzel.zip");
 });
 
+Task("UpdateVersionInfo")
+    .Does(() =>
+{
+    var result = GitVersion();
+    var config = DeserializeYamlFromFile<BlogConfig>("./_config.yml");
+    config.Version = result.FullSemVer;
+    config.Commit = result.Sha;
+    config.LastUpdate = result.CommitDate;
+    SerializeYamlToFile("./_config.yml", config);
+});
+
 Task("Only-Bake")
+  .IsDependentOn("UpdateVersionInfo")
   .Does(() =>
 {
    using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings

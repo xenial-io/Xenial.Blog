@@ -1,21 +1,22 @@
-pretzel: 
-    engine: liquid
-    
+pretzel:
+  engine: liquid
 exclude:
-  - publish.ps1
-  - build.cake
-  - build.ps1
-  - tools\
-  - .vscode\
-  - .git\
-  - .git
-  - .gitignore
-  - add-tag.cmd
-
-author: "Manuel Grundner"
-author-email: "m.grundner@delegate.at"
-disqus-shortname: "delegateat"
-main-url: "http://www.delegate.at"
-site-name: "blog.delegate.at"
-feed-name: "blog.delegate.at"
-site-url: "http://blog.delegate.at"
+- publish.ps1
+- build.cake
+- build.ps1
+- tools\
+- .vscode\
+- .git\
+- .git
+- .gitignore
+- add-tag.cmd
+author: Manuel Grundner
+author-email: m.grundner@delegate.at
+disqus-shortname: delegateat
+main-url: http://www.delegate.at
+site-name: blog.delegate.at
+feed-name: blog.delegate.at
+site-url: http://blog.delegate.at
+version: 0.1.0+125
+commit: a653d29e11d6430be1d04926ec08e64bbf40c62d
+last-update: 2018-04-14
