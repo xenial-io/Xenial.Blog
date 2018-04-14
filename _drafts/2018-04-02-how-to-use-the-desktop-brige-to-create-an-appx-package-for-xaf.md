@@ -269,48 +269,6 @@ Now we need to remove the `Win` reference and replace it with the `Win10` one:
 
 ![Adding the win10 reference to the packaging project](/img/posts/2018/2018-04-09-packaging-project-add-reference-win10.png)
 
-Next we need to add a constant to the Win10 and Win project respectivly:
-
-`Scissors.FeatureCenter.Win10.csproj`:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-.
-.
-.
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <DefineConstants>WIN10</DefineConstants>
-  </PropertyGroup>
-.
-.
-.
-</Project>
-```
-
-`Scissors.FeatureCenter.Win.csproj`:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-.
-.
-.
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <DefineConstants>WIN</DefineConstants>
-  </PropertyGroup>
-.
-.
-.
-</Project>
-```
-
-The `LangVersion` is optional, but i try to keep both projects on the same C# compiler.
-
 The next step is to use other [API's](//docs.microsoft.com/en-us/windows/uwp/porting/desktop-to-uwp-enhance) for the Win10 projects to specify the paths. For this we add a reference to the Windows.winmd which is located under `C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Facade\Windows.WinMD`. So Add a reference, switch to browse, select all files and locate it:
 
 ![Find Windows.winmd](/img/posts/2018/2018-04-09-packaging-project-find-winmd.png)
@@ -358,4 +316,8 @@ Now we can install the package by double-clicking the package (make sure you act
 ### Prebuilding the ModelAssembly and cache files
 
 Once we have a `Shared` project in place we can build a additional command line program that sets up our WinApplication and builds the caches and ModelAssembly.dll's we could later pack into our project directory.
+
+Add a `Console App` called `Scissors.FeatureCenter.Cli`.
+
+![New Console App](/img/posts/2018/2018-04-09-packaging-project-console-app.png)
 

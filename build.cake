@@ -18,6 +18,8 @@ public class BlogConfig {
   public Pretzel Pretzel {get;set;} = new Pretzel();
   [YamlMember(Alias = "exclude", ApplyNamingConventions = false)]
   public List<string> Exclude {get;set;} = new List<string>();
+  [YamlMember(Alias = "include", ApplyNamingConventions = false)]
+  public List<string> Include {get;set;} = new List<string>();
   [YamlMember(Alias = "author", ApplyNamingConventions = false)]
   public string Author { get; set; }    
 

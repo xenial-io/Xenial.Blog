@@ -1,7 +1,5 @@
 pretzel:
   engine: liquid
-include:
-- downloads
 exclude:
 - publish.ps1
 - build.cake
@@ -12,6 +10,8 @@ exclude:
 - .git
 - .gitignore
 - add-tag.cmd
+include:
+- downloads
 author: Manuel Grundner
 author-email: m.grundner@delegate.at
 disqus-shortname: delegateat
@@ -19,6 +19,6 @@ main-url: http://www.delegate.at
 site-name: blog.delegate.at
 feed-name: blog.delegate.at
 site-url: http://blog.delegate.at
-version: 0.1.0+131
-commit: 72ed23e1faaf16d9066e1cf89f867c43f7f88899
+version: 0.1.0+133
+commit: 2daf88967752573eb96503c535a553e9f0f94cd0
 last-update: 2018-04-14
