@@ -9,6 +9,7 @@ exclude:
 - .git\
 - .git
 - .gitignore
+- add-post.cmd
 - add-tag.cmd
 - add-draft.cmd
 - taste.cmd
