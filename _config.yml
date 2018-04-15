@@ -10,6 +10,12 @@ exclude:
 - .git
 - .gitignore
 - add-tag.cmd
+- add-draft.cmd
+- taste.cmd
+- taste-drafts.cmd
+- git-clean.cmd
+- build.bat
+- cake.config
 include:
 - downloads
 author: Manuel Grundner
