@@ -1,6 +1,6 @@
 ---
  layout: post 
- title: How to use the Desktop Brige to create an appx package for XAF
+ title: How to use the Desktop Bridge to create an appx package for XAF
  comments: true
  tags: [XAF, Windows10, DesktopBridge, APPX, Deployment, Clickonce, Squirrel]
 ---
