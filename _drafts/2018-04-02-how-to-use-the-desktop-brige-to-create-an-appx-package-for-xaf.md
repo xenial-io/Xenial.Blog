@@ -43,40 +43,42 @@ To get started to use the Desktop-Brigde make sure you got the following bits in
 
 First make sure you got the right tools installed in Visual Studio.
 
-1.  `.NET descktop development`
-2.  `Universal Windows Platform development`
+1. `.NET desktop development`
+2. `Universal Windows Platform development`
 
 ![Adding the packaging project](/img/posts/2018/2018-04-09-packaging-project-install-visualstudio.png)
 
 So let's follow the [instructions](//docs.microsoft.com/en-us/windows/uwp/porting/desktop-to-uwp-packaging-dot-net):
 
-1.  In Visual Studio, open the solution that contains your desktop application project.
-2.  Add a Windows Application Packaging Project project to your solution.
+3. In Visual Studio, open the solution that contains your desktop application project.
+4. Add a Windows Application Packaging Project project to your solution.
 
-> You won't have to add any code to it. It's just there to generate a package for you. We'll refer to this project as the "packaging project".
+> You won't have to add any code to it. It's just there to generate a package for you. I'll refer to this project as the "packaging project".
 
 ![Adding the packaging project](/img/posts/2018/2018-04-09-packaging-project.png)
 
-3.  Set the Target Version of this project to any version that you want, but make sure to set the Minimum Version to Windows 10 Anniversary Update.
-4.  In the packaging project, right-click the Applications folder, and then choose Add Reference.
+5. Set the Target Version of this project to any version that you want, but make sure to set the Minimum Version to Windows 10 Anniversary Update.
+6. In the packaging project, right-click the Applications folder, and then choose Add Reference.
 
 ![Adding the reference to the packaging project](/img/posts/2018/2018-04-09-packaging-project-add-reference.png)
 
 So the first steps are done! Next we have to do some work in the `Package.appxmanifest` file.
 
-5.  Set the Display-Name: `Scissors.FeatureCenter.Win`. Thats what our app is called in Windows.
+7. Set the Display-Name: `Scissors.FeatureCenter.Win`. Thats what our app is called in Windows.
 
 ![Packaging project: manifest-application-tab](/img/posts/2018/2018-04-09-packaging-project-manifest-application.png)
 
-6.  Use the `Visual Asset Generator` to generate tiles and icons for the app. Use at least 400x400 pixels to generate, and use an png image with a transparent background
+8. Use the `Visual Asset Generator` to generate tiles and icons for the app. Use at least 400x400 pixels to generate, and use an png image with a transparent background
 
 ![Packaging project: manifest-visual-assets-tab](/img/posts/2018/2018-04-09-packaging-project-manifest-visual-assets.png)
 
-7.  Make sure the `capabilities` are set to `Internet (Client)`
+> Use at least a 500x500 png file and hit generate. Thats to make the `Windows App Certification Kit` happy later on. But you can tweak all those thousands of images yourself (or pay a designer to do so) <!-- markdownlint-disable MD033 --><i class="far fa-smile"></i><!-- markdownlint-enable MD033 -->.
+
+9. Make sure the `capabilities` are set to `Internet (Client)`
 
 ![Packaging project: manifest-capabilities-tab](/img/posts/2018/2018-04-09-packaging-project-manifest-capabilities.png)
 
-8.  Set the `Packaging` information to something unique and useful.
+10. Set the `Packaging` information to something unique and useful.
 
 ![Packaging project: manifest-packaging-tab](/img/posts/2018/2018-04-09-packaging-project-manifest-packaging.png)
 
@@ -98,7 +100,7 @@ So lets look at the [limitations](//docs.microsoft.com/en-us/windows/uwp/porting
 Okay now we have to find out how to overcome this limitation.  
 First of all, we need to change the paths where XAF put's the user generated stuff. Second we want to be our application snappy & launch instant, so we want to pre generate the `ModelAssembly.dll`, `Model.Cache.xafml` and `ModulesVersionInfo` file.
 
-Cause I want the sample to be runnable as a _normal WinForms application_ as well as a _WindowsStore app_ I'll add another project called `Scissors.FeatureCenter.Win10` and cause i don't want to duplicate to much code i add a new project called `Scissors.FeatureCenter.Win.Shared`
+Cause I want the sample to be runnable as a _normal WinForms application_ as well as a _WindowsStore app_ I'll add another project called `Scissors.FeatureCenter.Win10` and cause i don't want to duplicate to much code i add a new [shared project](//docs.microsoft.com/en-us/xamarin/cross-platform/app-fundamentals/shared-projects?tabs=vswin) called `Scissors.FeatureCenter.Win.Shared`
 
 ![Packaging project: new project win10](/img/posts/2018/2018-04-09-packaging-project-new-project-win10.png)
 ![Packaging project: new project shared](/img/posts/2018/2018-04-09-packaging-project-new-project-shared.png)
@@ -283,9 +285,228 @@ So I found out that I needed to follow the instructions right, install the [Anni
 
 On all `*.winmd` files I made sure so set the `copy local` option to false.
 
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+.
+.
+.
+  <ItemGroup>
+     <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5\System.Runtime.WindowsRuntime.UI.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Windows, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\Facade\Windows.WinMD</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Windows.Foundation.FoundationContract">
+      <HintPath>..\..\..\..\Program Files (x86)\Windows Kits\10\References\Windows.Foundation.FoundationContract\2.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Windows.Foundation.UniversalApiContract">
+      <HintPath>..\..\..\..\Program Files (x86)\Windows Kits\10\References\Windows.Foundation.UniversalApiContract\3.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+.
+.
+.
+</Project>
+```
+
 ![Added missing references](/img/posts/2018/2018-04-09-packaging-project-win-missing-references.png)
 
-I build an ran the `Scissors.FeatureCenter.Package`, aaaand it worked! :)
+I build the project `Scissors.FeatureCenter.Package`, aaaand it worked! :)
+
+So let's ajust some stuff so we get the thing running inside the package.
+
+### Adjustments to the code
+
+First of all let's change some namespaces so we can modify our target projects with ease:
+
+Go to the properties pane of the shared project and adjust it to `Scissors.FeatureCenter.Win` (your win namespace).
+![Shared project adjust namespace](/img/posts/2018/2018-04-09-packaging-project-shared-project-adjust-namespace.png)
+
+> If you wonder where this is stored: It's in a seperate msbuild file called `Scissors.FeatureCenter.Win.Shared.projitems`.
+
+Go to the Properties pane of the Win10 project and adjust It's default namespace as well to `Scissors.FeatureCenter.Win`.
+
+![Win10 project adjust namespace](/img/posts/2018/2018-04-09-packaging-project-win10-project-adjust-namespace.png)
+
+> In msbuild this property is called `RootNamespace` so you can add this if you like by hand `<RootNamespace>Scissors.FeatureCenter.Win</RootNamespace>`
+
+Ready to rumble! The nature of Shared projects allow us to add code in our specific assemblies and just "extend" the classes. Think like all files in the Shared project are linked into the target project. That means we can use partial classes and methods to extend the shared project.
+
+Add a partial class that matches your `WinApplication` and adjust the following paths:
+
+`C:\F\git\Scissors.FeatureCenter\Scissors.FeatureCenter.Win10\FeatureCenterWindowsFormsApplication.cs`:
+
+```cs
+using System;
+using System.IO;
+using System.Linq;
+using DevExpress.ExpressApp.Win;
+
+namespace Scissors.FeatureCenter.Win
+{
+    public partial class FeatureCenterWindowsFormsApplication : WinApplication
+    {
+        protected override string GetDcAssemblyFilePath()
+            => Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, ApplicationName, DcAssemblyFileName);
+
+        protected override string GetModelAssemblyFilePath()
+            => Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, ApplicationName, ModelAssemblyFileName);
+
+        protected override string GetModelCacheFileLocationPath()
+            => Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, ApplicationName);
+
+        protected override string GetModulesVersionInfoFilePath()
+           => Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, ApplicationName, ModulesVersionInfoFileName);
+
+        protected override void OnCustomGetUserModelDifferencesPath(CustomGetUserModelDifferencesPathEventArgs args)
+            => args.Path = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, ApplicationName);
+    }
+}
+```
+
+This will tell XAF where to find or store all the files that are generated by XAF. Let's run with the debugger and look where it's placed the files:
+
+`C:\Users\mgrun\AppData\Local\Packages\Scissors.FeatureCenter.Win_ncze720tdpmp2\LocalState\Scissors.FeatureCenter`
+
+![Explorer with generated files](/img/posts/2018/2018-04-09-packaging-project-explorer-with-packed-files.png)
+
+One is missing, the `Tracing.LocalUserAppDataPath`. So let's get into `Program.cs` and add a partial method:
+
+`C:\F\git\Scissors.FeatureCenter\Scissors.FeatureCenter.Win.Shared\Program.cs`:
+
+```cs
+using System;
+using System.Windows.Forms;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.Validation;
+using DevExpress.ExpressApp.Validation.Win;
+using DevExpress.ExpressApp.Xpo;
+using Scissors.ExpressApp.InlineEditForms.Win;
+
+namespace Scissors.FeatureCenter.Win
+{
+    static partial class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+#if EASYTEST
+            DevExpress.ExpressApp.Win.EasyTest.EasyTestRemotingRegistration.Register();
+#endif
+
+            EditModelPermission.AlwaysGranted = System.Diagnostics.Debugger.IsAttached;
+
+            InitializeTracing();
+
+            var winApplication = new FeatureCenterWindowsFormsApplication();
+
+            InMemoryDataStoreProvider.Register();
+            winApplication.ConnectionString = InMemoryDataStoreProvider.ConnectionString;
+
+#if DEBUG
+            if(System.Diagnostics.Debugger.IsAttached && winApplication.CheckCompatibilityType == CheckCompatibilityType.DatabaseSchema)
+            {
+                winApplication.DatabaseUpdateMode = DatabaseUpdateMode.UpdateDatabaseAlways;
+            }
+#endif
+            try
+            {
+                winApplication.Modules.Add(new ValidationModule());
+                winApplication.Modules.Add(new ValidationWindowsFormsModule());
+                winApplication.Modules.Add(new InlineEditFormsWindowsFormsModule());
+                winApplication.Setup();
+                winApplication.Start();
+            }
+            catch(Exception e)
+            {
+                winApplication.HandleException(e);
+            }
+        }
+
+        static partial void InitializeTracing();
+    }
+}
+```
+
+`C:\F\git\Scissors.FeatureCenter\Scissors.FeatureCenter.Win10\Program.cs`:
+
+```cs
+using System;
+using System.IO;
+using System.Linq;
+using DevExpress.Persistent.Base;
+
+namespace Scissors.FeatureCenter.Win
+{
+    static partial class Program
+    {
+        static partial void InitializeTracing()
+        {
+            Tracing.LogName = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, FeatureCenterWindowsFormsApplication.APP_NAME, "logs", "eXpressAppFramework");
+
+            if(!Directory.Exists(Path.GetDirectoryName(Tracing.LogName)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(Tracing.LogName));
+            }
+
+            Tracing.Initialize();
+        }
+    }
+}
+```
+
+Don't forget to adjust the one in the classic desktop winforms world.
+
+`C:\F\git\Scissors.FeatureCenter\Scissors.FeatureCenter.Win\Program.cs`:
+
+```cs
+using System;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using DevExpress.Persistent.Base;
+
+namespace Scissors.FeatureCenter.Win
+{
+    static partial class Program
+    {
+        static partial void InitializeTracing()
+        {
+            Tracing.LogName = Path.Combine(Application.UserAppDataPath, FeatureCenterWindowsFormsApplication.APP_NAME, "logs", "eXpressAppFramework");
+
+            if(!Directory.Exists(Path.GetDirectoryName(Tracing.LogName)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(Tracing.LogName));
+            }
+
+            Tracing.Initialize();
+        }
+    }
+}
+```
+
+Let's run again and look if we get a log file. Yeah!
+
+![Log file of packaged project in explorer](/img/posts/2018/2018-04-09-packaging-project-log-in-explorer.png)
 
 ### Creating a Release Package and let the Windows App Certification Kit run
 
@@ -309,15 +530,120 @@ Now we can install the package by double-clicking the package (make sure you act
 
 ![Package in explorer ready for installation](/img/posts/2018/2018-04-09-packaging-project-for-test-in-explorer.png)
 
-> It's possible that you need to add the developer certificate to your machine (with the Add-AppDevPackage.ps1 powershell script).  
+> It's possible that you need to add the developer certificate to your machine (with the `Add-AppDevPackage.ps1` powershell script).  
 > If you got a real developer account this isn't necessary.
 
-
-### Prebuilding the ModelAssembly and cache files
+### Bonus-Part: Prebuilding the ModelAssembly and cache files
 
 Once we have a `Shared` project in place we can build a additional command line program that sets up our WinApplication and builds the caches and ModelAssembly.dll's we could later pack into our project directory.
 
 Add a `Console App` called `Scissors.FeatureCenter.Cli`.
 
 ![New Console App](/img/posts/2018/2018-04-09-packaging-project-console-app.png)
+
+Add a reference to the `shared project` as for the other two projects:
+
+![Add shared project to the CLI project](/img/posts/2018/2018-04-09-packaging-project-cli-project-add-shared-project.png)
+
+Add a class called `CliProgram`:
+
+```cs
+using System;
+using System.IO;
+using System.Linq;
+using DevExpress.ExpressApp.Validation;
+using DevExpress.ExpressApp.Validation.Win;
+using DevExpress.ExpressApp.Xpo;
+using Scissors.ExpressApp.InlineEditForms.Win;
+
+namespace Scissors.FeatureCenter.Win
+{
+    static class CliProgram
+    {
+        static int Main(string[] args)
+        {
+            Console.WriteLine("Generating caches");
+
+            using(var winApplication = new FeatureCenterWindowsFormsApplication())
+            {
+                try
+                {
+                    if(Directory.Exists(winApplication.PreCompileOutputDirectory))
+                    {
+                        Directory.Delete(winApplication.PreCompileOutputDirectory, true);
+                    }
+
+                    Directory.CreateDirectory(winApplication.PreCompileOutputDirectory);
+
+                    InMemoryDataStoreProvider.Register();
+                    winApplication.ConnectionString = InMemoryDataStoreProvider.ConnectionString;
+                    winApplication.SplashScreen = null;
+
+                    winApplication.Modules.Add(new ValidationModule());
+                    winApplication.Modules.Add(new ValidationWindowsFormsModule());
+                    winApplication.Modules.Add(new InlineEditFormsWindowsFormsModule());
+                    winApplication.Setup();
+
+                }
+                catch(Exception e)
+                {
+                    var color = Console.ForegroundColor;
+                    try
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Error:");
+                        Console.WriteLine(new string('=', Console.BufferWidth));
+                        Console.WriteLine(e.ToString());
+                        return 1;
+                    }
+                    finally
+                    {
+                        Console.ForegroundColor = color;
+                    }
+                }
+                Console.WriteLine($"Caches created at '{winApplication.PreCompileOutputDirectory}'");
+                Console.WriteLine("Caches completed");
+                return 0;
+            }
+        }
+    }
+}
+```
+
+> Of course thats not that very [DRY](//en.wikipedia.org/wiki/Don%27t_repeat_yourself) (I'll get into this more in another [best practices](/tags/BestPractices/) post, for example with an `ApplicationBuilder`). But it will work for now.
+
+We need to add another partial `FeatureCenterWindowsFormsApplication` class, so we can control the output of the files generated by XAF:
+
+```cs
+using System;
+using System.IO;
+using System.Linq;
+using DevExpress.ExpressApp.Win;
+
+namespace Scissors.FeatureCenter.Win
+{
+    public partial class FeatureCenterWindowsFormsApplication : WinApplication
+    {
+        public string PreCompileOutputDirectory => Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), "PreCompile");
+
+        protected override string GetDcAssemblyFilePath()
+            => Path.Combine(PreCompileOutputDirectory, DcAssemblyFileName);
+
+        protected override string GetModelAssemblyFilePath()
+            => Path.Combine(PreCompileOutputDirectory, ModelAssemblyFileName);
+
+        protected override string GetModelCacheFileLocationPath()
+            => PreCompileOutputDirectory;
+
+        protected override string GetModulesVersionInfoFilePath()
+           => Path.Combine(PreCompileOutputDirectory, ModulesVersionInfoFileName);
+    }
+}
+```
+
+Let's have a look:
+
+![Precached assemblies and models in explorer](/img/posts/2018/2018-04-09-packaging-project-explorer-precached-files.png)
+
+Awesome, now we need to package them into the Win10 (you also can do this in the *normal* full framework version) project:
 
