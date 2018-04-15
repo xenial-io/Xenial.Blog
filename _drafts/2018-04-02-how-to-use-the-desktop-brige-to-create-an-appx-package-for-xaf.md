@@ -647,3 +647,77 @@ Let's have a look:
 
 Awesome, now we need to package them into the Win10 (you also can do this in the *normal* full framework version) project:
 
+Add all the precompiled assemblies as link into the Win10 project (Add existing item) and make sure you use the Release build:
+
+![Add precompiled items as link](/img/posts/2018/2018-04-09-packaging-project-add-precompiled-items-as-link.png)
+
+Make sure they are copied to the output directory by setting the `Copy if newer` flag, and mark them as `content`.
+
+![Set the build action to copy if newer](/img/posts/2018/2018-04-09-packaging-project-added-items-copy.png)
+
+Change the `FeatureCenterWindowsFormsApplication` in the `Win10` project as following:
+
+```cs
+using System;
+using System.IO;
+using System.Linq;
+using DevExpress.ExpressApp.Win;
+
+namespace Scissors.FeatureCenter.Win
+{
+    public partial class FeatureCenterWindowsFormsApplication : WinApplication
+    {
+#if DEBUG
+        protected override string GetDcAssemblyFilePath()
+            => Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, ApplicationName, DcAssemblyFileName);
+
+        protected override string GetModelAssemblyFilePath()
+            => Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, ApplicationName, ModelAssemblyFileName);
+
+        protected override string GetModelCacheFileLocationPath()
+            => Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, ApplicationName);
+
+        protected override string GetModulesVersionInfoFilePath()
+           => Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, ApplicationName, ModulesVersionInfoFileName);
+#else
+        string OutputDirectory => Path.GetDirectoryName(GetType().Assembly.Location);
+
+        protected override string GetDcAssemblyFilePath()
+            => Path.Combine(OutputDirectory, DcAssemblyFileName);
+
+        protected override string GetModelAssemblyFilePath()
+            => Path.Combine(OutputDirectory, ModelAssemblyFileName);
+
+        protected override string GetModelCacheFileLocationPath()
+            => OutputDirectory;
+
+        protected override string GetModulesVersionInfoFilePath()
+           => Path.Combine(OutputDirectory, ModulesVersionInfoFileName);
+#endif
+        protected override void OnCustomGetUserModelDifferencesPath(CustomGetUserModelDifferencesPathEventArgs args)
+            => args.Path = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, ApplicationName);
+    }
+}
+```
+
+So we tell XAF to look at the exe dir for the files. Of course you can change this for any location you like to put them.
+
+Rebuild an run the package project without debugger:
+
+<!-- markdownlint-disable MD033 -->
+
+<video class="video-js" controls preload="auto" width="auto" height="auto" poster="/img/posts/2018/2018-04-09-packaging-project-run-win.png" data-setup="{}">
+  <source src="/img/posts/2018/2018-04-09-packaging-project-run-precompiled.webm" type='video/webm'>
+  <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a web browser that
+    <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+  </p>
+</video>
+<!-- markdownlint-enable MD033 -->
+
+> There is overhead from recording the video.  
+> In reality it's like instant, you almost can't see the splash screen.
+
+Holy moly! I never saw an XAF applcation start that quick!
+
+Uff this was a long post. And it isn't production ready yet. But with the help of a little [bakery](/2018/03/31/baking-your-app-using-csharp-with-cake.html) I'll be able to put this thing into the Windows-Store!
