@@ -721,3 +721,5 @@ Rebuild an run the package project without debugger:
 Holy moly! I never saw an XAF applcation start that quick!
 
 Uff this was a long post. And it isn't production ready yet. But with the help of a little [bakery](/2018/03/31/baking-your-app-using-csharp-with-cake.html) I'll be able to put this thing into the Windows-Store!
+
+As always you can look at the progess and the project on [github](//github.com/biohazard999/Scissors.FeatureCenter/). This time i [tagged](//github.com/biohazard999/Scissors.FeatureCenter/releases/tag/blog%2FDesktopBridge) the post if people like to see the state as it was when writing this post.
