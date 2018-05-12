@@ -1,0 +1,3 @@
+[submodule "tests\\ui-tests"]
+	path = tests\\ui-tests
+	url = https://mgrundner.visualstudio.com/DefaultCollection/Scissors/_git/Scissors.Blog.UITests

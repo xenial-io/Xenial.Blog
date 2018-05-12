@@ -5,6 +5,8 @@
 using YamlDotNet.Serialization;
 
 var target = string.IsNullOrEmpty(Argument("target", "Default")) ? "Default" : Argument("target", "Default");
+var endpoints = Argument("endpoints", "Chrome Headless,Firefox Headless");
+
 var pretzelVersion = "0.7.1";
 
 public class Pretzel
@@ -53,17 +55,31 @@ Task("Clean")
   .Does(() =>
 {
   if(FileExists("Tools/Pretzel.zip"))
+  {
     DeleteFile("Tools/Pretzel.zip");
+  }
   if(DirectoryExists("Tools/Pretzel"))
-    DeleteDirectory("Tools/Pretzel", new DeleteDirectorySettings {
+  {
+    DeleteDirectory("Tools/Pretzel", new DeleteDirectorySettings 
+    {
       Recursive = true
     });
+  }
   if(DirectoryExists("_site"))
-    DeleteDirectory("_site", new DeleteDirectorySettings {
+  {
+    DeleteDirectory("_site", new DeleteDirectorySettings 
+    {
       Recursive = true
     });
+  }
+  if(DirectoryExists("_tests"))
+  {
+    DeleteDirectory("_tests", new DeleteDirectorySettings 
+    {
+      Recursive = true
+    });
+  }
 });
-
 
 Task("DownloadPretzel")
   .IsDependentOn("Clean")
@@ -79,33 +95,34 @@ Task("UnzipPretzel")
 
 Task("UpdateVersionInfo")
     .Does(() =>
-{
-    var result = GitVersion();
-    var config = DeserializeYamlFromFile<BlogConfig>("./_config.yml");
-    config.Version = result.FullSemVer;
-    config.Commit = result.Sha;
-    config.LastUpdate = result.CommitDate;
-    SerializeYamlToFile("./_config.yml", config);
-});
+    {
+      var result = GitVersion();
+      var config = DeserializeYamlFromFile<BlogConfig>("./_config.yml");
+      config.Version = result.FullSemVer;
+      config.Commit = result.Sha;
+      config.LastUpdate = result.CommitDate;
+      SerializeYamlToFile("./_config.yml", config);
+    });
 
 Task("Only-Bake")
   .IsDependentOn("UpdateVersionInfo")
   .Does(() =>
-{
-   using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
-   {
+  {
+    using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
+    {
       Arguments = "bake"
-   }))
-   {
-        process.WaitForExit();
-        var result = process.GetExitCode();
-        Information("Exit code: {0}", result);
-        
-        if(result != 0){
-            throw new Exception("Pretzel did not bake correctly: Error-Code: " + result); 
-        }
-   }
-});
+    }))
+    {
+      process.WaitForExit();
+      var result = process.GetExitCode();
+      Information("Exit code: {0}", result);
+      
+      if(result != 0)
+      {
+        throw new Exception($"Pretzel did not bake correctly: Error-Code: {result}"); 
+      }
+    }
+  });
 
 Task("Bake")
   .IsDependentOn("UnzipPretzel")
@@ -113,21 +130,22 @@ Task("Bake")
 
 Task("Only-Taste")
   .Does(() =>
-{
-   using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
-   {
+  {
+    using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
+    {
       Arguments = "taste"
-   }))
-   {
-        process.WaitForExit();
-        var result = process.GetExitCode();
-        Information("Exit code: {0}", result);
-        
-        if(result != 0){
-            throw new Exception("Pretzel did not taste correctly: Error-Code: " + result); 
-        }
-   }
-});
+    }))
+    {
+      process.WaitForExit();
+      var result = process.GetExitCode();
+      Information("Exit code: {0}", result);
+      
+      if(result != 0)
+      {
+        throw new Exception($"Pretzel did not taste correctly: Error-Code: {result}"); 
+      }
+    }
+  });
 
 Task("Taste")
   .IsDependentOn("UnzipPretzel")
@@ -135,39 +153,98 @@ Task("Taste")
 
 Task("Draft")
   .Does(() =>
-{
-   using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
-   {
+  {
+    using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
+    {
       Arguments = "ingredient --drafts"
-   }))
-   {
-        process.WaitForExit();
-        var result = process.GetExitCode();
-        Information("Exit code: {0}", result);
-        
-        if(result != 0){
-            throw new Exception("Pretzel did not ingredient correctly: Error-Code: " + result); 
-        }
-   }
-});
+    }))
+    {
+      process.WaitForExit();
+      var result = process.GetExitCode();
+      Information("Exit code: {0}", result);
+      
+      if(result != 0)
+      {
+        throw new Exception($"Pretzel did not ingredient correctly: Error-Code: {result}"); 
+      }
+    }
+  });
 
 Task("Ingredient")
   .Does(() =>
-{
-   using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
-   {
+  {
+    using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
+    {
       Arguments = "ingredient"
-   }))
-   {
-        process.WaitForExit();
-        var result = process.GetExitCode();
-        Information("Exit code: {0}", result);
-        
-        if(result != 0){
-            throw new Exception("Pretzel did not ingredient correctly: Error-Code: " + result); 
+    }))
+    {
+      process.WaitForExit();
+      var result = process.GetExitCode();
+      Information("Exit code: {0}", result);
+      
+      if(result != 0)
+      {
+        throw new Exception($"Pretzel did not ingredient correctly: Error-Code: {result}"); 
+      }
+    }
+  });
+
+var webtestit = @"C:\Users\mgrun\AppData\Local\Programs\rxse-app\Ranorex Webtestit.exe";
+Task("UI-Test")
+  .IsDependentOn("UnzipPretzel")
+  .WithCriteria(FileExists(webtestit))
+  .Does(() => 
+  {
+    var port = 9999;
+    
+    using(var pretzelProcess = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
+    {
+      Arguments = $"taste --nobrowser --p={port}",
+      RedirectStandardOutput = true,
+    }))
+    {
+      foreach(var output in pretzelProcess.GetStandardOutput())
+      {
+        Information(output);
+        if(output == "Press 'Q' to stop the web host...")
+        {
+          break;
         }
-   }
-});
+      }
+      try
+      {       
+        using(var process = StartAndReturnProcess(webtestit, new ProcessSettings
+        {
+          Arguments = $"run --report-file-name-pattern=UI-Tests --endpoints=\"{endpoints}\" --include-inactive-endpoints .\\tests\\ui-tests\\java",
+          EnvironmentVariables = new Dictionary<string, string>
+          {
+            { "SITE_PORT", port.ToString() }
+          }
+        }))
+        {
+          process.WaitForExit();
+          var result = process.GetExitCode();
+          Information("Exit code: {0}", result);
+          
+          if(result != 0)
+          {
+            throw new Exception($"Webtestit failed: Error-Code: {result}"); 
+          }
+        }
+
+        var pretzelResult = pretzelProcess.GetExitCode();
+        Information($"Exit code: {pretzelResult}");
+        if(pretzelResult != 0)
+        {
+          throw new Exception($"Pretzel did not taste correctly: Error-Code: {pretzelResult}"); 
+        }
+      }
+      finally
+      {
+        pretzelProcess.Kill();
+      }
+    }
+  });
 
 
 Task("Default")
