@@ -189,10 +189,11 @@ Task("Ingredient")
     }
   });
 
-var webtestit = @"C:\Users\mgrun\AppData\Local\Programs\rxse-app\Ranorex Webtestit.exe";
+var webtestit = MakeAbsolute(File(EnvironmentVariable("LOCALAPPDATA") + @"\Programs\rxse-app\Ranorex Webtestit.exe"));
+
 Task("UI-Test")
   .IsDependentOn("UnzipPretzel")
-  .WithCriteria(FileExists(webtestit))
+  .WithCriteria(() => FileExists(webtestit))
   .Does(() => 
   {
     var port = 9999;
@@ -215,13 +216,20 @@ Task("UI-Test")
       {       
         using(var process = StartAndReturnProcess(webtestit, new ProcessSettings
         {
-          Arguments = $"run --report-file-name-pattern=UI-Tests --endpoints=\"{endpoints}\" --include-inactive-endpoints .\\tests\\ui-tests\\java",
+          Arguments = $"run --report-file-name-pattern=UI-Tests --endpoints=\"{endpoints}\" --include-inactive-endpoints .\\tests\\ui-tests\\ts",
+          RedirectStandardOutput = true,
           EnvironmentVariables = new Dictionary<string, string>
           {
-            { "SITE_PORT", port.ToString() }
+            { "SITE_URL", "http://localhost" },
+            { "SITE_PORT", port.ToString() },
           }
         }))
-        {
+        { 
+          foreach(var output in process.GetStandardOutput())
+          {
+            Information(output);
+          }
+          
           process.WaitForExit();
           var result = process.GetExitCode();
           Information("Exit code: {0}", result);
