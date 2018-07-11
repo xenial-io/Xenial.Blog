@@ -43,7 +43,7 @@ Sometimes i miss C# though. :)
   * Force immutability in some way like null checks
   * Npm is sometimes briddle. It breaks, when you don't need it to break (for example on release day)
   * Quality of external dependencies / Semver does not work all the time
-* WC
+* A
   * Be aware of dependency hell
   * Be careful about dependencies (and look out for dependencies of dependencies)
   * For libraries written in JavaScript: Add the type definitions beforehand you use the library. Don't be lazy, it's expensive to do it too late.
@@ -53,7 +53,11 @@ Most of the things I *complain* about, is more on a ecosystem level. [NPM](), [N
 
 #### Selenium
 
-I did some work with [selenium]() in the past, but was rather disappointed after some time. 
+I did some work with [selenium]() in the past, but was rather disappointed after some time. UI tests are *hard*. Test the right things, the right way is *even harder*. But time goes by, and the web changes fast. We passed the [jQuery age]() and entered [bootstrap]() and [accessibility age](). We got CSS selectors that are [sane](). Selenium client libraries are available in almost every language. Some more [sane](), some [fewer](). So let's recap.
+
+* WNC
+* SC
+* A
 
 #### Webtestit Beta
 
