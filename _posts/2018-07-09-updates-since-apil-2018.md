@@ -65,8 +65,9 @@ I did some work with [selenium]() in the past, but was rather disappointed after
   * Drivers behave weird sometimes
   * Debugging is not baked in
 * A
-  * Community should work hard together if it still cares about selenium
+  * Community should work hard together if it still care about selenium
   * More open source utility libraries that easy the use of selenium, for example of using it with various frontend frameworks (bootstrap, vue, ect...)
+  * Driver ports to different platforms?
 
 Selenium and especially WebDriver are awesome pieces of software. They are based on open standards. But testers *are not developers* (take this with a gran of salt). Testing is *hard*. Blogging about testing is *even harder*. Writing testing libraries and apply testing patterns on a library level is *holy grail hard*.  
 But we should move forward as an industry. Testing **[is part of production]()**. So let's treat test code (esp UI tests) not as the [little fat cousin]() of production.  
@@ -74,15 +75,19 @@ Write libraries, put them on [github]()! Talk on conferences about it. There is 
 
 #### Webtestit Beta
 
-This should not be a commercial, but my heart and my *soul* is in this product. <3 💓<3
+This should not be a commercial, but my heart and my *soul* is in this product. 💓💓💓
 
-Short introduction first. [Ranorex Webtestit]() is an IDE for writing e2e tests. It's lean, cross platform, based on the [shoulder of giants](). It's code and keyboard centric. It's designed to remove boilerplate and let you focus on the problem.  
+Short introduction first. [Ranorex Webtestit]() is an IDE for writing E2E (web) tests.  
+It's lean, cross platform, based on the [shoulder of giants](). It's code and keyboard centric. It's designed to remove boilerplate and let you focus on the problem.  
+
+*Think of it like VSCode for e2e tests.**
+
  You can see an example of the tests created on [github](). I've gone the extra mile to write those tests in [java]() and in [typescript with protractor](). And what's the best about this? I've found a bug in my blog.
 
 As you maybe know, this is written in [pretzel](). I've added some features about [tag search]() and [searching]() in [the archive](). Naive implemented, but it does the job. An it was broken on half the browsers. I **did** test it on all browsers when I implemented it first, but **guess**, after adding some small *tweaks* it broke. And I didn't know cause I did not test again.  
 Using [Webtestit]() I was able to test it on [all browsers]() with ease and found out it worked only in Chrome (sorry other 40% of my readers, yes the number is correct). I've integrated in into my CI/CD pipeline in minutes, so this will never happen again cause of a *tweak* I've done in my code.
 
-Stop complaining. Start testing. Yes even you [alpha-dev](). So let's recap.
+Stop complaining. Start testing. Yes even you are an [alpha-dev](). So let's recap.
 
 * WNC
   * Cross platform, so everybody can use it (backend, frontend, ect. no excused)
@@ -100,17 +105,18 @@ Stop complaining. Start testing. Yes even you [alpha-dev](). So let's recap.
   * Just kidding, still ???
   * <div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/3o7btPCcdNniyf0ArS" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/cbc-comedy-what-3o7btPCcdNniyf0ArS"></a></p>
 * A
-  * You decide!
+  * You opinion counts & decides!
 
 I really 💓 this product. But I was part of building this beauty. So I really care what you think about it.  
 For the language part: **More languages** are coming! Hang out C# guys! ;)
 
 > If you want to try out the product for free, head over to [our website]() and grab a copy!  
-I would love to hear your feedback💓
+I'd love to hear your feedback💓
 
 ## OpenSource
 
-### Chromium
+### Chromium/Electron
+
 #### Chromely
 
 #### Blazor
@@ -123,9 +129,12 @@ I would love to hear your feedback💓
 
 ### Scissors.FeatureCenter
 
+
+## Community
+
 ### MVP-Program
 
-## Patreon
+### Patreon
 
 
 ## Personal
