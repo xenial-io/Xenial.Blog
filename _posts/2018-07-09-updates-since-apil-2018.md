@@ -31,12 +31,12 @@ Okay it's now about 3 months since i [joined Ranorex]() and since then I develop
 Sometimes i miss C# though. :)
 
 * WNC
-  * TypeScript's control flow based type analysis
-  * 'Script like' but type safe by default
-  * NPM is **HUGE**
-  * Awesomeness of TS combined with ultra easy patching of external dependencies (yes i look at you [nuget]())
-  * Pattern matching
-  * Runtime performance, cause it's JavaScript at the end
+  * TypeScript's control flow based type analysis!
+  * 'Script like' but type safe by default!
+  * NPM is **HUGE**!
+  * Ultra easy patching of external dependencies (yes i look at you [nuget]())!
+  * Pattern matching!
+  * Runtime performance, cause it's JavaScript at the end!
 * SC
   * More functional type safety (yes i look at you lodash)
   * TypeScripts type system sometimes gets in your way, especially with external libraries
@@ -56,8 +56,21 @@ Most of the things I *complain* about, is more on a ecosystem level. [NPM](), [N
 I did some work with [selenium]() in the past, but was rather disappointed after some time. UI tests are *hard*. Test the right things, the right way is *even harder*. But time goes by, and the web changes fast. We passed the [jQuery age]() and entered [bootstrap]() and [accessibility age](). We got CSS selectors that are [sane](). Selenium client libraries are available in almost every language. Some more [sane](), some [fewer](). So let's recap.
 
 * WNC
+  * It's mature, but it's reliable!
+  * It's fast!
+  * **HUGE** [language support]()!
+  * All browsers are on board for WebDriver, even [Edge]() and [Windows]()!
 * SC
+  * Almost every language has found **different** more or less different characteristic flavors of some patterns. If something works with java, it does not work in protractor for example.
+  * Drivers behave weird sometimes
+  * Debugging is not baked in
 * A
+  * Community should work hard together if it still cares about selenium
+  * More open source utility libraries that easy the use of selenium, for example of using it with various frontend frameworks (bootstrap, vue, ect...)
+
+Selenium and especially WebDriver are awesome pieces of software. They are based on open standards. But testers *are not developers* (take this with a gran of salt). Testing is *hard*. Blogging about testing is *even harder*. Writing testing libraries and apply testing patterns on a library level is *holy grail hard*.  
+But we should move forward as an industry. Testing **[is part of production]()**. So let's treat test code (esp UI tests) not as the [little fat cousin]() of production.  
+Write libraries, put them on [github]()! Talk on conferences about it. There is nothing to be ashamed of being a tester :)
 
 #### Webtestit Beta
 
