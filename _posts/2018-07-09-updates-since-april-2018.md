@@ -115,7 +115,19 @@ I'd love to hear your feedback💓
 
 ## OpenSource
 
+I was more active on github in the last the last year than ever!  
+To be precise **273** contributions!
+
+![Github graph with 273 contributions](/img/posts/2018/2018-07-12-updates-since-april-2018-github-graph.png)
+
+But this year was a little bit different, cause I didn't do *own* projects, but also filed a lot of issues, discussed a lot with the community and did a bunch of pull requests as well!
+So let's have a look at some projects I'm currently focusing on.
+
 ### Chromium/Electron
+
+The web is moving fast and desktop developments is hard. Especially when you try to focus on all major desktop platforms (Windows, MacOs and Linux). [PWA's]() are on the horizon, but not ready for primetime yet. But developing desktop applications with web technology is not impossible. So that's where electron and the chromium project jumps in.  
+Electron works very well, but it's rather resource intensive. With [dotnet core]() we now have cross platform [dotnet]() and with the power of [WebAssembly]() we have [blazor](), which enables dotnet in the browser.  
+So let's look at some new projects I am working on.
 
 #### Chromely
 
