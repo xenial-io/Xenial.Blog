@@ -8,17 +8,18 @@ Since my [last post]() a few months past by, so I wanted to provide a recap what
 
 So let's look at some aspects. I'll try to use a kinda retrospective approach:
 
-| Key | Why | Description |  
-| --- | --- | --- |
-| WNC | What (we/I) like | Would not change |
-| SC | what we should change in my opinion | Should change |
-| A | what we can do in my opinion | Action )
+<table width="100%">
+    <tr><th>Key</th><th>Why</th><th>Description</th></tr>
+    <tr><td>WNC</td><td>What I like</td><td>Would not change</td></tr>
+    <tr><td>SC</td><td>what we should change in my opinion</td><td>Should change</td></tr>
+    <tr><td>A</td><td>what we can do in my opinion</td><td>Action</td></tr>
+</table>
 
 So this will give you some direction what I am thinking on my own, and where I am heading into next.
 
 ## Ranorex / My daily bread
 
-Okay, this is a huge topic, but I'll keep it short: It's awesome `\m/`.  
+Okay, this is a huge topic, but I'll keep it short: It's awesome \m/.  
 Working on tools for developers and testers was always a dream of mine. Doing this with a team of awesome people is even more enjoyable and also challenging. Working with designers, testers, other developers, marketing, corporate leaders all at once can be challenging, but it's amazing what you can achieve with people collaborating in a open and own paced way.  
 
 ### General
@@ -131,7 +132,28 @@ So let's look at some new projects I am working on.
 
 #### Chromely
 
+[Chromely]() is a light weight wrapper for chromium. It's cross platform cause it's based on dotnet core. It's lean by design, trying to remove as much boilerplate as possible.
+
+* WNC
+  * Cross platform
+  * Super fast
+  * Lean
+  * Easy API
+  * Not so inflated than [Electron]() or [Electron.net]()
+* SC
+  * Small number of contributors
+  * Build server
+  * Getting it in a "nuget install" start working experience
+  * Get MacOS running
+* A
+  * Get more people involved
+  * Write some real world products on top of it
+
+I'll write a follow up post on Chromely in the future!
+
 #### Blazor
+
+[Blazor]() is an experimental UI framework that combines the power of Mono, .NET Standard and WebAssembly 
 
 #### Blaster
 

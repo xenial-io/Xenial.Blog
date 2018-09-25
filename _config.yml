@@ -17,6 +17,7 @@ exclude:
 - git-clean.cmd
 - build.bat
 - cake.config
+- tests\
 include:
 - downloads
 author: Manuel Grundner
