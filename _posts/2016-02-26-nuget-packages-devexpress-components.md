@@ -15,6 +15,7 @@ After reading the [support forums](//www.devexpress.com/support/center) i found 
 - [S139898 - NuGet Packages](//www.devexpress.com/support/center/Question/Details/S139898)
 - [Q479632 - NuGet packages: could i create my own package and publish it legally ???](//www.devexpress.com/Support/Center/Question/Details/Q479632)
 - [Q458075 - Please provide NuGet packages](//www.devexpress.com/Support/Center/Question/Details/Q458075)
+- [T680608 - How do I set up and use the Nuget packages for XAF Mobile?](//www.devexpress.com/Support/Center/Question/Details/T680608/how-do-i-set-up-and-use-the-nuget-packages-for-xaf-mobile)
 
 They provide packages for [DevExtreme](//www.nuget.org/packages?q=DevExtreme+) but not for their .NET components.
 
