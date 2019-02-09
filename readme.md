@@ -1,6 +1,6 @@
 ## This is my blog
 
-Find it on [blog.delegate.at](http://blog.delegate.at).
+Find it on [blog.delegate.at](https://blog.delegate.at).
 
 It's using [pretzel](https://github.com/Code52/pretzel).
 

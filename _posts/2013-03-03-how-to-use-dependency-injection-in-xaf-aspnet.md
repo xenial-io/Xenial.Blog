@@ -10,7 +10,7 @@ It is not quite complicated, but took me also some hours of work to get it runni
 ## Why? ##
 We'd like to provide a WebAPI to other companies to reduce our amount of work, when handling with other companies data.
 
-Microsoft's [WebAPI](http://www.asp.net/web-api)/[MVC4](http://www.asp.net/mvc) are great frameworks to easily write such platforms. [XPO](http://www.devexpress.com/) and [XAF](http://www.devexpress.com/Products/NET/Application_Framework/) are great products. So let's combine them.
+Microsoft's [WebAPI](https://www.asp.net/web-api)/[MVC4](https://www.asp.net/mvc) are great frameworks to easily write such platforms. [XPO](https://www.devexpress.com/) and [XAF](https://www.devexpress.com/Products/NET/Application_Framework/) are great products. So let's combine them.
 
 ## How? ##
 
@@ -22,7 +22,7 @@ The first one is the WebApi project. The second one is the WebMvc Project. The t
 In this project goes the whole big stuff (domain logic & co).
 Let's start:
 
-First of all we need to install the [Unity.WebAPI](http://nuget.org/packages/Unity.WebAPI/) nuget package. (Attention: if your project is strong signed, this will fail, but the source is not that hard ;))
+First of all we need to install the [Unity.WebAPI](https://nuget.org/packages/Unity.WebAPI/) nuget package. (Attention: if your project is strong signed, this will fail, but the source is not that hard ;))
 
 We get this nice little bootstrapper class that allowes us to configure our UnityContainer.
 
@@ -344,7 +344,7 @@ public class MyBo1
 
 ## Back to the future, ahm WebApi ##
 
-We know use a simple pattern called the [RepositoryPattern](http://msdn.microsoft.com/en-us/library/ff649690.aspx) to access our Database via XPO and keep testablility and [Seperation of Conserns](http://en.wikipedia.org/wiki/Separation_of_concerns):
+We know use a simple pattern called the [RepositoryPattern](https://msdn.microsoft.com/en-us/library/ff649690.aspx) to access our Database via XPO and keep testablility and [Seperation of Conserns](https://en.wikipedia.org/wiki/Separation_of_concerns):
 
 ```cs
 public interface IBusinessObjectRepository
@@ -931,7 +931,7 @@ public class MyBusinessObjectControllerTests
 
 ### Ready to rock! ###
 
-Starting up our [projects](http://msdn.microsoft.com/en-us/library/ms165413(v=vs.80).aspx) and see something in action.
+Starting up our [projects](https://msdn.microsoft.com/en-us/library/ms165413(v=vs.80).aspx) and see something in action.
 
 Hit the page from our controller (http://localhost:3786/api/MyBusinessObject) we get this result:
 
@@ -954,7 +954,7 @@ Hit the page from our controller (http://localhost:3786/api/MyBusinessObject) we
 
 Nice or is it? :)
 
-Let's check out [fiddler](http://www.fiddler2.com/fiddler2/) an see if we can get some [JSON](http://www.json.org/) from our api.
+Let's check out [fiddler](https://www.fiddler2.com/fiddler2/) an see if we can get some [JSON](https://www.json.org/) from our api.
 
 ![Fiddler input](/img/posts/2013/fiddler_input.png)
 
@@ -986,7 +986,7 @@ And delete it:
 > As you maybe noticed, i've never startet the application so far. The unit-testing works like a charm.
 
 ## WebMvc ##
-Here we need a little different package from nuget. Install [Unity.WebMvc3](http://nuget.org/packages/Unity.Mvc3/1.2) This will also work in Mvc4.
+Here we need a little different package from nuget. Install [Unity.WebMvc3](https://nuget.org/packages/Unity.Mvc3/1.2) This will also work in Mvc4.
 
 
 Our little friend the `Bootstrapper` is also present here:
@@ -1139,7 +1139,7 @@ public class HTTPEndpointProvider : IEndpointProvider
 }
 ```
 
-If you need to implement SSL this [post](http://www.hanselman.com/blog/WorkingWithSSLAtDevelopmentTimeIsEasierWithIISExpress.aspx) from [Scott Hanselmann](http://www.hanselman.com) will help you, and you can use a SSLEndpointProvider:
+If you need to implement SSL this [post](https://www.hanselman.com/blog/WorkingWithSSLAtDevelopmentTimeIsEasierWithIISExpress.aspx) from [Scott Hanselmann](https://www.hanselman.com) will help you, and you can use a SSLEndpointProvider:
 
 ```cs
 public class SSLEndpointProvider : IEndpointProvider

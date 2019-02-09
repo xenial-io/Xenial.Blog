@@ -24,10 +24,10 @@ include:
 author: Manuel Grundner
 author-email: m.grundner@delegate.at
 disqus-shortname: delegateat
-main-url: http://www.delegate.at
+main-url: https://www.delegate.at
 site-name: blog.delegate.at
 feed-name: blog.delegate.at
-site-url: http://blog.delegate.at
+site-url: https://blog.delegate.at
 version: 0.1.0+164
 commit: 6647645fef71cb7041a9f48db5ca7bf17cca79fd
 last-update: 2018-10-13

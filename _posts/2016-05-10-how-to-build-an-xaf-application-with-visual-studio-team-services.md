@@ -31,7 +31,7 @@ On a regular machine you can only install 1 minor version of DevExpress, but an 
 
 I covered how to build your own nuget packages in my [last post](/2016/02/26/nuget-packages-devexpress-components.html) so i will fast forward here:
 
-1. Go and get [GIT](http://rogerdudler.github.io/git-guide/)
+1. Go and get [GIT](https://rogerdudler.github.io/git-guide/)
 2. Open a commandline 
 3. Go to a directory you like (I will use `c:\s\git` for the rest of this post) `cd c:\s\git`
 4. Clone the repository `git clone https://github.com/biohazard999/DXNugetPackageBuilder`

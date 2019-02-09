@@ -260,7 +260,7 @@ Thanks to the movement of .NET-Core we are getting a new csproj format thats muc
 </Project>
 ```
 
-There is almost no code! As you might have spotted, at the time of writing this post DevExpress didn't provide nugets for XAF, so i build this little [tool](https://github.com/biohazard999/DXNugetPackageBuilder) and used my last [blog post how to use VSTS to host them](http://blog.delegate.at/2016/05/10/how-to-build-an-xaf-application-with-visual-studio-team-services.html)
+There is almost no code! As you might have spotted, at the time of writing this post DevExpress didn't provide nugets for XAF, so i build this little [tool](https://github.com/biohazard999/DXNugetPackageBuilder) and used my last [blog post how to use VSTS to host them](https://blog.delegate.at/2016/05/10/how-to-build-an-xaf-application-with-visual-studio-team-services.html)
 With the rise of `netstandard2.0` i hope we'll able to see a shift of XAF to `netstandard` as well.
 
 There are some drawbacks using the new project format though. Currently there is no support for the `ModelEditor` and designer support for `WinForms`. But most of the time I don't care about that.

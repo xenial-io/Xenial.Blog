@@ -13,7 +13,7 @@ The TaskbarAssistent component can help you to integrate the small features of W
 ![](/img/posts/2013/dx13-2-review/jumplist1.png)
 ![](/img/posts/2013/dx13-2-review/tasklist1.png)
 
-Till now you had to deal with unmanaged code to bring this in your application, or use the [WindowsAPICodePack](http://archive.msdn.microsoft.com/WindowsAPICodePack) but this is very unhandy.
+Till now you had to deal with unmanaged code to bring this in your application, or use the [WindowsAPICodePack](https://archive.msdn.microsoft.com/WindowsAPICodePack) but this is very unhandy.
 
 So DevExpress gave us a new API to handle this straight forward, so we can focus on our clients!
 
@@ -37,7 +37,7 @@ As we can see, we have a lot of options to customize our taskbar.
 
 #### The Jumplist ####
 
-The Jumplist items are basically shortcuts or launch commands to applications. [The Microsoft Documentation](http://msdn.microsoft.com/en-us/library/windows/desktop/dd378460(v=vs.85).aspx#dests) says that tasks are typically `IShellLink` items with command-line arguments.
+The Jumplist items are basically shortcuts or launch commands to applications. [The Microsoft Documentation](https://msdn.microsoft.com/en-us/library/windows/desktop/dd378460(v=vs.85).aspx#dests) says that tasks are typically `IShellLink` items with command-line arguments.
 
 Okay lets see how we can manage this:
 
@@ -59,7 +59,7 @@ Great! This works like a charm! But let's handle the pictures. Cause this can be
 
 Let's add an icon for both applications:
 
-Grab a [tool](https://www.google.com/search?q=extract+icon+from+exe+&oq=extract+icon+from+exe+&aqs=chrome..69i57j69i59j0l4.4427j0j4&sourceid=chrome&espv=210&es_sm=122&ie=UTF-8) that allows you to extract an icon from an exe or use you own ico file (note it must be in the ICO-Format) (I used the freeware tool [IconExtracts from Nirsoft](http://www.nirsoft.net/))
+Grab a [tool](https://www.google.com/search?q=extract+icon+from+exe+&oq=extract+icon+from+exe+&aqs=chrome..69i57j69i59j0l4.4427j0j4&sourceid=chrome&espv=210&es_sm=122&ie=UTF-8) that allows you to extract an icon from an exe or use you own ico file (note it must be in the ICO-Format) (I used the freeware tool [IconExtracts from Nirsoft](https://www.nirsoft.net/))
 
 ![](/img/posts/2013/dx13-2-review/taskassistant9.png)
 ![](/img/posts/2013/dx13-2-review/taskassistant10.png)
@@ -117,7 +117,7 @@ private void whatsNewTaskbarButton_Click(object sender, ThumbButtonClickEventArg
 
 private void helpTaskbarButton_Click(object sender, ThumbButtonClickEventArgs e)
 {
-    webBrowser1.Navigate(@"http://documentation.devexpress.com/#HomePage/CustomDocument9453");
+    webBrowser1.Navigate(@"https://documentation.devexpress.com/#HomePage/CustomDocument9453");
 }
 ```
 

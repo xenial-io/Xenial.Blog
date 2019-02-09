@@ -27,7 +27,7 @@ Greetins Manuel
 
 Deeper Windows Integration Features to XAF/Xpand
 
-This Module allows you to integrate the [TaskbarAssistent](http://documentation.devexpress.com/#WindowsForms/clsDevExpressUtilsTaskbarTaskbarAssistanttopic "TaskbarAssistent Component") into XAF.
+This Module allows you to integrate the [TaskbarAssistent](https://documentation.devexpress.com/#WindowsForms/clsDevExpressUtilsTaskbarTaskbarAssistanttopic "TaskbarAssistent Component") into XAF.
 
 
 ### Getting started ###
@@ -326,7 +326,7 @@ You can currently specify:
 - `AutoRegisterProtols`: This will write the needed registry keys automatically, when the application launches
 - `EnableProtocols`: This en/disables the whole logic for protocol handlers
 - `ProtocolDescription`: This is a hint in the registry what this protocol does
-- `ProtoclName`: The name of your protocol. This should not start with a number, dashes are allowed. See more under the [microsoft documentation](http://msdn.microsoft.com/en-us/library/aa767914(VS.85).aspx)
+- `ProtoclName`: The name of your protocol. This should not start with a number, dashes are allowed. See more under the [microsoft documentation](https://msdn.microsoft.com/en-us/library/aa767914(VS.85).aspx)
 
 
 ### Images ###

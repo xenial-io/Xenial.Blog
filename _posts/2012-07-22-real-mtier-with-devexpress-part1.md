@@ -324,23 +324,23 @@ If you could provide a set of instructions (maybe covered by FxCOP rules) we cou
 
 If you like to refer to eXpand i have do disagree. eXpand is great, but the reintegration of modules takes partially weeks... or is simply not reinterateable cause of dependencies. We CAN make a plugin able architecture. we only have to work on it.
 
-  [1]: http://www.devexpress.com/
-  [2]: http://www.devexpress.com/Subscriptions/DXperience/WhatsNew2012v1/xaf.xml
-  [3]: http://xamarin.com/monoforandroid
-  [4]: http://xamarin.com/monotouch
-  [5]: http://xamarin.com/
-  [6]: http://msdn.microsoft.com/en-us/netframework/aa663324.aspx
-  [7]: http://www.w3.org/TR/soap/
-  [8]: http://www.odata.org/
-  [9]: http://xpo.codeplex.com/
-  [10]: http://www.devexpress.com/Products/NET/ORM/
-  [11]: http://www.devexpress.com/Subscriptions/DXperience/WhatsNew2012v1/index.xml?page=58
-  [12]: http://www.devexpress.com/Support/Center/p/Q408635.aspx
+  [1]: https://www.devexpress.com/
+  [2]: https://www.devexpress.com/Subscriptions/DXperience/WhatsNew2012v1/xaf.xml
+  [3]: https://xamarin.com/monoforandroid
+  [4]: https://xamarin.com/monotouch
+  [5]: https://xamarin.com/
+  [6]: https://msdn.microsoft.com/en-us/netframework/aa663324.aspx
+  [7]: https://www.w3.org/TR/soap/
+  [8]: https://www.odata.org/
+  [9]: https://xpo.codeplex.com/
+  [10]: https://www.devexpress.com/Products/NET/ORM/
+  [11]: https://www.devexpress.com/Subscriptions/DXperience/WhatsNew2012v1/index.xml?page=58
+  [12]: https://www.devexpress.com/Support/Center/p/Q408635.aspx
   [13]: /img/posts/2013/MultitierSolution_OData_Project.png
   [14]: /img/posts/2013/Add_Service_Reference.png
-  [15]: http://social.msdn.microsoft.com/Forums/en-US/winappswithcsharp/thread/c699fd8e-6178-4e1c-9a02-6db7a2b4db87
-  [16]: http://fizzylogic.azurewebsites.net/2011/05/06/using-odata-with-mono-for-android/
+  [15]: https://social.msdn.microsoft.com/Forums/en-US/winappswithcsharp/thread/c699fd8e-6178-4e1c-9a02-6db7a2b4db87
+  [16]: https://fizzylogic.azurewebsites.net/2011/05/06/using-odata-with-mono-for-android/
   [17]: /img/posts/2013/External_Tools.png
-  [18]: http://www.mono-project.com/WCF_Development
-  [19]: http://docs.xamarin.com/ios/tutorials/Working_with_Web_Services
+  [18]: https://www.mono-project.com/WCF_Development
+  [19]: https://docs.xamarin.com/ios/tutorials/Working_with_Web_Services
   [20]: https://bitbucket.org/biohazard999/multitiersolutionxaf

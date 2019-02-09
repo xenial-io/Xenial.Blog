@@ -7,7 +7,7 @@
 ---
 XAF has the ability to provide DependencyInjection over Domain-Componants, we use XPO so we don't have a chance to use this feature (and yes, i **hate static** methods! (**testing testing testing**))
 
-[http://en.wikipedia.org/wiki/Dependency_injection](http://en.wikipedia.org/wiki/Dependency_injection)
+[https://en.wikipedia.org/wiki/Dependency_injection](https://en.wikipedia.org/wiki/Dependency_injection)
 
 # Why? #
 It's simple. We have a legacy model with a lot of customers, and can't affort to recreate the model all and all over.
@@ -15,12 +15,12 @@ It's simple. We have a legacy model with a lot of customers, and can't affort to
 Testing abilities are also a huge factor for our development.
 
 # How? #
-It was a really *tricky* task to tell XAF & XPO the trick of DI (or IOC [http://en.wikipedia.org/wiki/Inversion_of_control](http://en.wikipedia.org/wiki/Inversion_of_control))
+It was a really *tricky* task to tell XAF & XPO the trick of DI (or IOC [https://en.wikipedia.org/wiki/Inversion_of_control](https://en.wikipedia.org/wiki/Inversion_of_control))
 
 
 # Okay Let's start #
 
-First of all: The sample uses Unity ([http://unity.codeplex.com](http://unity.codeplex.com)) cause it's well known and supported from microsoft (and fits our needs perfect), but it's also possible to extract this hard dependency through the Service Locator Pattern if you like to. ([http://en.wikipedia.org/wiki/Service_locator_pattern](http://en.wikipedia.org/wiki/Service_locator_pattern))
+First of all: The sample uses Unity ([https://unity.codeplex.com](https://unity.codeplex.com)) cause it's well known and supported from microsoft (and fits our needs perfect), but it's also possible to extract this hard dependency through the Service Locator Pattern if you like to. ([https://en.wikipedia.org/wiki/Service_locator_pattern](https://en.wikipedia.org/wiki/Service_locator_pattern))
 
 ## The key interfaces! ##
 
@@ -414,8 +414,8 @@ public partial class XAFDISolutionWindowsFormsApplication : UnityWinApplication
                 "To avoid this error, you should either start the application under Visual Studio in debug mode, or modify the " +
                 "source code of the 'DatabaseVersionMismatch' event handler to enable automatic database update, " +
                 "or manually create a database using the 'DBUpdater' tool.\r\n" +
-                "Anyway, refer to the 'Update Application and Database Versions' help topic at http://www.devexpress.com/Help/?document=ExpressApp/CustomDocument2795.htm " +
-                "for more detailed information. If this doesn't help, please contact our Support Team at http://www.devexpress.com/Support/Center/");
+                "Anyway, refer to the 'Update Application and Database Versions' help topic at https://www.devexpress.com/Help/?document=ExpressApp/CustomDocument2795.htm " +
+                "for more detailed information. If this doesn't help, please contact our Support Team at https://www.devexpress.com/Support/Center/");
         }
     }
 
@@ -623,7 +623,7 @@ It seems like you are making the container available to business objects? I beli
 
 I'm suggesting that you rework the solution by introducing dependencies in your classes, as opposed to having _container.Resolve calls, preferably initialized in a constructor (along with Session) or as injectable properties, and build the object graph in the Composition Root, i.e. at application startup.
 
-Take a look at the following: http://blog.ploeh.dk/2010/02/03/ServiceLocatorisanAnti-Pattern/ http://blog.ploeh.dk/2011/07/28/CompositionRoot/
+Take a look at the following: https://blog.ploeh.dk/2010/02/03/ServiceLocatorisanAnti-Pattern/ https://blog.ploeh.dk/2011/07/28/CompositionRoot/
 
 Thanks. Petre
 
@@ -638,5 +638,5 @@ The main reason we use this in XPO Objects is to use some services like logging 
 Cause the fact that the lifetime of objects is controlled by XAF & XPO we didn't find a better way to do this.
 
 
-  [1]: http://www.screencast.com/users/Paragraph-Software/folders/Jing/media/0fd30e6c-8757-4293-91e9-29a1a67e5443
+  [1]: https://www.screencast.com/users/Paragraph-Software/folders/Jing/media/0fd30e6c-8757-4293-91e9-29a1a67e5443
   [2]: https://bitbucket.org/biohazard999/xafdisolution

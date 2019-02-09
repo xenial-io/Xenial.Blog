@@ -33,7 +33,7 @@ Inspired by EntityFramework it can provide the metadata and attributes required 
 ## But How? ##
 
 
-Based on the [Fluent-Interface-Pattern](http://www.martinfowler.com/bliki/FluentInterface.html) it will cure the problem of dealing with String-Magic in Attributes for Criterias, PropertyNames and other ugly stuff in your ModelCode.
+Based on the [Fluent-Interface-Pattern](https://www.martinfowler.com/bliki/FluentInterface.html) it will cure the problem of dealing with String-Magic in Attributes for Criterias, PropertyNames and other ugly stuff in your ModelCode.
 
 
 ## Show me, Show me! ##
@@ -383,7 +383,7 @@ Feel free to contact, fork or ask me for questions on twitter, facebook or Email
 # Imported Comments #
 ## Tolis 19 Jul, 2013 ## 
 
-Looks great but i do have a question, what about the Application Model it self? There you can do much more than any framework, it is more flexible and multilayered. I m interested to know why your team prefers to invent a code replacement of the amazing XAF application model. You can simply have many models and apply them as you wish. In eXpand as you probably know there are Global Application and Role models as well. Even multiple design time models are possible as you can see in http://apobekiaris.blogspot.gr/2010/08/xaf-models-xaf-models-and-again-xaf.html
+Looks great but i do have a question, what about the Application Model it self? There you can do much more than any framework, it is more flexible and multilayered. I m interested to know why your team prefers to invent a code replacement of the amazing XAF application model. You can simply have many models and apply them as you wish. In eXpand as you probably know there are Global Application and Role models as well. Even multiple design time models are possible as you can see in https://apobekiaris.blogspot.gr/2010/08/xaf-models-xaf-models-and-again-xaf.html
 
 ## Manuel 20 Jul, 2013 ##
 Tolis, It is not a code replacement :) cause it is applied to the TypesInfo before the Model is calculated, it supports the Model. We choose this approach for easier refactoring and code completition reasons. writing attributes lead us to very clutter design, and much errors in our main app is based on typos in string declarations (like spelled a PropertyName / Criterias wrong. ConditionalAppearance for example).

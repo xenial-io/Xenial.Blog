@@ -4,9 +4,9 @@
  comments: false
  tags: ["XAF", "XPO", "Web", "Unity", "UnitTesting", "async", "await", "WebApi", "MVC"]
 ---
-Now we get to the interesting part. Dependency Injection for an [ApiAction](http://www.asp.net/web-api/overview/web-api-routing-and-actions/routing-and-action-selection).
+Now we get to the interesting part. Dependency Injection for an [ApiAction](https://www.asp.net/web-api/overview/web-api-routing-and-actions/routing-and-action-selection).
 
-The interface of the [first blog post](http://blog.paraoffice.at/how-to-use-dependency-injection-in-xaf) `IRenamer` looks like this:
+The interface of the [first blog post](https://blog.paraoffice.at/how-to-use-dependency-injection-in-xaf) `IRenamer` looks like this:
 
 ```cs
 public interface IRenamer

@@ -2,4 +2,4 @@ User-Agent: *
 Disallow: 
 Allow: /
 
-Sitemap: http://blog.delegate.at/sitemap.xml
+Sitemap: https://blog.delegate.at/sitemap.xml

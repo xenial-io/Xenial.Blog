@@ -250,7 +250,7 @@ public static class IDGenerator
 }
 ```
 
-It also provides support for [Moq](http://code.google.com/p/moq/ "Moq"), and [Unity](http://unity.codeplex.com/ "Unity") based [AutoMoq](https://github.com/darrencauthon/AutoMoq "AutoMoq").
+It also provides support for [Moq](https://code.google.com/p/moq/ "Moq"), and [Unity](https://unity.codeplex.com/ "Unity") based [AutoMoq](https://github.com/darrencauthon/AutoMoq "AutoMoq").
 
 ```cs
 public static class MoqExtensions

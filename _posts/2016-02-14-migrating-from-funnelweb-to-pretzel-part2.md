@@ -16,7 +16,7 @@ Let's navigate in our blog directory and install the `cake` bootstrapper.
 
 ```powershell
 powershell
-Invoke-WebRequest http://cakebuild.net/bootstrapper/windows -OutFile build.ps1
+Invoke-WebRequest https://cakebuild.net/bootstrapper/windows -OutFile build.ps1
 ```
 
 Add a file named `build.cake`:
@@ -300,7 +300,7 @@ Executing task: Only-Taste
 starting pretzel...
 taste - testing a site locally
 Recommended engine for directory: 'liquid'
-Opening http://localhost:8080/ in default browser...
+Opening https://localhost:8080/ in default browser...
 Press 'Q' to stop the web host...
 /
 /css/style.css
