@@ -20,6 +20,7 @@ exclude:
 - tests\
 include:
 - downloads
+- .htaccess
 author: Manuel Grundner
 author-email: m.grundner@delegate.at
 disqus-shortname: delegateat
