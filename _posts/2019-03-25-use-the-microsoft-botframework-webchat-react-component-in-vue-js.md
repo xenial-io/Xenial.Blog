@@ -552,3 +552,5 @@ Entrypoints:
 ![Working building](/img/posts/2019/2019-03-25-use-the-microsoft-botframework-webchat-react-component-in-vue-working-build.png)
 
 Happy Chatting! :)
+
+Ps.: As always you can find the source on my [github](//github.com/biohazard999/use-the-microsoft-botframework-webchat-react-component-in-vue-js)
