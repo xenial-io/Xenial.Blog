@@ -200,33 +200,44 @@ But there are 2 problems, now we turned everything off that makes it easy to dev
 
 #### Automation is key
 
-
 #### Further optimizations
 
 - NGen - Pre JIT assemblies
+- AppX - e.g new `ClickOnce`
 - dotnet.core 3.0
 
-- NGen
-  - Pro
-    - Fast execution
-  - Cons
-    - Requires at least once admin privileges
-    - Regisrters all assemblies into GAC, means we need strong named assemblies
-    - Antique
+Let's have a look into detail, what are the pro's and con's of each optimization.
 
+- NGen
+  - Pro's
+    - Fast execution
+    - Stable and well tested
+  - Con's
+    - Requires at least once admin privileges per installation
+    - Registers all assemblies into GAC, means we need strong named assemblies
+    - Antique
 - AppX if we use AppX we get NGen for free!
-  - Pro
+  - Pro's
     - No Admin privileges needed!
     - Good tooling
     - Who cares about Windows 7, if lifetime is over
-  - Cons
+    - Don't need to go into Windows-Store / but can
+    - Clean uninstall
+  - Con's
     - Only Windows 10 / Server 2016 support
     - Who cares about Windows 7, if lifetime is over
-
+    - Can go into Windows-Store / but don't have to
+    - Manifest and not 100% full trust
 - dotnet.core 3.0
-  - The `modern` dotnet
-  - Has a lot of performance optimizations out of the box (`Span<T>`, `dotnet native etc`)
-  - Still in beta, support from [DevExpress]() is comming, so further investigations are needed
+  - Pro's
+    - The `modern` dotnet
+    - Has a lot of performance optimizations out of the box (`Span<T>`, `dotnet native etc`)
+    - Still in beta, support from [DevExpress]() is comming, so further investigations are needed
+    - Self contained
+  - Con's
+    - Is still in beta
+    - Requires some changes in your app
+    - No support for unsupported platforms (Windows 7 and lower)
 
 ### Fair comparison
 
