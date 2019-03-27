@@ -9,6 +9,8 @@ This is a [follow up post](/2018-04-15-how-to-use-the-desktop-bridge-to-create-a
 
 As in the last post, the idea behind the pre caching is that modules don't change after deployment, so we can pre generate all files needed that are generated at first launch.
 
+If you want to follow along, I've prepared as always the project on [github](//github.com/biohazard999/how-to-precache-an-xaf-winforms-application), whats different this time, I've segmented my work with [pull requests](//github.com/biohazard999/how-to-precache-an-xaf-winforms-application/pulls?q=is%3Apr+is%3Aclosed), so you can follow my process a little bit better.
+
 So let's get started!
 
 ### The project
@@ -195,10 +197,203 @@ After that we get the following start time in `Release` mode:
 
 ![The with caching and CheckCompatibiltiy.ModuleInfo in Release Mode without Debugger](/img/posts/2019/2019-03-26-moduleinfo-release-mode.png)
 
-So compared to our first run we got 15.406 seconds by those simple changes! That's what we are looking for.
+So compared to our first run we got 15.406 seconds by [those simple changes](//github.com/biohazard999/how-to-precache-an-xaf-winforms-application/pull/1)! That's what we are looking for.
 But there are 2 problems, now we turned everything off that makes it easy to develop with XAF, those performance optimizations should only be applied when we deploy to production!
 
 #### Automation is key
+
+To ease up development, we should automate all tasks that we do more often, are prone to errors, and can be solved much better by a computer than a human.
+
+For the versioning problem I usually do 2 things.
+
+1. Create an `GlobalAssemblyInfo.cs` file, and [link it in all projects]().
+1. Automate the release build with a [cake build](/2018/03/31/baking-your-app-using-csharp-with-cake.html)
+
+##### Create an GlobalAssemblyInfo.cs file
+
+Create a `src/GlobalAssemblyInfo.cs` file.
+
+```cs
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Fa. Manuel Grundner")]
+[assembly: AssemblyDescription("This project describes how to pre cache all files for an XAF application")]
+[assembly: AssemblyProduct("how-to-precache-an-xaf-winforms-application.Win")]
+[assembly: AssemblyCopyright("Copyright Manuel Grundner © 2019")]
+[assembly: AssemblyTrademark("")]
+
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
+```
+
+Now we link that file in every module under properties either via VisualStudio or directly in the 3 `.csproj` files:
+
+![Add an existing Item in VisualStudio](/img/posts/2019/2019-03-26-add-existing-item.png)
+![Link an existing Item in VisualStudio](/img/posts/2019/2019-03-26-link-file-via-visualstudio.png)
+
+Or add them in the `*.csproj` directly:
+
+```xml
+<ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+</ItemGroup>
+```
+
+After we build, we get an error saying we have duplicate Attributes. So let's rid of all those in the 3 `AssemblyInfo.cs` files.
+
+`src/how_to_precache_an_xaf_winforms_application.Win/Properties/AssemblyInfo.cs`
+
+```cs
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+[assembly: AssemblyTitle("how-to-precache-an-xaf-winforms-application.Win")]
+
+// Setting ComVisible to false makes the types in this assembly not visible 
+// to COM components.  If you need to access a type in this assembly from 
+// COM, set the ComVisible attribute to true on that type.
+[assembly: ComVisible(false)]
+```
+
+Build, and no errors! Now we have everything in place to [manually update the version in one file](//github.com/biohazard999/how-to-precache-an-xaf-winforms-application/pull/2).
+
+##### Automate versioning with cake
+
+[It's easy to automate things](/2018/03/31/baking-your-app-using-csharp-with-cake.html), esp. if you don't need to learn a new language. Use [Cake](//cakebuild.net) to automate in C#!
+
+I don't want to go through all details to setup it, I've already done that in my [other post on cake](/2018/03/31/baking-your-app-using-csharp-with-cake.html). But you can look at the [Pull-Request](//github.com/biohazard999/how-to-precache-an-xaf-winforms-application/pull/3) to see what's changed.
+
+So we want to [read](//cakebuild.net/api/Cake.Common.Solution.Project.Properties/AssemblyInfoAliases/3B83CE42) and [write](//cakebuild.net/api/Cake.Common.Solution.Project.Properties/AssemblyInfoAliases/A528A2DA) a `GlobalAssemblyInfo.cs` with cake!
+
+`build.cake`
+
+```cs
+#tool "nuget:?package=GitVersion.CommandLine"
+
+var target = string.IsNullOrEmpty(Argument("target", "Default")) ? "Default" : Argument("target", "Default");
+
+public class BuildInfo
+{
+    public string GlobalAssemblyInfo { get; } = "./src/GlobalAssemblyInfo.cs";
+    public string Sln { get; } = "./how-to-precache-an-xaf-winforms-application.sln";
+}
+
+void UpdateVersionInfo(Func<Version, Version> callback = null)
+{
+    var assemblyInfo = ParseAssemblyInfo(info.GlobalAssemblyInfo);
+    var assemblyVersion = Version.Parse(assemblyInfo.AssemblyVersion);
+
+    if(callback != null) assemblyVersion = callback(assemblyVersion);
+    var gitVersion = GitVersion();
+    var sha = gitVersion.Sha;
+    var branch = gitVersion.BranchName;
+    Information($"Version: {assemblyVersion}");
+    Information($"Sha: {sha}");
+
+    CreateAssemblyInfo(info.GlobalAssemblyInfo, new AssemblyInfoSettings
+    {
+        Configuration = assemblyInfo.Configuration,
+        Company = assemblyInfo.Company,
+        Description = assemblyInfo.Description,
+        Product = assemblyInfo.Product,
+        Copyright = assemblyInfo.Copyright,
+        Trademark = assemblyInfo.Trademark,
+
+        Version = assemblyVersion.ToString(),
+        FileVersion = assemblyVersion.ToString(),
+        InformationalVersion = $"{assemblyVersion}+{sha}+{branch}",
+    });
+}
+
+var info = new BuildInfo();
+
+Task("Version:Display").Does(() => UpdateVersionInfo());
+
+Task("Version:Major").Does(() => UpdateVersionInfo(v => new Version(v.Major + 1, v.Minor, v.Build, v.Revision)));
+
+Task("Version:Minor").Does(() => UpdateVersionInfo(v => new Version(v.Major, v.Minor + 1, v.Build, v.Revision)));
+
+Task("Version:Build").Does(() => UpdateVersionInfo(v => new Version(v.Major, v.Minor, v.Build + 1, v.Revision)));
+
+Task("Version:Rev").Does(() => UpdateVersionInfo(v => new Version(v.Major, v.Minor, v.Build, v.Revision + 1)));
+
+Task("Build")
+    .IsDependentOn("Version:Display")
+    .Does(() =>
+{
+    MSBuild(info.Sln);
+});
+
+Task("Default")
+    .IsDependentOn("Build");
+
+RunTarget(target);
+```
+
+After running `build version:display` we now should get an output like this, and a new generated `GlobalAssemblyInfo.cs`.
+
+```txt
+C:\F\github\how-to-precache-an-xaf-winforms-application>build version:display
+
+C:\F\github\how-to-precache-an-xaf-winforms-application>if not exist tools\nuget.exe powershell -Command "Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile tools\nuget.exe"   & pushd tools   & nuget.exe install -ExcludeVersion   & popd
+
+C:\F\github\how-to-precache-an-xaf-winforms-application>if not exist build.ps1 powershell -Command "Invoke-WebRequest https://cakebuild.net/download/bootstrapper/windows -OutFile build.ps1"
+
+C:\F\github\how-to-precache-an-xaf-winforms-application>tools\cake\cake.exe build.cake -target=version:display
+
+========================================
+Version:Display
+========================================
+Version: 1.0.0.0
+Sha: cbf1513a7365243aadec91ecf3a0053212baa07a
+
+Task                          Duration
+--------------------------------------------------
+Version:Display               00:00:00.4316200
+--------------------------------------------------
+Total:                        00:00:00.4316200
+```
+
+`GlobalVersionInfo.cs`
+
+```cs
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by Cake.
+// </auto-generated>
+//------------------------------------------------------------------------------
+using System.Reflection;
+
+[assembly: AssemblyDescription("This project describes how to pre cache all files for an XAF application")]
+[assembly: AssemblyCompany("Fa. Manuel Grundner")]
+[assembly: AssemblyProduct("how-to-precache-an-xaf-winforms-application.Win")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyInformationalVersion("1.0.0.0+cbf1513a7365243aadec91ecf3a0053212baa07a+topic/automate-version-with-cake")]
+[assembly: AssemblyCopyright("Copyright Manuel Grundner © 2019")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyConfiguration("")]
+```
+
+> I used `GitVersion` to update the `AssemblyInformationalVersion` to contain the git sha and branch name to track the assembly for later usage. For example customer support. If you don't use GIT, you can remove the `GitVersion` from the build script.
+
+To upgrade any of the version numbers we now can simply run the build script before deploying to production, or use it in a [VSTS/Azure Pipelines](/2016/05/10/how-to-build-an-xaf-application-with-visual-studio-team-services.html) build:
+
+- `build version:major` Upgrade Major (x.0.0.0)
+- `build version:minor` Upgrade Minor (0.x.0.0)
+- `build version:build` Upgrade Build (0.0.x.0)
+- `build version:rev` Upgrade Revision  (0.0.0.x)
+
+
 
 #### Further optimizations
 
