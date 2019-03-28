@@ -401,6 +401,44 @@ Now it's time to finally look into automating the core of this post, the files X
 
 In my [last post](/2018/04/15/how-to-use-the-desktop-bridge-to-create-an-appx-package-for-xaf.html) I was using a separate console application to create those caches, and link them afterwards. This time I will go a slightly different route. I'll create a nuget-package and an MSBuild-Task to encapsulate that stuff further, so it's more reuseable. For now i will stick with this solution, and pack everything into this project for reference. Later on I will host this stuff in a separate repository at github for easier reuse.
 
+###### The idea
+
+The last approach with the separate CLI project has a problem, especially if you are dealing with a single application. We deal with a circular reference between the CLI project and the Win project. By linking in the files directly from disc, we get in trouble if they don't exist anymore (for example you clone a fresh copy, or run it on a build server).
+
+So what can we do to fix that? Remember, all we need to do is to call `winApplication.Setup()` and grab those files somehow and ship them with the released bits.
+
+So let's have a look:
+
+<pre>
+                               Scissors.Xaf.             Scissors.Xaf.                Scissors.Xaf.
+    WinApplication        CacheWarmup.Attributes    CacheWarmup.Generators         CacheWarmup.MSBuild
++-------------------+     +-------------------+     +-------------------+         +-------------------+
+|                   |     |                   |     |                   |         |                   |
+|                   |     |                   |     |                   |         |                   |
+|                   +---->+                   +<----+                   +<---+----+                   |
+|                   |     |                   |     |                   |    |    |                   |
+|                   |     |                   |     |                   |    |    |                   |
++-------------------+     +-------------------+     +-------------------+    |    +-------------------+
+                                                                             |
+                                                                             |        Scissors.Xaf.
+                                                                             |       CacheWarmup.Cli
+                                                                             |    +-------------------+
+                                                                             |    |                   |
+                                                                             |    |                   |
+                                                                             +----+                   |
+                                                                                  |                   |
+                                                                                  |                   |
+                                                                                  +-------------------+
+</pre>
+
+I've dive into each bit real quick:
+
+- `WinApplication`: Any project that contains a `WinApplication`, in this case it's the `how_to_precache_an_xaf_winforms_application.Win.how_to_precache_an_xaf_winforms_applicationWindowsFormsApplication`.
+- `Scissors.Xaf.CacheWarmup.Attributes`: The project contains an `CacheWarmupAttribute` that we use in the `WinApplication` project. The reason why we create a separate assembly here, is avoiding dependency leaking into the actual application.
+- `Scissors.Xaf.CacheWarmup.Generators`: Contains all the logic to warmup those caches. It will search through `.dll` or `.exe` files for the `CacheWarmupAttribute` and spawn a separate `AppDomain` when setting up the application.
+- `Scissors.Xaf.CacheWarmup.MSBuild`: A library containing an MSBuild-Task to ease up things up, when using for example AppX
+- `Scissors.Xaf.CacheWarmup.Cli`: A simple executable that warms up those caches
+- `Scissors.Xaf.CacheWarmup.Cake`: You name it. It's just a matter of integration. But a Cake Task would be nice to have handy, since we are already in cake land.
 
 
 #### Further optimizations
