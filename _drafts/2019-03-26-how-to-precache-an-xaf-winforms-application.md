@@ -393,6 +393,14 @@ To upgrade any of the version numbers we now can simply run the build script bef
 - `build version:build` Upgrade Build (0.0.x.0)
 - `build version:rev` Upgrade Revision  (0.0.0.x)
 
+##### Pre cache all the files
+
+![Generate all the caches meme](/img/posts/2019/2019-03-26-cache-meme.jpg)
+
+Now it's time to finally look into automating the core of this post, the files XAF creates when `winApplication.Setup()` is called.
+
+In my [last post](/2018/04/15/how-to-use-the-desktop-bridge-to-create-an-appx-package-for-xaf.html) I was using a separate console application to create those caches, and link them afterwards. This time I will go a slightly different route. I'll create a nuget-package and an MSBuild-Task to encapsulate that stuff further, so it's more reuseable. For now i will stick with this solution, and pack everything into this project for reference. Later on I will host this stuff in a separate repository at github for easier reuse.
+
 
 
 #### Further optimizations
