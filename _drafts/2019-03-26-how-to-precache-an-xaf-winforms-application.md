@@ -434,11 +434,99 @@ So let's have a look:
 I've dive into each bit real quick:
 
 - `WinApplication`: Any project that contains a `WinApplication`, in this case it's the `how_to_precache_an_xaf_winforms_application.Win.how_to_precache_an_xaf_winforms_applicationWindowsFormsApplication`.
-- `Scissors.Xaf.CacheWarmup.Attributes`: The project contains an `CacheWarmupAttribute` that we use in the `WinApplication` project. The reason why we create a separate assembly here, is avoiding dependency leaking into the actual application.
-- `Scissors.Xaf.CacheWarmup.Generators`: Contains all the logic to warmup those caches. It will search through `.dll` or `.exe` files for the `CacheWarmupAttribute` and spawn a separate `AppDomain` when setting up the application.
-- `Scissors.Xaf.CacheWarmup.MSBuild`: A library containing an MSBuild-Task to ease up things up, when using for example AppX
-- `Scissors.Xaf.CacheWarmup.Cli`: A simple executable that warms up those caches
-- `Scissors.Xaf.CacheWarmup.Cake`: You name it. It's just a matter of integration. But a Cake Task would be nice to have handy, since we are already in cake land.
+- `Scissors.Xaf.CacheWarmup.Attributes`: The project contains an `XafCacheWarmupAttribute` that we use in the `WinApplication` project. The reason why we create a separate assembly here, is avoiding dependency leaking into the actual application.
+- `Scissors.Xaf.CacheWarmup.Generators`: Contains all the logic to warmup those caches. It will search through `.dll` or `.exe` files for the `XafCacheWarmupAttribute` and spawn a separate `AppDomain` when setting up the application.
+- `Scissors.Xaf.CacheWarmup.Generators.MSBuild`: A library containing an MSBuild-Task to ease up things up, when using for example AppX
+- `Scissors.Xaf.CacheWarmup.Generators.Cli`: A simple executable that warms up those caches
+- `Scissors.Xaf.CacheWarmup.Generators.Cake`: You name it. It's just a matter of integration. But a Cake Task would be nice to have handy, since we are already in cake land.
+
+So let's reference the `Scissors.Xaf.CacheWarmup.Attributes` project inside our winforms app.
+Then declare a Attribute inside `Properties/AssemblyInfo.cs`.
+
+```cs
+using how_to_precache_an_xaf_winforms_application.Win;
+using Scissors.Xaf.CacheWarmup.Attributes;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+[assembly: AssemblyTitle("how-to-precache-an-xaf-winforms-application.Win")]
+
+// Setting ComVisible to false makes the types in this assembly not visible 
+// to COM components.  If you need to access a type in this assembly from 
+// COM, set the ComVisible attribute to true on that type.
+[assembly: ComVisible(false)]
+
+[assembly: XafCacheWarmup(typeof(how_to_precache_an_xaf_winforms_applicationWindowsFormsApplication))]
+```
+
+That will tell the cache generator what application it should create and warm up those caches.
+
+> Note: The next step can be skipped later on, after I published the nuget package 
+Now we need to reference the `Scissors.Xaf.CacheWarmup.Generators.MSBuild` project.
+We need to tell MSBuild that it should invoke the cache warmup after the build was finished:
+
+`how_to_precache_an_xaf_winforms_application.Win.csproj`
+
+```xml
+<!--> End of file -->
+<PropertyGroup>
+    <XafPreCacheGenerator>$(OutputPath)Scissors.Xaf.CacheWarmup.Generators.MsBuild.dll</XafPreCacheGenerator>
+    <XafApplicationPath>$(MSBuildThisFileDirectory)$(OutputPath)$(AssemblyName).exe</XafApplicationPath>
+  </PropertyGroup>
+  <UsingTask TaskName="Scissors.Xaf.CacheWarmup.Generators.MsBuild.XafCacheWarmupTask" AssemblyFile="$(XafPreCacheGenerator)" />
+  <Target Name="AfterBuild">
+    <XafCacheWarmupTask ApplicationPath="$(XafApplicationPath)" />
+    <ItemGroup>
+     <Content Include="$(OutputPath)\Model.Cache.xafml">
+      <Link>Model.Cache.xafml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(OutputPath)\ModulesVersionInfo">
+      <Link>ModulesVersionInfo</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(OutputPath)\ModelAssembly.dll">
+      <Link>ModelAssembly.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    </ItemGroup>
+  </Target>
+```
+
+Let's build the project by invoking `build.cmd` and we should see something like this in the output:
+
+```txt
+ApplicationPath: C:\F\github\how-to-precache-an-xaf-winforms-application\src\how_to_precache_an_xaf_winforms_application.Win\bin\Debug\how_to_precache_an_xaf_winforms_application.Win.exe
+Try to find XafCacheWarmupAttribute in C:\F\github\how-to-precache-an-xaf-winforms-application\src\how_to_precache_an_xaf_winforms_application.Win\bin\Debug\how_to_precache_an_xaf_winforms_application.Win.exe
+Found XafCacheWarmupAttribute with 'how_to_precache_an_xaf_winforms_application.Win.how_to_precache_an_xaf_winforms_applicationWindowsFormsApplication'
+how_to_precache_an_xaf_winforms_application.Win.how_to_precache_an_xaf_winforms_applicationWindowsFormsApplication
+Try to find how_to_precache_an_xaf_winforms_application.Win.how_to_precache_an_xaf_winforms_applicationWindowsFormsApplication in C:\F\github\how-to-precache-an-xaf-winforms-application\src\how_to_precache_an_xaf_winforms_application.Win\bin\Debug\how_to_precache_an_xaf_winforms_application.Win.exe
+Found how_to_precache_an_xaf_winforms_application.Win.how_to_precache_an_xaf_winforms_applicationWindowsFormsApplication in C:\F\github\how-to-precache-an-xaf-winforms-application\src\how_to_precache_an_xaf_winforms_application.Win\bin\Debug\how_to_precache_an_xaf_winforms_application.Win.exe
+Creating Application
+Created Application
+Remove SplashScreen
+Set DatabaseUpdateMode: 'Never'
+Setting up application
+Starting cache warmup
+Setup application done.
+Wormed up caches.
+DcAssemblyFilePath: C:\F\github\how-to-precache-an-xaf-winforms-application\src\how_to_precache_an_xaf_winforms_application.Win\bin\Debug\DcAssembly.dll
+ModelAssemblyFilePath: C:\F\github\how-to-precache-an-xaf-winforms-application\src\how_to_precache_an_xaf_winforms_application.Win\bin\Debug\ModelAssembly.dll
+ModelCacheFilePath: C:\F\github\how-to-precache-an-xaf-winforms-application\src\how_to_precache_an_xaf_winforms_application.Win\bin\Debug
+ModulesVersionInfoFilePath: C:\F\github\how-to-precache-an-xaf-winforms-application\src\how_to_precache_an_xaf_winforms_application.Win\bin\Debug\ModulesVersionInfo
+Done
+```
+
+Let's look into the output directory:
+
+![Explorer window with output directory and cached files present](/img/posts/2019/2019-03-26-output-with-cache.png)
+
+
+Neat!
 
 
 #### Further optimizations
