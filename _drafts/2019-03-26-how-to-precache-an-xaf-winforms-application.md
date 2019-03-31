@@ -5,7 +5,7 @@
  tags: [XAF, Deployment]
 ---
 
-This is a [follow up post](/2018-04-15-how-to-use-the-desktop-bridge-to-create-an-appx-package-for-xaf) on the APPX package build. Basically it should apply to all XAF-Winforms application, just some path adjustments should be needed.
+This is a [follow up post](/2018/04/15/how-to-use-the-desktop-bridge-to-create-an-appx-package-for-xaf.html) on the APPX package build. Basically it should apply to all XAF-Winforms application, just some path adjustments should be needed.
 
 As in the last post, the idea behind the pre caching is that modules don't change after deployment, so we can pre generate all files needed that are generated at first launch.
 
@@ -99,10 +99,10 @@ So let's look how XAF determines each step it has to make when setting up & star
     1. For EF: No idea now, but i'll find it out ;)
 1. If `winApplication.EnableModelCache` is set to true
     1. Check if `Model.Cache.xafml` exists
-        1. If exists: 
+        1. If exists:
             1. Load file into `ApplicationModel`
             1. Skip all module difference loading of the modules  
-        1. If not: 
+        1. If not:
             1. Load `ModelGeneratorUpdaters` of all Modules
             1. Load all `Model.Difference.xafml` files from all Modules 
             1. finish setting up the application, dump current `ApplicationModel` to disk for later use
@@ -480,20 +480,6 @@ We need to tell MSBuild that it should invoke the cache warmup after the build w
   <UsingTask TaskName="Scissors.Xaf.CacheWarmup.Generators.MsBuild.XafCacheWarmupTask" AssemblyFile="$(XafPreCacheGenerator)" />
   <Target Name="AfterBuild">
     <XafCacheWarmupTask ApplicationPath="$(XafApplicationPath)" />
-    <ItemGroup>
-     <Content Include="$(OutputPath)\Model.Cache.xafml">
-      <Link>Model.Cache.xafml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(OutputPath)\ModulesVersionInfo">
-      <Link>ModulesVersionInfo</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(OutputPath)\ModelAssembly.dll">
-      <Link>ModelAssembly.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    </ItemGroup>
   </Target>
 ```
 
@@ -525,9 +511,141 @@ Let's look into the output directory:
 
 ![Explorer window with output directory and cached files present](/img/posts/2019/2019-03-26-output-with-cache.png)
 
+[Neat!](//github.com/biohazard999/how-to-precache-an-xaf-winforms-application/pull/5)!
 
-Neat!
+##### Let's add an APPX package
 
+First, I [needed to upgrade the Project to at least .NET 4.61](//github.com/biohazard999/how-to-precache-an-xaf-winforms-application/pull/6) and get a shorter name.
+
+Then I [added a new APPX package](//docs.microsoft.com/en-us/windows/uwp/porting/desktop-to-uwp-root) as [described in my older post](/2018/04/15/how-to-use-the-desktop-bridge-to-create-an-appx-package-for-xaf.html).
+
+After that I first thought everything is a breeze, just add a reference to `PreCacheDemo.Win` done. But the way the APPX package is build, I've thought giving up, and make the package by hand. Which is a pain in the ass. 
+I tried everything, but APPX package wasn't including the pre-cached files.
+
+What I've tried:
+
+- Link the files directly in `PreCacheDemo.Win` -> Locking issues, rebuild issues
+- Link the files after the `XafCacheWarmupTask` -> Direct, with output parameters -> APPX will not include them
+- Link the files in the `PreCacheDemo.Win.Package` -> They are somewhat listed in the build, but not packaged
+- Link the files in the `PreCacheDemo.Win.Package\PreCacheDemo.Win` folder -> Seamed promising, nothing
+
+So I was frustrated (4 days of trial and error, digging into logs, [stackoverflowin](https://twitter.com/biohaz999/status/1112295426022170624)), but then an idea came into my mind: Add a new project `PreCacheDemo.Win.PreCache`, and reference the `PreCacheDemo.Win` and link the files there, use this as an entry point for `PreCacheDemo.Win.Package` success!
+
+![Not so instant success (success kid meme)](/img/posts/2019/2019-03-26-success-meme.jpg)
+
+`PreCacheDemo.Win.PreCache.csproj`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{68140DD9-8910-43C8-A1B3-C019E7EAD72D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PreCacheDemo.Win.PreCache</RootNamespace>
+    <AssemblyName>PreCacheDemo.Win.PreCache</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup> 
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\PreCacheDemo.Win\bin\$(Configuration)\Model.Cache.xafml">
+      <Link>Model.Cache.xafml</Link>
+    </Content>
+    <Content Include="..\PreCacheDemo.Win\bin\$(Configuration)\ModulesVersionInfo">
+      <Link>ModulesVersionInfo</Link>
+    </Content>
+    <Content Include="..\PreCacheDemo.Win\bin\$(Configuration)\ModelAssembly.dll">
+      <Link>ModelAssembly.dll</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PreCacheDemo.Win\PreCacheDemo.Win.csproj">
+      <Project>{d05d93df-312d-4d4e-b980-726871ec7833}</Project>
+      <Name>PreCacheDemo.Win</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
+```
+
+The interesting part is here:
+
+```xml
+<ItemGroup>
+    <Content Include="..\PreCacheDemo.Win\bin\$(Configuration)\Model.Cache.xafml">
+        <Link>Model.Cache.xafml</Link>
+    </Content>
+    <Content Include="..\PreCacheDemo.Win\bin\$(Configuration)\ModulesVersionInfo">
+        <Link>ModulesVersionInfo</Link>
+    </Content>
+    <Content Include="..\PreCacheDemo.Win\bin\$(Configuration)\ModelAssembly.dll">
+        <Link>ModelAssembly.dll</Link>
+    </Content>
+</ItemGroup>
+```
+
+After that we just need to add a `Program.cs` file, and call into `PreCacheDemo.Win.Program` (make sure to make this type public):
+
+```cs
+using System;
+
+namespace PreCacheDemo.Win.PreCache
+{
+    static class Program
+    {
+        [STAThread]
+        static void Main()
+        {
+            PreCacheDemo.Win.Program.Main();
+        }
+    }
+}
+```
+
+[After that](//github.com/biohazard999/how-to-precache-an-xaf-winforms-application/pull/7) I can look into the generated APPX package (which is a ordinary zip file):
+
+![APPX zip file with cached files present](/img/posts/2019/2019-03-26-appx-with-cache.png)
 
 #### Further optimizations
 
@@ -559,9 +677,9 @@ Let's have a look into detail, what are the pro's and con's of each optimization
     - Manifest and not 100% full trust
 - dotnet.core 3.0
   - Pro's
-    - The `modern` dotnet
+    - The *modern* dotnet
     - Has a lot of performance optimizations out of the box (`Span<T>`, `dotnet native etc`)
-    - Still in beta, support from [DevExpress]() is comming, so further investigations are needed
+    - Still in beta, support from [DevExpress](//community.devexpress.com/blogs/winforms/archive/2019/01/25/winforms-controls-2019-roadmap.aspx#netcore) is in the making, so further investigations are needed
     - Self contained
   - Con's
     - Is still in beta
@@ -570,4 +688,12 @@ Let's have a look into detail, what are the pro's and con's of each optimization
 
 ### Fair comparison
 
-In my current example I'm using EF & XPO in one application. Most apps will use one or the other, so to be fair, and realistic, I'll replayed the benchmarks I've done earlier with different version of the app. With XPO only, EF only and mixed mode.
+In my current example I'm using EF & XPO in one application. Most apps will use one or the other, so to be fair, and realistic, I'll replayed the benchmarks I've done earlier with different version of the app. With XPO only, EF only and mixed mode. But thats for the next post!
+
+### Recap
+
+It wasn't that hard to get this stuff working, until APPX wasn't cooperating. I think it's hiding to much from the developer. There isn't very good documentation out there yet. If it works, it's really awesome, but man, if not you're doomed :D.
+Please make sure you look into the [pull requests](//github.com/biohazard999/how-to-precache-an-xaf-winforms-application/pulls?q=is%3Apr+is%3Aclosed), for an start to finish reference implementation.
+I want to look into packing them into a separate nuget, so it's easier to consume, but for now I think this should work.
+
+Happy pre caching!
