@@ -206,7 +206,7 @@ To ease up development, we should automate all tasks that we do more often, are 
 
 For the versioning problem I usually do 2 things.
 
-1. Create an `GlobalAssemblyInfo.cs` file, and [link it in all projects]().
+1. Create an `GlobalAssemblyInfo.cs` file, and [link it in all projects](//andrewlock.net/including-linked-files-from-outside-the-project-directory-in-asp-net-core/).
 1. Automate the release build with a [cake build](/2018/03/31/baking-your-app-using-csharp-with-cake.html)
 
 ##### Create an GlobalAssemblyInfo.cs file
