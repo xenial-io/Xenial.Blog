@@ -21,7 +21,6 @@ But there are no XAF-Templates yet. So I decided to create my own ones.
 
 You can find them on [nuget](https://www.nuget.org/packages/{{ page.nuget }}) or just install them via cli:
 
-
 ```cmd
 dotnet new -i Scissors.XafTemplates
 ```
