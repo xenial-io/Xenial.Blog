@@ -6,7 +6,7 @@ $(document).ready(function() {
     var attachFastClick = Origami.fastclick;
     attachFastClick(document.body);
     
-    $('article img').featherlight({
+    $('article .postcontent img').featherlight({
         targetAttr: 'src'
     });
 

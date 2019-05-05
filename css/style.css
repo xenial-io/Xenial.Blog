@@ -35,6 +35,21 @@ ul.tags li {
     margin-right: 10px;
 }
 
+ul.badges {    
+    margin: 0;
+    padding: 10px 0 0 0;
+    margin-top: 0.8rem;
+}
+
+ul.badges li { 
+    display: inline; 
+    margin-right: 10px;
+}
+
+article hr {
+    margin-top: 2rem;
+}
+
 article img {
     cursor: pointer;
 }

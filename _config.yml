@@ -23,6 +23,7 @@ include:
 - .htaccess
 author: Manuel Grundner
 author-email: m.grundner@delegate.at
+author-github: biohazard999
 disqus-shortname: delegateat
 main-url: https://www.delegate.at
 site-name: blog.delegate.at

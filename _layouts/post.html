@@ -8,15 +8,23 @@ layout: layout
         {% if page.tag %}
         {% else %}
 		<div class="postdate">{{ page.date | date: "%e %B %Y"  }} by {% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}
-            <ul class="tags fa-ul">
-            {% for tag in page.tags %}
-                <li><i class="fa fa-tag"></i> <a href="/tags/{{ tag }}">{{ tag }}</a></li>
-            {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
-        <hr />
-		{{ content }}
+      <ul class="tags fa-ul">
+      {% for tag in page.tags %}
+          <li><i class="fa fa-tag"></i> <a href="/tags/{{ tag }}">{{ tag }}</a></li>
+      {% endfor %}
+      </ul>
+      {% endif %}
+      {% if page.github or page.nuget %}
+      <ul class="badges">
+        {% if page.github %}<li><a href="https://www.github.com/{{ site.author-github }}/{{ page.github }}"><img src="https://img.shields.io/github/license/{{ site.author-github }}/{{ page.github }}.svg" /></a></li>{% endif %}
+        {% if page.nuget %}<li><a href="https://www.nuget.org/packages/{{ page.nuget }}"><img src="https://buildstats.info/nuget/{{ page.nuget }}" /></a></li>{% endif %}
+      </ul>
+      {% endif %}
+    </div>
+    <hr />
+    <div class="postcontent">
+      {{ content }}
+    </div>
 	</div>
 </article>
 {% if page.tag %}

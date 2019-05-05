@@ -3,6 +3,8 @@ layout: post
 title: Introducing dotnet new Scissors.XafTemplates
 comments: true
 tags: [XAF, Scissors, dotnet, dotnetcore, new, templates, template]
+github: Scissors.XafTemplates
+nuget: Scissors.XafTemplates
 ---
 
 With the [command line renaissance](//lifehacker.com/geek-to-live-the-command-line-comeback-226223) and [dotnet core](//dotnet.microsoft.com/download) I almost never want to open up VisualStudio anymore.
@@ -16,6 +18,9 @@ The new [csproj format](//docs.microsoft.com/en-us/dotnet/core/tools/csproj) pro
 But there are no XAF-Templates yet. So I decided to create my own ones.
 
 ## Installation
+
+You can find them on [nuget](https://www.nuget.org/packages/{{ page.nuget }}) or just install them via cli:
+
 
 ```cmd
 dotnet new -i Scissors.XafTemplates
@@ -85,4 +90,4 @@ Options:
 
 The templates are rather basic for now, but I think it provides a lot of value, esp. if you don't want to leave the command line.
 
-As always, you can find the sources on [github](//github.com/biohazard999/Scissors.XafTemplates). Let me know what you think!
+As always, you can find the sources on [github](//github.com/{{ site.author-github }}/{{ page.github }}) and let me know what you think!
