@@ -28,6 +28,9 @@ public class BlogConfig {
   [YamlMember(Alias = "author-email", ApplyNamingConventions = false)]
   public string AuthorEmail { get; set; }    
 
+  [YamlMember(Alias = "author-github", ApplyNamingConventions = false)]
+  public string AuthorGithub { get; set; }    
+
   [YamlMember(Alias = "disqus-shortname", ApplyNamingConventions = false)]
   public string DisqusShortname { get; set; }    
 
