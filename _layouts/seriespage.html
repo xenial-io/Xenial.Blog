@@ -1,6 +1,13 @@
 ---
 layout: post
 ---
+<div class="postcontent">
+  <p>
+    {{ content }}
+  </p>
+</div>
+
+
 <ul>
 {% for post in site.posts %}
   {% if post.series == page.seriesid %}
