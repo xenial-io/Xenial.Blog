@@ -1,6 +1,7 @@
 ---
  layout: post 
  title: "How to use Dependency Injection in XAF"
+ series: how-to-use-dependency-injection-in-xaf
  comments: false
  author: "Manuel Grundner"
  tags: ["XAF", "Unity", "DI"]

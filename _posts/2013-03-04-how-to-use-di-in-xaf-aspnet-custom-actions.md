@@ -1,6 +1,7 @@
 ---
  layout: post 
  title: "How to use Dependency Injection in XAF (ASP.NET Custom Actions) Part 4"
+ series: how-to-use-dependency-injection-in-xaf
  comments: false
  tags: ["XAF", "XPO", "Web", "Unity", "UnitTesting", "async", "await", "WebApi", "MVC"]
 ---

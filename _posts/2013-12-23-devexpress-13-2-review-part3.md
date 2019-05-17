@@ -3,6 +3,7 @@
  title: "DevExpress 13.2 Review - Part 3"
  comments: false
  tags: ["13-2", "XAF", "DevExpress", "XPO"]
+ series: devexpress-13-2-review
 ---
 After some days of hard work, not able to blog, here is my third part of the DevExpress review.
 

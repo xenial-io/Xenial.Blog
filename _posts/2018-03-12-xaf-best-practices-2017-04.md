@@ -1,6 +1,7 @@
 ---
  layout: post 
  title: XAF best practices 2017-04
+ series: xaf-best-practices-2017
  comments: true
  tags: ["DevExpress", "XAF", "BestPractices"]
 ---

@@ -1,6 +1,7 @@
 ---
  layout: post 
  title: "How to use Dependency Injection in XAF (ASP.NET WebApi/WebMvc) Part 3"
+ series: how-to-use-dependency-injection-in-xaf
  comments: false    
  tags: ["XAF", "XPO", "Web", "WebApi", "Testing", "UnitTesting", "Unity", "NUnit", "MVC", "async", "await"]
 ---

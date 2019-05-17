@@ -1,6 +1,7 @@
 ---
  layout: post 
  title: "How to use Dependency Injection in XAF (UnitTesting) Part 2"
+ series: how-to-use-dependency-injection-in-xaf
  comments: false
  tags: ["Testing","UnitTesting", "XAF", "XPO", "Unity", "DI", "NUnit"]
 ---

@@ -3,6 +3,7 @@ layout: post
 title: "DevExpress 13.2 Review - Part 1"
 comments: false
 tags: ["13-2", "XAF", "DevExpress", "XPO"]
+series: devexpress-13-2-review
 ---
 
 First of all I'd like to say happy birthday to DevExpress for their 15th Anniversary! Congratulations keep on rocking!
