@@ -5,7 +5,7 @@ layout: layout
 <article>
 	<div class='entry'>
 		<h1> {{page.title}} </h1>
-        {% if page.tag %}
+        {% if page.tag or page.seriesid %}
         {% else %}
 		<div class="postdate">{{ page.date | date: "%e %B %Y"  }} by {% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}
       <ul class="tags fa-ul">
@@ -27,7 +27,7 @@ layout: layout
     </div>
 	</div>
 </article>
-{% if page.tag %}
+{% if page.tag or page.isseries %}
 {% else %}
 <nav id="page-navigation"> 
       
