@@ -304,7 +304,7 @@ var application = new WinApplicationBuilder()
 application.StartSplash();
 ```
 
-Look mom, no casts! The `StartSplash` is defined on the `WinApplication` class it self! But cause we narrowed down the type in this type, we don't have to cast overall in our tests:
+Look mom, no casts! The `StartSplash` is defined on the `WinApplication` class it self! But cause we narrowed down the types in the concrete `WinApplicationBuilder`, so we don't have to cast at all in our tests:
 
 ```cs
 public class WinApplicationBuilder : WinApplicationBuilder<WinApplication, WinApplicationBuilder> { }
