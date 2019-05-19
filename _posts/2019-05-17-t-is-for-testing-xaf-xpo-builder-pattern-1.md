@@ -318,6 +318,6 @@ Test code is equally important production code! Tread it with care! Refactor it 
 > If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
 
 I hope this lays out a good foundation for this promising and very interesting [series](/series/{{page.series}}).
-The source code for this will be on [github](//github.com/biohazard999/Scissors.FeatureCenter) later this week.
+The source code for this class is on [github](//github.com/biohazard999/Scissors.FeatureCenter/blob/master/src/Scissors.ExpressApp/Builders/XafApplicationBuilder.cs).
 
 Happy testing!
