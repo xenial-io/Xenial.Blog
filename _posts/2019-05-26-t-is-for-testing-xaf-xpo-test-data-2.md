@@ -374,6 +374,6 @@ Test code is equally important production code! Tread it with care! Refactor it 
 
 > If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
 
-I hope this pattern helps testing your application. The next post in this [series](/series/{{page.series}}) will cover testing business logic. The source code the [XpoTypeInfoSourceBuilder](//github.com/biohazard999/Scissors.FeatureCenter/blob/master/src/Scissors.ExpressApp.Xpo/Builders/XpoTypeInfoSourceBuilder.cs) and [XPObjectSpaceProviderBuilder](//github.com/biohazard999/Scissors.FeatureCenter/blob/master/src/Scissors.ExpressApp.Xpo/Builders/XPObjectSpaceProviderBuilder.cs) is on [github](//github.com/biohazard999/Scissors.FeatureCenter). The code of the actual tests will be online later this week.
+I hope this pattern helps testing your applications. The next post in this [series](/series/{{page.series}}) will cover testing business logic. The source code the [XpoTypeInfoSourceBuilder](//github.com/biohazard999/Scissors.FeatureCenter/blob/master/src/Scissors.ExpressApp.Xpo/Builders/XpoTypeInfoSourceBuilder.cs) and [XPObjectSpaceProviderBuilder](//github.com/biohazard999/Scissors.FeatureCenter/blob/master/src/Scissors.ExpressApp.Xpo/Builders/XPObjectSpaceProviderBuilder.cs) is on [github](//github.com/biohazard999/Scissors.FeatureCenter). The code of the actual tests will be online later this week.
 
 Happy testing!
