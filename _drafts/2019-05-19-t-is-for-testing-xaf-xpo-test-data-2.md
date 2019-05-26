@@ -192,9 +192,188 @@ public class JohnDoePersonBuilder<TBuilder, TPerson> : PersonBuilder<TBuilder, T
 {
     public JohnDoePersonBuilder()
     {
+        WithSalutation("Mr.");
         WithFirstName("John");
         WithLastName("Doe");
-        WithSalutation("Mr.");
     }
 }
 ```
+
+Now we can use the `JohnDoePersonBuilder` in our tests or even in production (for example when seeding the database). This allows the team to agree on a set of test data, but is able to change some properties in test variations.
+
+## Test structure & Lazy test fixtures
+
+After defining data we need in our tests, we can talk about another pattern that comes in handy when dealing with expensive test resources. [Lazy<T>](//docs.microsoft.com/en-us/dotnet/api/system.lazy-1?view=netframework-4.8) is a often overlooked type in the [.NET BCL](//docs.microsoft.com/en-us/dotnet/standard/net-standard). But it is a really helpful class (or [monad](//en.wikipedia.org/wiki/Monoid) if you want to think functional).  
+It makes sure the instance you want to produces lazily, is created at the first usage, afterwards it always returns the same instance. Feels like a singleton, but of course it's not. [Singletons are evil](//stackoverflow.com/questions/137975/what-is-so-bad-about-singletons) (esp. when it comes to testing)!
+
+We are using [xUnit](//xunit.net/) here, but the following pattern will work in [NUnit](//nunit.org/) as well, the usage is a little bit different.
+
+### Test fixtures
+
+Test fixtures allow us to share resources across tests. That's neat, normally we shouldn't do that, cause tests should be independent. But if resources are expensive to create, they are the way to go. Faster tests are better than slower tests, and slow tests means slow feedback. Slow feedback leads to no automatic testing, so let's not do that.
+
+```cs
+public class TimeEntryFixture : IDisposable, IObjectSpaceFactory
+{
+    public TimeEntryFixture()
+    {
+        var typesInfo = new TypesInfo();
+        var typesInfoSource = new XpoTypeInfoSourceBuilder()
+            .WithTypesInfo(typesInfo)
+            .WithTypes(ModelTypes.Types.ToArray()) // Types that the test uses
+            .Build();
+
+        ObjectSpaceProviderBuilder = new XPObjectSpaceProviderBuilder()
+            .InMemory() // Here comes the power of builders
+            .WithTypesInfo(typesInfo)
+            .WithTypesInfoSource(typesInfoSource);
+
+        // Here is the lazy magic
+        _ObjectSpaceProvider = new Lazy<IObjectSpaceProvider>(() => ObjectSpaceProviderBuilder.Build());
+    }
+
+    public XPObjectSpaceProviderBuilder ObjectSpaceProviderBuilder { get; }
+
+    // The Lazy instance
+    private Lazy<IObjectSpaceProvider> _ObjectSpaceProvider;
+    // Once Value is accessed for the first time, the ObjectSpaceProvider is created an will be used until the process stops
+    public IObjectSpaceProvider ObjectSpaceProvider => _ObjectSpaceProvider.Value;
+
+    public void Dispose()
+    {
+        // Only dispose if the actual value was created
+        // -> If nothing was created, there is nothing we need to dispose
+        if(_ObjectSpaceProvider.IsValueCreated && _ObjectSpaceProvider.Value is IDisposable)
+        {
+            ((IDisposable)ObjectSpaceProvider).Dispose();
+        }
+    }
+
+    // ObjectSpaceFactory will be covered later in this series
+    public IObjectSpace CreateObjectSpace(Type objectType) => ObjectSpaceProvider.CreateObjectSpace();
+
+    // Drop the database.
+    public TimeEntryFixture ClearDataBase()
+    {
+        using(var os = ObjectSpaceProvider.CreateObjectSpace())
+        {
+            ((XPObjectSpace)os).Session.ClearDatabase();
+        }
+
+        // Just for cosmetics, then we can use expression body constructors in our tests
+        return this;
+    }
+}
+```
+
+## The actual test
+
+Now let's look at the usage:
+
+```cs
+// Extension method to provide a session to the builder
+// There is a more elegant way, but we cover that later
+public static class XpObjectBuilderExtensions
+{
+    public static TBuilder WithObjectSpace<TBuilder, TObject>(this TBuilder builder, IObjectSpace objectSpace)
+        where TObject : IXPObject
+        where TBuilder : XpObjectBuilder<TBuilder, TObject>
+            => builder.WithSession(((XPObjectSpace)objectSpace).Session);
+}
+
+// We are using the TimeEntryFixture
+public class TimeEntryTests : IClassFixture<TimeEntryFixture>
+{
+    readonly TimeEntryFixture _Fixture;
+    public TimeEntryTests(TimeEntryFixture fixture)
+        // Clear the database every time a test is executed
+        => _Fixture = fixture.ClearDataBase();
+
+    [Fact]
+    public void JohnDoeShouldExist()
+    {
+        // Arrange: Create test data
+        using(var os = _Fixture.ObjectSpaceProvider.CreateObjectSpace())
+        {
+            var johnDoe = new JohnDoePersonBuilder()
+                // This is a little bit ugly now, but we will cover that in a later post.
+                .WithObjectSpace<JohnDoePersonBuilder, Person>(os)
+                .Build();
+            os.CommitChanges();
+        }
+
+        using(var os = _Fixture.ObjectSpaceProvider.CreateObjectSpace())
+        {
+            //Act: find the person created
+            var person = os.FindObject<Person>(null);
+
+            //Assert
+            person.ShouldSatisfyAllConditions(
+                () => os.GetObjectsCount(typeof(Person), null).ShouldBe(1),
+                () => person.ShouldNotBeNull(),
+                () => person.Salutation.ShouldBe("Mr."),
+                () => person.FirstName.ShouldBe("John"),
+                () => person.LastName.ShouldBe("Doe")
+            );
+        }
+    }
+
+    [Fact]
+    public void JaneDowShouldExist()
+    {
+        //Arrange: Now test data is slightly modified
+        using(var os = _Fixture.ObjectSpaceProvider.CreateObjectSpace())
+        {
+            var johnDoe = new JohnDoePersonBuilder()
+                .WithObjectSpace<JohnDoePersonBuilder, Person>(os)
+                .WithSalutation("Mrs.")
+                .WithFirstName("Jane")
+                .Build();
+            os.CommitChanges();
+        }
+
+        using(var os = _Fixture.ObjectSpaceProvider.CreateObjectSpace())
+        {
+            //Act: Find the person created
+            var person = os.FindObject<Person>(null);
+
+            //Assert: We didn't specify Doe, but of course it's still there 
+            person.ShouldSatisfyAllConditions(
+                () => person.ShouldNotBeNull(),
+                () => person.Salutation.ShouldBe("Mrs."),
+                () => person.FirstName.ShouldBe("Jane"),
+                () => person.LastName.ShouldBe("Doe")
+            );
+        }
+    }
+
+    [Fact]
+    public void JohnDoeShouldNotExist()
+    {
+        //Cause the database is cleared each time, nothing is there.
+        using(var os = _Fixture.ObjectSpaceProvider.CreateObjectSpace())
+        {
+            var person = os.FindObject<Person>(null);
+
+            person.ShouldBeNull();
+        }
+    }
+}
+```
+
+> In my tests i use the following libraries:  
+> [XUnit](//xunit.net/)  
+> [Shouldly](//github.com/shouldly/shouldly)
+
+Based on the comment's I made in the code, can you spot the places that probably need refactoring? Think about it and let me know in the comments! And what do you think is `IObjectSpaceFactory` is about?
+
+## Recap
+
+We learned the basics of not duplicating test data, unit testing when we need data access using an `ObjectSpaceProvider` and now we are prepared for the next post how to test and structure business logic.
+Test code is equally important production code! Tread it with care! Refactor it like you would do production code!
+
+> If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
+
+I hope this pattern helps testing your application. The next post in this [series](/series/{{page.series}}) will cover testing business logic. The source code the [XpoTypeInfoSourceBuilder](//github.com/biohazard999/Scissors.FeatureCenter/blob/master/src/Scissors.ExpressApp.Xpo/Builders/XpoTypeInfoSourceBuilder.cs) and [XPObjectSpaceProviderBuilder](//github.com/biohazard999/Scissors.FeatureCenter/blob/master/src/Scissors.ExpressApp.Xpo/Builders/XPObjectSpaceProviderBuilder.cs) is on [github](//github.com/biohazard999/Scissors.FeatureCenter). The code of the actual tests will be online later this week.
+
+Happy testing!
