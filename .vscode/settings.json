@@ -2,10 +2,12 @@
 {
 		"files.autoSave": "onFocusChange",
 		"cSpell.words": [
+			"Makeify",
 			"Nutzung",
 			"Optionen",
 			"Winforms",
 			"dotnetcore",
-			"nuget"
+			"nuget",
+			"typeof"
 		]
 }
