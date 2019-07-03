@@ -162,8 +162,13 @@ nav figure {
 .mobilenav .fa-inverse{
     color: #569CD6;
 }
+span.fa-stack {
+    margin-right: 4px;
+}
+
 .mobilenav span.fa-stack {
     margin-right: 10px;
+    padding: 1px;
 }
 
 .mobilenav .fa-stack-1x {
