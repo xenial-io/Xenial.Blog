@@ -2,7 +2,6 @@
  layout: post 
  title: "T is for Testing: XAF & XPO - Test Data 2"
  comments: true
- github: Scissors.XafTemplates
  tags: ["Testing", "XAF", "XPO", "Builder", "Patterns", "DevExpress"]
  series: t-is-for-testing-xaf-xpo
 ---
