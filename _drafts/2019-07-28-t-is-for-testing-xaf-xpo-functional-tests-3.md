@@ -42,21 +42,21 @@ Imaging a typical XAF-Winforms application. Navigation on the left with a `Custo
 What would `PageObject's` look like?
 
 ```cs
-public class NavigationPageObject
-{
-    public CustomerListViewPageObject Customers() => new CustomerListViewPageObject();
-}
-
 public class RootPageObject
 {
     public NavigationPageObject NavigateTo() => new NavigationPageObject();
+}
+
+public class NavigationPageObject
+{
+    public CustomerListViewPageObject Customers() => new CustomerListViewPageObject();
 }
 
 public class CustomerListViewPageObject
 {
     public CustomerDetailViewPageObject NewRecord() => => new CustomerDetailViewPageObject();
     public CustomerDetailViewPageObject OpenRecord(int rowNumber) => new CustomerDetailViewPageObject();
-    public GetName(int rowNumber) => /**/;
+    public string GetName(int rowNumber) => /**/;
 }
 
 public class CustomerDetailViewPageObject
