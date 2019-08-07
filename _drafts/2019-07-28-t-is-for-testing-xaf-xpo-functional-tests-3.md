@@ -22,13 +22,13 @@ So let's think about what functional tests are.
 
 Okay seams legit, but how can you actually to do that?
 
-There are several technologies available, depending on the platform. For the web, I did a lot of testing in the past, with [Selenium](http://seleniumhq.org). At my last job at [Ranorex](https://www.ranorex.com/) we wrote a whole product around Selenium called [Webtestit](https://www.ranorex.com/webtestit/)! (That's awesome by the way, check it out). From DevExpress there is [TestCafe](https://www.devexpress.com/products/testcafestudio/) but I didn't had a chance to use it in a real world project yet.  
+There are several technologies available, depending on the platform. For the web, I did a lot of testing in the past, with [Selenium](http://seleniumhq.org). At my last job at [Ranorex](//www.ranorex.com/) we wrote a whole product around Selenium called [Webtestit](//www.ranorex.com/webtestit/)! (That's awesome by the way, check it out). From DevExpress there is [TestCafe](//www.devexpress.com/products/testcafestudio/) but I didn't had a chance to use it in a real world project yet.  
 
-For Windows-Desktop there are another load of options. There is [Ranorex Studio](https://www.ranorex.com/why-ranorex/), [Coded-UI-Tests](https://docs.microsoft.com/en-us/visualstudio/test/use-ui-automation-to-test-your-code?view=vs-2019) from Microsoft, [WinAppDriver](https://github.com/microsoft/WinAppDriver) from Microsoft, [Project Sikuli](http://doc.sikuli.org) and of course there is [EasyTest](https://documentation.devexpress.com/eXpressAppFramework/113206/Concepts/Debugging-Testing-and-Error-Handling/Functional-Testing).
+For Windows-Desktop there are another load of options. There is [Ranorex Studio](//www.ranorex.com/why-ranorex/), [Coded-UI-Tests](//docs.microsoft.com/en-us/visualstudio/test/use-ui-automation-to-test-your-code?view=vs-2019) from Microsoft, [WinAppDriver](//github.com/microsoft/WinAppDriver) also from Microsoft, [Project Sikuli](http://doc.sikuli.org) and of course there is [EasyTest](//documentation.devexpress.com/eXpressAppFramework/113206/Concepts/Debugging-Testing-and-Error-Handling/Functional-Testing) from DevExpress.
 
-To be honest I never looked into EasyTest until now, cause I don't like recorded tests. Those are incredible hard to maintain. That is not special to EasyTest it self. Almost all tools I mentioned above provide some kind of recording, but on EasyTest it self, I disliked it for another reason: A special script language. That wouldn't be that bad, if it would be a [turing-complete](https://en.wikipedia.org/wiki/Turing_completeness) language, but it isn't. The language is a [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) special for tests, and it's easy to read, but I never got warm with it. Most of the teams I work with don't want to learn a new language, especially on top on new concepts (yes there are a lot of people out there, want to start testing, but have no idea how).
+To be honest I never looked into EasyTest until now, cause I don't like recorded tests. Those are incredible hard to maintain. That is not special to EasyTest it self. Almost all tools I mentioned above provide some kind of recording, but on EasyTest it self, I disliked it for another reason: A special script language. That wouldn't be that bad, if it would be a [turing-complete](//en.wikipedia.org/wiki/Turing_completeness) language, but it isn't. The language is a [DSL](//en.wikipedia.org/wiki/Domain-specific_language) special for tests, and it's easy to read, but I never got warm with it. Most of the teams I work with don't want to learn a new language, especially on top on new concepts (yes there are a lot of people out there, want to start testing, but have no idea how).
 
-But then I discovered an [old blog post](https://community.devexpress.com/blogs/xaf/archive/2011/05/04/how-to-write-easytests-in-code.aspx) (!!) from [Tolis](https://github.com/apobekiaris) (the creator of [eXpand-framework](http://expandframework.com)) how to write EasyTests in C# and started to play with it. And what should I say? I'm in love. But let's talk about a powerful functional testing pattern first:
+But then I discovered an [old blog post](//community.devexpress.com/blogs/xaf/archive/2011/05/04/how-to-write-easytests-in-code.aspx) (!!) from [Tolis](//github.com/apobekiaris) (the creator of [eXpand-framework](http://expandframework.com)) how to write EasyTests in C# and started to play with it. After checking out this [SupportCenter article](//www.devexpress.com/Support/Center/Question/Details/T710782/how-to-write-easytests-in-code) I got it working, and what should I say? I'm in love. But let's talk about a powerful functional testing pattern first: The Page-Object-Pattern.
 
 ## Page-Object-Pattern
 
@@ -91,9 +91,19 @@ public void NewCustomerShouldBeInGrid()
 
 As you can see, the code is very clear. It mimics the behavior of the user. Navigate to the customers `ListView`, click on `New`, enter some data, `SaveAndClose`, hit `New` again, enter more data, check if the sorting is correct.
 
-The test it self is easy to read, reason about and is [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself). Did you see any implementation detail? No? Me neither. And thats the goal with the Page-Object-Pattern.
+The test it self is easy to read, reason about and is [DRY](//en.wikipedia.org/wiki/Don%27t_repeat_yourself). Did you see any implementation detail? No? Me neither. And thats the goal with the Page-Object-Pattern.
 
 The fluent object pattern here helps a lot with discoverability. It's not necessary to apply the pattern, but it makes reading the tests a breeze (if you get code indention right ;))
 
 > Hide the UI-Details inside the page object's to abstract away possible UI changes and increase maintainability through abstraction. Focus on what a user can do with your application.
+
+## EasyTest's in C#
+
+Based on the [SupportCenter article](//www.devexpress.com/Support/Center/Question/Details/T710782/how-to-write-easytests-in-code) and the [old blog post](//community.devexpress.com/blogs/xaf/archive/2011/05/04/how-to-write-easytests-in-code.aspx) from Tolis I got a solution working that looks like this.
+
+> In my tests i use the following libraries:  
+> [XUnit](//xunit.net/)  
+> [Shouldly](//github.com/shouldly/shouldly)
+
+
 
