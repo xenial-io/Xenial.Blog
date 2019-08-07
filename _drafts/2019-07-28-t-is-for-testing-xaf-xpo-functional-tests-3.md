@@ -2,9 +2,9 @@
  layout: post 
  title: "T is for Testing: XAF & XPO - Functional Tests 3"
  comments: true
- github: Scissors.XafTemplates
  tags: ["Testing", "XAF", "XPO", "Builder", "Patterns", "DevExpress", "EasyTest", "Ranorex", "Webtestit"]
  series: t-is-for-testing-xaf-xpo
+ github: XafEasyTestInCodeNUnit
 ---
 
 Testing is an important part of a developers responsibilities, especially in a fast moving agile world!
@@ -70,7 +70,7 @@ If we want to write a test it could look like something like that:
 
 ```cs
 [Fact]
-public void NewCustomerShouldBeInGrid()
+public void NewCustomersShouldSortedByName()
 {
     var app = new RootPageObject();
     var list = app.NavigateTo().Customers()
@@ -93,9 +93,15 @@ As you can see, the code is very clear. It mimics the behavior of the user. Navi
 
 The test it self is easy to read, reason about and is [DRY](//en.wikipedia.org/wiki/Don%27t_repeat_yourself). Did you see any implementation detail? No? Me neither. And thats the goal with the Page-Object-Pattern.
 
-The fluent object pattern here helps a lot with discoverability. It's not necessary to apply the pattern, but it makes reading the tests a breeze (if you get code indention right ;))
+The fluent object pattern here helps a lot with discoverability (intellisense). It's not necessary to apply the pattern, but it makes reading the tests a breeze (if you get code indention right ;))
 
-> Hide the UI-Details inside the page object's to abstract away possible UI changes and increase maintainability through abstraction. Focus on what a user can do with your application.
+> Hide the UI-Details inside the page object's to abstract away possible UI changes and increase maintainability through abstraction. Focus on what a user can do with your application, not on the actual UI or technical implementation details.
+
+## Run EasyTests in Code with NUnit
+
+Based on the sample Tolis created, the [nuget package fix]() the team was willing to do, and some hours of work I have a running [sample](https://github.com/biohazard999/XafEasyTestInCodeNUnit).
+
+There are some considerations to make when writing tests in general. One of them is autonomy. To isolate potential bugs, and make 
 
 ## EasyTest's in C#
 
