@@ -2,9 +2,9 @@
  layout: post 
  title: "T is for Testing: XAF & XPO - Functional Tests 3"
  comments: true
- github: Scissors.XafTemplates
  tags: ["Testing", "XAF", "XPO", "Builder", "Patterns", "DevExpress", "EasyTest", "Ranorex", "Webtestit"]
  series: t-is-for-testing-xaf-xpo
+ github: XafEasyTestInCodeNUnit
 ---
 
 Testing is an important part of a developers responsibilities, especially in a fast moving agile world!
@@ -98,4 +98,8 @@ The fluent object pattern here helps a lot with discoverability (intellisense). 
 > Hide the UI-Details inside the page object's to abstract away possible UI changes and increase maintainability through abstraction. Focus on what a user can do with your application, not on the actual UI or technical implementation details.
 
 ## Run EasyTests in Code with NUnit
+
+Based on the sample Tolis created, the [nuget package fix]() the team was willing to do, and some hours of work I have a running [sample](https://github.com/biohazard999/XafEasyTestInCodeNUnit).
+
+There are some considerations to make when writing tests in general. One of them is autonomy. To isolate potential bugs, and make 
 
