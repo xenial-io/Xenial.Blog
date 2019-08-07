@@ -312,7 +312,7 @@ public class WinApplicationBuilder : WinApplicationBuilder<WinApplication, WinAp
 ## Recap
 
 We used the Bloch's builder pattern to make our tests more readable.  
-Test code is equally important production code! Tread it with care! Refactor it like you would do production code!
+Test code is equally important production code! Treat it with care! Refactor it like you would do production code!
 
 > If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
 
