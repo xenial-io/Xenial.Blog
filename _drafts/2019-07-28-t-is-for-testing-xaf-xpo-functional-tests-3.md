@@ -34,7 +34,7 @@ But then I discovered an [old blog post](//community.devexpress.com/blogs/xaf/ar
 
 What's a page object? It's a powerful abstraction hiding the nitty gritty details of your UI out of the test and let you focus on what a user see's when he is using your UI.
 
-It encapsulates selectors, actions and user interaction in an easy to maintain way.
+It encapsulates selectors, actions and user interactions in an easy maintainable way.
 
 > This sample is pure pseudo code, no implementation detail about any of the above mentioned technologies are used. This will lay the foundation for the real world example later in this post.
 
@@ -73,7 +73,7 @@ If we want to write a test it could look like something like that:
 public void NewCustomersShouldSortedByName()
 {
     var app = new RootPageObject();
-    var list = app.NavigateTo().Customers()
+    CustomerListPageObject list = app.NavigateTo().Customers()
         .NewRecord()
             .SetName("Manuel")
             .SaveAndClose()
@@ -99,15 +99,11 @@ The fluent object pattern here helps a lot with discoverability (intellisense). 
 
 ## Run EasyTests in Code with NUnit
 
-Based on the sample Tolis created, the [nuget package fix]() the team was willing to do, and some hours of work I have a running [sample](https://github.com/biohazard999/XafEasyTestInCodeNUnit).
-
-There are some considerations to make when writing tests in general. One of them is autonomy. To isolate potential bugs, and make test's reliable, stable and repeatable and order independent, the application should start at a predictable state. So restarting the application on every test is expensive, but totally worth it on the long run.
-
-## EasyTest's in C#
-
-Based on the [SupportCenter article](//www.devexpress.com/Support/Center/Question/Details/T710782/how-to-write-easytests-in-code) and the [old blog post](//community.devexpress.com/blogs/xaf/archive/2011/05/04/how-to-write-easytests-in-code.aspx) from Tolis and the [nice help](//www.devexpress.com/Support/Center/Question/Details/T801643/easytest-nuget-packages-for-devexpress-expressapp-easytest-adapter-are-missing) from the team I got a solution working that looks like this:
+Based on the [SupportCenter article](//www.devexpress.com/Support/Center/Question/Details/T710782/how-to-write-easytests-in-code) and the [old blog post](//community.devexpress.com/blogs/xaf/archive/2011/05/04/how-to-write-easytests-in-code.aspx) from Tolis and the [nice help](//www.devexpress.com/Support/Center/Question/Details/T801643/easytest-nuget-packages-for-devexpress-expressapp-easytest-adapter-are-missing) from the team, I got a [solution](//github.com/biohazard999/XafEasyTestInCodeNUnit) working that looks like this:
 
 > This is just the port to the currently latest version (19.1.5) at the moment. TLDR: If you want to skip the technical part, go straight to my [recommended version](#XUnit).
+
+There are some considerations to make when writing tests in general. One of them is autonomy. To isolate potential bugs, and make test's reliable, stable and repeatable and order independent, the application should start at a predictable state. So restarting the application on every test is expensive, but totally worth it on the long run.
 
 Let's start with a basic test organization pattern: Generic test fixture using [NUnit](//nunit.org):
 
@@ -545,12 +541,12 @@ namespace EasyTest.Tests
 
             commandAdapter.DoAction("Positions", null);
 
-            ITestControl gridControl = adapter.CreateTestControl(TestControlType.Table, "Positions");
+            var gridControl = adapter.CreateTestControl(TestControlType.Table, "Positions");
             Assert.AreEqual(2, gridControl.GetInterface<IGridBase>().GetRowCount());
 
             Assert.AreEqual("Developer", commandAdapter.GetCellValue("Positions", 0, "Title"));
 
-            ITestControl unlink = adapter.CreateTestControl(TestControlType.Action, "Positions.Unlink");
+            var unlink = adapter.CreateTestControl(TestControlType.Action, "Positions.Unlink");
             Assert.IsFalse(unlink.GetInterface<IControlEnabled>().Enabled);
 
 
@@ -655,6 +651,7 @@ namespace TestApplication.EasyTest
 This class allows us to save a snapshot of the data at any time, as well as reloading the snapshot! That's super useful cause we now can control the state of the database between test cases.
 
 `WinApplication.cs`:
+
 ```cs
 using System;
 using DevExpress.ExpressApp;
@@ -867,6 +864,7 @@ namespace TestApplication.Module
 The web version is a little bit more complicated because of the nature of IIS and ASPX applications:
 
 `Global.asax.cs`:
+
 ```cs
 using System;
 using System.Configuration;
@@ -999,7 +997,7 @@ Here you can see we can reset the application state with the `Application_Acquir
 
 > You can find the full source code on [github](//github.com/biohazard999/XafEasyTestInCodeNUnit)
 
-Okay now we have the basic's! Let's refactor the code to use [xUnit](//xunit.net) and the page object pattern to make it more readable!
+Okay now we have the basic's! But I don't like how the tests them self are structured, it's really hard to get what the application is supposed to do. Let's refactor the code to use [xUnit](//xunit.net) and the page object pattern to make it more readable!
 
 <!-- markdownlint-disable MD033 -->
 <a name="XUnit"></a>
@@ -1097,6 +1095,7 @@ namespace EasyTest.Tests.Utils
         }
     }
 }
+
 using DevExpress.EasyTest.Framework;
 using DevExpress.ExpressApp.EasyTest.WebAdapter;
 using DevExpress.ExpressApp.Xpo;
@@ -1229,6 +1228,7 @@ namespace EasyTest.Tests
         public WebTestApplicationHelper() : base(@"..\..\..\..\TestApplication.Web") { }
     }
 }
+
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
@@ -1328,6 +1328,7 @@ namespace EasyTest.Tests
         }
     }
 }
+
 using System;
 using Xunit;
 
@@ -1346,6 +1347,7 @@ namespace EasyTest.Tests
             => ChangeContactNameAgainTest_();
     }
 }
+
 using NUnit.Framework;
 using DevExpress.EasyTest.Framework;
 using Xunit;
@@ -1403,18 +1405,6 @@ Again nothing new. Only changed the assertions and used the `Fixture`. Now let's
 > You can find the full source code on [github](//github.com/biohazard999/XafEasyTestInCodeXUnit)
 
 ## Apply the Page-Object-Pattern
-
-
-
-> In my tests i use the following libraries:  
-> [XUnit](//xunit.net/)  
-> [Shouldly](//github.com/shouldly/shouldly)
-
-
-
-
-
-#### PageObjectPattern
 
 Let's have a look into one test case first to see if that pattern is worth anything:
 
@@ -1698,7 +1688,7 @@ namespace EasyTest.Tests
 
 ```
 
-So now what? Let's look at the PageObjects. Don't be scared, we use recursive generics again as in the [last post](). 
+So now what? Let's look at the PageObjects. Don't be scared, we use recursive generics again as in the [last post](/2019/05/26/t-is-for-testing-xaf-xpo-test-data-2.html).
 
 ```cs
 using DevExpress.EasyTest.Framework;
@@ -2002,12 +1992,18 @@ namespace EasyTest.Tests.PageObjects
 
 ```
 
-Okay thats a lot of code, but under the hood it's the same stuff as before. Most of it is boilerplate code. But can you spot the difference? There are two ways to write `PageObjects`. Declarative and imperative. If you look back at `WorkingWithTasks_` method, we didn't write new PageObject classes, instead we used the imperative style. That is a valuable option, if your application is rather large and have a lot of nested navigation, but I would not recommend that cause you are leaking a lot of implementation details to the test. I rather prefer the declarative approach for 4 reasons:
+> In my tests i use the following libraries:  
+> [XUnit](//xunit.net/)  
+> [Shouldly](//github.com/shouldly/shouldly)
+
+Okay thats a lot of code, but under the hood it's the same stuff as before. Most of it is boilerplate code. But can you spot the difference? There are two ways to write `PageObjects`. declarative and imperative. If you look back at `WorkingWithTasks_` method, we didn't write new PageObject classes, instead we used the imperative style. That is a valuable option, if your application is rather large and have a lot of nested views, or some parts of the application that don't change a lot, but I would not recommend that cause you are leaking a lot of implementation details to the test. I rather prefer the declarative approach for 4 reasons:
 
 1. Maintainability: Need to fix a caption? Ohhhh.... I need to change 300 tests...
 1. Focus: What's the action again on that ListView? Can't remember the name, need to lookup in source or start the application
 1. Localization: If you extend the page object pattern for localized captions, you can test your app in different languages!
 1. Parameters: You can use parametrized tests more easily
+
+What do you think? Is that something you want to use in your application? Let me know in the comments!
 
 ## Recap
 
@@ -2017,6 +2013,6 @@ I promised last time that we cover structuring and testing business logic, I pro
 
 > If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
 
-I hope this pattern helps testing your applications. The next post in this [series](/series/{{page.series}}) will cover testing business logic. The source code the [applied pattern]() is as always on [github]().
+I hope this pattern helps testing your applications. The next post in this [series](/series/{{page.series}}) will cover testing business logic. The source code the [applied pattern](//github.com/biohazard999/XafEasyTestInCodeXUnit/tree/topic/apply-the-page-object-pattern/EasyTest.Tests/PageObjects) is as always on [github](//github.com/biohazard999/XafEasyTestInCodeXUnit/tree/topic/apply-the-page-object-pattern).
 
 Happy testing!

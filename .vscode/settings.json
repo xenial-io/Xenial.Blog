@@ -2,12 +2,21 @@
 {
 		"files.autoSave": "onFocusChange",
 		"cSpell.words": [
+			"EASYTEST",
 			"Makeify",
+			"Nilsen",
 			"Nutzung",
 			"Optionen",
+			"Ranorex",
+			"Shouldly",
+			"Sikuli",
+			"Tellitson",
+			"Tolis",
+			"Webtestit",
 			"Winforms",
 			"discoverability",
 			"dotnetcore",
+			"markdownlint",
 			"nuget",
 			"typeof"
 		]
