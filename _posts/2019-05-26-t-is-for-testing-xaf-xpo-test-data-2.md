@@ -370,7 +370,7 @@ Based on the comment's I made in the code, can you spot the places that probably
 ## Recap
 
 We learned the basics of not duplicating test data, unit testing when we need data access using an `ObjectSpaceProvider` and now we are prepared for the next post how to test and structure business logic.
-Test code is equally important production code! Tread it with care! Refactor it like you would do production code!
+Test code is equally important production code! Treat it with care! Refactor it like you would do production code!
 
 > If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
 
