@@ -2,7 +2,7 @@
  layout: post 
  title: "T is for Testing: XAF & XPO - Functional Tests 3"
  comments: true
- tags: ["Testing", "XAF", "XPO", "Builder", "Patterns", "DevExpress", "EasyTest", "Ranorex", "Webtestit"]
+ tags: ["Testing", "XAF", "XPO", "Builder", "Patterns", "DevExpress", "EasyTest", "Ranorex", "Webtestit", "XUnit", "NUnit"]
  series: t-is-for-testing-xaf-xpo
  github: XafEasyTestInCodeNUnit
 ---
@@ -22,7 +22,7 @@ So let's think about what functional tests are.
 
 Okay seams legit, but how can you actually to do that?
 
-There are several technologies available, depending on the platform. For the web, I did a lot of testing in the past, with [Selenium](http://seleniumhq.org). At my last job at [Ranorex](//www.ranorex.com/) we wrote a whole product around Selenium called [Webtestit](//www.ranorex.com/webtestit/)! (That's awesome by the way, check it out). From DevExpress there is [TestCafe](//www.devexpress.com/products/testcafestudio/) but I didn't had a chance to use it in a real world project yet.  
+There are several technologies available, depending on the platform. For the web, I did a lot of testing in the past, with [Selenium](http://seleniumhq.org). At my last job at [Ranorex](//www.ranorex.com/) we wrote a whole product around Selenium called [Webtestit](//www.ranorex.com/webtestit/)! (That's awesome by the way, check it out). From DevExpress there is [TestCafe](//www.devexpress.com/products/testcafestudio/) but I didn't had a chance to use it in a real world project yet. [Puppeteer](//github.com/GoogleChrome/puppeteer) is also an valuable tool (esp. for headless testing).
 
 For Windows-Desktop there are another load of options. There is [Ranorex Studio](//www.ranorex.com/why-ranorex/), [Coded-UI-Tests](//docs.microsoft.com/en-us/visualstudio/test/use-ui-automation-to-test-your-code?view=vs-2019) from Microsoft, [WinAppDriver](//github.com/microsoft/WinAppDriver) also from Microsoft, [Project Sikuli](http://doc.sikuli.org) and of course there is [EasyTest](//documentation.devexpress.com/eXpressAppFramework/113206/Concepts/Debugging-Testing-and-Error-Handling/Functional-Testing) from DevExpress.
 
@@ -101,11 +101,1310 @@ The fluent object pattern here helps a lot with discoverability (intellisense). 
 
 Based on the sample Tolis created, the [nuget package fix]() the team was willing to do, and some hours of work I have a running [sample](https://github.com/biohazard999/XafEasyTestInCodeNUnit).
 
-There are some considerations to make when writing tests in general. One of them is autonomy. To isolate potential bugs, and make 
+There are some considerations to make when writing tests in general. One of them is autonomy. To isolate potential bugs, and make test's reliable, stable and repeatable and order independent, the application should start at a predictable state. So restarting the application on every test is expensive, but totally worth it on the long run.
 
 ## EasyTest's in C#
 
-Based on the [SupportCenter article](//www.devexpress.com/Support/Center/Question/Details/T710782/how-to-write-easytests-in-code) and the [old blog post](//community.devexpress.com/blogs/xaf/archive/2011/05/04/how-to-write-easytests-in-code.aspx) from Tolis I got a solution working that looks like this.
+Based on the [SupportCenter article](//www.devexpress.com/Support/Center/Question/Details/T710782/how-to-write-easytests-in-code) and the [old blog post](//community.devexpress.com/blogs/xaf/archive/2011/05/04/how-to-write-easytests-in-code.aspx) from Tolis and the [nice help](//www.devexpress.com/Support/Center/Question/Details/T801643/easytest-nuget-packages-for-devexpress-expressapp-easytest-adapter-are-missing) from the team I got a solution working that looks like this:
+
+> This is just the port to the currently latest version (19.1.5) at the moment. TLDR: If you want to skip the technical part, go straight to my [recommended version](#XUnit).
+
+Let's start with a basic test organization pattern: Generic test fixture using [NUnit](//nunit.org):
+
+```cs
+using DevExpress.EasyTest.Framework;
+using NUnit.Framework;
+
+namespace EasyTest.Tests.Utils
+{
+    [TestFixture]
+    public class EasyTestTestsBase<T> where T : IEasyTestFixtureHelper, new()
+    {
+        private IEasyTestFixtureHelper helper;
+        protected TestCommandAdapter commandAdapter => helper.CommandAdapter;
+        protected ICommandAdapter adapter => helper.Adapter;
+
+        [OneTimeSetUp]
+        public void SetupFixture()
+        {
+            helper = new T();
+            helper.SetupFixture();
+        }
+
+        [SetUp]
+        public void SetUp() => helper.SetUp();
+
+        [TearDown]
+        public void TearDown() => helper.TearDown();
+
+        [OneTimeTearDown]
+        public void TearDownFixture() => helper.TearDownFixture();
+
+        protected bool IsWeb => helper.IsWeb;
+    }
+}
+
+using System;
+using DevExpress.EasyTest.Framework;
+
+namespace EasyTest.Tests.Utils {
+    public interface IEasyTestFixtureHelper {
+        void SetupFixture();
+        void SetUp();
+        void TearDown();
+        void TearDownFixture();
+        TestCommandAdapter CommandAdapter { get; }
+        ICommandAdapter Adapter { get; }
+        bool IsWeb { get; }
+    }
+}
+
+```
+
+I like it cause it removes the overhead of remembering the right `Attributes` and makes our tests consistent.
+
+Next let's dive into the the `TestCommandAdapter`. This class is used to send commands to the XAF application and pulling out values to verify.
+
+```cs
+using DevExpress.EasyTest.Framework;
+using DevExpress.EasyTest.Framework.Commands;
+
+namespace EasyTest.Tests.Utils
+{
+    public class TestCommandAdapter
+    {
+        private readonly ICommandAdapter adapter;
+        private readonly TestApplication testApplication;
+        public TestCommandAdapter(ICommandAdapter webAdapter, TestApplication testApplication)
+        {
+            this.testApplication = testApplication;
+            adapter = webAdapter;
+        }
+
+        internal void DoAction(string name, string paramValue)
+            => new ActionCommand().DoAction(adapter, name, paramValue);
+
+        internal string GetActionValue(string name)
+        {
+            var control = adapter.CreateTestControl(TestControlType.Action, name).GetInterface<IControlText>();
+            return control.Text;
+        }
+
+        internal string GetFieldValue(string fieldName)
+            => CheckFieldValuesCommand.GetFieldValue(adapter, fieldName);
+
+        internal void ProcessRecord(string tableName, string[] columnNames, string[] values, string actionName)
+        {
+            ProcessRecordCommand command = new ProcessRecordCommand();
+            command.SetApplicationOptions(testApplication);
+            command.ProcessRecord(adapter, tableName, actionName, columnNames, values);
+        }
+
+        internal void SetFieldValue(string fieldName, string value)
+            => FillFieldCommand.SetFieldCommand(adapter, fieldName, value);
+
+        public IGridColumn GetColumn(ITestControl testControl, string columnName)
+        {
+            foreach (IGridColumn column in testControl.GetInterface<IGridBase>().Columns)
+            {
+                if (string.Compare(column.Caption, columnName, testApplication.IgnoreCase) == 0)
+                {
+                    return column;
+                }
+            }
+            return null;
+        }
+
+        internal string GetCellValue(string tableName, int row, string columnName)
+        {
+            var testControl = adapter.CreateTestControl(TestControlType.Table, tableName);
+            var gridControl = testControl.GetInterface<IGridBase>();
+            return gridControl.GetCellValue(row, GetColumn(testControl, columnName));
+        }
+
+        internal object GetTableRowCount(string tableName)
+        {
+            var gridControl = adapter.CreateTestControl(TestControlType.Table, tableName).GetInterface<IGridBase>();
+            return gridControl.GetRowCount();
+        }
+    }
+}
+```
+
+Now we need to initialize the application's for win and web:
+
+```cs
+using System.Xml;
+using DevExpress.EasyTest.Framework;
+
+namespace EasyTest.Tests.Utils
+{
+    public abstract class TestFixtureHelperBase : IEasyTestFixtureHelper
+    {
+        public abstract TestCommandAdapter CommandAdapter { get; }
+        public abstract ICommandAdapter Adapter { get; }
+        public abstract bool IsWeb { get; }
+        public abstract void SetUp();
+        public abstract void SetupFixture();
+        public abstract void TearDown();
+        public abstract void TearDownFixture();
+
+        protected static XmlAttribute CreateAttribute(XmlDocument doc, string attributeName, string attributeValue)
+        {
+            var entry = doc.CreateAttribute(attributeName);
+            entry.Value = attributeValue;
+            return entry;
+        }
+
+        protected static XmlAttribute CreateAttribute(XmlDocument doc, string attributeName, bool attributeValue)
+            => CreateAttribute(doc, attributeName, attributeValue.ToString());
+    }
+}
+
+using DevExpress.EasyTest.Framework;
+using DevExpress.ExpressApp.EasyTest.WebAdapter;
+using DevExpress.ExpressApp.Xpo;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Xml;
+
+namespace EasyTest.Tests.Utils
+{
+    public abstract class WebEasyTestFixtureHelperBase : TestFixtureHelperBase
+    {
+        private const string testWebApplicationRootUrl = "http://localhost:3057";
+        protected WebAdapter webAdapter;
+        protected TestCommandAdapter commandAdapter;
+        protected ICommandAdapter adapter;
+        protected TestApplication application;
+        public WebEasyTestFixtureHelperBase(string relativePathToWebApplication)
+        {
+            var testApplicationDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), relativePathToWebApplication);
+
+            application = new TestApplication
+            {
+                IgnoreCase = true,
+            };
+
+            var doc = new XmlDocument();
+
+            var additionalAttributes = new List<XmlAttribute>
+            {
+                CreateAttribute(doc, "PhysicalPath", testApplicationDir),
+                CreateAttribute(doc, "URL", $"{testWebApplicationRootUrl}{GetUrlOptions()}"),
+                CreateAttribute(doc, "SingleWebDev", true),
+                CreateAttribute(doc, "DontRestartIIS", true),
+                CreateAttribute(doc, "UseIISExpress", true),
+            };
+
+            application.AdditionalAttributes = additionalAttributes.ToArray();
+        }
+
+        protected virtual string GetUrlOptions() => "/default.aspx";
+
+        public override void SetupFixture()
+        {
+            webAdapter = new WebAdapter();
+            webAdapter.RunApplication(application, InMemoryDataStoreProvider.ConnectionString);
+        }
+
+        public override void SetUp()
+        {
+            adapter = webAdapter.CreateCommandAdapter();
+            commandAdapter = new TestCommandAdapter(adapter, application);
+        }
+
+        public override void TearDown()
+        {
+            var urlParams = GetUrlOptions();
+            webAdapter.WebBrowser.Navigate(testWebApplicationRootUrl + urlParams + (urlParams.Contains("?") ? "&" : "?") + "Reset=true");
+        }
+
+        public override void TearDownFixture()
+        {
+            webAdapter.WebBrowser.Close();
+            webAdapter.KillApplication(application, KillApplicationContext.TestAborted);
+        }
+
+        public override TestCommandAdapter CommandAdapter => commandAdapter;
+        public override ICommandAdapter Adapter => adapter;
+        public override bool IsWeb => true;
+    }
+}
+
+using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using DevExpress.EasyTest.Framework;
+using DevExpress.ExpressApp.EasyTest.WinAdapter;
+using DevExpress.ExpressApp.Xpo;
+
+namespace EasyTest.Tests.Utils
+{
+    public abstract class WinEasyTestFixtureHelperBase : TestFixtureHelperBase
+    {
+        private TestApplication application;
+        private WinAdapter applicationAdapter;
+        private string applicationDirectoryName;
+        private string applicationName;
+        protected ICommandAdapter adapter;
+        protected TestCommandAdapter commandAdapter;
+
+        public WinEasyTestFixtureHelperBase(string applicationDirectoryName, string applicationName)
+        {
+            this.applicationDirectoryName = applicationDirectoryName;
+            this.applicationName = applicationName;
+        }
+
+        public override void SetUp()
+        {
+            applicationAdapter = new WinAdapter();
+            applicationAdapter.RunApplication(application, $"ConnectionString={InMemoryDataStoreProvider.ConnectionString};FOO=BAR");
+            adapter = ((IApplicationAdapter)applicationAdapter).CreateCommandAdapter();
+            commandAdapter = new TestCommandAdapter(adapter, application);
+        }
+
+        public override void SetupFixture()
+        {
+            application = new TestApplication();
+            var doc = new XmlDocument();
+            var additionalAttributes = new List<XmlAttribute>
+            {
+                CreateAttribute(doc, "FileName", Path.GetFullPath(Path.Combine($@"..\..\..\..\{applicationDirectoryName}", @"bin\EasyTest\net462\" + applicationName))),
+                CreateAttribute(doc, "CommunicationPort", "4100"),
+            };
+
+            application.AdditionalAttributes = additionalAttributes.ToArray();
+        }
+
+        public override void TearDown()
+            => applicationAdapter.KillApplication(application, KillApplicationContext.TestAborted);
+
+        public override void TearDownFixture() { }
+
+        public override ICommandAdapter Adapter => adapter;
+        public override TestCommandAdapter CommandAdapter => commandAdapter;
+        public override bool IsWeb => false;
+    }
+}
+
+using EasyTest.Tests.Utils;
+
+namespace EasyTest.Tests
+{
+    public class WinTestApplicationHelper : WinEasyTestFixtureHelperBase
+    {
+        public WinTestApplicationHelper() : base("TestApplication.Win", "TestApplication.Win.exe") { }
+    }
+
+    public class WebTestApplicationHelper : WebEasyTestFixtureHelperBase
+    {
+        public WebTestApplicationHelper() : base(@"..\..\..\..\TestApplication.Web") { }
+    }
+}
+
+```
+
+Puh that's a lot of code, but it's not that hard to understand. The tricky part is getting the path's right ;). Normally I would rather use environment variables instead of hard coding them, but for now that's fine. Let's have a look at the test cases them self:
+
+```cs
+using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+using DevExpress.EasyTest.Framework;
+using EasyTest.Tests.Utils;
+
+namespace EasyTest.Tests
+{
+    public abstract class CommonTests<T> : EasyTestTestsBase<T> where T : IEasyTestFixtureHelper, new()
+    {
+        protected void ChangeContactNameTest_()
+        {
+            var control = adapter.CreateTestControl(TestControlType.Table, "");
+            var table = control.GetInterface<IGridBase>();
+            Assert.AreEqual(2, table.GetRowCount());
+
+            var column = commandAdapter.GetColumn(control, "Full Name");
+
+            Assert.AreEqual("John Nilsen", table.GetCellValue(0, column));
+            Assert.AreEqual("Mary Tellitson", table.GetCellValue(1, column));
+
+            commandAdapter.ProcessRecord("Contact", new string[] { "Full Name" }, new string[] { "Mary Tellitson" }, "");
+
+            Assert.AreEqual("Mary Tellitson", commandAdapter.GetFieldValue("Full Name"));
+            Assert.AreEqual("Development Department", commandAdapter.GetFieldValue("Department"));
+            Assert.AreEqual("Manager", commandAdapter.GetFieldValue("Position"));
+
+            if (IsWeb)
+            {
+                commandAdapter.DoAction("Edit", null);
+            }
+
+            commandAdapter.SetFieldValue("First Name", "User_1");
+            commandAdapter.SetFieldValue("Last Name", "User_2");
+
+            commandAdapter.SetFieldValue("Position", "Developer");
+
+            commandAdapter.DoAction("Save", null);
+
+            Assert.AreEqual("User_1 User_2", commandAdapter.GetFieldValue("Full Name"));
+            Assert.AreEqual("Developer", commandAdapter.GetFieldValue("Position"));
+        }
+
+        protected void WorkingWithTasks_()
+        {
+            commandAdapter.DoAction("Navigation", "Default.Demo Task");
+            commandAdapter.ProcessRecord("Demo Task", new string[] { "Subject" }, new string[] { "Fix breakfast" }, "");
+
+            var control = adapter.CreateTestControl(TestControlType.Table, "Contacts");
+            var table = control.GetInterface<IGridBase>();
+            Assert.AreEqual(0, table.GetRowCount());
+
+            commandAdapter.DoAction("Contacts.Link", null);
+            control = adapter.CreateTestControl(TestControlType.Table, "Contact");
+            control.GetInterface<IGridRowsSelection>().SelectRow(0);
+            commandAdapter.DoAction("OK", null);
+
+            control = adapter.CreateTestControl(TestControlType.Table, "Contacts");
+            table = control.GetInterface<IGridBase>();
+            Assert.AreEqual(1, table.GetRowCount());
+            Assert.AreEqual("John Nilsen", commandAdapter.GetCellValue("Contacts", 0, "Full Name"));
+        }
+
+        protected void ChangeContactNameAgainTest_()
+        {
+            Assert.AreEqual("John Nilsen", commandAdapter.GetCellValue("Contact", 0, "Full Name"));
+            Assert.AreEqual("Mary Tellitson", commandAdapter.GetCellValue("Contact", 1, "Full Name"));
+
+            commandAdapter.ProcessRecord("Contact", new string[] { "Full Name" }, new string[] { "Mary Tellitson" }, "");
+
+            if (IsWeb)
+            {
+                commandAdapter.DoAction("Edit", null);
+            }
+
+            Assert.AreEqual("Mary Tellitson", commandAdapter.GetFieldValue("Full Name"));
+            Assert.AreEqual("Development Department", commandAdapter.GetFieldValue("Department"));
+
+            commandAdapter.SetFieldValue("First Name", "User_1");
+            commandAdapter.SetFieldValue("Last Name", "User_2");
+
+            commandAdapter.DoAction("Save", null);
+            commandAdapter.DoAction("Navigation", "Contact");
+
+            Assert.AreEqual("John Nilsen", commandAdapter.GetCellValue("Contact", 0, "Full Name"));
+            Assert.AreEqual("User_1 User_2", commandAdapter.GetCellValue("Contact", 1, "Full Name"));
+
+        }
+    }
+}
+using System;
+using NUnit.Framework;
+
+namespace EasyTest.Tests
+{
+    [TestFixture]
+    public class WinTests : CommonTests<WinTestApplicationHelper>
+    {
+        [Test]
+        public void ChangeContactNameTest() => ChangeContactNameTest_();
+
+        [Test]
+        public void WorkingWithTasks() => WorkingWithTasks_();
+
+        [Test]
+        public void ChangeContactNameAgainTest()
+            => ChangeContactNameAgainTest_();
+    }
+}
+
+using NUnit.Framework;
+using DevExpress.EasyTest.Framework;
+
+namespace EasyTest.Tests
+{
+    [TestFixture]
+    public class WebTests : CommonTests<WebTestApplicationHelper>
+    {
+        [Test]
+        public void ChangeContactNameTest() => ChangeContactNameTest_();
+
+        [Test]
+        public void WorkingWithTasks() => WorkingWithTasks_();
+
+        [Test]
+        public void ChangeContactNameAgainTest()
+            => ChangeContactNameAgainTest_();
+
+        [Test]
+        public void UnlinkActionTest()
+        {
+            commandAdapter.DoAction("Navigation", "Department");
+            commandAdapter.ProcessRecord("Department", new string[] { "Title" }, new string[] { "Development Department" }, "");
+
+            commandAdapter.DoAction("Positions", null);
+
+            ITestControl gridControl = adapter.CreateTestControl(TestControlType.Table, "Positions");
+            Assert.AreEqual(2, gridControl.GetInterface<IGridBase>().GetRowCount());
+
+            Assert.AreEqual("Developer", commandAdapter.GetCellValue("Positions", 0, "Title"));
+
+            ITestControl unlink = adapter.CreateTestControl(TestControlType.Action, "Positions.Unlink");
+            Assert.IsFalse(unlink.GetInterface<IControlEnabled>().Enabled);
+
+
+            gridControl.GetInterface<IGridRowsSelection>().SelectRow(0);
+
+            Assert.IsTrue(unlink.GetInterface<IControlEnabled>().Enabled);
+            commandAdapter.DoAction("Positions.Unlink", null);
+
+            Assert.AreEqual(1, gridControl.GetInterface<IGridBase>().GetRowCount());
+            Assert.AreEqual("Manager", commandAdapter.GetCellValue("Positions", 0, "Title"));
+
+            commandAdapter.DoAction("Contacts", null);
+            unlink = adapter.CreateTestControl(TestControlType.Action, "Contacts.Unlink");
+            Assert.IsFalse(unlink.GetInterface<IControlEnabled>().Enabled);
+        }
+    }
+}
+
+```
+
+> To run the web tests VisualStudio need's to be run as an Administrator.
+
+Okay, that's not that bad! We are using the generic test fixture to keep test's consistent and we can reuse test cases for win and web and web, as well as writing platform specific ones! But where is the test data coming from and how are we isolating the data between the test cases? Let's have a look into one very special class used by our applications: The `InMemoryDataStoreProvider`:
+
+```cs
+using System;
+using DevExpress.Xpo.DB;
+
+namespace TestApplication.EasyTest
+{
+    public class InMemoryDataStoreProvider : InMemoryDataStore
+    {
+        new public const string XpoProviderTypeString = "InMemoryDataSet";
+
+        static InMemoryDataStoreProvider() => Register();
+
+        new public static void Register()
+            => RegisterDataStoreProvider(XpoProviderTypeString, CreateProviderFromString);
+
+        private static object syncRoot = new object();
+
+        private static InMemoryDataStore _savedDataSet;
+        private static InMemoryDataStore savedDataSet
+        {
+            get => _savedDataSet;
+            set
+            {
+                lock (syncRoot)
+                {
+                    _savedDataSet = value;
+                }
+            }
+        }
+
+        private static InMemoryDataStore _store;
+        private static InMemoryDataStore store
+        {
+            get => _store;
+            set
+            {
+                lock (syncRoot)
+                {
+                    _store = value;
+                }
+            }
+        }
+
+        new public static IDataStore CreateProviderFromString(string connectionString, AutoCreateOption autoCreateOption, out IDisposable[] objectsToDisposeOnDisconnect)
+        {
+            if (store == null)
+            {
+                store = new InMemoryDataStore(AutoCreateOption.DatabaseAndSchema);
+            }
+
+            objectsToDisposeOnDisconnect = new IDisposable[] { };
+
+            return store;
+        }
+
+        public static bool HasData => savedDataSet != null;
+
+        public static void Save()
+        {
+            if (!HasData && store != null)
+            {
+                savedDataSet = store;
+            }
+        }
+
+        public static void Reload()
+        {
+            if (HasData && store != null)
+            {
+                store.ReadFromInMemoryDataStore(savedDataSet);
+            }
+        }
+    }
+}
+
+```
+
+This class allows us to save a snapshot of the data at any time, as well as reloading the snapshot! That's super useful cause we now can control the state of the database between test cases.
+
+`WinApplication.cs`:
+```cs
+using System;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Win;
+using DevExpress.ExpressApp.Xpo;
+
+namespace TestApplication.Win
+{
+    public partial class TestApplicationWindowsFormsApplication : WinApplication
+    {
+        public TestApplicationWindowsFormsApplication()
+        {
+            InitializeComponent();
+            DelayedViewItemsInitialization = true;
+#if EASYTEST
+            DatabaseUpdateMode = DatabaseUpdateMode.UpdateDatabaseAlways;
+            CheckCompatibilityType = CheckCompatibilityType.ModuleInfo;
+#endif
+        }
+
+        protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args)
+        {
+            args.ObjectSpaceProvider = new XPObjectSpaceProvider(new ConnectionStringDataStoreProvider(args.ConnectionString), false);
+        }
+
+        private void TestApplicationWindowsFormsApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e)
+        {
+#if EASYTEST
+            e.Updater.Update();
+            e.Handled = true;
+            TestApplication.EasyTest.InMemoryDataStoreProvider.Save();
+#endif
+        }
+    }
+}
+using System;
+using System.Configuration;
+using System.Windows.Forms;
+using DevExpress.ExpressApp.Security;
+
+namespace TestApplication.Win
+{
+    static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main(params string[] args)
+        {
+#if EASYTEST
+            DevExpress.ExpressApp.Win.EasyTest.EasyTestRemotingRegistration.Register();
+            TestApplication.EasyTest.InMemoryDataStoreProvider.Register();
+#endif
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            EditModelPermission.AlwaysGranted = System.Diagnostics.Debugger.IsAttached;
+            var winApplication = new TestApplicationWindowsFormsApplication();
+#if EASYTEST
+            winApplication.ConnectionString = $"XpoProvider={TestApplication.EasyTest.InMemoryDataStoreProvider.XpoProviderTypeString}";
+#endif
+            if (ConfigurationManager.ConnectionStrings["ConnectionString"] != null)
+            {
+                winApplication.ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            }
+            try
+            {
+                winApplication.Setup();
+                winApplication.Start();
+            }
+            catch (Exception e)
+            {
+                winApplication.HandleException(e);
+            }
+        }
+    }
+}
+```
+
+You can see we are saving the database state right after the database updater. So it's based on our `ModuleUpdater`:
+
+`ModuleUpdater.cs`:
+
+```cs
+using System;
+using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Updating;
+
+namespace TestApplication.Module
+{
+    public class Updater : ModuleUpdater
+    {
+        public Updater(IObjectSpace objectSpace, Version currentDBVersion) : base(objectSpace, currentDBVersion) { }
+        public override void UpdateDatabaseAfterUpdateSchema()
+        {
+            base.UpdateDatabaseAfterUpdateSchema();
+#if EASYTEST
+            var developerPosition = ObjectSpace.FindObject<Position>(CriteriaOperator.Parse("Title == 'Developer'"));
+            if (developerPosition == null)
+            {
+                developerPosition = ObjectSpace.CreateObject<Position>();
+                developerPosition.Title = "Developer";
+                developerPosition.Save();
+            }
+            var managerPosition = ObjectSpace.FindObject<Position>(CriteriaOperator.Parse("Title == 'Manager'"));
+            if (managerPosition == null)
+            {
+                managerPosition = ObjectSpace.CreateObject<Position>();
+                managerPosition.Title = "Manager";
+                managerPosition.Save();
+            }
+            var devDepartment = ObjectSpace.FindObject<Department>(CriteriaOperator.Parse("Title == 'Development Department'"));
+            if (devDepartment == null)
+            {
+                devDepartment = ObjectSpace.CreateObject<Department>();
+                devDepartment.Title = "Development Department";
+                devDepartment.Office = "205";
+                devDepartment.Positions.Add(developerPosition);
+                devDepartment.Positions.Add(managerPosition);
+                devDepartment.Save();
+            }
+            var contactMary = ObjectSpace.FindObject<Contact>(CriteriaOperator.Parse("FirstName == 'Mary' && LastName == 'Tellitson'"));
+            if (contactMary == null)
+            {
+                contactMary = ObjectSpace.CreateObject<Contact>();
+                contactMary.FirstName = "Mary";
+                contactMary.LastName = "Tellitson";
+                contactMary.Email = "mary_tellitson@md.com";
+                contactMary.Birthday = new DateTime(1980, 11, 27);
+                contactMary.Department = devDepartment;
+                contactMary.Position = managerPosition;
+                contactMary.Save();
+            }
+            var contactJohn = ObjectSpace.FindObject<Contact>(CriteriaOperator.Parse("FirstName == 'John' && LastName == 'Nilsen'"));
+            if (contactJohn == null)
+            {
+                contactJohn = ObjectSpace.CreateObject<Contact>();
+                contactJohn.FirstName = "John";
+                contactJohn.LastName = "Nilsen";
+                contactJohn.Email = "john_nilsen@md.com";
+                contactJohn.Birthday = new DateTime(1981, 10, 3);
+                contactJohn.Department = devDepartment;
+                contactJohn.Position = developerPosition;
+                contactJohn.Save();
+            }
+            if (ObjectSpace.FindObject<DemoTask>(CriteriaOperator.Parse("Subject == 'Review reports'")) == null)
+            {
+                var task = ObjectSpace.CreateObject<DemoTask>();
+                task.Subject = "Review reports";
+                task.AssignedTo = contactJohn;
+                task.StartDate = DateTime.Parse("May 03, 2008");
+                task.DueDate = DateTime.Parse("September 06, 2008");
+                task.Status = DevExpress.Persistent.Base.General.TaskStatus.InProgress;
+                task.Priority = Priority.High;
+                task.EstimatedWork = 60;
+                task.Description = "Analyse the reports and assign new tasks to employees.";
+                task.Save();
+            }
+            if (ObjectSpace.FindObject<DemoTask>(CriteriaOperator.Parse("Subject == 'Fix breakfast'")) == null)
+            {
+                var task = ObjectSpace.CreateObject<DemoTask>();
+                task.Subject = "Fix breakfast";
+                task.AssignedTo = contactMary;
+                task.StartDate = DateTime.Parse("May 03, 2008");
+                task.DueDate = DateTime.Parse("May 04, 2008");
+                task.Status = DevExpress.Persistent.Base.General.TaskStatus.Completed;
+                task.Priority = Priority.Low;
+                task.EstimatedWork = 1;
+                task.ActualWork = 3;
+                task.Description = "The Development Department - by 9 a.m.\r\nThe R&QA Department - by 10 a.m.";
+                task.Save();
+            }
+            if (ObjectSpace.FindObject<DemoTask>(CriteriaOperator.Parse("Subject == 'Task1'")) == null)
+            {
+                var task = ObjectSpace.CreateObject<DemoTask>();
+                task.Subject = "Task1";
+                task.AssignedTo = contactJohn;
+                task.StartDate = DateTime.Parse("June 03, 2008");
+                task.DueDate = DateTime.Parse("June 06, 2008");
+                task.Status = DevExpress.Persistent.Base.General.TaskStatus.Completed;
+                task.Priority = Priority.High;
+                task.EstimatedWork = 10;
+                task.ActualWork = 15;
+                task.Description = "A task designed specially to demonstrate the PivotChart module. Switch to the Reports navigation group to view the generated analysis.";
+                task.Save();
+            }
+            if (ObjectSpace.FindObject<DemoTask>(CriteriaOperator.Parse("Subject == 'Task2'")) == null)
+            {
+                var task = ObjectSpace.CreateObject<DemoTask>();
+                task.Subject = "Task2";
+                task.AssignedTo = contactJohn;
+                task.StartDate = DateTime.Parse("July 03, 2008");
+                task.DueDate = DateTime.Parse("July 06, 2008");
+                task.Status = DevExpress.Persistent.Base.General.TaskStatus.Completed;
+                task.Priority = Priority.Low;
+                task.EstimatedWork = 8;
+                task.ActualWork = 16;
+                task.Description = "A task designed specially to demonstrate the PivotChart module. Switch to the Reports navigation group to view the generated analysis.";
+                task.Save();
+            }
+            ObjectSpace.CommitChanges();
+#endif
+        }
+    }
+}
+```
+
+The web version is a little bit more complicated because of the nature of IIS and ASPX applications:
+
+`Global.asax.cs`:
+```cs
+using System;
+using System.Configuration;
+using System.Web;
+using System.Web.Routing;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.Web;
+using DevExpress.Persistent.Base;
+using DevExpress.Web;
+
+namespace TestApplication.Web
+{
+    public class Global : System.Web.HttpApplication
+    {
+#if EASYTEST
+        protected void Application_AcquireRequestState(Object sender, EventArgs e)
+        {
+            if (HttpContext.Current.Request.Params["Reset"] == "true")
+            {
+                TestApplication.EasyTest.InMemoryDataStoreProvider.Reload();
+                WebApplication.Instance.LogOff();
+                WebApplication.Redirect(Request.RawUrl.Replace("&Reset=true", "").Replace("?Reset=true", ""), true);
+            }
+        }
+#endif
+        protected void Application_Start(Object sender, EventArgs e)
+        {
+            RouteTable.Routes.RegisterXafRoutes();
+            ASPxWebControl.CallbackError += new EventHandler(Application_Error);
+#if EASYTEST
+            DevExpress.ExpressApp.Web.TestScripts.TestScriptsManager.EasyTestEnabled = true;
+            ConfirmationsHelper.IsConfirmationsEnabled = false;
+            TestApplication.EasyTest.InMemoryDataStoreProvider.Register();
+#endif
+        }
+        protected void Session_Start(Object sender, EventArgs e)
+        {
+            Tracing.Initialize();
+#if EASYTEST
+            TestApplication.EasyTest.InMemoryDataStoreProvider.Reload();
+#endif
+            var application = new TestApplicationAspNetApplication();
+            WebApplication.SetInstance(Session, application);
+            SecurityStrategy security = (SecurityStrategy)WebApplication.Instance.Security;
+            security.RegisterXPOAdapterProviders();
+            DevExpress.ExpressApp.Web.Templates.DefaultVerticalTemplateContentNew.ClearSizeLimit();
+            WebApplication.Instance.SwitchToNewStyle();
+            if (ConfigurationManager.ConnectionStrings["ConnectionString"] != null)
+            {
+                WebApplication.Instance.ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            }
+#if EASYTEST
+            TestApplication.EasyTest.InMemoryDataStoreProvider.Reload();
+            if (ConfigurationManager.ConnectionStrings["EasyTestConnectionString"] != null)
+            {
+                WebApplication.Instance.ConnectionString = ConfigurationManager.ConnectionStrings["EasyTestConnectionString"].ConnectionString;
+            }
+#endif
+
+#if EASYTEST
+            WebApplication.Instance.ConnectionString = $"XpoProvider={TestApplication.EasyTest.InMemoryDataStoreProvider.XpoProviderTypeString}";
+#endif
+#if DEBUG
+            if (System.Diagnostics.Debugger.IsAttached && WebApplication.Instance.CheckCompatibilityType == CheckCompatibilityType.DatabaseSchema)
+            {
+                WebApplication.Instance.DatabaseUpdateMode = DatabaseUpdateMode.UpdateDatabaseAlways;
+            }
+#endif
+            WebApplication.Instance.Setup();
+            WebApplication.Instance.Start();
+        }
+    }
+}
+
+```
+
+`WebApplication.cs`:
+
+```cs
+using System;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Web;
+using DevExpress.ExpressApp.Xpo;
+
+namespace TestApplication.Web
+{
+    // For more typical usage scenarios, be sure to check out https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Web.WebApplication
+    public partial class TestApplicationAspNetApplication : WebApplication
+    {
+        protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args)
+        {
+            args.ObjectSpaceProvider = new XPObjectSpaceProvider(GetDataStoreProvider(args.ConnectionString, args.Connection), true);
+            args.ObjectSpaceProviders.Add(new NonPersistentObjectSpaceProvider(TypesInfo, null));
+        }
+
+        private IXpoDataStoreProvider GetDataStoreProvider(string connectionString, System.Data.IDbConnection connection)
+        {
+            System.Web.HttpApplicationState application = (System.Web.HttpContext.Current != null) ? System.Web.HttpContext.Current.Application : null;
+            IXpoDataStoreProvider dataStoreProvider = null;
+            if (application != null && application["DataStoreProvider"] != null)
+            {
+                dataStoreProvider = application["DataStoreProvider"] as IXpoDataStoreProvider;
+            }
+            else
+            {
+                dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, connection, true);
+                if (application != null)
+                {
+                    application["DataStoreProvider"] = dataStoreProvider;
+                }
+            }
+            return dataStoreProvider;
+        }
+
+        private void Solution1AspNetApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e)
+        {
+#if EASYTEST
+            e.Updater.Update();
+            e.Handled = true;
+            TestApplication.EasyTest.InMemoryDataStoreProvider.Save();
+#endif
+        }
+    }
+}
+
+```
+
+Here you can see we can reset the application state with the `Application_AcquireRequestState` method. That means if we navigate to `http://localhost:3057?Reset=true` we can reload the database and we also reload the state after the session has started.
+
+> You can find the full source code on [github](//github.com/biohazard999/XafEasyTestInCodeNUnit)
+
+Okay now we have the basic's! Let's refactor the code to use [xUnit](//xunit.net) and the page object pattern to make it more readable!
+
+<!-- markdownlint-disable MD033 -->
+<a name="XUnit"></a>
+<!-- markdownlint-enable MD033 -->
+
+## Run EasyTests in Code with XUnit
+
+The port is rather straight forward so let's zap through the code real quick:
+
+```cs
+using System;
+using System.Xml;
+using DevExpress.EasyTest.Framework;
+
+namespace EasyTest.Tests.Utils
+{
+    public abstract class EasyTestFixtureBase : IDisposable
+    {
+        public abstract TestCommandAdapter CommandAdapter { get; }
+        public abstract ICommandAdapter Adapter { get; }
+        public abstract bool IsWeb { get; }
+        public abstract void Dispose();
+
+        protected static XmlAttribute CreateAttribute(XmlDocument doc, string attributeName, string attributeValue)
+        {
+            var entry = doc.CreateAttribute(attributeName);
+            entry.Value = attributeValue;
+            return entry;
+        }
+
+        protected static XmlAttribute CreateAttribute(XmlDocument doc, string attributeName, bool attributeValue)
+            => CreateAttribute(doc, attributeName, attributeValue.ToString());
+    }
+}
+using DevExpress.EasyTest.Framework;
+using DevExpress.EasyTest.Framework.Commands;
+
+namespace EasyTest.Tests.Utils
+{
+    public class TestCommandAdapter
+    {
+        private readonly ICommandAdapter adapter;
+        private readonly TestApplication testApplication;
+        public TestCommandAdapter(ICommandAdapter webAdapter, TestApplication testApplication)
+        {
+            this.testApplication = testApplication;
+            adapter = webAdapter;
+        }
+
+        internal void DoAction(string name, string paramValue)
+            => new ActionCommand().DoAction(adapter, name, paramValue);
+
+        internal string GetActionValue(string name)
+        {
+            var control = adapter.CreateTestControl(TestControlType.Action, name).GetInterface<IControlText>();
+            return control.Text;
+        }
+
+        internal string GetFieldValue(string fieldName)
+            => CheckFieldValuesCommand.GetFieldValue(adapter, fieldName);
+
+        internal void ProcessRecord(string tableName, string[] columnNames, string[] values, string actionName)
+        {
+            ProcessRecordCommand command = new ProcessRecordCommand();
+            command.SetApplicationOptions(testApplication);
+            command.ProcessRecord(adapter, tableName, actionName, columnNames, values);
+        }
+
+        internal void SetFieldValue(string fieldName, string value)
+            => FillFieldCommand.SetFieldCommand(adapter, fieldName, value);
+
+        public IGridColumn GetColumn(ITestControl testControl, string columnName)
+        {
+            foreach (IGridColumn column in testControl.GetInterface<IGridBase>().Columns)
+            {
+                if (string.Compare(column.Caption, columnName, testApplication.IgnoreCase) == 0)
+                {
+                    return column;
+                }
+            }
+            return null;
+        }
+
+        internal string GetCellValue(string tableName, int row, string columnName)
+        {
+            var testControl = adapter.CreateTestControl(TestControlType.Table, tableName);
+            var gridControl = testControl.GetInterface<IGridBase>();
+            return gridControl.GetCellValue(row, GetColumn(testControl, columnName));
+        }
+
+        internal object GetTableRowCount(string tableName)
+        {
+            var gridControl = adapter.CreateTestControl(TestControlType.Table, tableName).GetInterface<IGridBase>();
+            return gridControl.GetRowCount();
+        }
+    }
+}
+using DevExpress.EasyTest.Framework;
+using DevExpress.ExpressApp.EasyTest.WebAdapter;
+using DevExpress.ExpressApp.Xpo;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Xml;
+
+namespace EasyTest.Tests.Utils
+{
+    public abstract class WebEasyTestFixtureHelperBase : EasyTestFixtureBase
+    {
+        private const string testWebApplicationRootUrl = "http://localhost:3057";
+        protected WebAdapter webAdapter;
+        protected TestCommandAdapter commandAdapter;
+        protected ICommandAdapter adapter;
+        protected TestApplication application;
+        public WebEasyTestFixtureHelperBase(string relativePathToWebApplication)
+        {
+            var testApplicationDir = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), relativePathToWebApplication);
+
+            application = new TestApplication
+            {
+                IgnoreCase = true,
+            };
+
+            var doc = new XmlDocument();
+
+            var additionalAttributes = new List<XmlAttribute>
+            {
+                CreateAttribute(doc, "PhysicalPath", testApplicationDir),
+                CreateAttribute(doc, "URL", $"{testWebApplicationRootUrl}{GetUrlOptions()}"),
+                CreateAttribute(doc, "SingleWebDev", true),
+                CreateAttribute(doc, "DontRestartIIS", true),
+                CreateAttribute(doc, "UseIISExpress", true),
+            };
+
+            application.AdditionalAttributes = additionalAttributes.ToArray();
+
+            webAdapter = new WebAdapter();
+            webAdapter.RunApplication(application, InMemoryDataStoreProvider.ConnectionString);
+            adapter = webAdapter.CreateCommandAdapter();
+            commandAdapter = new TestCommandAdapter(adapter, application);
+        }
+
+        protected virtual string GetUrlOptions() => "/default.aspx";
+
+        public override void Dispose()
+        {
+            var urlParams = GetUrlOptions();
+            webAdapter.WebBrowser.Navigate(testWebApplicationRootUrl + urlParams + (urlParams.Contains("?") ? "&" : "?") + "Reset=true");
+            webAdapter.WebBrowser.Close();
+            try
+            {
+                webAdapter.KillApplication(application, KillApplicationContext.TestNormalEnded);
+            }
+            catch { }
+        }
+
+        public override TestCommandAdapter CommandAdapter => commandAdapter;
+        public override ICommandAdapter Adapter => adapter;
+        public override bool IsWeb => true;
+    }
+}
+
+using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using DevExpress.EasyTest.Framework;
+using DevExpress.ExpressApp.EasyTest.WinAdapter;
+using DevExpress.ExpressApp.Xpo;
+
+namespace EasyTest.Tests.Utils
+{
+    public abstract class WinEasyTestFixtureHelperBase : EasyTestFixtureBase
+    {
+        private TestApplication application;
+        private WinAdapter applicationAdapter;
+        private string applicationDirectoryName;
+        private string applicationName;
+        protected ICommandAdapter adapter;
+        protected TestCommandAdapter commandAdapter;
+
+        public WinEasyTestFixtureHelperBase(string applicationDirectoryName, string applicationName)
+        {
+            this.applicationDirectoryName = applicationDirectoryName;
+            this.applicationName = applicationName;
+
+            application = new TestApplication();
+            var doc = new XmlDocument();
+            var additionalAttributes = new List<XmlAttribute>
+            {
+                CreateAttribute(doc, "FileName", Path.GetFullPath(Path.Combine($@"..\..\..\..\{applicationDirectoryName}", @"bin\EasyTest\net462\" + applicationName))),
+                CreateAttribute(doc, "CommunicationPort", "4100"),
+            };
+
+            application.AdditionalAttributes = additionalAttributes.ToArray();
+
+            applicationAdapter = new WinAdapter();
+            applicationAdapter.RunApplication(application, $"ConnectionString={InMemoryDataStoreProvider.ConnectionString};FOO=BAR");
+            adapter = ((IApplicationAdapter)applicationAdapter).CreateCommandAdapter();
+            commandAdapter = new TestCommandAdapter(adapter, application);
+        }
+
+        public override void Dispose()
+            => applicationAdapter.KillApplication(application, KillApplicationContext.TestAborted);
+
+        public override ICommandAdapter Adapter => adapter;
+        public override TestCommandAdapter CommandAdapter => commandAdapter;
+        public override bool IsWeb => false;
+    }
+}
+
+```
+
+So not much changed. Only some attributes, we got rid of some additional helper classes. The test code is almost the same:
+
+```cs
+using EasyTest.Tests.Utils;
+
+namespace EasyTest.Tests
+{
+    public class WinTestApplicationHelper : WinEasyTestFixtureHelperBase
+    {
+        public WinTestApplicationHelper() : base("TestApplication.Win", "TestApplication.Win.exe") { }
+    }
+
+    public class WebTestApplicationHelper : WebEasyTestFixtureHelperBase
+    {
+        public WebTestApplicationHelper() : base(@"..\..\..\..\TestApplication.Web") { }
+    }
+}
+using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+using DevExpress.EasyTest.Framework;
+using EasyTest.Tests.Utils;
+using Xunit;
+
+namespace EasyTest.Tests
+{
+    public abstract class CommonTests<T> : IDisposable where T : EasyTestFixtureBase, new()
+    {
+        protected T Fixture { get; }
+
+        public CommonTests()
+            => Fixture = new T();
+
+        public void Dispose()
+            => Fixture.Dispose();
+
+        protected void ChangeContactNameTest_()
+        {
+            var control = Fixture.Adapter.CreateTestControl(TestControlType.Table, "");
+            var table = control.GetInterface<IGridBase>();
+            Assert.Equal(2, table.GetRowCount());
+
+            var column = Fixture.CommandAdapter.GetColumn(control, "Full Name");
+
+            Assert.Equal("John Nilsen", table.GetCellValue(0, column));
+            Assert.Equal("Mary Tellitson", table.GetCellValue(1, column));
+
+            Fixture.CommandAdapter.ProcessRecord("Contact", new string[] { "Full Name" }, new string[] { "Mary Tellitson" }, "");
+
+            Assert.Equal("Mary Tellitson", Fixture.CommandAdapter.GetFieldValue("Full Name"));
+            Assert.Equal("Development Department", Fixture.CommandAdapter.GetFieldValue("Department"));
+            Assert.Equal("Manager", Fixture.CommandAdapter.GetFieldValue("Position"));
+
+            if (Fixture.IsWeb)
+            {
+                Fixture.CommandAdapter.DoAction("Edit", null);
+            }
+
+            Fixture.CommandAdapter.SetFieldValue("First Name", "User_1");
+            Fixture.CommandAdapter.SetFieldValue("Last Name", "User_2");
+
+            Fixture.CommandAdapter.SetFieldValue("Position", "Developer");
+
+            Fixture.CommandAdapter.DoAction("Save", null);
+
+            Assert.Equal("User_1 User_2", Fixture.CommandAdapter.GetFieldValue("Full Name"));
+            Assert.Equal("Developer", Fixture.CommandAdapter.GetFieldValue("Position"));
+        }
+
+        protected void WorkingWithTasks_()
+        {
+            Fixture.CommandAdapter.DoAction("Navigation", "Default.Demo Task");
+            Fixture.CommandAdapter.ProcessRecord("Demo Task", new string[] { "Subject" }, new string[] { "Fix breakfast" }, "");
+
+            var control = Fixture.Adapter.CreateTestControl(TestControlType.Table, "Contacts");
+            var table = control.GetInterface<IGridBase>();
+            Assert.Equal(0, table.GetRowCount());
+
+            Fixture.CommandAdapter.DoAction("Contacts.Link", null);
+            control = Fixture.Adapter.CreateTestControl(TestControlType.Table, "Contact");
+            control.GetInterface<IGridRowsSelection>().SelectRow(0);
+            Fixture.CommandAdapter.DoAction("OK", null);
+
+            control = Fixture.Adapter.CreateTestControl(TestControlType.Table, "Contacts");
+            table = control.GetInterface<IGridBase>();
+            Assert.Equal(1, table.GetRowCount());
+            Assert.Equal("John Nilsen", Fixture.CommandAdapter.GetCellValue("Contacts", 0, "Full Name"));
+        }
+
+        protected void ChangeContactNameAgainTest_()
+        {
+            Assert.Equal("John Nilsen", Fixture.CommandAdapter.GetCellValue("Contact", 0, "Full Name"));
+            Assert.Equal("Mary Tellitson", Fixture.CommandAdapter.GetCellValue("Contact", 1, "Full Name"));
+
+            Fixture.CommandAdapter.ProcessRecord("Contact", new string[] { "Full Name" }, new string[] { "Mary Tellitson" }, "");
+
+            if (Fixture.IsWeb)
+            {
+                Fixture.CommandAdapter.DoAction("Edit", null);
+            }
+
+            Assert.Equal("Mary Tellitson", Fixture.CommandAdapter.GetFieldValue("Full Name"));
+            Assert.Equal("Development Department", Fixture.CommandAdapter.GetFieldValue("Department"));
+
+            Fixture.CommandAdapter.SetFieldValue("First Name", "User_1");
+            Fixture.CommandAdapter.SetFieldValue("Last Name", "User_2");
+
+            Fixture.CommandAdapter.DoAction("Save", null);
+            Fixture.CommandAdapter.DoAction("Navigation", "Contact");
+
+            Assert.Equal("John Nilsen", Fixture.CommandAdapter.GetCellValue("Contact", 0, "Full Name"));
+            Assert.Equal("User_1 User_2", Fixture.CommandAdapter.GetCellValue("Contact", 1, "Full Name"));
+
+        }
+    }
+}
+using System;
+using Xunit;
+
+namespace EasyTest.Tests
+{
+    public class WinTests : CommonTests<WinTestApplicationHelper>
+    {
+        [Fact]
+        public void ChangeContactNameTest() => ChangeContactNameTest_();
+
+        [Fact]
+        public void WorkingWithTasks() => WorkingWithTasks_();
+
+        [Fact]
+        public void ChangeContactNameAgainTest()
+            => ChangeContactNameAgainTest_();
+    }
+}
+using NUnit.Framework;
+using DevExpress.EasyTest.Framework;
+using Xunit;
+
+namespace EasyTest.Tests
+{
+    public class WebTests : CommonTests<WebTestApplicationHelper>
+    {
+        [Fact]
+        public void ChangeContactNameTest() => ChangeContactNameTest_();
+
+        [Fact]
+        public void WorkingWithTasks() => WorkingWithTasks_();
+
+        [Fact]
+        public void ChangeContactNameAgainTest()
+            => ChangeContactNameAgainTest_();
+
+        [Fact]
+        public void UnlinkActionTest()
+        {
+            Fixture.CommandAdapter.DoAction("Navigation", "Department");
+            Fixture.CommandAdapter.ProcessRecord("Department", new string[] { "Title" }, new string[] { "Development Department" }, "");
+
+            Fixture.CommandAdapter.DoAction("Positions", null);
+
+            var gridControl = Fixture.Adapter.CreateTestControl(TestControlType.Table, "Positions");
+            Assert.Equal(2, gridControl.GetInterface<IGridBase>().GetRowCount());
+
+            Assert.Equal("Developer", Fixture.CommandAdapter.GetCellValue("Positions", 0, "Title"));
+
+            var unlink = Fixture.Adapter.CreateTestControl(TestControlType.Action, "Positions.Unlink");
+            Assert.False(unlink.GetInterface<IControlEnabled>().Enabled);
+
+
+            gridControl.GetInterface<IGridRowsSelection>().SelectRow(0);
+
+            Assert.True(unlink.GetInterface<IControlEnabled>().Enabled);
+            Fixture.CommandAdapter.DoAction("Positions.Unlink", null);
+
+            Assert.Equal(1, gridControl.GetInterface<IGridBase>().GetRowCount());
+            Assert.Equal("Manager", Fixture.CommandAdapter.GetCellValue("Positions", 0, "Title"));
+
+            Fixture.CommandAdapter.DoAction("Contacts", null);
+            unlink = Fixture.Adapter.CreateTestControl(TestControlType.Action, "Contacts.Unlink");
+            Assert.False(unlink.GetInterface<IControlEnabled>().Enabled);
+        }
+    }
+}
+
+```
+
+Again nothing new. Only changed the assertions and used the `Fixture`. Now let's look into the page-object-pattern:
+
+> You can find the full source code on [github](//github.com/biohazard999/XafEasyTestInCodeXUnit)
+
+## Apply the Page-Object-Pattern
+
+
 
 > In my tests i use the following libraries:  
 > [XUnit](//xunit.net/)  
