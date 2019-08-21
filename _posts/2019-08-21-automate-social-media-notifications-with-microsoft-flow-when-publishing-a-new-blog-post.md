@@ -52,3 +52,15 @@ Hit `Save` and `Test` again but this time I'm able to select the second option c
 ![twitter text is now correct](/img/posts/2019/2019-08-21-flow-twitter-9.png).
 
 Profit!
+
+### LinkedIn
+
+So basically it's now rinse and repeat:
+
+Add a new step and search for `LinkedIn` and select `Share an article`. Connect to the service. Set the content url to the `Primary feed link`. Adjust the title and the description.
+
+![linkedin is working](/img/posts/2019/2019-08-21-flow-linkedin-1.png)
+![post on linkedin](/img/posts/2019/2019-08-21-flow-linkedin-2.png)
+
+That was easy!
+
