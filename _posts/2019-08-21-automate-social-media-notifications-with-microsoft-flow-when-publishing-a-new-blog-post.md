@@ -33,4 +33,22 @@ After that I hit the `Test` button in the upper right corner and select the `I'l
 
 Now I'm seeing the information `To see it work now, publish an item to the RSS feed. This may take a few moments.`.
 
-![waiting for the RSS feed test](/img/posts/2019/2019-08-21-flow-twitter-4.png)
+![waiting for the twitter RSS feed test](/img/posts/2019/2019-08-21-flow-twitter-4.png)
+
+After my release pipeline published the new version of the blog I can see the flow ran and let's check my twitter.
+
+![twitter flow successful](/img/posts/2019/2019-08-21-flow-twitter-5.png)
+![tweet created](/img/posts/2019/2019-08-21-flow-twitter-6.png)
+
+Neat! But without the link its a little bit useless. So let's change that.
+
+So I hit `Edit` and change the tweet text to `New blog post: ` select `Feed title` some line breaks and then `Primary feed link`:
+
+![twitter text updated](/img/posts/2019/2019-08-21-flow-twitter-7.png)
+
+Hit `Save` and `Test` again but this time I'm able to select the second option called `Using data from previous runs` and select my last flow:
+
+![testing the twitter flow with previous data](/img/posts/2019/2019-08-21-flow-twitter-8.png).
+![twitter text is now correct](/img/posts/2019/2019-08-21-flow-twitter-9.png).
+
+Profit!
