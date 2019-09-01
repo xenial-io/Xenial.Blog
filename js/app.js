@@ -110,12 +110,15 @@ var getTheme = function() {
     if(theme === "vs-dark"){
         return "/css/style-vs-dark.css";
     }
+    if(theme === "mg-light"){
+        return "/css/style-mg-light.css";
+    }
     return "/css/style-vs-dark.css";
 }
 
 var getDxPoweredBy = function() {
     var theme = store("theme");
-    if(theme === "vs-light"){
+    if(theme === "vs-light" || theme === "mg-light"){
         return "/img/DevExpress-Powered-Color-Large.png";
     }
     if(theme === "vs-dark"){
@@ -124,10 +127,22 @@ var getDxPoweredBy = function() {
     return "/img/DevExpress-Powered-White-Large.png";
 }
 
+var getLogo = function() {
+    var theme = store("theme");
+    if(theme === "vs-light" || theme === "vs-dark"){
+        return "/img/logo.png";
+    }
+    if(theme === "mg-light"){
+        return "/img/logo_mg.svg";
+    }
+    return "/img/logo.png";
+}
+
 var setTheme = function(theme) {
     var theme = store("theme", theme);
     $("#main-stylesheet").attr("href", getTheme());
     $(".dx-powered-by").attr("src", getDxPoweredBy());
+    $("#logo").attr("src", getLogo());
 }
 
 $(document).ready(function() {    
