@@ -1,0 +1,324 @@
+html, body, * {
+    font-family: Consolas, monaco, monospace;
+}
+body {
+    padding-top: 1em;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+a {
+    color: #0000FF;
+}
+a:hover {
+    color: #0000FF;
+}
+
+code {
+    max-height: 600px;
+    overflow: auto;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+article img {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+ul.tags {    
+    margin: 0;
+    padding: 10px 0 0 0;
+}
+ul.tags li { 
+    display: inline; 
+    margin-right: 10px;
+}
+
+ul.badges {    
+    margin: 0;
+    padding: 10px 0 0 0;
+    margin-top: 0.8rem;
+}
+
+ul.badges li { 
+    display: inline; 
+    margin-right: 10px;
+}
+
+article hr {
+    margin-top: 2rem;
+}
+
+article img {
+    cursor: pointer;
+}
+
+nav figure {
+    padding-top: 2em;
+    margin: 0;
+    font-size: 0.6em;
+    text-align: center;
+}
+
+/* Hamburgler */
+* {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-tap-highlight-color: transparent;
+  /* For some Androids */
+}
+
+.top-animate {
+  background: #FFFFFF !important;
+  top: 13px !important;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.mid-animate {
+  opacity: 0;
+}
+
+.bottom-animate {
+  background: #FFFFFF !important;
+  top: 13px !important;
+  -webkit-transform: rotate(-225deg);
+  transform: rotate(-225deg);
+}
+
+.top-menu {
+  top: 5px;
+  width: 25px;
+  height: 2px;
+  border-radius: 10px;
+  background-color: #0000FF;
+}
+
+.mid-menu {
+  top: 13px;
+  width: 25px;
+  height: 2px;
+  border-radius: 10px;
+  background-color: #0000FF;
+}
+
+.bottom-menu {
+  top: 21px;
+  width: 25px;
+  height: 2px;
+  border-radius: 10px;
+  background-color: #0000FF;
+}
+
+.menui {
+  background: #0000FF;
+  transition: 0.6s ease;
+  transition-timing-function: cubic-bezier(.75, 0, .29, 1.01);
+  margin-top: 10px;
+  position: absolute;
+}
+
+.icon {
+  z-index: 999;
+  position: fixed;
+  display: block;
+  padding: 9px;
+  height: 32px;
+  width: 32px;
+  margin: 0px;
+  top: 0;
+  left: 0;
+}
+
+.mobilenav {
+  font-family: inherit;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #0000FF;
+  overflow: hidden;
+}
+
+.mobilenav li {
+  list-style-type: none;
+  padding: 10px;
+}
+
+.mobilenav li a, .mobilenav li div {
+  color: #FFFFFF;
+  text-decoration: none;
+  font-weight: bold;
+  width: 100%;
+}
+.mobilenav li div select {
+    color: #0000FF;
+    margin-left: -8px;
+}
+.mobilenav li:first-child {
+  margin-top: 60px;
+}
+
+.mobilenav .fa-inverse{
+    color: #0000FF;
+}
+span.fa-stack {
+    margin-right: 4px;
+}
+
+.mobilenav span.fa-stack {
+    margin-right: 10px;
+    padding: 1px;
+}
+
+.mobilenav .fa-stack-1x {
+    top: 1px;
+}
+
+.brand {
+    display: none;
+}
+
+.only-lg {
+    display: none;
+}
+
+.mobilenav .nav-ul li {
+    margin-bottom: 0;
+}
+
+.noscroll {
+    overflow: hidden;
+}
+
+.mobilenav {
+    overflow-y: auto;
+}
+
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+.clear {
+    clear: both;
+}
+
+a.brand img {
+    border-radius: 50%;
+}
+
+ blockquote {
+    border-left: 10px solid #ccc;
+    margin: 2em 10px;
+    padding: 0em 10px;
+  } 
+  blockquote:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f129";
+    font-weight: 900;
+    font-size: 3em;
+    line-height: 0.1em;
+    margin-right: 0.50em;
+    margin-left: 0.25em;
+    vertical-align: -0.6em;
+  }
+   blockquote p {
+     margin-left: 3.5em;
+     margin-top: -1.8em;
+  } 
+
+footer {
+    font-size: 0.7em;
+    text-align: center;
+    margin: 1em 0;
+}
+
+@media (min-width: 400px) {
+    .icon {
+        display: block;
+    }
+}
+
+/* Larger than phablet */
+@media (min-width: 550px) {
+    
+}
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+   
+}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {
+    .mobilenav .fa-lg {
+        font-size: initial;
+    }
+    .mobilenav .nav-ul span.fa-stack {
+        margin-right: 0px;
+    }
+    .only-lg {
+        display: initial;
+    }
+    .icon {
+        display: none;
+    }
+    .brand {
+        display: inline;
+    }
+    
+    .mobilenav .fa-stack {
+        color: #0000FF;
+    }   
+    .mobilenav .fa-inverse {
+        color: #FFFFFF;
+    }     
+    .mobilenav .fa-stack.rss .fa-inverse {
+        color: #FFFFFF;
+    }
+    .mobilenav .fa-stack.atom .fa-inverse {
+        color: #FFFFFF;
+    }
+    .mobilenav .fa-stack.github .fa-inverse {
+        color: #FFFFFF;
+    }
+    .mobilenav .fa-stack.twitter .fa-inverse {
+        color: #FFFFFF;
+    }
+    .mobilenav {
+        position: initial;
+        display: block;
+        background: none;
+        color: #222;
+        float: right;
+        width: 205px;
+        width: min-content;        
+    }
+    .mobilenav li a, .mobilenav li div {
+        font-size: 100%;
+        color: #0000FF;
+    }    
+    .mobilenav li a {
+        text-decoration: underline;
+        font-weight: normal;
+        width: initial;
+    }
+    .mobilenav li {
+        text-align: left;
+        padding: 0;
+    }
+    .mobilenav li a:hover {
+        color: #0000FF; 
+    }
+    .row {
+        margin-right: 230px;
+    }
+}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {}
