@@ -131,8 +131,8 @@ var setTheme = function(theme) {
 }
 
 $(document).ready(function() {
-    var attachFastClick = Origami.fastclick;
-    attachFastClick(document.body);
+    // var attachFastClick = Origami.fastclick;
+    // attachFastClick(document.body);
     
     $('article .postcontent img').featherlight({
         targetAttr: 'src'
