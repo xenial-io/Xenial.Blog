@@ -130,10 +130,7 @@ var setTheme = function(theme) {
     $(".dx-powered-by").attr("src", getDxPoweredBy());
 }
 
-$(document).ready(function() {
-    // var attachFastClick = Origami.fastclick;
-    // attachFastClick(document.body);
-    
+$(document).ready(function() {    
     $('article .postcontent img').featherlight({
         targetAttr: 'src'
     });
