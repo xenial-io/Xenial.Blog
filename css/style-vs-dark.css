@@ -148,13 +148,16 @@ nav figure {
   padding: 10px;
 }
 
-.mobilenav li a {
+.mobilenav li a, .mobilenav li div {
   color: #1E1E1E;
   text-decoration: none;
   font-weight: bold;
   width: 100%;
 }
-
+.mobilenav li div select {
+    color: #569CD6;        
+    margin-left: -8px;
+}
 .mobilenav li:first-child {
   margin-top: 60px;
 }
@@ -295,11 +298,12 @@ footer {
         float: right;
         width: 205px;
         width: min-content;        
-    }
-    
-    .mobilenav li a {
+    }    
+    .mobilenav li a, .mobilenav li div {
         font-size: 100%;
         color: #569CD6;
+    }
+    .mobilenav li a {
         text-decoration: underline;
         font-weight: normal;
         width: initial;
