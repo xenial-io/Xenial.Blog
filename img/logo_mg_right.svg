@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="219.189px" height="38.747px" viewBox="0 0 219.189 38.747" enable-background="new 0 0 219.189 38.747"
+	 xml:space="preserve">
+
+<defs>
+	<style>
+		@import url('https://fonts.googleapis.com/css?family=Catamaran');
+	</style>
+</defs>
+<g>
+</g>
+<g>
+	<defs>
+		<line id="SVGID_1_" x1="0" y1="1.26" x2="0" y2="38.747"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  overflow="visible"/>
+	</clipPath>
+	<path clip-path="url(#SVGID_2_)" fill="#182743" d="M219.189,28.464V11.516"/>
+	<path clip-path="url(#SVGID_2_)" fill="#38BCD8" d="M214.68,35.061c1.069-0.183,1.93-0.518,2.575-1.007
+		c0.58-0.438,1.034-1.088,1.397-1.895"/>
+</g>
+<g>
+	<defs>
+		<rect id="SVGID_3_" x="30" width="159.098" height="38.17"/>
+	</defs>
+	<clipPath id="SVGID_4_">
+		<use xlink:href="#SVGID_3_"  overflow="visible"/>
+	</clipPath>
+	<path clip-path="url(#SVGID_4_)" fill="#182743" d="M30.009,27.509H30v0.388l4.993-1.862V10.938c0-1.166,1.05-2.114,2.337-2.114
+		h25.464c1.288,0,2.333,0.948,2.333,2.114v15.089l4.984,1.859V10.938c0-3.658-3.283-6.635-7.317-6.635H37.331
+		c-4.038,0-7.321,2.977-7.321,6.635V27.509z"/>
+	<path clip-path="url(#SVGID_4_)" fill="#38BCD8" d="M64.714,29.771c-0.185,0.287-0.413,0.53-0.729,0.675
+		c-0.354,0.161-0.958,0.244-1.803,0.251c-0.851,0.005-2.468,0.048-4.86,0.131c-1.447,0.053-2.604,0.193-3.473,0.421
+		c-0.869,0.229-1.606,0.532-2.209,0.912c-0.608,0.38-1.141,0.864-1.597,1.458c-0.67-0.769-1.32-1.33-1.962-1.684
+		c-0.917-0.487-2.085-0.82-3.501-0.998c-0.976-0.114-3.117-0.197-6.428-0.249c-1.04-0.01-1.736-0.081-2.086-0.209
+		c-0.33-0.124-0.581-0.353-0.767-0.663l-4.829,1.803c0.294,0.718,0.774,1.333,1.459,1.829c0.703,0.508,1.562,0.854,2.584,1.036
+		c1.021,0.18,2.632,0.271,4.829,0.271c2.544,0,4.207,0.079,4.986,0.234c1.112,0.229,1.91,0.577,2.385,1.043
+		c0.485,0.47,0.755,1.181,0.827,2.137h5.007c0.052-0.76,0.207-1.329,0.456-1.715c0.252-0.384,0.67-0.715,1.264-0.989
+		c0.589-0.276,1.33-0.472,2.221-0.584c0.667-0.084,1.822-0.126,3.461-0.126c2.698,0,4.582-0.092,5.653-0.271
+		c1.069-0.183,1.929-0.518,2.575-1.007c0.58-0.438,1.034-1.088,1.397-1.895L64.714,29.771z"/>
+</g>
+<text transform="matrix(1 0 0 1 76.46 16.4697)" style="font-family: 'Catamaran', sans-serif;" font-weight="bold" font-size="11">Manuel Grundner</text>
+<text transform="matrix(1 0 0 1 76.46 29.6699)" font-family="'Catamaran', sans-serif" font-weight="bold" font-size="11">code &amp; consult</text>
+</svg>
