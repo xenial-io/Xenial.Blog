@@ -7,7 +7,7 @@
 
 > If you read the Tweet right now and follow the link to the blog right now: This is a WIP.
 > So come back later to see the other providers in action.
-> Ps.: Never to testing in production ;)
+> Ps.: Never do testing in production ;)
 
 As an interested reader of my blog you may know that I use [Pretzel](//github.com/Code52/pretzel) for my blog. I did a series on migrating my blog from [FunnelWeb to Pretzel](/series/migrating-from-funnelweb-to-pretzel/) in the past. One disadvantages of using a static site generator for blogging is the lack of social media plugins, esp. when publishing a blog. For now I did all the work by hand, by copying the headline as well as the link to the new post, login into several social media services (Twitter, various Facebook pages, Patreon and LinkedIn) add some hashtags. Most of the time I forgotten some platforms, had different casing and wording for "New blog post, New Blog-Post, New Blog post". I wanted to automate that a while back with Azure DevOps in my release pipeline, but I got stuck cause there because the lack of plugins. So a while back I discovered [Microsoft Flow](//flow.microsoft.com) but hadn't time to look into it. Now I had a few moments to play around with it so I thought this would be the perfect time to automate it. So let's get started!
 
