@@ -12,6 +12,7 @@ exclude:
 - add-post.cmd
 - add-tag.cmd
 - add-draft.cmd
+- add-series.cmd
 - taste.cmd
 - taste-drafts.cmd
 - git-clean.cmd
