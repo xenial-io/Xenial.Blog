@@ -3,7 +3,9 @@
 
 _version.json
 _site/
-tools/
+tools/**/*.*
+!tools/*.*
+tools/nuget.exe
 
 # User-specific files
 *.suo
