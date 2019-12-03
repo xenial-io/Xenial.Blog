@@ -21,4 +21,6 @@ First a brief history of pretzel. I migrated from [FunnelWeb to Pretzel](/series
  - Support for [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-3.0)
  - Support for [custom plugins](https://github.com/Code52/pretzel/wiki/Plugins)
 
+## The goal
 
+Before I started working on the project, I thought it would be awesome to have pretzel as a [dotnet global tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) cause it's a perfect fit for that. It also means I could reduce ceremony on getting pretzel running on [azure devops](https://azure.microsoft.com/en-us/services/devops/). Currently I use a [cake script](https://cakebuild.net/) that basically downloads the latest release from pretzel, unpacks it and then execute some batch commands on it. But that has, of course, some downsides to it 
