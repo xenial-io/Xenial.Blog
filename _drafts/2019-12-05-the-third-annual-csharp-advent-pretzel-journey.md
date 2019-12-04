@@ -113,7 +113,7 @@ dotnet outdated -u
 
 `System.IO.Abstractions` did make some unit tests fail, so we moved on and fixed that later. I've upgraded to the latest version that made the tests pass manually, and luckily enough that version already supported `netstandard2.0`. We decided to upgrade to the latest version later on, cause we were confident enough that everything was working trough our automated and manual tests.
 
-##### Multitarget Pretzel.Logic for net462/netstandard2.0 and replace MEF with System.Composition
+##### Multi target Pretzel.Logic for net462/netstandard2.0 and replace MEF with System.Composition
 
 Cause `netstandard2.0` is somehow compatible with `net462` this was the first [real big PR](https://github.com/Code52/pretzel/pull/328).
 
@@ -141,7 +141,39 @@ Most of them were related to xUnit and the new analyzer package. We found some *
 
 The automated fixes by the xunit analyzer helped a lot here.
 
+##### Add support for data files
 
+After that I was a bit exhausted working on the port. I thought it would be good to start implementing a new feature. This was of course not planned, but loosing the joy on the project wouldn't helped either. At this point SunaCode did his feature request.
+
+I think everyone knows that feeling if you are working to long and to hard on a project you feel worn out.
+
+Implementing the feature wasn't that hard, but varied enough that I kept up the motivation!
+It was the first feature in the product for quite a while!
+
+That's something I really can take with me for the future. For me, my company and for real life!
+
+##### Switch to netstandard2.0 compatible packages
+
+Now we looked what alternatives we have to the existing packages. We picked the easy ones first:
+
+- [dotless.core](https://github.com/Code52/pretzel/pull/342/files)
+- [NUglify](https://github.com/Code52/pretzel/pull/343/files)
+
+In LOC thats 18. I think that's easy enough.
+
+Those are no drop in replacements by definition, but hey they work just as good as the old dependencies!
+
+What I've learnt here: Development behaves sometimes like water, go the easiest route first.
+
+##### Replace NDesk.Options with System.CommandLine.Experimental
+
+That was the [largest PR](https://github.com/Code52/pretzel/pull/347). 65 commits, 79 files changed and 117 code review comments. It took from 18th of September till 8th of October to get finally merged.
+
+That's the PR we made almost all decisions how we want out plugin API to look like. And now I *finally understand* why it takes so long to design nice API's. There was a lot of discussion about what is the most flexible, future proof, but understandable and easy to use API we can imagine for pretzel. It started with a rather simple proposal I thought would be good enough. But laedit pushed me to think harder, try different approaches and we finally got a version we are both happy with.
+
+It also changed a lot in the overall architecture of the product, but I think it was worth the effort. It's easier to maintain, extend and unit test.
+
+Most of the time writing code isn't the most time consuming aspect of development. It's communication, thinking about future consequences and impacts. Thinking and planning for the future is the most time consuming aspect for any *real* project.
 
 ## The conclusion
 
@@ -149,7 +181,7 @@ Did we release pretzel as a global tool and made the 1.0 happen? Not yet. Are we
 
 As you can see on [the project](https://github.com/Code52/pretzel/projects/1) there are some goals open we want to tackle before **finally** releasing 1.0, does that mean we failed? **Absolutely NOT**. There are a few things open (like for example ScriptCS support) we don't even know if it will land in 1.0.
 
-Was it worth all the effort, tears and blood that flow into the project? **Absolutely YES**. I learned a lot contributing to the project, a lot on motivation, goals, planning and working in the open with people I never met in person. I worked a lot remotely, but working on open source is completely different. It's such a great feeling to work with people that are **really** appreciate your work. Cause every little bit matters **a lot**.
+Was it worth all the effort, tears and blood that flow into the project? **Absolutely YES**. I learned a lot contributing to the project, a lot on motivation, goals, planning and working in the open with people I never met in person. I worked a lot remotely, but working on open source is completely different. It's such a great feeling to work with people that are **really** appreciate your work and are passional with a project. Cause every little bit matters **a lot**.
 
 It's a [great time to be a dotnet developer](https://www.infogain.com/making-an-impact/its-a-great-time-to-be-a-net-developer/).
 
