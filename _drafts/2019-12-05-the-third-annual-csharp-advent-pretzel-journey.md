@@ -79,4 +79,30 @@ Cause there are a lot of dependencies and goals to solve, we decided to tackle o
 1. After all dependencies are on `netstandard2.0` switch `Pretzel.Logic` to `netstandard2.0`
 1. Multitarget `Pretzel` and `Pretzel.Tests` to `net462`and `netcoreapp2.0`
 1. Build and package the `Pretzel.Tool` global tool
-1. Somewhere in between provide more docs for usage an plugin authors
+1. Somewhere in between provide more docs for usage and plugin authors
+
+## The problems
+
+Early on in the project we had some tough decisions to made. We wanted to be compatible with old plugins, but after we started to work on it we knew we need to make some tradeoffs.
+
+We either could do cross compiling for `netcoreapp2.0` and use different dependencies for `net461` and `netstandard2.0` and do a lot of `#if DEF` compilation, or we force plugin authors to update and recompile their plugins. We choose the second option, cause it's 1.0 anyway and it would messed up the code **a lot**. Sometimes it's just better to release old burdens.
+
+## The execution
+
+## The conclusion
+
+Did we release pretzel as a global tool and made the 1.0 happen? Not yet. Are we almost there? Yes!
+
+As you can see on [the project](https://github.com/Code52/pretzel/projects/1) there are some goals open we want to tackle before **finally** releasing 1.0, does that mean we failed? **Absolutely NOT**. There are a few things open (like for example ScriptCS support) we don't even know if it will land in 1.0.
+
+Was it worth all the effort, tears and blood that flow into the project? **Absolutely YES**. I learned a lot contributing to the project, a lot on motivation, goals, planning and working in the open with people I never met in person. I worked a lot remotely, but working on open source is completely different. It's such a great feeling to work with people that are **really** appreciate your work. Cause every little bit matters **a lot**.
+
+It's a [great time to be a dotnet developer](https://www.infogain.com/making-an-impact/its-a-great-time-to-be-a-net-developer/).
+
+Hope you had as much joy reading my article as I have working on this awesome open source project as I have. Feel free to jump in! Try out pretzel, give it a star on github. Happy holidays and have a nice remaining C# Advent to anybody out there.
+
+Manuel
+
+Ps. Again big thanks to Matthew for the slot on this series!
+
+> If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
