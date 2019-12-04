@@ -45,3 +45,24 @@ Thats it! I doubt it could get any easier!
 
 Another goal was to support [jekyll's data files](https://jekyllrb.com/docs/datafiles/). It was a happy [coincidence](https://github.com/Code52/pretzel/issues/331) that [SunaCode](https://github.com/SunaCode) was asking for that feature, cause my main reason for starting working on pretzel was exactly this feature after I read about using [static comments for jekyll](https://mademistakes.com/articles/jekyll-static-comments/) to finally replace [disqus](https://fatfrogmedia.com/delete-disqus-comments-wordpress/) cause it is hard to justify for privacy and performance reasons for a blog. Since I started my own business starting this year, I now am responsible for that stuff and I really need to care.
 
+We didn't want to force old users to switch to `netcoreapp2.2`, so we wanted to support full framework with a reasonable amount of work and aimed to target `net462` cause it's the first version that fully supports `netstandard2.0`.
+
+## The community
+
+I used the term *we* a lot in the post so far. That's rather rare from my perspective cause I'm only a one man shop (so far). What do I mean with *we*?
+
+After I prepared my [first PR](https://github.com/Code52/pretzel/pull/324) it lit [laedit](https://github.com/laedit) on fire as well. He is a former lead contributor to pretzel, but due lack of time (as this is often the case with side projects) he *stopped contributing*.
+
+We discussed goals, problems, strategies and chances on the project.
+He did all the code reviews, jumped in when I needed help (esp. for making the build green again on CI). Also he had the awesome idea to [create a project](https://github.com/Code52/pretzel/projects/1) on github to make our progress **more visible**. He also named the project after me, which was a little bit frightening, but also motivating on the other hand. The 1.0 in the name of the project was the most frightening part, nobody really want's to *ship* 1.0 but I really am proud to be the *chosen one*.
+
+But the most important thing: **WE** kept the project on fire, kept good vibes (even if we had sometimes a *hard* debate on technical implementation *details*) and had always the goal in front of our inner eye. It is fun to work with such an open minded community, esp. with such a great guy than laedit! Big shout outs to you my friend, it wouldn't be possible without your effort!
+
+> The community is the *thing* that drives **any** open source project!
+> So jump in and [start with it](https://up-for-grabs.net/#/) now!
+> Write issues, test things, write docs, do code reviews, write code or write blogs!
+> Every little bit matters **a lot**. And remember. Be *kind* to each other! (Hey it's christmas, what would your mom think about you ;))
+
+## The plan
+
+Cause there are a lot of 
