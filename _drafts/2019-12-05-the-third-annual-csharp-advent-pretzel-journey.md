@@ -53,7 +53,7 @@ We also aimed for usage compatibility. So from an end user perspective everythin
 
 I used the term *we* a lot in the post so far. That's rather rare from my perspective cause I'm only a one man shop (so far). What do I mean with *we*?
 
-After I prepared my [first PR](https://github.com/Code52/pretzel/pull/324) it lit [laedit](https://github.com/laedit) on fire as well. He is a former lead contributor to pretzel, but due lack of time (as this is often the case with side projects) he *stopped contributing*.
+After I prepared my [first PR](https://github.com/Code52/pretzel/pull/324) it lit [laedit](https://github.com/laedit) on fire as well. He is a former lead contributor to pretzel, but due lack of time (as this is often the case with side projects) he *stopped contributing*, but that didn't mean he forgot or abandon the project all together.
 
 We discussed goals, problems, strategies and chances on the project.
 He did all the code reviews, jumped in when I needed help (esp. for making the build green again on CI). Also he had the awesome idea to [create a project](https://github.com/Code52/pretzel/projects/1) on github to make our progress **more visible**. He also named the project after me, which was a little bit frightening, but also motivating on the other hand. The 1.0 in the name of the project was the most frightening part, nobody really want's to *ship* 1.0 but I really am proud to be the *chosen one*.
@@ -63,7 +63,7 @@ But the most important thing: **WE** kept the project on fire, kept good vibes (
 > The community is the *thing* that drives **any** open source project!
 > So jump in and [start with it](https://up-for-grabs.net/#/) now!
 > Write issues, test things, write docs, do code reviews, write code or write blogs!
-> Every little bit matters **a lot**. And remember. Be *kind* to each other! (Hey it's christmas, what would your mom think about you ;))
+> Every little bit matters **a lot**. And remember. Be *kind* to each other! (Hey it's christmas, what would your mom think about you 😲)
 
 ## The plan
 
@@ -81,11 +81,13 @@ Cause there are a lot of dependencies and goals to solve, we decided to tackle o
 1. Build and package the `Pretzel.Tool` global tool
 1. Somewhere in between provide more docs for usage and plugin authors
 
+> Did we follow our plan correctly in that order? No. But a plan helps you keep goals in sight and keep things rather organized
+
 ## The problems
 
-Early on in the project we had some tough decisions to made. We wanted to be compatible with old plugins, but after we started to work on it we knew we need to make some tradeoffs.
+Early on in the project we had some tough decisions to made. We wanted to be compatible with old plugins, but after we started to work on it, we realized we need to make some tradeoffs.
 
-We either could do cross compiling for `netcoreapp2.0` and use different dependencies for `net461` and `netstandard2.0` and do a lot of `#if DEF` compilation, or we force plugin authors to update and recompile their plugins. We choose the second option, cause it's 1.0 anyway and it would messed up the code **a lot**. Sometimes it's just better to release old burdens.
+We either could do cross compiling for `netcoreapp2.0` and use different dependencies for `net461` and `netstandard2.0` and do a lot of `#if DEF` compilation, or we force plugin authors to update and recompile their plugins. We choose the second option, cause it's 1.0 anyway and if we choose the first option it would mess up the code **a lot**. Sometimes it's just better to release old burdens.
 
 ## The execution
 
@@ -121,7 +123,7 @@ It took from 5th September to 17th September, 48 commits and 64 comments through
 
 That was one of the points in the journey where we finally decided we need to force plugin authors to recompile. But we didn't just throw a new dependency in, we deeply thought about how we want our plugin architecture and API surface will look like in the future.
 
-Cause `MEF` and `System.Composition` are somewhat the same conceptional, they are fundamentally different from API. There is a lack of recomposition, metadata is handled differently. There is no built in way to register objects into the container and so on.
+Cause `MEF` and `System.Composition` are somewhat the same conceptional, they are fundamentally different from API perspective. There is a lack of recomposition, metadata is handled differently. There is no built in way to register objects into the container and so on.
 
 But on the other hand I got such a great overview how the project is composed and how it's architecture looks like in detail.
 
@@ -150,7 +152,7 @@ I think everyone knows that feeling if you are working to long and to hard on a 
 Implementing the feature wasn't that hard, but varied enough that I kept up the motivation!
 It was the first feature in the product for quite a while!
 
-That's something I really can take with me for the future. For me, my company and for real life!
+That's something I really can take with me for the future. For me, my company and for real life! Get sometimes something fresh and new, that keeps you and your team on track. Don't burn out cause you feel the urge to just get stuff *done*.
 
 ##### Switch to netstandard2.0 compatible packages
 
@@ -195,9 +197,9 @@ After some manual testing I was wondering: Could that run on Linux?
 
 ![Run pretzel as the first man on earth](https://user-images.githubusercontent.com/653905/67486437-508f9a00-f66c-11e9-910a-fbef72e4fd7a.png)
 
-And I was like. What the actual fuck. I can't even believe it.
+And I was like. What the actual fuck. I can't even believe it. I'm the first man on earth that ever ran pretzel on linux. 😎
 
-😍😍😍😍😍😍😍
+🍻🎉🥳🎉🥳🎉🍻
 
 ##### Make an actual global tool
 
@@ -215,10 +217,10 @@ Was it worth all the effort, tears and blood that flow into the project? **Absol
 
 It's a [great time to be a dotnet developer](https://www.infogain.com/making-an-impact/its-a-great-time-to-be-a-net-developer/).
 
-Hope you had as much joy reading my article as I have working on this awesome open source project as I have. Feel free to jump in! Try out pretzel, give it a star on github. Happy holidays and have a nice remaining C# Advent to anybody out there.
+Hope you had as much joy reading my article as I have working on this awesome open source project. Feel free to jump in! Try out pretzel, give it a star on github. Happy holidays and have a nice remaining C# Advent to anybody out there.
 
 Manuel
 
-Ps. Again big thanks to Matthew for the slot on this series!
+Ps. Again big thanks to Matthew for the slot on his series, keep up the great ideas!
 
 > If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
