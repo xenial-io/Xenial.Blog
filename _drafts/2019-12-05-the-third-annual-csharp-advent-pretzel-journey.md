@@ -175,6 +175,36 @@ It also changed a lot in the overall architecture of the product, but I think it
 
 Most of the time writing code isn't the most time consuming aspect of development. It's communication, thinking about future consequences and impacts. Thinking and planning for the future is the most time consuming aspect for any *real* project.
 
+##### Replace RazorEngine with RazorEngine.NetCore and remove NoWin
+
+That one is one of the down sides of relying on external dependencies.
+
+The maintainer of `RazorEngine.NetCore` did a great job in porting the project to dotnet core, but [does not seam to care about contributions](https://github.com/fouadmess/RazorEngine/pulls). So that was a kind of bummer. By so much energy in our ongoing project I was so angry and mad! I really advice people out there: uploading stuff on github and create a nuget package isn't doing open source... But on the other hand I am glad he did anyway cause we decided to fork and created our own package. For like 10 LOC.
+
+NoWin was easy: We already need aspnetcore, so we just used that instead of NoWin.
+
+##### The heureka moment or when we multi target net462 and netcoreapp2.0
+
+We replaced the last dependency on full framework.
+Countless hours of debugging and coding/reviewing went into it.
+
+We [multi targeted](https://github.com/Code52/pretzel/pull/345) `Pretzel` and `Pretzel.Tests` to `net462` and `netcoreapp2.0`.
+Some fixing of testcases, mostly about `System.Diagnostics.Process` and about resources.
+
+After some manual testing I was wondering: Could that run on Linux?
+
+![Run pretzel as the first man on earth](https://user-images.githubusercontent.com/653905/67486437-508f9a00-f66c-11e9-910a-fbef72e4fd7a.png)
+
+And I was like. What the actual fuck. I can't even believe it.
+
+😍😍😍😍😍😍😍
+
+##### Make an actual global tool
+
+[Some adjustments](https://github.com/Code52/pretzel/pull/360) to the project and build script (3 LOC) and we had an global tool!
+
+So the execution journey ends here so far.
+
 ## The conclusion
 
 Did we release pretzel as a global tool and made the 1.0 happen? Not yet. Are we almost there? Yes!
