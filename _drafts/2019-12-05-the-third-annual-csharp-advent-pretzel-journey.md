@@ -15,12 +15,33 @@ At the time for registering for the slot I was working on [pretzel](https://gith
 
 First a brief history of pretzel. I migrated from [FunnelWeb to Pretzel](/series/migrating-from-funnelweb-to-pretzel/) back in 2016. I wanted to avoid [Jekyll](https://jekyllrb.com/) at the time, cause there was no [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) back in the day, and it was a pain to use on windows back in the day.
 
- - It is a garage project from [Code52](http://code52.org/pretzel/)
+ - It is a *garage* project from [Code52](http://code52.org/pretzel/)
  - Originally written in net451
  - Support for [Liquid](https://shopify.github.io/liquid/)
  - Support for [Razor](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-3.0)
  - Support for [custom plugins](https://github.com/Code52/pretzel/wiki/Plugins)
+ - Uses [MEF](https://docs.microsoft.com/en-us/dotnet/framework/mef/) under the hood
+ - And a lot of dependencies that needed to be replaced
+     - [Nowin](https://www.nuget.org/packages/Nowin/) Fast Owin Web server in pure .Net
+     - [RazorEngine](https://www.nuget.org/packages/RazorEngine) RazorEngine - A Templating Engine based on the Razor parser.
+     - [NDesk.Options](https://www.nuget.org/packages/NDesk.Options/) NDesk.Options is a callback-based program option parser for C#
+     - [AjaxMin](https://www.nuget.org/packages/AjaxMin/) JavaScript and CSS minification Library for use in .NET applications that want to provide minification or parsing functionality.
+     - [DotlessClientOnly](https://www.nuget.org/packages/DotlessClientOnly/) This is a project to port the hugely useful Less libary to the .NET world. It give variables, nested rules and operators to CSS.
+     - [System.IO.Abstractions](https://www.nuget.org/packages/System.IO.Abstractions/) A set of abstractions to help make file system interactions testable.
+     - [ScriptCs](https://www.nuget.org/packages/ScriptCs.Hosting/) ScriptCs.Hosting provides common services necessary for hosting scriptcs in your application.
 
 ## The goal
 
-Before I started working on the project, I thought it would be awesome to have pretzel as a [dotnet global tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) cause it's a perfect fit for that. It also means I could reduce ceremony on getting pretzel running on [azure devops](https://azure.microsoft.com/en-us/services/devops/). Currently I use a [cake script](https://cakebuild.net/) that basically downloads the latest release from pretzel, unpacks it and then execute some batch commands on it. But that has, of course, some downsides to it 
+Before I started working on the project, I thought it would be awesome to have pretzel as a [dotnet global tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools) cause it's a perfect fit for that. It also means I could reduce ceremony on getting pretzel running on [azure devops](https://azure.microsoft.com/en-us/services/devops/). Currently I use a [cake script](https://cakebuild.net/) that basically downloads the latest release from pretzel, unpacks it and then execute some batch commands on it. But that has, of course, some downsides to it. It has a lot of ceremony and moving parts and has therefore multiple points of failure. First download nuget via powershell, restore cake, run the build script that downloads pretzel, afterwards launch pretzel.
+
+With the help of an global tool we can run (if at least dotnetcore2.2 is installed):
+
+```cmd
+dotnet tool install -g Pretzel.Tool
+pretzel build
+```
+
+Thats it! I doubt it could get any easier!
+
+Another goal was to support [jekyll's data files](https://jekyllrb.com/docs/datafiles/). It was a happy [coincidence](https://github.com/Code52/pretzel/issues/331) that [SunaCode](https://github.com/SunaCode) was asking for that feature, cause my main reason for starting working on pretzel was exactly this feature after I read about using [static comments for jekyll](https://mademistakes.com/articles/jekyll-static-comments/) to finally replace [disqus](https://fatfrogmedia.com/delete-disqus-comments-wordpress/) cause it is hard to justify for privacy and performance reasons for a blog. Since I started my own business starting this year, I now am responsible for that stuff and I really need to care.
+
