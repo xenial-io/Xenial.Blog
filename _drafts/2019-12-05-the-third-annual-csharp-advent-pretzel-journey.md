@@ -47,6 +47,8 @@ Another goal was to support [jekyll's data files](https://jekyllrb.com/docs/data
 
 We didn't want to force old users to switch to `netcoreapp2.2`, so we wanted to support full framework with a reasonable amount of work and aimed to target `net462` cause it's the first version that fully supports `netstandard2.0`.
 
+We also aimed for usage compatibility. So from an end user perspective everything needed to be compatible.
+
 ## The community
 
 I used the term *we* a lot in the post so far. That's rather rare from my perspective cause I'm only a one man shop (so far). What do I mean with *we*?
@@ -65,4 +67,16 @@ But the most important thing: **WE** kept the project on fire, kept good vibes (
 
 ## The plan
 
-Cause there are a lot of 
+Cause there are a lot of dependencies and goals to solve, we decided to tackle our problems in multiple phases.
+
+1. Switch to new csproj file to ease multi targeting `net642` and `netcoreapp2.0` later
+1. Update all dependencies to the latest version
+1. Look for all easy replacements for the dependencies that already have `netstandard2.0` support
+1. Lookout for alternatives for those dependencies that are either deprecated or don't provide an easy `netstandard2.0` part.
+1. Switch to `System.Composition` and drop `MEF`
+1. Use the new `System.CommandLine.Experimental` package for the deprecated `NDesk.Options`
+1. Add the data files feature
+1. After all dependencies are on `netstandard2.0` switch `Pretzel.Logic` to `netstandard2.0`
+1. Multitarget `Pretzel` and `Pretzel.Tests` to `net462`and `netcoreapp2.0`
+1. Build and package the `Pretzel.Tool` global tool
+1. Somewhere in between provide more docs for usage an plugin authors
