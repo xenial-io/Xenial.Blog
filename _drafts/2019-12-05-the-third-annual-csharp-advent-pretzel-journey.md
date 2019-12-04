@@ -89,6 +89,60 @@ We either could do cross compiling for `netcoreapp2.0` and use different depende
 
 ## The execution
 
+I'll not going to cover that in full detail, but you can see [the list of PR's](https://github.com/Code52/pretzel/pulls?utf8=%E2%9C%93&q=is%3Apr+author%3Abiohazard999+) but give a higher level of perspective and don't want to bore you with all nitty gritty details.
+
+##### Converting the project to the new csproj format
+
+That was a quite easy task. I used the awesome dotnet global tool from [hvanbakel](https://github.com/hvanbakel) called [migrate-2019 or former migrate-2017](https://github.com/hvanbakel/CsprojToVs2017) to convert the project to the new project format. 
+
+```cmd
+dotnet migrate-2017 migrate
+```
+
+After a bit of cleanup it was building and tests were still passing.
+
+The tricky part was here: The new package format does output the artifacts not under `bin/Debug` but under `bin/Debug/[TFM]`. So getting the build and packaging back ready was a little bit tricky.
+
+##### Update the packages to the latest version
+
+That one was also easy (except for `System.IO.Abstractions`) using the [dotnet outdated tool](https://github.com/jerriep/dotnet-outdated).
+
+```cmd
+dotnet outdated -u
+```
+
+`System.IO.Abstractions` did make some unit tests fail, so we moved on and fixed that later. I've upgraded to the latest version that made the tests pass manually, and luckily enough that version already supported `netstandard2.0`. We decided to upgrade to the latest version later on, cause we were confident enough that everything was working trough our automated and manual tests.
+
+##### Multitarget Pretzel.Logic for net462/netstandard2.0 and replace MEF with System.Composition
+
+Cause `netstandard2.0` is somehow compatible with `net462` this was the first [real big PR](https://github.com/Code52/pretzel/pull/328).
+
+It took from 5th September to 17th September, 48 commits and 64 comments through the code review. That was the second largest PR in the journey.
+
+That was one of the points in the journey where we finally decided we need to force plugin authors to recompile. But we didn't just throw a new dependency in, we deeply thought about how we want our plugin architecture and API surface will look like in the future.
+
+Cause `MEF` and `System.Composition` are somewhat the same conceptional, they are fundamentally different from API. There is a lack of recomposition, metadata is handled differently. There is no built in way to register objects into the container and so on.
+
+But on the other hand I got such a great overview how the project is composed and how it's architecture looks like in detail.
+
+At that point we dropped support for `ScriptCS` (for now) cause there is no package provided by the `ScriptCS` team that supports `System.Composition`. Cause there is no support for `netcoreapp2.0` and we will need to replace it anyway.
+
+Most of the changes are just changing the visibility of members and adding some attributes. At this point nothing in our test suite helped us. Correct configuration of Composition/DI is often not covered by automated unit tests in a project, cause integration tests normally will cover that. That meant a lot of trial and error.
+
+I've never used `System.Composition` before. It was quite a learning curve (and a lot of false assumptions I made) but most of the error messages were very helpful (esp. compared to MEF1 & MEF2). We also managed to eliminate some architectural flaws in pretzel. So that was a good start.
+
+##### Fix warnings and remove used obsolete API's
+
+After upgrading to the latest versions of the packages there were a [ton of warnings](https://github.com/Code52/pretzel/pull/333) (I think about 300+). It was crucial to remove them before moving further.
+
+Never let your warnings go wild. You'll miss important warnings if your project has hundreds and hundreds of warnings.
+
+Most of them were related to xUnit and the new analyzer package. We found some *bug's* in some test cases and also improved the readability of test failures a lot. That helped later on switching to the latest `System.IO.Abstraction` package. I was unable to fix the issues cause of bad error messages in the test. Eg.: *Expected value was **true** but actual value was **false***
+
+The automated fixes by the xunit analyzer helped a lot here.
+
+
+
 ## The conclusion
 
 Did we release pretzel as a global tool and made the 1.0 happen? Not yet. Are we almost there? Yes!
