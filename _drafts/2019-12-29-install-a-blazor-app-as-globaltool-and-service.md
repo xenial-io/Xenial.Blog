@@ -15,7 +15,7 @@ The screenshot you are looking at is a tool you can install, for example on an U
 1. See all Firewall rules that are on that particular machines (with a given prefix, in this case `Xenial`)
 1. Allow developers to interact with this tool via an HTTP endpoint to add, list and delete firewall rules.
 
-You may ask your self, why do you want to do something like this? Isn't that a huge security flaw? Yes and no. It's not supposed to be exposed to the internet, it's an internal development tool to make UI-Tests easier. Why HTTP and a REST-API? In a modern world where we use *a lot* of different programming languages (C#, Java/Typescript, Java, etc.) I think it's the most accessible way possible. Sure you could do that same thing with named pipes for example. But I think this does not need to be *that* efficient. It should do it's job, and do that well. If you consider all the cross cutting concerns (logging, auth, etc.) I think `ASP.NET Core` does a great job for all sorts of services and applications.
+You may ask your self, why do you want to do something like this? Isn't that a huge security flaw? Yes and no. It's not supposed to be exposed to the internet, it's an internal development tool to make UI-Tests **easier**. It's protected at least by API-Key's so it's not totally blank and open by default. Why HTTP and a REST-API? In a modern world where we use *a lot* of different programming languages (C#, Java/Typescript, Java, etc.) I think it's the most accessible way possible. Sure you could do that same thing with named pipes for example. But I think this does not need to be *that* efficient. It should do it's job, and do that well. If you consider all the cross cutting concerns (logging, auth, etc.) I think `ASP.NET Core` does a great job for all sorts of services and applications.
 
 But why don't you just turn off the firewall? Nope, I'm not going to do that. (Especially in a UI-Test we want to be as close as possible to the end user scenario as possible)
 
@@ -216,13 +216,13 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: C:\Users\mgrundner\.dotnet\tools\.store\blazor-as-a-tool\1.0.0\blazor-as-a-tool\1.0.0\tools\netcoreapp3.1\any
 ```
 
-> Did you notices the content root path now is deep in the dotnet tools structure?
+> Did you noticed the content root path now is deep in the dotnet tools structure?
 
 Now let's look at [http://localhost:5000](http://localhost:5000)
 
 ![Working Blazor global tool](/img/posts/2019/2019-12-29-working-blazor-global-tool.png)
 
-Profit!
+**Profit!**
 
 ### Bonus points, or can we run it as a windows service?
 
@@ -369,7 +369,6 @@ sc start blazor-as-a-tool
 
 ```
 
-
 Now let's look again at [http://localhost:5000](http://localhost:5000).
 
 Voilà! A full running blazor application as a service!
@@ -382,8 +381,27 @@ Voilà! A full running blazor application as a service!
 
 We now can do all kinds of interesting stuff with this, for example use [Topshelf](http://topshelf-project.com/) and a [application manifest](https://docs.microsoft.com/de-de/windows/win32/sbscs/application-manifests?redirectedfrom=MSDN) to require admin promt for the tool to install it itself, instead of manually installing it via `sc.exe`.
 
-I hope this was an interesting post, it was a lot of fun for me! Keep an eye on [Xenial](https://www.xenial.io) and I wish you all a happy new year! Stay awesome!
+In the near future (once I published the bits to [nuget.org](https://www.nuget.org)) it will be possible to run a normal command promt and install the tool with:
 
+```cmd
+dotnet tool install -g Xenial.DevTools.Firewall.Tool
+xenial-firewall --install
+```
+And you are up and running and of course you can use the provided Api Packages for Typescript and dotnet (or use the open-api file to generate your own one in for example java, python, etc.)
+
+```bat
+REM dotnet
+dotnet add package Xenial.DevTools.Firewall.ApiClient
+
+REM npm
+npm i xenial-devtools-firewall-api-client
+```
+
+And you can use the handy api packages with your ui-test project!
+
+I hope this was an interesting post, it was a lot of fun building it! Keep an eye on [Xenial](https://www.xenial.io) and I wish you all a happy new year!
+
+Stay awesome!  
 Manuel
 
 > If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
