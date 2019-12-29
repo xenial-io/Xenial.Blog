@@ -46,4 +46,114 @@ That results in this
   </PropertyGroup>
 ```
 
-So let's add the 
+So let's modify the csproj so we get a dotnet tool:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>blazor_as_a_tool</RootNamespace>
+
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>blazor-as-a-tool</ToolCommandName>
+
+  </PropertyGroup>
+
+</Project>
+
+```
+
+If we now run `dotnet pack` we'll get some output like this:
+
+```cmd
+C:\F\git\blazor-as-a-tool>dotnet pack
+Microsoft (R)-Build-Engine, Version 16.4.0+e901037fe für .NET Core
+Copyright (C) Microsoft Corporation. Alle Rechte vorbehalten.
+
+  Wiederherstellung in "41,77 ms" für "C:\F\git\blazor-as-a-tool\src\blazor-as-a-tool\blazor-as-a-tool.csproj" abgeschlossen.
+  blazor-as-a-tool -> C:\F\git\blazor-as-a-tool\src\blazor-as-a-tool\bin\Debug\netcoreapp3.1\blazor-as-a-tool.dll
+  blazor-as-a-tool -> C:\F\git\blazor-as-a-tool\src\blazor-as-a-tool\bin\Debug\netcoreapp3.1\blazor-as-a-tool.Views.dll
+  blazor-as-a-tool -> C:\F\git\blazor-as-a-tool\src\blazor-as-a-tool\bin\Debug\netcoreapp3.1\blazor-as-a-tool.dll
+  blazor-as-a-tool -> C:\F\git\blazor-as-a-tool\src\blazor-as-a-tool\bin\Debug\netcoreapp3.1\blazor-as-a-tool.Views.dll
+  Das Paket "C:\F\git\blazor-as-a-tool\src\blazor-as-a-tool\bin\Debug\blazor-as-a-tool.1.0.0.nupkg" wurde erfolgreich erstellt.
+
+C:\F\git\blazor-as-a-tool>
+```
+
+Wow! That was easy! Let's modify the project a little bit more and change the package output directory, so it's more convenient to use.
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>blazor_as_a_tool</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>blazor-as-a-tool</ToolCommandName>
+
+    <PackageOutputPath>$(MSBuildThisFileDirectory)..\..\artifacts\tools</PackageOutputPath>
+  </PropertyGroup>
+
+</Project>
+
+```
+
+We now have a project structure like this and a package that looks like this.
+
+![Explorer view of the project](/img/posts/2019/2019-12-29-tool-explorer-structure.png)
+![Package Explorer view of the tool](/img/posts/2019/2019-12-29-package-explorer-tool-structure.png)
+
+Not that hard!
+
+Let's try out the new tool by installing it:
+
+```cmd
+C:\F\git\blazor-as-a-tool>dotnet tool install -g --add-source artifacts\tools blazor-as-a-tool
+Sie können das Tool über den folgenden Befehl aufrufen: blazor-as-a-tool
+Das Tool "blazor-as-a-tool" (Version 1.0.0) wurde erfolgreich installiert.
+```
+
+Okay nice! Let's run it:
+
+```cmd
+C:\F\git\blazor-as-a-tool>blazor-as-a-tool
+info: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[0]
+      User profile is available. Using 'C:\Users\mgrundner\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+info: Microsoft.Hosting.Lifetime[0]
+      Now listening on: http://localhost:5000
+info: Microsoft.Hosting.Lifetime[0]
+      Now listening on: https://localhost:5001
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\F\git\blazor-as-a-tool
+```
+
+Let's fire up the browser at [http://localhost:5000](http://localhost:5000)
+
+![Blazor app is broken in browser](/img/posts/2019/2019-12-29-blazor-browser-broken.png)
+
+Whoup's, that doesn't look right. Did you spot the error? The Content root path is still `Content root path: C:\F\git\blazor-as-a-tool`.
+
+Okay let's fix that by adjusting it in `Program.cs`. But first we need to know how dotnet global tools are structured. So let's have a quick look at that. But where the heck should I look at? I have no idea how the inner stuff of dotnet works.
+
+No worries, just use everything at your disposal and throw it at it. The good old `where` command.
+
+```cmd
+C:\F\git\blazor-as-a-tool>where blazor-as-a-tool
+C:\Users\mgrundner\.dotnet\tools\blazor-as-a-tool.exe
+```
+
+Okay? Thats interesting, let's look at that folder:
+
+
+
+
+```cs
+
+```
