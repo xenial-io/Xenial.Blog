@@ -151,9 +151,97 @@ C:\Users\mgrundner\.dotnet\tools\blazor-as-a-tool.exe
 
 Okay? Thats interesting, let's look at that folder:
 
+![Folder structure of a global tool installed #1](/img/posts/2019/2019-12-29-global-tools-structure1.png)
+![Folder structure of a global tool installed #2](/img/posts/2019/2019-12-29-global-tools-structure2.png)
 
+Interesting! I have no idea why the dotnet team decided to do the double versioning (I guess that has to do with tools referencing other packages), but at least we have some idea how everything is structured. It's no magical black box, it's just a bunch of files on disk! So let's adjust the content path.
 
+> In my first try I used `Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName)` and of course that is wrong cause there is only the `exe` file there.
 
 ```cs
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
+namespace blazor_as_a_tool
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                //We use the path of the executing assembly, that is blazor_as_a_tool.dll in this case
+                .UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
+}
+```
+
+Let's try it out:
+
+```cmd
+dotnet tool uninstall -g blazor-as-a-tool
+dotnet pack
+dotnet tool install -g --add-source artifacts\tools blazor-as-a-tool
+```
+
+And run the application:
+
+```cmd
+C:\F\git\blazor-as-a-tool>blazor-as-a-tool
+info: Microsoft.Hosting.Lifetime[0]
+      Now listening on: http://localhost:5000
+info: Microsoft.Hosting.Lifetime[0]
+      Now listening on: https://localhost:5001
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\mgrundner\.dotnet\tools\.store\blazor-as-a-tool\1.0.0\blazor-as-a-tool\1.0.0\tools\netcoreapp3.1\any
+```
+
+> Did you notices the content root path now is deep in the dotnet tools structure?
+
+Now let's look at [http://localhost:5000](http://localhost:5000)
+
+![Working Blazor global tool](/img/posts/2019/2019-12-29-working-blazor-global-tool.png)
+
+Profit!
+
+### Bonus points, or can we run it as a windows service?
+
+Now we have a running application that works, but can we make it a windows service?
+Of course, it's just a console application.
+
+> Windows services are not so different from normal applications, almost all executable's can be used as windows services, the only difference is how they react to life-cycle events (eg. do they gracefully shutdown).
+
+Good old `sc.exe` and `where.exe`:
+
+```cmd
+REM Where is the executable:
+C:\F\git\blazor-as-a-tool>where blazor-as-a-tool
+C:\Users\mgrundner\.dotnet\tools\blazor-as-a-tool.exe
+
+REM installing the service:
+C:\F\git\blazor-as-a-tool>sc create blazor-as-a-tool binPath="C:\Users\mgrundner\.dotnet\tools\blazor-as-a-tool.exe"
+[SC] CreateService ERFOLG
+
+REM running the service
 
 ```
