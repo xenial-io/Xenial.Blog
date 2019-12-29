@@ -227,13 +227,101 @@ Profit!
 ### Bonus points, or can we run it as a windows service?
 
 Now we have a running application that works, but can we make it a windows service?
-Of course, it's just a console application.
+Of course, it's just a console application, but we need to inject a little helper from Microsoft to confirm to the OS rules and include `Microsoft.Extensions.Hosting.WindowsServices` into the app and registering it.
 
-> Windows services are not so different from normal applications, almost all executable's can be used as windows services, the only difference is how they react to life-cycle events (eg. do they gracefully shutdown).
+> Windows services are not so different from normal applications, almost all executable's can be used as windows services, the only difference is how they react to life-cycle events (eg. do they gracefully shutdown, pause etc.).
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>blazor_as_a_tool</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>blazor-as-a-tool</ToolCommandName>    
+    <PackageOutputPath>$(MSBuildThisFileDirectory)..\..\artifacts\tools</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>  
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.0" />  
+  </ItemGroup>
+
+</Project>
+
+```
+
+```cs
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
+namespace blazor_as_a_tool
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                //We use the path of the executing assembly, that is blazor_as_a_tool.dll in this case
+                .UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
+                //Use life-cycle hooks of the windows services
+                .UseWindowsService()
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
+}
+
+```
+
+> Gotcha, in the time of writing there seams a [bug in the nuget pack](https://github.com/NuGet/Home/issues/7001) tool so we have to bypass it by adding a hook in the msbuild process to fix the date issues so if you are reading this, this is probably obsolete
+
+```xml
+
+  <PropertyGroup>
+    <PatchDatesScriptLocation>$(MSBuildThisFileDirectory)patch-date.ps1</PatchDatesScriptLocation>
+  </PropertyGroup>
+
+  <Target Name="PatchFileDates" BeforeTargets="GenerateNuspec">
+    <!-- https://github.com/NuGet/Home/issues/7001 -->
+    <Message Text="PatchFileDates" />
+    <Exec Command="C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; { $(PatchDatesScriptLocation) } &quot;" LogStandardErrorAsError="True" ContinueOnError="False" WorkingDirectory="$(MSBuildThisFileDirectory)" />
+  </Target>
+```
+
+`patch-date.ps1`:
+
+```ps1
+Get-ChildItem -File -Recurse | % {$_.LastWriteTime = (Get-Date)}
+```
+
+Let's repack that tool and see if we get that thing going
+
+```cmd
+dotnet tool uninstall -g blazor-as-a-tool
+dotnet pack
+dotnet tool install -g --add-source artifacts\tools blazor-as-a-tool
+```
 
 Good old `sc.exe` and `where.exe`:
 
-```cmd
+> Note: you need an elevated promt for this!
+
+```bat
 REM Where is the executable:
 C:\F\git\blazor-as-a-tool>where blazor-as-a-tool
 C:\Users\mgrundner\.dotnet\tools\blazor-as-a-tool.exe
@@ -242,6 +330,60 @@ REM installing the service:
 C:\F\git\blazor-as-a-tool>sc create blazor-as-a-tool binPath="C:\Users\mgrundner\.dotnet\tools\blazor-as-a-tool.exe"
 [SC] CreateService ERFOLG
 
-REM running the service
+REM starting the service
+C:\F\git\blazor-as-a-tool>sc start blazor-as-a-tool
+
+SERVICE_NAME: blazor-as-a-tool
+        TYPE               : 10  WIN32_OWN_PROCESS
+        STATE              : 2  START_PENDING
+                                (NOT_STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x7d0
+        PID                : 15748
+        FLAGS              :
+
+REM stopping the service
+C:\F\git\blazor-as-a-tool>sc stop blazor-as-a-tool
+
+SERVICE_NAME: blazor-as-a-tool
+        TYPE               : 10  WIN32_OWN_PROCESS
+        STATE              : 3  STOP_PENDING
+                                (STOPPABLE, NOT_PAUSABLE, ACCEPTS_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x0
+
+REM Deleting the service
+C:\F\git\blazor-as-a-tool>sc delete blazor-as-a-tool
+[SC] DeleteService ERFOLG
+```
+
+So let's install and start it:
+
+```bat
+sc create blazor-as-a-tool binPath="C:\Users\mgrundner\.dotnet\tools\blazor-as-a-tool.exe"
+sc start blazor-as-a-tool
 
 ```
+
+
+Now let's look again at [http://localhost:5000](http://localhost:5000).
+
+Voilà! A full running blazor application as a service!
+
+![Working Blazor global tool as a windows service](/img/posts/2019/2019-12-29-working-blazor-global-tool-as-a-service.png)
+
+![Magic](https://media.giphy.com/media/12NUbkX6p4xOO4/giphy.gif)
+
+### Recap
+
+We now can do all kinds of interesting stuff with this, for example use [Topshelf](http://topshelf-project.com/) and a [application manifest](https://docs.microsoft.com/de-de/windows/win32/sbscs/application-manifests?redirectedfrom=MSDN) to require admin promt for the tool to install it itself, instead of manually installing it via `sc.exe`.
+
+I hope this was an interesting post, it was a lot of fun for me! Keep an eye on [Xenial](https://www.xenial.io) and I wish you all a happy new year! Stay awesome!
+
+Manuel
+
+> If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
