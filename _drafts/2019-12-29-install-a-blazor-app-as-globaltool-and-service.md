@@ -25,3 +25,25 @@ So my thought was: What is the most painless way of getting a service up and run
 
 ### dotnet tools to the rescue
 
+As you may know, there is this litte thing called [dotnet tools](//andrewlock.net/new-in-net-core-3-local-tools/) (and esp [global tools](//docs.microsoft.com/en-us/dotnet/core/tools/global-tools)). From implementation detail there is no difference between global and local tools, only from consumption view.
+
+> dotnet tools are just command-line applications
+
+We know that `aspnet core applications` are also only command-line applications as well! So I was wondering, can we pack up an blazor application as well? You can bet on that!
+
+So let's start by creating a new blazor application:
+
+```cmd
+dotnet new blazorserver
+```
+
+That results in this
+
+```xml
+ <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>blazor_as_a_tool</RootNamespace>
+  </PropertyGroup>
+```
+
+So let's add the 
