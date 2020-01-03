@@ -3,6 +3,7 @@
  title: Install a blazor app as globaltool and service
  comments: true
  tags: ['blazor', 'service', 'netcoreapp30', 'dotnetcore', 'dotnet', 'global-tool', 'Xenial', 'EasyTest', 'XAF']
+ github: blazor-as-a-tool
 ---
 The year is almost over, and I hope you had nice christmas holidays! I did relax a little bit, but as maybe some of you know I'm working hard on getting [Xenial](https://www.xenial.io) alive. For those that don't know what Xenial is - stay tuned, there will be a announcement around end of january - However, I'll tease a little screenshot right now.
 
