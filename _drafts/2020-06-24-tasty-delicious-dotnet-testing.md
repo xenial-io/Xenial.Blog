@@ -3,6 +3,9 @@
  title: 'Tasty - Delicious dotnet testing'
  comments: true
  tags: ["Tasty", "Testing", "BestPractices", "dotnet", "dotnetcore", "IntegrationTesting", "UITest", "UnitTesting", "Xenial", "async", "await"]
+ series: Tasty
+ github: Tasty
+ author-github: xenial-io
 ---
 
 I want to share some insights on a project I am working on for the last couple of months. I had the idea for the project when working at [Ranorex](//www.ranorex.com). So what is this, and why you should care.
@@ -92,27 +95,443 @@ But what is the whole point of this? I can do the same with xUnit you say. Sure 
 Let's talk about the existing frameworks.
 
 - MSTest was born somewhere in the time frame of [VisualStudio 2005](//en.wikipedia.org/wiki/Visual_Studio_Unit_Testing_Framework) and had a reboot as testfx/MSTestV2 in [mid 2016](//devblogs.microsoft.com/devops/taking-the-mstest-framework-forward-with-mstest-v2/).
-- NUnit were a port of JUnit in the first place somewhat about the 2004 time frame and has been rewritten several times. At the time of writing it's on version 3.
+- NUnit was originally a port of JUnit in the first place somewhat about the 2004 time frame and has been rewritten several times. At the time of writing it's on version 3.
 - xUnit was [introduced by James Newkirk in 2007](//jamesnewkirk.typepad.com/posts/2007/09/announcing-xuni.html) and rewritten at least once.
+
+That's almost 15 years. Time has changed a lot since then. .NET was windows only. Microsoft didn't do open source and DevOps wasn't even invented yet. There was no cloud. So let's think if those tools are still flexible and valuable enough.
 
 Let's look at the [motivation of xUnit](https://xunit.net/docs/why-did-we-build-xunit-1.0).
 
 Basically everything in there is aimed to reduce noise you have to write and execute tests.
 
-I really like xUnit cause it tries to reduce the amount of boilerplate as much as it possible can, but there is much room for improvement.
+I really like xUnit cause it tries to get out of your way as much as it possible can, but there is much room for improvement.
 
 Every time I need to implement a more complex test scenario, I need to lookup docs and use the class initialize or collection initialize things. The rules in which order they will be initialized is total out of my control. This leads to more boilerplate code and weird behavior esp. when dealing with async code. When stuff fails in the init phase, error messages and debugging becomes really difficult.
-It doesn't leverage the things I know about C# (except constructors and IDisposable), its very hard to extend (mostly cause of lack of documentation), and most of all: it's very hard to structure and name test cases.
+It doesn't leverage the things I know about C# (except constructors and IDisposable), its very hard to extend (mostly cause of lack of documentation), and most of all: it's very hard to structure and name test cases (and I know that you can do nested test classes).
 
 Another problem I have with all frameworks is: They are like magical black boxes, don't run the same in trillions of test runners out there and you have little to no control about the environment you are running in or how report's should look like.
 
 Data driven tests are another problem, esp. when you are working with domain experts on tests, that provide data in an external source (excel files, some kind of database etc etc). Most of them now have analyzers that will warn you if parameters don't match your test signature, but naming the test cases is a nightmare.
 Don't get me wrong here, everything is possible with all the mentioned frameworks above, but writing all the boilerplate and knowing the internals of them is **hard**.
 
-And last but not least: those frameworks are not really cross platform. All the tools (for example NCrunch) will never hit for example VSCode or VS for Mac. You need to have the runners being able to have support for a platform it's getting harder and harder to write and execute tests. With net5 we will be able to run dotnet from a raspberry pi to [fucking fridges](https://docs.tizen.org/application/dotnet/index).
+And last but not least: those frameworks are not really cross platform. All the tools (for example NCrunch) will never hit for example VSCode or VS for Mac. You need to have the runners being able to have support for a platform it's getting harder and harder to write and execute tests. With net5 we will be able to run dotnet from a raspberry pi to [fu**ing fridges](https://docs.tizen.org/application/dotnet/index).
 
 Inspired by other awesome micro frameworks like [bullseye](//github.com/adamralph/bullseye) and [simple-exec](//github.com/adamralph/simple-exec) by [Adam Ralph](//adamralph.com/about/) I think it's time for a new era and approach of dotnet testing.
 
 ### Current and nearby features
 
-### Future plans
+At the time of writing this there are several things that are possible today, but there is a lot of work to do.
+
+#### Test groups / Describe
+
+In jest or other JS frameworks groups are description blocks that can be nested as you like.
+
+```cs
+static async Task<int> Main(string[] args)
+{
+    Describe("A group", () =>
+    {
+        It("can contain a test", () => true);
+
+        Describe("with nesting", () =>
+        {
+            It("should be allowed", () => true);
+        });
+
+        Describe("that has multiple groups", () =>
+        {
+            Describe("with really deep nesting", () =>
+            {
+                It("should be allowed", () => true);
+            });
+        });
+    });
+
+    return await Run(args);
+}
+```
+
+```txt
+👍 [00:00:00.0075]  A group can contain a test
+👍 [00:00:00.0001]  A group with nesting should be allowed
+👍 [00:00:00.0000]  A group that has multiple groups with really deep nesting should be allowed
+
+=================================================================================================
+Summary:              F0 |              I0 |             NR0 |              S3 | T3
+Time:    [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0078] | [00:00:00.0078]
+Outcome:         Success
+=================================================================================================
+```
+
+#### Focused and Ignored Tests
+
+It should be possible to focus on single test cases or groups, this is esp. useful when debugging, troubleshooting failing tests or doing TDD.
+
+```cs
+static async Task<int> Main(string[] args)
+{
+    Describe("ForcedTests", () =>
+    {
+        It("Should not run #1", () => false);
+        FIt("Should run #1", () => true);
+        FIt("Should run #2", () => true);
+        It("Should not run #2", () => false);
+
+        FDescribe("All those tests are in focus mode", () =>
+        {
+            It("Focused #1", () => true);
+            It("Focused #2", () => true);
+            It("Focused #3", () => false)
+                .Ignored("I'm ignored 😥");
+        });
+    });
+
+    return await Run(args);
+}
+```
+
+```txt
+👍 [00:00:00.0064]  ForcedTests Should run #1
+👍 [00:00:00.0003]  ForcedTests Should run #2
+👍 [00:00:00.0001]  ForcedTests All those tests are in focus mode Focused #1
+👍 [00:00:00.0002]  ForcedTests All those tests are in focus mode Focused #2
+🙄 [00:00:00.0003]  ForcedTests All those tests are in focus mode Focused #3
+        I'm ignored 😥
+
+=================================================================================================
+Summary:              F0 |              I1 |             NR2 |              S4 | T7
+Time:    [00:00:00.0000] | [00:00:00.0003] | [00:00:00.0000] | [00:00:00.0071] | [00:00:00.0074]
+Outcome:         Success
+=================================================================================================
+```
+
+#### Return values
+
+It should be easy to fail a test, but allow as much context as possible. So there are a lot of overloads that make your life a little bit easier.
+
+```cs
+static void Main(string[] args)
+{
+    Describe("Return values", () =>
+    {
+        It("can be void", () =>
+        {
+            var add = 1 + 1;
+            Console.WriteLine($"1 + 2 = {add}");
+        });
+
+        It("with throwing an exception", () =>
+        {
+            void Sut() => throw new Exception("Foo");
+            Sut();
+        });
+
+        It("can be booleans", () => true);
+
+        It("can be tuples to provide context", () =>
+        {
+            return (false, "This is the reason for the fail");
+        });
+
+        It("can be async", async () =>
+        {
+            await Task.CompletedTask;
+            return true;
+        });
+    });
+
+    Run();
+}
+```
+
+```txt
+1 + 2 = 2
+👍 [00:00:00.0089]  Return values can be void
+👎 [00:00:00.0004]  Return values with throwing an exception
+        System.Exception: Foo
+   at Xenial.Delicious.ReturnValueTests.Program.<Main>g__Sut|0_6() in C:\F\git\Tasty\test\integration\Xenial.Tasty.ReturnValueTests\Program.cs:line 22
+   at Xenial.Delicious.ReturnValueTests.Program.<>c.<Main>b__0_2() in C:\F\git\Tasty\test\integration\Xenial.Tasty.ReturnValueTests\Program.cs:line 23
+   at Xenial.Delicious.Scopes.TastyScope.<>c__DisplayClass19_0.<It>b__0() in C:\F\git\Tasty\src\Xenial.Tasty\Tasty.Scope.cs:line 95
+   at Xenial.Delicious.Execution.TestMiddleware.ExecuteTestMiddleware.<>c.<<UseTestExecutor>b__0_0>d.MoveNext() in C:\F\git\Tasty\src\Xenial.Tasty\Execution\TestMiddleware\ExecuteTestMiddleware.cs:line 15
+👍 [00:00:00.0002]  Return values can be booleans
+👎 [00:00:00.0006]  Return values can be tuples to provide context
+        This is the reason for the fail
+👍 [00:00:00.0013]  Return values can be async
+
+=================================================================================================
+Summary:              F2 |              I0 |             NR0 |              S3 | T5
+Time:    [00:00:00.0010] | [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0105] | [00:00:00.0116]
+Outcome:          Failed
+=================================================================================================
+```
+
+#### Datadriven tests
+
+Cause Tasty is just an intelligent wrapper around lambdas and collecting a tree of test cases, we can use interpolated strings to identify test cases. **YOU** are in *total* control. Of course there is a lot that could be done by providing a more descriptive syntax, but this early in the iteration cycle, I think it's reasonable concise.  
+
+```cs
+static async Task<int> Main(string[] args)
+{
+    Describe("Data driven tests", async () =>
+    {
+        var numbers = Enumerable.Range(0, 3);
+
+        foreach (var number in numbers)
+        {
+            It($"can be as simple as a foreach #{number}", () => true);
+        }
+
+        numbers
+            .Select((n) => It($"can be a linq expression #{n}", () => true))
+            .ToList();
+
+        using (var reader = File.OpenText("data.txt"))
+        {
+            var fileText = await reader.ReadToEndAsync();
+            var cases = fileText.Split(Environment.NewLine);
+
+            foreach (var @case in cases)
+            {
+                It($"can be anything, your imagination is the limit #{@case}", () => true);
+            }
+        }
+    });
+
+    return await Run();
+}
+```
+
+```txt
+👍 [00:00:00.0074]  Data driven tests can be as simple as a foreach #0
+👍 [00:00:00.0000]  Data driven tests can be as simple as a foreach #1
+👍 [00:00:00.0000]  Data driven tests can be as simple as a foreach #2
+👍 [00:00:00.0000]  Data driven tests can be a linq expression #0
+👍 [00:00:00.0000]  Data driven tests can be a linq expression #1
+👍 [00:00:00.0000]  Data driven tests can be a linq expression #2
+👍 [00:00:00.0001]  Data driven tests can be anything, your imagination is the limit #1 Hello
+👍 [00:00:00.0000]  Data driven tests can be anything, your imagination is the limit #2 From
+👍 [00:00:00.0000]  Data driven tests can be anything, your imagination is the limit #3 TXT
+
+=================================================================================================
+Summary:              F0 |              I0 |             NR0 |              S9 | T9
+Time:    [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0077] | [00:00:00.0077]
+Outcome:         Success
+=================================================================================================
+```
+
+#### Declarative syntax
+
+Besides the global import, its also possible to use the OOP style syntax and object model, although it's not that pretty right now:
+
+```cs
+static async Task<int> Main(string[] args)
+{
+    var scope = new TastyScope()
+        .RegisterReporter(ConsoleReporter.Report)
+        .RegisterReporter(ConsoleReporter.ReportSummary);
+
+    var group = scope.Describe("I'm a group", () => { });
+
+    group.It("with an test case", () => true);
+
+    return await scope.Run();
+}
+```
+
+```txt
+👍 [00:00:00.0040]  I'm a group with an test case
+
+=================================================================================================
+Summary:              F0 |              I0 |             NR0 |              S1 | T1
+Time:    [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0040] | [00:00:00.0040]
+Outcome:         Success
+=================================================================================================
+```
+
+#### Lifecycle
+
+Cause every test framework needs some lifecycle hooks, I start with the easiest one first.
+
+##### Native
+
+dotnet now supports tuples as native return values and I think they are a wonderful pattern for small groups of functions. In combination with C# local functions they really provide a nice syntax and no magic from Tasty is involved here:
+
+```cs
+class Calculator
+{
+    private Action<int> Printer;
+    internal Calculator(Action<int> printer)
+        => Printer = printer;
+
+    private int Sum;
+
+    internal void Add(int a, int b)
+    {
+        Sum += a + b;
+        Print();
+    }
+
+    internal void Sub(int a, int b)
+    {
+        Sum += a - b;
+        Print();
+    }
+
+    private void Print()
+        => Printer(Sum);
+}
+
+static void Main(string[] args)
+{
+    Describe("LifecycleNativeTests", () =>
+    {
+        (Calculator calc, Action<int> printer) CreateSut(Action<int> printer)
+        {
+            var calc = new Calculator(printer);
+            return (calc, printer);
+        }
+
+        It("should use C#'s features to do addition", () =>
+        {
+            var (calc, printer) = CreateSut(A.Fake<Action<int>>());
+
+            calc.Add(1, 2);
+
+            A.CallTo(() => printer(3)).MustHaveHappened();
+        });
+
+        It("should use C#'s features to do subtraction", () =>
+        {
+            var (calc, printer) = CreateSut(A.Fake<Action<int>>());
+
+            calc.Sub(1, 2);
+
+            A.CallTo(() => printer(-1)).MustHaveHappened();
+        });
+    });
+
+    Run();
+}
+```
+
+```txt
+👍 [00:00:00.1228]  LifecycleNativeTests should use C#'s features to do addition
+👍 [00:00:00.0019]  LifecycleNativeTests should use C#'s features to do subtraction
+
+=================================================================================================
+Summary:              F0 |              I0 |             NR0 |              S2 | T2
+Time:    [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0000] | [00:00:00.1247] | [00:00:00.1247]
+Outcome:         Success
+=================================================================================================
+```
+
+##### Built in
+
+Cause Tasty is basically a wrapper, we can use C#'s power to control the lifecycle, but use some hooks to make our life a little bit easier.
+
+```cs
+class Calculator
+{
+    private Action<int> Printer;
+    internal Calculator(Action<int> printer)
+        => Printer = printer;
+
+    internal int Sum;
+
+    internal void Add(int a, int b)
+    {
+        Sum += a + b;
+        Print();
+    }
+
+    internal void Sub(int a, int b)
+    {
+        var r =  a - b;
+        Sum += r;
+        Print();
+    }
+
+    private void Print()
+        => Printer(Sum);
+
+    internal void Reset() 
+        => Sum = 0;
+}
+
+static void Main(string[] args)
+{
+    Describe("LifecycleTests", () =>
+    {
+        Describe("with expected side effects", () =>
+        {
+            Calculator? calc = null;
+            Action<int>?  printer = null;
+
+            BeforeEach(() =>
+            {
+                printer = A.Fake<Action<int>>();
+                calc = new Calculator(printer);
+                return Task.CompletedTask; // API is not ready yet, so we have to deal with tasks even if it's sync
+            });
+
+            It("should use Tasty's features to do addition", () =>
+            {
+                calc!.Add(1, 2);
+
+                A.CallTo(() => printer!(3)).MustHaveHappened();
+            });
+
+            It("should use Tasty's features to do subtraction", () =>
+            {
+                calc!.Sub(1, 2);
+
+                A.CallTo(() => printer!(-1)).MustHaveHappened();
+            });
+        });
+
+        Describe("with side effects", () =>
+        {
+            var printer = A.Fake<Action<int>>();
+            var calc = new Calculator(printer);
+
+            AfterEach(() =>
+            {
+                calc.Reset();
+                return Task.CompletedTask; // API is not ready yet, so we have to deal with tasks even if it's sync
+            });
+
+            It("should do addition", () =>
+            {
+                calc.Add(1, 1);
+
+                A.CallTo(() => printer(2)).MustHaveHappened();
+            });
+
+            It("should do subtraction", () =>
+            {
+                calc.Sub(2, 2);
+
+                A.CallTo(() => printer(0)).MustHaveHappened();
+            });
+        });
+    });
+
+    Run();
+}
+
+```
+
+```txt
+👍 [00:00:00.0308]  LifecycleTests with expected side effects should use Tasty's features to do addition
+👍 [00:00:00.0016]  LifecycleTests with expected side effects should use Tasty's features to do subtraction
+👍 [00:00:00.0013]  LifecycleTests with side effects should do addition
+👍 [00:00:00.0003]  LifecycleTests with side effects should do subtraction
+
+=================================================================================================
+Summary:              F0 |              I0 |             NR0 |              S4 | T4
+Time:    [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0341] | [00:00:00.0341]
+Outcome:         Success
+=================================================================================================
+```
+
+### Future plans and vision
