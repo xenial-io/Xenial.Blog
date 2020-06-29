@@ -582,3 +582,69 @@ Outcome:          Failed
 ```
 
 ### Future plans and vision
+
+I've covered a lot about the features there are in there yet, but let's talk about the goals and visions I have for this project.
+
+#### Test execution and flavors of testing
+
+The first on is around the test execution it self. Right now there is no way to specify which tests run in what order. They always will run in the order you specify. The same goes with parallel test execution. Tests run linear at the time. This is great for a lot of tests, that focus more on integration or BDD style of tests. You can describe a given when then scenario very easily right now, cause of linear test execution:
+
+```cs
+
+foreach(var user in users)
+{
+    Describe("Given a user", () =>
+    {
+        It($"with the name {user.name}");
+        foreach(var password in passwords)
+        {
+            It($"and a password {password}", () => user.Password = password);
+        }
+        It("when logging in", async () => await logonService.Logon(user));
+
+        It("should be logged on", () => user.IsLoggedIn);
+    });
+}
+```
+
+I can image there a lot of syntactic sugar that makes that kind of scenario easier, by just importing another *dialect* of tasty let's name it `using static Xenial.TastyBehavior`. That would result in a different method of building the testing tree and *execution engine* under the hood. Without loosing the control over the engine.
+
+The same will go for unit tasting where parallel test execution and random execution order should be used to look into race conditions or hidden state. Think of this as like `using static Xenial.UnitTasty`. This will execute all tests inside this file as unit tests, in randomized and parallel order. The syntax will mirror the normal `Tasty` one but applies additional attributes on the `Describe` and `It` methods.
+
+#### Code coverage and test impact analysis
+
+I did already a little bit of prototyping with code coverage using [coverlet](//github.com/coverlet-coverage/coverlet) and they are going to expose their [api's as a nuget package](//github.com/coverlet-coverage/coverlet/pull/628/files).
+
+A test platform without coverage reports is a little bit dull.
+
+Also, without coverage there is also no way to support more advanced scenarios like [test impact analysis](//docs.microsoft.com/en-us/azure/devops/pipelines/test/test-impact-analysis?view=azure-devops).
+
+If we are looking into the future, I also can imagine coverage reports for remote process execution, like for example E2E eg. UI tests. That will give you greater insights what kind of code paths you are covering with tests further up in the testing pyramid.
+
+#### Live testing, code generation and protocols
+
+As mentioned earlier, I think in a world with open compilers, tools like Omnisharp, VSCode and Visual Studio for Mac, it's time to think about a external test runner that controls tests execution and provides feedback to the IDE in a separate process. That would require a open protocol that IDE's and test executors understand to quickly run tests and report coverage and test outcome back to the IDE.
+Currently there is no tool out there that does that in a open, language unagnostic way. [wallabyjs](//wallabyjs.com/) and [ncrunch](//www.ncrunch.net/) are awesome tools but there isn't an common denominator between tooling in the IDE part and test execution on the other part. Take VSCode and language servers with the [Language Server Protocol](//microsoft.github.io/language-server-protocol/) as an inspiration.
+
+On the other hand there are a lot of scenarios internally in the `Tasty` code base as well in generating test cases using the new [source generators feature](//devblogs.microsoft.com/dotnet/introducing-c-source-generators/) i can think of.
+Using, for example, [gherkin](//cucumber.io/docs/gherkin/) to generate the bloat of boiler plate code that is needed to translate between business requirements and C# code.
+
+#### Assertions and snapshot testing
+
+Right now I have no intend to add another assertion library into the dotnet space. There are a lot of great ones out there and nothing should prevent you from using them. That's the reason Tasty does not come with an assertion library by default. As mentioned earlier, you have several ways to control if the test fails by returning a bool, tuple or throwing an exception. Most of them throw an exception (which is fine, besides performance). So you can use `xUnit`, `Nunit`, [Shouldly](//github.com/shouldly/shouldly) or [fluentassertions](//fluentassertions.com/).
+
+There is one exception to all that: snapshot or [approval testing](//approvaltests.com/).
+In JS land, esp with reactjs/vuejs this is a huge deal. I think further to blazor and other more C# scenarios like generating PDF reports and Excel files where snapshot testing can be extremely valuable. I did a lot of this kind of testing in the past with large success, but always found it either hard to do and tooling about approving and reporting differences is really chunky and hurts the flow a lot.
+
+There is a lot that can improve there. GIT isn't going away anywhere soon, we can do a lot more than checking in a couple of binaries into version control and opening some diff tools.
+
+### Summary and the community
+
+I think there is no better time to rethink how we test dotnet applications in the future. But having a vision and doing this all on my own will not work. There is so much space for the community to decide how the future should look like. I also think there are some business opportunities for tooling and around snapshot testing as well. But I think this project should belong to the community in the first place and be open from day zero.
+Let me know what do you think about Tasty and what do you think about my vision. There is just to much in my head to write all down at once, not leaving you back in total confusion afterwards.
+
+Leave me issues, ideas, questions, thoughts or contributions in the [github repository](//github.com/xenial-io/Tasty) where you can also find a [quick start]() and some details about consuming and contributing. Also feel free to use the discord here.
+
+Make the future of dotnet testing delicious with Tasty
+
+🍔 Manuel
