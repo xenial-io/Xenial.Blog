@@ -454,7 +454,7 @@ class Calculator
     private void Print()
         => Printer(Sum);
 
-    internal void Reset() 
+    internal void Reset()
         => Sum = 0;
 }
 
@@ -531,6 +531,53 @@ static void Main(string[] args)
 Summary:              F0 |              I0 |             NR0 |              S4 | T4
 Time:    [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0341] | [00:00:00.0341]
 Outcome:         Success
+=================================================================================================
+```
+
+#### Pipelines, Middleware & Reporters
+
+Similar to `aspnetcore` there is a test pipeline. Cause there is no test discovery in the classical sense (compared to the annotated frameworks like xUnit) there are several pipelines controlling the execution of `TestGroups` and `TestCases`. You will be able to hook into the pipeline using custom middleware to control this flow, but that is beyond the scope of this introduction.
+
+Reporters on the other hand let you control what kind of test result you want to produce. Want to export to Excel, or call some API's (For example Jira) in case of a test failure? Feel free what ever you want to implement there. Cause every reporter is also async, it's pretty easy.
+This will allow more complex reporters, for example in Blazor Webassembly running inside the browser using a Websocket/SignalR reporter reporting back into a report listener out of process.
+
+However at the time of writing, there is only a console reporter yet. An xUnit compatible reporter is in research to provide richer UX in CI systems like Azure DevOps, Github Actions, Jenkins etc.
+
+### Color Schemes & Localization
+
+This is more a accessibility feature, but I think it's something all applications should be able to provide value to users with physical disabilities (color blindness, high contrast, etc...)
+
+At this time it's possible to change the colors and icons used in the console reporter.
+
+```cs
+static void Main(string[] args)
+{
+    ConsoleReporter.Scheme = new ColorScheme
+    {
+        ErrorIcon = "🤬",
+        ErrorColor = ConsoleColor.Magenta,
+        SuccessIcon = "🥰",
+        SuccessColor = ConsoleColor.White
+    };
+
+    Describe("ColorSchemes", () =>
+    {
+        It("can be adjusted", () => true);
+        It("can be whatever you want", () => false);
+    });
+
+    Run();
+}
+```
+
+```txt
+🥰 [00:00:00.0068]  ColorSchemes can be adjusted
+🤬 [00:00:00.0002]  ColorSchemes can be whatever you want
+
+=================================================================================================
+Summary:              F1 |              I0 |             NR0 |              S1 | T2
+Time:    [00:00:00.0002] | [00:00:00.0000] | [00:00:00.0000] | [00:00:00.0068] | [00:00:00.0070]
+Outcome:          Failed
 =================================================================================================
 ```
 
