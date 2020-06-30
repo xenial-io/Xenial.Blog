@@ -16,7 +16,7 @@ When working at Ranorex I worked on a project called [Webtestit](//www.ranorex.c
 
 In dotnet world we use [MSTest](//github.com/microsoft/testfx), [NUnit](//nunit.org/) or the *youngest*  member [xUnit](//xunit.net/) to test our applications/libraries. There are a couple more, but they never really got momentum.
 
-So that's a lot of talk about available options, so why do I mention them? Cause there is a **new kid** on the block - [Tasty](//github.com/xenial-io/Tasty).
+So that's a lot of talk about available options, so why do I mention them? Because there is a **new kid** on the block - [Tasty](//github.com/xenial-io/Tasty).
 
 Highly inspired by the syntax of javascript testing frameworks like jest and jasmine (or mocha) it tries to simplify the overhead of writing tests in C# (I didn't research F# or VB.NET yet).
 
@@ -104,17 +104,17 @@ Let's look at the [motivation of xUnit](https://xunit.net/docs/why-did-we-build-
 
 Basically everything in there is aimed to reduce noise you have to write and execute tests.
 
-I really like xUnit cause it tries to get out of your way as much as it possible can, but there is much room for improvement.
+I really like xUnit because it tries to get out of your way as much as it possible can, but there is much room for improvement.
 
-Every time I need to implement a more complex test scenario, I need to lookup docs and use the class initialize or collection initialize things. The rules in which order they will be initialized is total out of my control. This leads to more boilerplate code and weird behavior esp. when dealing with async code. When stuff fails in the init phase, error messages and debugging becomes really difficult.
-It doesn't leverage the things I know about C# (except constructors and IDisposable), its very hard to extend (mostly cause of lack of documentation), and most of all: it's very hard to structure and name test cases (and I know that you can do nested test classes).
+Every time I need to implement a more complex test scenario, I need to lookup docs and use the class initialize or collection initialize things. The rules in which order they will be initialized is totally out of my control. This leads to more boilerplate code and weird behavior esp. when dealing with async code. When stuff fails in the init phase, error messages and debugging becomes really difficult.
+It doesn't leverage the things I know about C# (except constructors and IDisposable), its very hard to extend (mostly because of lack of documentation), and most of all: it's very hard to structure and name test cases (and I know that you can do nested test classes).
 
-Another problem I have with all frameworks is: They are like magical black boxes, don't run the same in trillions of test runners out there and you have little to no control about the environment you are running in or how report's should look like.
+Another problem I have with all frameworks is: They are like magical black boxes, don't run the same on trillions of test runners out there and you have little to no control about the environment you are running in or how reports should look like.
 
 Data driven tests are another problem, esp. when you are working with domain experts on tests, that provide data in an external source (excel files, some kind of database etc etc). Most of them now have analyzers that will warn you if parameters don't match your test signature, but naming the test cases is a nightmare.
 Don't get me wrong here, everything is possible with all the mentioned frameworks above, but writing all the boilerplate and knowing the internals of them is **hard**.
 
-And last but not least: those frameworks are not really cross platform. All the tools (for example NCrunch) will never hit for example VSCode or VS for Mac. You need to have the runners being able to have support for a platform it's getting harder and harder to write and execute tests. With net5 we will be able to run dotnet from a raspberry pi to [fu**ing fridges](https://docs.tizen.org/application/dotnet/index).
+And last but not least: those frameworks are not really cross platform. All the tools (for example NCrunch) will never hit for example VSCode or VS for Mac.  It's getting harder and harder to write and execute tests on platforms unsupported by runners. With net5 we will be able to run dotnet from a raspberry pi to [fu**ing fridges](https://docs.tizen.org/application/dotnet/index).
 
 Inspired by other awesome micro frameworks like [bullseye](//github.com/adamralph/bullseye) and [simple-exec](//github.com/adamralph/simple-exec) by [Adam Ralph](//adamralph.com/about/) I think it's time for a new era and approach of dotnet testing.
 
@@ -267,7 +267,7 @@ Outcome:          Failed
 
 #### Datadriven tests
 
-Cause Tasty is just an intelligent wrapper around lambdas and collecting a tree of test cases, we can use interpolated strings to identify test cases. **YOU** are in *total* control. Of course there is a lot that could be done by providing a more descriptive syntax, but this early in the iteration cycle, I think it's reasonable concise.  
+Because Tasty is just an intelligent wrapper around lambdas and collecting a tree of test cases, we can use interpolated strings to identify test cases. **YOU** are in *total* control. Of course there is a lot that could be done by providing a more descriptive syntax, but this early in the iteration cycle, I think it's reasonable concise.  
 
 ```cs
 static async Task<int> Main(string[] args)
@@ -350,7 +350,7 @@ Outcome:         Success
 
 #### Lifecycle
 
-Cause every test framework needs some lifecycle hooks, I start with the easiest one first.
+Because every test framework needs some lifecycle hooks, I start with the easiest one first.
 
 ##### Native
 
@@ -427,7 +427,7 @@ Outcome:         Success
 
 ##### Built in
 
-Cause Tasty is basically a wrapper, we can use C#'s power to control the lifecycle, but use some hooks to make our life a little bit easier.
+Because Tasty is basically a wrapper, we can use C#'s power to control the lifecycle, but use some hooks to make our life a little bit easier.
 
 ```cs
 class Calculator
@@ -536,9 +536,9 @@ Outcome:         Success
 
 #### Pipelines, Middleware & Reporters
 
-Similar to `aspnetcore` there is a test pipeline. Cause there is no test discovery in the classical sense (compared to the annotated frameworks like xUnit) there are several pipelines controlling the execution of `TestGroups` and `TestCases`. You will be able to hook into the pipeline using custom middleware to control this flow, but that is beyond the scope of this introduction.
+Similar to `aspnetcore` there is a test pipeline. Because there is no test discovery in the classical sense (compared to the annotated frameworks like xUnit) there are several pipelines controlling the execution of `TestGroups` and `TestCases`. You will be able to hook into the pipeline using custom middleware to control this flow, but that is beyond the scope of this introduction.
 
-Reporters on the other hand let you control what kind of test result you want to produce. Want to export to Excel, or call some API's (For example Jira) in case of a test failure? Feel free what ever you want to implement there. Cause every reporter is also async, it's pretty easy.
+Reporters on the other hand let you control what kind of test result you want to produce. Want to export to Excel, or call some API's (For example Jira) in case of a test failure? Feel free to implement what ever you want there. Because every reporter is also async, it's pretty easy.
 This will allow more complex reporters, for example in Blazor Webassembly running inside the browser using a Websocket/SignalR reporter reporting back into a report listener out of process.
 
 However at the time of writing, there is only a console reporter yet. An xUnit compatible reporter is in research to provide richer UX in CI systems like Azure DevOps, Github Actions, Jenkins etc.
@@ -587,7 +587,7 @@ I've covered a lot about the features there are in there yet, but let's talk abo
 
 #### Test execution and flavors of testing
 
-The first on is around the test execution it self. Right now there is no way to specify which tests run in what order. They always will run in the order you specify. The same goes with parallel test execution. Tests run linear at the time. This is great for a lot of tests, that focus more on integration or BDD style of tests. You can describe a given when then scenario very easily right now, cause of linear test execution:
+The first on is around the test execution itself. Right now there is no way to specify which tests run in what order. They will always run in the order you specify. The same goes with parallel test execution. Tests run linear at the time. This is great for a lot of tests, that focus more on integration or BDD style of tests. You can describe a BDD style *Given-When-Then* scenario very easily right now, because of linear test execution:
 
 ```cs
 
@@ -607,9 +607,9 @@ foreach(var user in users)
 }
 ```
 
-I can image there a lot of syntactic sugar that makes that kind of scenario easier, by just importing another *dialect* of tasty let's name it `using static Xenial.TastyBehavior`. That would result in a different method of building the testing tree and *execution engine* under the hood. Without loosing the control over the engine.
+I can imagine a lot of syntactic sugar that makes this kind of scenarios easier, by just importing another *dialect* of tasty let's name it `using static Xenial.TastyBehavior`. That would result in a different method of building the testing tree and *execution engine* under the hood. Without loosing the control over the engine.
 
-The same will go for unit tasting where parallel test execution and random execution order should be used to look into race conditions or hidden state. Think of this as like `using static Xenial.UnitTasty`. This will execute all tests inside this file as unit tests, in randomized and parallel order. The syntax will mirror the normal `Tasty` one but applies additional attributes on the `Describe` and `It` methods.
+The same will go for unit*tasting* - make this phrase a thing! -  where parallel test execution and random execution order should be used to look into race conditions or hidden state. Think of this as like `using static Xenial.UnitTasting`. This will execute all tests inside this file as unit tests, in randomized and parallel order. The syntax will mirror the normal `Tasty` one but applies additional attributes on the `Describe` and `It` methods.
 
 #### Code coverage and test impact analysis
 
@@ -623,8 +623,8 @@ If we are looking into the future, I also can imagine coverage reports for remot
 
 #### Live testing, code generation and protocols
 
-As mentioned earlier, I think in a world with open compilers, tools like Omnisharp, VSCode and Visual Studio for Mac, it's time to think about a external test runner that controls tests execution and provides feedback to the IDE in a separate process. That would require a open protocol that IDE's and test executors understand to quickly run tests and report coverage and test outcome back to the IDE.
-Currently there is no tool out there that does that in a open, language unagnostic way. [wallabyjs](//wallabyjs.com/) and [ncrunch](//www.ncrunch.net/) are awesome tools but there isn't an common denominator between tooling in the IDE part and test execution on the other part. Take VSCode and language servers with the [Language Server Protocol](//microsoft.github.io/language-server-protocol/) as an inspiration.
+As mentioned earlier, I think in a world with open compilers, tools like Omnisharp, VSCode and Visual Studio for Mac, it's time to think about a external test runner that controls tests execution and provides feedback to the IDE in a separate process. That would require an open protocol that IDE's and test executors understand to quickly run tests and report coverage and test outcome back to the IDE.
+Currently there is no tool out there that does that in an open, language independent way. [wallabyjs](//wallabyjs.com/) and [ncrunch](//www.ncrunch.net/) are awesome tools but there isn't an common denominator between tooling in the IDE part and test execution on the other part. Take VSCode and language servers with the [Language Server Protocol](//microsoft.github.io/language-server-protocol/) as an inspiration.
 
 On the other hand there are a lot of scenarios internally in the `Tasty` code base as well in generating test cases using the new [source generators feature](//devblogs.microsoft.com/dotnet/introducing-c-source-generators/) i can think of.
 Using, for example, [gherkin](//cucumber.io/docs/gherkin/) to generate the bloat of boiler plate code that is needed to translate between business requirements and C# code.
@@ -641,9 +641,9 @@ There is a lot that can improve there. GIT isn't going away anywhere soon, we ca
 ### Summary and the community
 
 I think there is no better time to rethink how we test dotnet applications in the future. But having a vision and doing this all on my own will not work. There is so much space for the community to decide how the future should look like. I also think there are some business opportunities for tooling and around snapshot testing as well. But I think this project should belong to the community in the first place and be open from day zero.
-Let me know what do you think about Tasty and what do you think about my vision. There is just to much in my head to write all down at once, not leaving you back in total confusion afterwards.
+Let me know what do you think about Tasty and what do you think about my vision. There is just too much in my head to write all down at once, not leaving you back in total confusion afterwards.
 
-Leave me issues, ideas, questions, thoughts or contributions in the [github repository](//github.com/xenial-io/Tasty) where you can also find a [quick start]() and some details about consuming and contributing. Also feel free to use the disqus here.
+Leave me issues, ideas, questions, thoughts or contributions in the [github repository](//github.com/xenial-io/Tasty) where you can also find a [quick start]() and some details about consuming and contributing. Also feel free to use the disqus comments in the blog.
 
 Make the future of dotnet testing delicious with Tasty
 
