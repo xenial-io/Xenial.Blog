@@ -41,21 +41,19 @@ namespace Xenial.Delicious.CalculatorTests
     {
         static void Main(string[] args)
         {
+            var sut = new Calculator();
             It("should add", () =>
             {
-                var sut = new Calculator();
                 sut.Add(1, 2).ShouldBe(3);
             });
 
             It("should subtract", () =>
             {
-                var sut = new Calculator();
                 sut.Sub(1, 2).ShouldBe(-1);
             });
 
             It("should not divide by 0", () =>
             {
-                var sut = new Calculator();
                 sut.Div(1, 0).ShouldBe(-1);
             });
 
