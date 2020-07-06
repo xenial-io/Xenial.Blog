@@ -30,6 +30,6 @@ main-url: https://www.delegate.at
 site-name: blog.delegate.at
 feed-name: blog.delegate.at
 site-url: https://blog.delegate.at
-version: 0.1.0+243
-commit: e49347e9092dac1fc3fa6e7c88f579a7dc419c32
-last-update: 2019-09-23
+version: 0.1.0-topic-first-look-at-tasty.1+269
+commit: cf7e5769094ed2f41bea0cf6b21902291ba24493
+last-update: 2020-01-03
