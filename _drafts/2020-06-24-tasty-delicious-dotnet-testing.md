@@ -641,8 +641,11 @@ There is a lot that can improve there. GIT isn't going away anywhere soon, we ca
 I think there is no better time to rethink how we test dotnet applications in the future. But having a vision and doing this all on my own will not work. There is so much space for the community to decide how the future should look like. I also think there are some business opportunities for tooling and around snapshot testing as well. But I think this project should belong to the community in the first place and be open from day zero.
 Let me know what do you think about Tasty and what do you think about my vision. There is just too much in my head to write all down at once, not leaving you back in total confusion afterwards.
 
-Leave me issues, ideas, questions, thoughts or contributions in the [github repository](//github.com/xenial-io/Tasty) where you can also find a [quick start]() and some details about consuming and contributing. Also feel free to use the disqus comments in the blog.
+Leave me issues, ideas, questions, thoughts or contributions in the [github repository](//github.com/xenial-io/Tasty) where you can also find a [quick start](https://tasty.xenial.io) and some details about consuming and contributing. Also feel free to use the disqus comments in the blog.
 
 Make the future of dotnet testing delicious with Tasty
 
 🍔 Manuel
+
+![Tasty Logo](https://tasty.xenial.io/assets/img/icon-256x256.png)
+<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
