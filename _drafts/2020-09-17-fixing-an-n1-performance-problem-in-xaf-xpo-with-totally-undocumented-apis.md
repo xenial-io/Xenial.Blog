@@ -37,7 +37,7 @@ But first let's talk about what's the N+1 problem is all about!
 
 ### The N+1 problem
 
-Object Relational Mappers (or ORM's for short) are a pattern to abstract away the database access and *project* SQL queries to objects. In our case that will be XPO that translate our access to the database.
+Object Relational Mappers (or ORM for short) are a pattern to abstract away the database access and *project* SQL queries to objects. In our case it will be XPO that translates our access to the database.
 
 To tell XPO about our database, we use attributes to specify relationships between entities. That allows XPO to *guess* what SQL statements it should generate. This is a very powerful abstraction, because you don't need to constantly think about SQL and can focus on business logic. That's fine for the most part but if the number of records grow (or tables and relationships get more complicated) that guess can go horribly wrong.
 
