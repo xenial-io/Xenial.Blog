@@ -9,7 +9,7 @@
 We all know (or not) that using an abstraction over any kind of datasource can lead to performance problems. That's nothing new and is quite common with ORM's.
 
 Let's look at the business problem we need to solve first before discussing why N+1 happens and what we can do to avoid it.
-It's a quite common problem with relational databases, an especially when dealing with any ORM. So we need to be careful to avoid it and there are several options we have when dealing with that kind of problem.
+It's quite a common problem with relational databases, and especially when dealing with any ORM. So we need to be careful to avoid it. Luckily there are several options when dealing with that kind of problem.
 
 ## The scenario (is quite artificial but will serve the purpose)
 
