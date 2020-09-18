@@ -13,7 +13,7 @@ It's a quite common problem with relational databases, an especially when dealin
 
 ## The scenario (is quite artificial but will serve the purpose)
 
-Okay to be clear, this is an rather easy one and you don't want to go all the way down this performance optimization route (esp. for this example) but it's universial, easy to understand and applies to all 1+N aggregate calculation problems.
+Okay to be clear, this is an rather easy one and you don't want to go all the way down this performance optimization route (esp. for this example) but it's universal, easy to understand and applies to all 1+N aggregate calculation problems.
 
 Let's imagine you have a simple `Offer` and `OfferItem` class that are in a `1 + N` relationship.
 
