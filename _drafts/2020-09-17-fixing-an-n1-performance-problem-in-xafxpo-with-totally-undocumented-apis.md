@@ -33,7 +33,7 @@ So let's imagine we want to calculate the sum of the hours and display them in t
 
 > Be warned! Some of them will probably break in the future, or don't work under all circumstances. I will mark them with a disclaimer.
 
-But first let's talk about what's the N+1 problem is all about!
+But first let's talk about what is the N+1 problem about!
 
 ### The N+1 problem
 
