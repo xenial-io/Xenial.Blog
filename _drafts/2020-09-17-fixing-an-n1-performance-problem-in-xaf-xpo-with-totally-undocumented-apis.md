@@ -39,12 +39,11 @@ But first let's talk about what's the N+1 problem is all about!
 
 Object Relational Mappers (or ORM's for short) are a pattern to abstract away the database access and *project* SQL queries to objects. In our case that will be XPO that translate our access to the database.
 
-To tell XPO about our database we need to tell it some information about the database and it's relationship between entities with attributes. That allows XPO to *guess* what SQL statements it should generate. This is a very powerful abstraction to have, cause you don't have to think all the time about SQL and can focus on business logic. That's fine for the most part but if the number of records grow (or tables and relationships get more complicated) that guess can horrible go wrong, or even worse, you give the wrong hint's to the ORM so it only can perform multiple queries to the database.
+To tell XPO about our database, we use attributes to specify relationships between entities. That allows XPO to *guess* what SQL statements it should generate. This is a very powerful abstraction, because you don't need to constantly think about SQL and can focus on business logic. That's fine for the most part but if the number of records grow (or tables and relationships get more complicated) that guess can go horribly wrong.
 
 Expensive queries are also something that can occur with ORM's (like massive JOIN's) but that's not the focus of this blog post.
 
 I'll give you a litte example in **very** naive C#.
 
 > PLEASE NEVER DO SOMETHING LIKE THIS IN PRODUCTION. YOU HAVE BEEN WARNED. (Or I insist you NEED to book some consulting hour's from me)
-
 
