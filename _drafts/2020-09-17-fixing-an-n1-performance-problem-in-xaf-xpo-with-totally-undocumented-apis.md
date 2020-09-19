@@ -604,7 +604,7 @@ public class FasterOfferWithCQRSQuery : BaseObject
 }
 ```
 
-> **Important**: this only covers this very basic example, and highly depends on your configuration (e.g. SecuriySystem, Defered deletion etc.). You will need good testing on that to not get stale or out of sync.  
+> **Important**: this only covers this very basic example, and highly depends on your configuration (e.g. SecuritySystem, Deferred deletion etc.). You will need good testing on that to not get stale or out of sync.  
 Database side foreignkeys can help to mark stale objects, as well as triggers to handle that on a database level.  
 Also this *simple* technique only works if you are the only on that writes into the database.  
 I will cover mode advanced scenarios in the future, just let me know in the comments below.
