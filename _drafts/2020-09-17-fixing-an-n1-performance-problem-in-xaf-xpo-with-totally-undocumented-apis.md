@@ -826,7 +826,8 @@ public class FasterOffer : BaseObject
 
                     //Do a efficient query ONCE
                     var hours = CalculateHours();
-                    //Store it in the store. I typically use the FullName of the current type so it won't collide
+                    //Store it in the store. I typically use the FullName of the current type
+                    //so it won't collide with any other types in the store
                     storage.SetWideDataItem(GetType().FullName, hours);
                 }
                 //Look in the store, if it's there we are fine
