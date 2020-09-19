@@ -903,7 +903,7 @@ The main goal of this post is how to identify performance bottlenecks in your ap
 1. Use `DataView` or `InstantFeedbackView` in combination with `PersistentAlias` wherever you need to do aggregation with larger amounts of data
 1. `ServerMode`, `ServerView` and `InstantFeedback` will drive your `DBA` crazy, if used incorrectly
 1. Aim for UX first and stay with `Client` mode as much as you can
-1. You really need good reasons for `CQRS`. It adds **loads** of performance, but increases complexity and maintainance a **lot**
+1. You really need good reasons for `CQRS`. It adds **loads** of performance, but increases complexity and maintenance a **lot**
 1. Database `VIEWS` are cheaper from maintainance perspective than `CQRS`
 
 I didn't even dig into execution plans or something special database wise. That is totally out of scope of this post.  
