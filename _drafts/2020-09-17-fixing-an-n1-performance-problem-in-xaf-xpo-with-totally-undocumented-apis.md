@@ -882,7 +882,7 @@ This results in the following performance
 1. Sort by `Name`: 0.082 seconds
 2. Sort by `HourSum`: 0.076 seconds
 
-> **Note**: Cause XAF recreates a `Session` object every time it's refreshed, will fetch the second query only once in the livetime of the session.  
+> **Note**: Because XAF recreates a `Session` object every time it's refreshed, will fetch the second query only once in the lifetime of the session.  
 You can control the cache whichever way you like. 
 Beware that you will pay the cost of calculating the aggregates of ALL objects in the `DetailView` context as well (because there is no natural way to figure out if you are currently displayed in a `DetailView`).  
 There are several strategies you can further improve using this technique, but for now I think this is pretty impressive.
