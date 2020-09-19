@@ -6,7 +6,7 @@
  tags: ["XAF", "XPO", "Performance", "BestPractices", "ORM"]
 ---
 
-We all know (or not) that using an abstraction over any kind of datasource can lead to performance problems. That's nothing new and is quite common with ORM's.
+We all know (or not) that using an abstraction over any kind of datasource can lead to performance problems. That's nothing new and is quite common with ORMs.
 
 Let's look at the business problem we need to solve first before discussing why N+1 happens and what we can do to avoid it.
 It's a quite common problem with relational databases, an especially when dealing with any ORM. So we need to be careful to avoid it and there are several options we have when dealing with that kind of problem.
