@@ -96,7 +96,7 @@ public class SlowOfferItem : BaseObject
 The build configuration is set on Debug with an attached debugger.  
 XPO log verbosity = 4  
 XAF log verbosity = 3  
-This means those numbers *will increase in Release* configuration, so we setting the base line pessimistic (and also aim for an better developer feedback cycle).
+This means those numbers *will improve in Release* configuration, so we set a pessimistic base line (and also aim for a better developer feedback cycle).
 
 This will result in horrible performance:
 
