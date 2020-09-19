@@ -46,7 +46,7 @@ Expensive queries are also something that can occur with ORMs (like massive JOIN
 
 I'll give you a litte example in **very** naive C#.
 
-> PLEASE NEVER DO SOMETHING LIKE THIS IN PRODUCTION. YOU HAVE BEEN WARNED. (Or I insist you NEED to [book some consulting hour's](https://www.delegate.at) from me)
+> PLEASE NEVER DO SOMETHING LIKE THIS IN PRODUCTION. YOU HAVE BEEN WARNED. (Or I insist you NEED to [book some consulting hours](https://www.delegate.at) with me)
 
 ```cs
 [DefaultClassOptions]
