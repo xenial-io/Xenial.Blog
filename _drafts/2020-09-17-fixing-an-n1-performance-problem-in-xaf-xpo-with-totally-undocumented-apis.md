@@ -207,7 +207,7 @@ The reason for this is hard to spot (and that is why *lazy loading can be danger
 public int HourSum => OfferItems.Sum(m => m.Hours);
 ```
 
-We first load the entire collection and sum up after wards in memory. The reason for this is pretty simple by looking at the datatype of `OfferItems`.
+We first load the entire collection and sum up afterwards in memory. The reason for this is pretty simple by looking at the datatype of `OfferItems`.
 It's a `XPCollection<SlowOfferItemWithLinq>`. In order to let the database the work, we need to make sure we work with an `IQueryable<SlowOfferItemWithLinq>`.
 
 ### Linq to the rescue with IQueryable
