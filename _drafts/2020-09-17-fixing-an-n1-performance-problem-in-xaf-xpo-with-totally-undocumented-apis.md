@@ -644,7 +644,7 @@ This results in the following performance
 
 > **Important**: This will of course result in data duplication and use more disk space.  
 Keep that in mind when designing your datacenter.  
-It also will slow down bulk inserts, cause a lot of more records need to be created.
+It also will slow down bulk inserts, because a lot of more records need to be created.
 
 ### Use the database at your advantage - Views
 
