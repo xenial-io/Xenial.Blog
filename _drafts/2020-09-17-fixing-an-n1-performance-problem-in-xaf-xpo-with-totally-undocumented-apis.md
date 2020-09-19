@@ -885,7 +885,7 @@ This results in the following performance
 > **Note**: Cause XAF recreates a `Session` object every time it's refreshed, will fetch the second query only once in the livetime of the session.  
 You can control the cache what ever way you like.  
 Beware that you will pay the cost of calculating the aggregates of ALL objects in the `DetailView` context as well (because there is no natural way to figure out if you are currently displayed in a `DetailView`).  
-There are several strategies you can further improve this technique, but for now I think this is pretty impressive.
+There are several strategies you can further improve using this technique, but for now I think this is pretty impressive.
 
 This is really awesome performance gain for very little effort. Of course you can combine those techniques. Use `XPQuery` combined with `XPView` and so on.
 The main goal of this post is how to identify performance bottlenecks in your application and how to overcome them when dealing with aggregates especially in `ListViews`.
