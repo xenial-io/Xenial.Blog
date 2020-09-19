@@ -31,7 +31,7 @@ Let's imagine you have a simple `Offer` and `OfferItem` class that are in a `1 +
 
 So let's imagine we want to calculate the sum of the hour's and display them in the offer's `ListView`. We have now several options and I will step through them from **naive** (slow) till **crazy** (fast). The last couple of techniques use some internals of XPO and are *not supported* by XPO, but I found them so useful so it would be a shame not not mention them.
 
-> Be warned! Some of them will probably break in the future, or don't work under all circumstances. I will mark them with a disclaimer.
+> Be warned! Some of them will probably break in the future, or won't work under all circumstances. I will mark them with a disclaimer.
 
 But first let's talk about what's the N+1 problem is all about!
 
