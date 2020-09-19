@@ -824,7 +824,7 @@ public class FasterOffer : BaseObject
                             })
                             .ToDictionary(o => o.Oid, o => o.HourSum); //Project to a dictionary, tuple, whatever
 
-                    //Do a efficient query
+                    //Do a efficient query ONCE
                     var hours = CalculateHours();
                     //Store it in the store. I typically use the FullName of the current type so it won't collide
                     storage.SetWideDataItem(GetType().FullName, hours);
