@@ -936,7 +936,7 @@ This results in the following performance
 
 ### Recap
 
-There is no one size fit's it all. Performance will always be hard. But I hope you learned some techniques to measure an improve your applications performance.
+There is no one size fits it all. Performance will always be hard. But I hope you learned some techniques to measure and improve your applications performance.
 
 If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
 
