@@ -909,7 +909,7 @@ The main goal of this post is how to identify performance bottlenecks in your ap
 I didn't even dig into execution plans or something special database wise. That is totally out of scope of this post.  
 One thing I always recomend is: stick with the `Client` `DataAccessMode` as long as you can, esp. for smaller record sets. It will perform really well, if you keep an eye on *chatty* requests (N+1).
 
-We had no `Indexes` what so ever (except the default ones XPO creates for us). Databases are pretty damn fast.
+We had no `Indexes` whatsoever (except the default ones XPO creates for us). Databases are pretty damn fast.
 
 ### Bonus round
 
