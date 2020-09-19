@@ -345,7 +345,7 @@ That also means, it will do the calculation client side, which will result in th
 
 ### PersistentAlias performs better with the correct DataAccessMode
 
-We have several options [provided by XAF](https://docs.devexpress.com/eXpressAppFramework/113683/concepts/ui-construction/views/list-view-data-access-modes) to change the behavior how data will be loaded. I will list them in the order they where introduced in the framework. Every mode has it's own strenghts and weaknesses. I'll only look into the performance right now. Programming model varies between those and i will skip `Client` cause we looked at it before. The source code is exactly the same before. To change the `DataAccessMode` we change it's property in the `ModelEditor`.
+We have several options [provided by XAF](https://docs.devexpress.com/eXpressAppFramework/113683/concepts/ui-construction/views/list-view-data-access-modes) to change the behavior how data will be loaded. I will list them in the order they were introduced in the framework. Every mode has its own strengths and weaknesses. I'll only look into the performance right now. Programming model varies between those and i will skip `Client` cause we looked at it before. The source code is exactly the same before. To change the `DataAccessMode` we change it's property in the `ModelEditor`.
 
 #### ServerMode
 
