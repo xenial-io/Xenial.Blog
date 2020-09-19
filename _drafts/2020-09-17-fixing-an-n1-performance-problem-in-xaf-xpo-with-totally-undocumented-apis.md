@@ -904,7 +904,7 @@ The main goal of this post is how to identify performance bottlenecks in your ap
 1. `ServerMode`, `ServerView` and `InstantFeedback` will drive your `DBA` crazy, if used incorrectly
 1. Aim for UX first and stay with `Client` mode as much as you can
 1. You really need good reasons for `CQRS`. It adds **loads** of performance, but increases complexity and maintenance a **lot**
-1. Database `VIEWS` are cheaper from maintainance perspective than `CQRS`
+1. Database `VIEWS` are cheaper from maintenance perspective than `CQRS`
 
 I didn't even dig into execution plans or something special database wise. That is totally out of scope of this post.  
 One thing I always recomend is: stick with the `Client` `DataAccessMode` as long as you can, esp. for smaller record sets. It will perform really well, if you keep an eye on *chatty* requests (N+1).
