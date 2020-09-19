@@ -121,7 +121,7 @@ This will result in horrible performance:
 18.09.20 16:22:20.170 Result: rowcount = 1, total = 4, SubQuery(Count,,) = 4
 ```
 
-What happens is: for every row in the `Orders` table a second select that selects all the related `OrderItems` collection get selected one by one. So in total there are at least 300 single `SELECT * from OrderItem where OrderId = X` statements dropped at your database.
+What happens is: for every row in the `Offers` table a second select that selects all the related `OfferItems` collection get selected one by one. So in total there are at least 300 single `SELECT * from OfferItem where OfferId = X` statements dropped at your database.
 
 Of course this happens because to sort the table on the client side, XPO needs to fetch all the records to order them.
 
@@ -515,7 +515,7 @@ It all depends on how *stale* data is allowed to be. This is not a performance d
 > I'm not going into all details on every single technique on CQRS.  
 If you are interested on more powerful techniques on this let me know in the comments below.
 
-Imagine we store the sum of every order everytime an `Order` is saved. We will store that data in a separate table to keep our `Query` part from the `Command` part. With XPO it's quite easy to do that, cause we have a single point of truth for updating the `Query` table:
+Imagine we store the sum of every order everytime an `Offer` is saved. We will store that data in a separate table to keep our `Query` part from the `Command` part. With XPO it's quite easy to do that, cause we have a single point of truth for updating the `Query` table:
 
 ```cs
 [DefaultClassOptions]
@@ -609,9 +609,9 @@ Database side foreignkeys can help to mark stale objects, as well as triggers to
 Also this *simple* technique only works if you are the only on that writes into the database.  
 I will cover mode advanced scenarios in the future, just let me know in the comments below.
 
-This will result in a slower write performance for the `Order` but a **huge** speed improvment on the `Query` table. I've set the `DataAccessMode` of the `Query` table to `DataView` and left the `DataAccessMode` for the `OrderTable` in `Client` mode:
+This will result in a slower write performance for the `Offer` but a **huge** speed improvment on the `Query` table. I've set the `DataAccessMode` of the `Query` table to `DataView` and left the `DataAccessMode` for the `OfferTable` in `Client` mode:
 
-`Order`:
+`Offer`:
 
 ```txt
 19.09.20 13:39:21.249 Executing sql 'select N0."Oid",N0."Name",N0."OptimisticLockField",N0."GCRecord" from "dbo"."FasterOfferWithCQRS" N0 where N0."GCRecord" is null'
@@ -626,7 +626,7 @@ This results in the following performance
 
 1. Sort by `Name`: 0.014 seconds
 
-> *Hint*: we can still provide an `NonPersistent` `HourSum` field in the `Order` class, but make sure users can't display, filter, group by this field in any `ListView`. In `DetailViews` this should not be a huge performance penalty.
+> *Hint*: we can still provide an `NonPersistent` `HourSum` field in the `Offer` class, but make sure users can't display, filter, group by this field in any `ListView`. In `DetailViews` this should not be a huge performance penalty.
 
 `Query`:
 
@@ -746,7 +746,7 @@ public sealed partial class fixing_an_n_plus_1_perf_problem_in_xaf_xpoModule : M
 
 ```
 
-`Order`:
+`Offer`:
 
 ```txt
 19.09.20 14:45:18.378 Executing sql 'select N0."Oid",N0."Name",N0."OptimisticLockField",N0."GCRecord" from "dbo"."FasterOfferWithView" N0 where N0."GCRecord" is null'
@@ -761,7 +761,7 @@ This results in the following performance
 
 1. Sort by `Name`: 0.009 seconds
 
-> *Hint*: we can still provide an `NonPersistent` `HourSum` field in the `Order` class, but make sure users can't display, filter, group by this field in any `ListView`. In `DetailViews` this should not be a huge performance penalty.
+> *Hint*: we can still provide an `NonPersistent` `HourSum` field in the `Offer` class, but make sure users can't display, filter, group by this field in any `ListView`. In `DetailViews` this should not be a huge performance penalty.
 
 `Query`:
 
