@@ -507,7 +507,7 @@ One that is database agnostic and one is not.
 
 ### CQRS pattern - XPO stored aggregates
 
-CQRS stands for `Command-Query-Responsibility-Segregation`. It's a pattern to split the `Query` part (in our case the calculation of the total sums) from the `Command` part (e.g. handling with the order objects)
+CQRS stands for `Command-Query-Responsibility-Segregation`. It's a pattern to split the `Query` part (in our case the calculation of the total sums) from the `Command` part (e.g. handling with the `Offer` objects)
 
 When dealing with statistics or calculated data, instead of calculating on the fly, we can calculate the data upfront. We can use several techniques to do that and it highly depends on your business needs.
 It all depends on how *stale* data is allowed to be. This is not a performance discussion though. You need to talk to your business on the right strategy for that.
