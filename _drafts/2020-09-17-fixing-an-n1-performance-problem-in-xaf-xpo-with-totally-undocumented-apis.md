@@ -121,7 +121,7 @@ This will result in horrible performance:
 18.09.20 16:22:20.170 Result: rowcount = 1, total = 4, SubQuery(Count,,) = 4
 ```
 
-What happens is: for every row in the `Orders` table a second select that selects all the related `OrderItems` collection get selected one by one. So in total there are at least 300 single `SELECT * from OrderItem where OrderId = X` statements dropped at your database.
+What happens is: for every row in the `Offer` table a second select that selects all the related `OfferItems` collection get selected one by one. So in total there are at least 300 single `SELECT * from OfferItem where OfferId = X` statements dropped at your database.
 
 Of course this happens because to sort the table on the client side, XPO needs to fetch all the records to order them.
 
