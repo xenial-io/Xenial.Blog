@@ -92,7 +92,7 @@ public class SlowOfferItem : BaseObject
 
 ```
 
-> For all examples I use 300 `Offers` with 1000 `OfferItems` each. It's sorted by the `HourSum` property acending. I use SqlServer LocalDb for this tests on a Intel(R) Core(TM) i7-4770K CPU @ 3.50GHz with 16 GB of memory and a two SSD disks Raid 0 setup.  
+> For all examples I use 300 `Offers` with 1000 `OfferItems` each. It's sorted by the `HourSum` property ascending. I use SqlServer LocalDb for these tests on a Intel(R) Core(TM) i7-4770K CPU @ 3.50GHz with 16 GB of memory and a two SSD disks Raid 0 setup.  
 The build configuration is set on Debug with an attached debugger.  
 XPO log verbosity = 4  
 XAF log verbosity = 3  
