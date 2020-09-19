@@ -42,7 +42,7 @@ Object Relational Mappers (or ORM for short) are a pattern to abstract away the 
 To tell XPO about our database we need to tell it some information about the database and it's relationship between entities with attributes. That allows XPO to *guess* what SQL statements it should generate. This is a very powerful abstraction to have, because you don't have to think all the time about SQL and can focus on business logic. That's fine for the most part but if the number of records grow (or tables and relationships get more complicated) that guess can horrible go wrong, or even worse, you give the wrong hint's to the ORM so it only can perform multiple queries to the database.
 To tell XPO about our database, we use attributes to specify relationships between entities. That allows XPO to *guess* what SQL statements it should generate. This is a very powerful abstraction, because you don't need to constantly think about SQL and can focus on business logic. That's fine for the most part but if the number of records grow (or tables and relationships get more complicated) that guess can go horribly wrong.
 
-Expensive queries are also something that can occur with ORMs (like massive JOIN's) but that's not the focus of this blog post.
+Expensive queries are also something that can occur with ORMs (like massive JOINs) but that's not the focus of this blog post.
 
 I'll give you a litte example in **very** naive C#.
 
