@@ -945,4 +945,3 @@ There will be a new page for [Xenial](https://www.xenial.io/) soon. The project 
 
 Stay awesome!  
 Manuel
-> PLEASE NEVER DO SOMETHING LIKE THIS IN PRODUCTION. YOU HAVE BEEN WARNED. (Or I insist you NEED to book some consulting hour's from me)
