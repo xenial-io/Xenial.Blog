@@ -649,7 +649,7 @@ It also will slow down bulk inserts, cause a lot of more records need to be crea
 ### Use the database at your advantage - Views
 
 Until now every technique we used does not care about the database underneath. If you don't plan to support more than one or two databases (and be honest, when did you switch your database the last time?) use the **power** of your database.
-Databases are good at this. Thats their *job*. But we need to drop down to **SQL**. Don't be afraid, it has a lot of benifits on the long run.
+Databases are good at this. That is their *job*. But we need to drop down to **SQL**. Don't be afraid, it has a lot of benefits on the long run.
 
 This time there is a little bit more code but it's not that difficult:
 
