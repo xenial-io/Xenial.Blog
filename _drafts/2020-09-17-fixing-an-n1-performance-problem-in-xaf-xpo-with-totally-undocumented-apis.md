@@ -776,7 +776,171 @@ This results in the following performance
 1. Sort by `Name`: 0.079 seconds
 2. Sort by `HourSum`: 0.070 seconds
 
-That's pretty impressiv! Finally let's have a look at the totally unsupported pitched version that saved me several times
+That's pretty impressiv! Finally let's have a look at the totally unsupported pitched version that saved me several times.
 
 ### Totally unsupported - There will be dragons - N+N query version
 
+> **WARNING**: THIS WILL AND CAN BREAK IN THE FUTURE!  
+FROM THIS POINT ON YOU ARE ON YOUR OWN.
+
+What if we can not avoid N+1 queries, but at least come down to N+N queries? That means we let XAF use a normal `Client` mode ListView and do 1 additional query for all records in that perticular `ListView`?
+
+There is one not by XAF supported feature called `Session.Prefetch` but it has also some limitations. We need a way to do 1 query when the **first** N+1 query would occur, afterwards we cache it and just lookup data from this cache.  
+We cant use static fields, cause we have no idea when to purge the cache. But there is one *undocumented* feature of XPO called `IWideDataStorage` we can leverage.
+
+```cs
+[DefaultClassOptions]
+[DefaultProperty(nameof(HourSum))]
+public class FasterOffer : BaseObject
+{
+    public FasterOffer(Session session) : base(session) { }
+
+    private string _Name;
+    [Persistent("Name")]
+    public string Name { get => _Name; set => SetPropertyValue(nameof(Name), ref _Name, value); }
+
+    //We are still non persistent
+    [NonPersistent]
+    public int HourSum
+    {
+        get
+        {
+            //Check if the current session implements the interface
+            if (Session is IWideDataStorage storage)
+            {
+                //If we hit our first N+1 query. Nothing will be stored
+                if (!storage.TryGetWideDataItem(GetType().FullName, out var _))
+                {
+                    //This is an inline method, your can use a static method as well.
+                    //Just make sure you don't catch a memory leak by storing references the GC can't handle
+                    Dictionary<Guid, int> CalculateHours()
+                        => Session.Query<FasterOffer>()
+                            .Select(o => new
+                            {
+                                Oid = o.Oid, //Select the primary key
+                                HourSum = o.OfferItems.Sum(m => m.Hours) //Calculate the sum
+                            })
+                            .ToDictionary(o => o.Oid, o => o.HourSum); //Project to a dictionary, tuple, whatever
+
+                    //Do a efficient query
+                    var hours = CalculateHours();
+                    //Store it in the store. I typically use the FullName of the current type so it won't collide
+                    storage.SetWideDataItem(GetType().FullName, hours);
+                }
+                //Look in the store, if it's there we are fine
+                if (storage.TryGetWideDataItem(GetType().FullName, out var store) && store is Dictionary<Guid, int> cache)
+                {
+                    if (cache.TryGetValue(Oid, out var hourSum))
+                    {
+                        return hourSum;
+                    }
+                }
+            }
+            //We never should reach this point
+            //Do the right thing as fallback anyway
+            return OfferItems.Sum(m => m.Hours);
+        }
+    }
+
+    [Association, Aggregated]
+    public XPCollection<FasterOfferItem> OfferItems => GetCollection<FasterOfferItem>(nameof(OfferItems));
+}
+
+public class FasterOfferItem : BaseObject
+{
+    public FasterOfferItem(Session session) : base(session) { }
+
+    private int _Hours;
+    [Persistent("Hours")]
+    public int Hours { get => _Hours; set => SetPropertyValue(nameof(Hours), ref _Hours, value); }
+
+    private FasterOffer _FasterOffer;
+    [Persistent("FasterOffer"), Association]
+    public FasterOffer FasterOffer { get => _FasterOffer; set => SetPropertyValue(nameof(FasterOffer), ref _FasterOffer, value); }
+}
+```
+
+Let's look at the queries generated in the **Client** mode:
+
+```txt
+19.09.20 15:51:57.286 Executing sql 'select N0."Oid",N0."Name",N0."OptimisticLockField",N0."GCRecord" from "dbo"."FasterOffer" N0 where N0."GCRecord" is null'
+19.09.20 15:51:57.287 Result: rowcount = 300, total = 11950, N0.{Oid,Guid} = 4800, N0.{Name,String} = 4750, N0.{OptimisticLockField,Int32} = 1200, N0.{GCRecord,Int32} = 1200
+19.09.20 15:51:57.289 Executing sql 'select N0."Oid",(select sum(N1."Hours") as Res0 from "dbo"."FasterOfferItem" N1 where ((N0."Oid" = N1."FasterOffer") and N1."GCRecord" is null)) from "dbo"."FasterOffer" N0 where N0."GCRecord" is null'
+19.09.20 15:51:57.359 Result: rowcount = 300, total = 6000, N0.{Oid,Guid} = 4800, SubQuery(Sum,N1.{Hours,Int32},Select N1.{Hours,Int32}
+  from "FasterOfferItem" N1
+ where N0.{Oid,Guid} = N1.{FasterOffer,Guid} And N1.{GCRecord,Int32} Is Null) = 1200
+19.09.20 15:51:57.363 Executing sql 'select top 1 count(*) from "dbo"."FasterOffer" N0 where N0."GCRecord" is null'
+19.09.20 15:51:57.363 Result: rowcount = 1, total = 4, SubQuery(Count,,) = 4
+19.09.20 15:51:57.364 Executing sql 'select top 1 count(*) from "dbo"."FasterOfferItem" N0 where N0."GCRecord" is null'
+19.09.20 15:51:57.387 Result: rowcount = 1, total = 4, SubQuery(Count,,) = 4
+
+```
+
+This results in the following performance
+
+1. Sort by `Name`: 0.082 seconds
+2. Sort by `HourSum`: 0.076 seconds
+
+> **Note**: Cause XAF recreates a `Session` object every time it's refreshed, will fetch the second query only once in the livetime of the session.  
+You can control the cache what ever way you like.  
+Beware that you will pay the cost of calculating the aggregates of ALL objects in the `DetailView` context as well (cause there is no natural way to figure out if you are currently displayed in a `DetailView`).  
+There are several strategies you can further improve this technique, but for now I think this is pretty impressive.
+
+This is really awesome performance for very little effort. Of course you can combine those techniques. Use `XPQuery` combined with `XPView` and so on.
+The main goal of this post is how to identify performance bottlenecks in your application and how to overcome them when dealing with aggregates especially in `ListViews`.
+
+### Summary - Lessions learned
+
+1. Performance is hard
+1. Measure, measure, measure
+1. Pick the right tool (and always keep memory and database load in sight)
+1. Never combine `PersistentAlias` with client mode aggregates if possible
+1. Use your database as a tool
+1. If everything performance wise breaks down: use and measure the last 3 options
+1. Use N+N query wisely. It doesn't have the same befinits like all the other `DataAccessModes` but it behaves linear, and can help calculate complicated business rules only once and avoid the N+1 problem.
+1. Everything is a tradeoff (implementation time, memory, cpu time, stale data)
+1. Use `DataView` or `InstantFeedbackView` in combination with `PersistentAlias` where ever you will need to do aggregation with larger amounts of data
+1. `ServerMode`, `ServerView` and `InstantFeedback` will drive your `DBA` crazy, if used uncorrectly
+1. Aim for UX first and stay with `Client` mode as much as you can
+1. You really need good reasons for `CQRS`. It adds **loads** of performance, but increases complexity and maintainance a **lot**
+1. Database `VIEWS` are cheaper from maintainance perspective than `CQRS`
+
+I didn't even dig into execution plans or something special database wise. That is totally out of scope of this post.  
+One thing I always recomend is: stick with the `Client` `DataAccessMode` as long as you can, esp. for smaller record sets. It will perform really well, if you keep an eye on *chatty* requests (N+1).
+
+We had no `Indexes` what so ever (except the default ones XPO creates for us). Databases are pretty damn fast.
+
+### Bonus round
+
+Last test done with 3000 `Offers` and 3.000.000 `OfferItems` with the N+N query approach:
+
+```txt
+19.09.20 15:51:57.286 Executing sql 'select N0."Oid",N0."Name",N0."OptimisticLockField",N0."GCRecord" from "dbo"."FasterOffer" N0 where N0."GCRecord" is null'
+19.09.20 15:51:57.287 Result: rowcount = 300, total = 11950, N0.{Oid,Guid} = 4800, N0.{Name,String} = 4750, N0.{OptimisticLockField,Int32} = 1200, N0.{GCRecord,Int32} = 1200
+19.09.20 15:51:57.289 Executing sql 'select N0."Oid",(select sum(N1."Hours") as Res0 from "dbo"."FasterOfferItem" N1 where ((N0."Oid" = N1."FasterOffer") and N1."GCRecord" is null)) from "dbo"."FasterOffer" N0 where N0."GCRecord" is null'
+19.09.20 15:51:57.359 Result: rowcount = 300, total = 6000, N0.{Oid,Guid} = 4800, SubQuery(Sum,N1.{Hours,Int32},Select N1.{Hours,Int32}
+  from "FasterOfferItem" N1
+ where N0.{Oid,Guid} = N1.{FasterOffer,Guid} And N1.{GCRecord,Int32} Is Null) = 1200
+19.09.20 15:51:57.363 Executing sql 'select top 1 count(*) from "dbo"."FasterOffer" N0 where N0."GCRecord" is null'
+19.09.20 15:51:57.363 Result: rowcount = 1, total = 4, SubQuery(Count,,) = 4
+19.09.20 15:51:57.364 Executing sql 'select top 1 count(*) from "dbo"."FasterOfferItem" N0 where N0."GCRecord" is null'
+19.09.20 15:51:57.387 Result: rowcount = 1, total = 4, SubQuery(Count,,) = 4
+
+```
+
+This results in the following performance
+
+1. Sort by `Name`: 0.920 seconds
+2. Sort by `HourSum`: 0.876 seconds
+
+### Recap
+
+There is no one size fit's it all. Performance will always be hard. But I hope you learned some techniques to measure an improve your applications performance.
+
+If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
+
+> **New Kid on the block**: You now can support me on several channels for all kind of projects. Head over to my [new baby called Tasty](https://tasty.xenial.io/support/). [Tasty](https://tasty.xenial.io) is a delicious dotnet testing platform you can use with and in any application. I would be more than happy if you support me and the project.  
+There will be a new page for [Xenial](https://www.xenial.io/) soon. The project with the pure goal to make you even be **more** productive with XAF, XPO and all business related development.
+
+Stay awesome!  
+Manuel
