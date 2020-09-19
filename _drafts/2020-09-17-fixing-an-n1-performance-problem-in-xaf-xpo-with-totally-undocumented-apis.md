@@ -276,7 +276,7 @@ This results in the following performance
 1. Sort by `Name`: 0.156 seconds
 2. Sort by `HourSum`: 1.554 seconds
 
-As you can see, it performs a lot better. And for the *most parts* of your application this will be totally fine (esp. if you arn't dealing with too much records, or lists that arn't used that frequently).
+As you can see, it performs a lot better. And for the *most parts* of your application, this will be totally fine (esp. if you aren't dealing with too many records, or lists that aren't used that frequently).
 The memory footprint of this method is also a lot better.
 
 ### PersistentAlias can perform better?
