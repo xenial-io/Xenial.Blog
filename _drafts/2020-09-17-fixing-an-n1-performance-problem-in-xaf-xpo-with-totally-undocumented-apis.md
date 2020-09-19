@@ -942,7 +942,8 @@ There is no one size fit's it all. Performance will always be hard. But I hope y
 
 If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
 
-> **New Kid on the block**: You now can support me on several channels for all kind of projects. Head over to my [new baby called Tasty](https://tasty.xenial.io/support/). [Tasty](https://tasty.xenial.io) is a delicious dotnet testing platform you can use with and in any application. I would be more than happy if you support me and the project.  
+> **New Kid on the block**: You now can support me on several channels for all kind of projects. Head over to my [new baby called Tasty](https://tasty.xenial.io/support/).  
+[Tasty](https://tasty.xenial.io) is a delicious dotnet testing platform you can use with and in any application. I would be more than happy if you support me and the project.  
 There will be a new page for [Xenial](https://www.xenial.io/) soon. The project with the pure goal to make you even be **more** productive with XAF, XPO and all business related development.
 
 Stay awesome!  
