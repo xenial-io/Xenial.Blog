@@ -626,7 +626,7 @@ This results in the following performance
 
 1. Sort by `Name`: 0.014 seconds
 
-> *Hint*: we can still provide an `NonPersistent` `HourSum` field in the `Order` class, but make sure users can't display, filter, group by this field in any `ListView`. In `DetailViews` this should not be a huge performance penalty.
+> *Hint*: we can still provide an `NonPersistent` `HourSum` field in the `Offer` class, but make sure users can't display, filter, group by this field in any `ListView`. In `DetailViews` this should not be a huge performance penalty.
 
 `Query`:
 
