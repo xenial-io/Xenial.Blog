@@ -898,7 +898,7 @@ The main goal of this post is how to identify performance bottlenecks in your ap
 1. Never combine `PersistentAlias` with client mode aggregates if possible
 1. Use your database as a tool
 1. If everything performance wise breaks down: use and measure the last 3 options
-1. Use N+N query wisely. It doesn't have the same befinits like all the other `DataAccessModes` but it behaves linear, and can help calculate complicated business rules only once and avoid the N+1 problem.
+1. Use N+N query wisely. It doesn't have the same benefits like all the other `DataAccessModes` but it behaves linear, and can help calculate complicated business rules only once and avoid the N+1 problem.
 1. Everything is a tradeoff (implementation time, memory, cpu time, stale data)
 1. Use `DataView` or `InstantFeedbackView` in combination with `PersistentAlias` wherever you need to do aggregation with larger amounts of data
 1. `ServerMode`, `ServerView` and `InstantFeedback` will drive your `DBA` crazy, if used incorrectly
