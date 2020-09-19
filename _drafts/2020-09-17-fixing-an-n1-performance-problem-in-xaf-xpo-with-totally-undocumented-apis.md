@@ -212,7 +212,7 @@ It's a `XPCollection<SlowOfferItemWithLinq>`. In order to let the database the w
 
 ### Linq to the rescue with IQueryable
 
-Know we know what we should aim for let's look at a Linq version of the code that uses an `IQueryable`:
+Now we know what we should aim for, let's look at a Linq version of the code that uses an `IQueryable`:
 
 ```cs
 [DefaultClassOptions]
