@@ -786,7 +786,8 @@ FROM THIS POINT ON YOU ARE ON YOUR OWN.
 
 What if we can not avoid N+1 queries, but at least come down to N+N queries? That means we let XAF use a normal `Client` mode ListView and do 1 additional query for all records in that perticular `ListView`?
 
-There is one not by XAF supported feature called `Session.Prefetch` but it has also some limitations. We need a way to do 1 query when the **first** N+1 query would occur, afterwards we cache it and just lookup data from this cache.  
+There is one feature, not directly supported by XAF, called `Session.Prefetch` but it has also some limitations and drawbacks on its own. So we will go another route.  
+We need a way to do 1 query when the **first** N+1 query would occur, afterwards we cache it and just lookup data from this cache.  
 We cant use static fields, cause we have no idea when to purge the cache. But there is one *undocumented* feature of XPO called `IWideDataStorage` we can leverage.
 
 ```cs
