@@ -496,7 +496,7 @@ This results in the following performance
 2. Sort by `HourSum`: 0.236 seconds
 
 > **Important**: When using `PersistentAlias` for aggregate calculations always consider using a `DataAccessMode` that can perform database side calculation.  
-There is no silverbullet and you need to measure careful in different configurations what fit's best.
+There is no silver bullet and you need to measure carefully using different configurations to find what is the best fit.
 
 All comes with a cost. All data access modes have [some limitations](https://docs.devexpress.com/eXpressAppFramework/113683/concepts/ui-construction/views/list-view-data-access-modes#non-persistent-object-support-limitations). If you need grouping and sorting capabilities by some fields (or even just display `NonPersistent` members) you are *out of luck*. It is also *may* be limited to the complexity you can fit into a single criteria.  
 
