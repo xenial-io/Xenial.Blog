@@ -340,7 +340,7 @@ This results in the following performance
 1. Sort by `Name`: 0.671 seconds
 2. Sort by `HourSum`: 6.501 seconds
 
-But why is that? XAF will load data according to the `DataAccessMode` property of the `ListView`. Until now we always used the `Client` mode. Which is fine for the most part. It's the most convinient to use cause you *almost never*  need to think about the underlying database.  
+But why is that? XAF will load data according to the `DataAccessMode` property of the `ListView`. Until now we always used the `Client` mode. Which is fine for the most part. It's the most convenient to use cause you *almost never*  need to think about the underlying database.  
 That also means, it will do the calculation client side, which will result in the same queries as we know from the *naive* approach.
 
 ### PersistentAlias performs better with the correct DataAccessMode
