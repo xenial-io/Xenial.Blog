@@ -507,7 +507,7 @@ One that is database agnostic and one is not.
 
 ### CQRS pattern - XPO stored aggregates
 
-CQRS stands for `Command-Query-Responsibility-Segregation`. It's a pattern to split the `Query` part (in our case the calculation of the total sums) from the `Command` part (e.g. handling with the order objects)
+CQRS stands for `Command-Query-Responsibility-Segregation`. It's a pattern to split the `Query` part (in our case the calculation of the total sums) from the `Command` part (e.g. handling with the `Offer` objects)
 
 When dealing with statistics or calculated data, instead of calculating on the fly, we can calculate the data upfront. We can use several techniques to do that and it highly depends on your business needs.
 It all depends on how *stale* data is allowed to be. This is not a performance discussion though. You need to talk to your business on the right strategy for that.
@@ -515,7 +515,7 @@ It all depends on how *stale* data is allowed to be. This is not a performance d
 > I'm not going into all details on every single technique on CQRS.  
 If you are interested on more powerful techniques on this let me know in the comments below.
 
-Imagine we store the sum of every order everytime an `Order` is saved. We will store that data in a separate table to keep our `Query` part from the `Command` part. With XPO it's quite easy to do that, cause we have a single point of truth for updating the `Query` table:
+Imagine we store the sum of every order everytime an `Offer` is saved. We will store that data in a separate table to keep our `Query` part from the `Command` part. With XPO it's quite easy to do that, cause we have a single point of truth for updating the `Query` table:
 
 ```cs
 [DefaultClassOptions]
@@ -609,9 +609,9 @@ Database side foreignkeys can help to mark stale objects, as well as triggers to
 Also this *simple* technique only works if you are the only on that writes into the database.  
 I will cover mode advanced scenarios in the future, just let me know in the comments below.
 
-This will result in a slower write performance for the `Order` but a **huge** speed improvment on the `Query` table. I've set the `DataAccessMode` of the `Query` table to `DataView` and left the `DataAccessMode` for the `OrderTable` in `Client` mode:
+This will result in a slower write performance for the `Offer` but a **huge** speed improvment on the `Query` table. I've set the `DataAccessMode` of the `Query` table to `DataView` and left the `DataAccessMode` for the `OfferTable` in `Client` mode:
 
-`Order`:
+`Offer`:
 
 ```txt
 19.09.20 13:39:21.249 Executing sql 'select N0."Oid",N0."Name",N0."OptimisticLockField",N0."GCRecord" from "dbo"."FasterOfferWithCQRS" N0 where N0."GCRecord" is null'
@@ -746,7 +746,7 @@ public sealed partial class fixing_an_n_plus_1_perf_problem_in_xaf_xpoModule : M
 
 ```
 
-`Order`:
+`Offer`:
 
 ```txt
 19.09.20 14:45:18.378 Executing sql 'select N0."Oid",N0."Name",N0."OptimisticLockField",N0."GCRecord" from "dbo"."FasterOfferWithView" N0 where N0."GCRecord" is null'
@@ -823,9 +823,10 @@ public class FasterOffer : BaseObject
                             })
                             .ToDictionary(o => o.Oid, o => o.HourSum); //Project to a dictionary, tuple, whatever
 
-                    //Do a efficient query
+                    //Do a efficient query ONCE
                     var hours = CalculateHours();
-                    //Store it in the store. I typically use the FullName of the current type so it won't collide
+                    //Store it in the store. I typically use the FullName of the current type
+                    //so it won't collide with any other types in the store
                     storage.SetWideDataItem(GetType().FullName, hours);
                 }
                 //Look in the store, if it's there we are fine
@@ -940,7 +941,8 @@ There is no one size fits it all. Performance will always be hard. But I hope yo
 
 If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
 
-> **New Kid on the block**: You now can support me on several channels for all kind of projects. Head over to my [new baby called Tasty](https://tasty.xenial.io/support/). [Tasty](https://tasty.xenial.io) is a delicious dotnet testing platform you can use with and in any application. I would be more than happy if you support me and the project.  
+> **New Kid on the block**: You now can support me on several channels for all kind of projects. Head over to my [new baby called Tasty](https://tasty.xenial.io/support/).  
+[Tasty](https://tasty.xenial.io) is a delicious dotnet testing platform you can use with and in any application. I would be more than happy if you support me and the project.  
 There will be a new page for [Xenial](https://www.xenial.io/) soon. The project with the pure goal to make you even be **more** productive with XAF, XPO and all business related development.
 
 Stay awesome!  
