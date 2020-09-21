@@ -945,5 +945,7 @@ If you find interesting what I'm doing, consider becoming a [patreon](//www.patr
 [Tasty](https://tasty.xenial.io) is a delicious dotnet testing platform you can use with and in any application. I would be more than happy if you support me and the project.  
 There will be a new page for [Xenial](https://www.xenial.io/) soon. The project with the pure goal to make you even be **more** productive with XAF, XPO and all business related development.
 
+As always you can find the sample code on [github](https://github.com/biohazard999/fixing-an-n-plus-1-perf-problem-in-xaf-xpo).
+
 Stay awesome!  
 Manuel
