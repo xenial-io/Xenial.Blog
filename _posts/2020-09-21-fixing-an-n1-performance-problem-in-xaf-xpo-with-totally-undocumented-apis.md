@@ -29,7 +29,7 @@ Let's imagine you have a simple `Offer` and `OfferItem` class that are in a `1 +
 +-----------------+         +-----------------+
 ```
 
-We want to calculate the sum of the hours and display them in the offer's `ListView`. We have now several options and I will step through them from **naive** (slow) to **crazy** (fast). The last couple of techniques use some internals of XPO and are *not supported* by XPO, but I found them so useful so it would be a shame not not mention them.
+We want to calculate the sum of the hours and display them in the offer's `ListView`. We have now several options and I will step through them from **naive** (slow) to **crazy** (fast). The last couple of techniques use some internals of XPO and are _not supported_ by XPO, but I found them so useful so it would be a shame not not mention them.
 
 > Be warned! Some of them will probably break in the future, or won't work under all circumstances. I will mark them with a disclaimer.
 
@@ -37,10 +37,9 @@ But first let's talk about what's the N+1 problem is all about!
 
 ### The N+1 problem
 
-Object Relational Mappers (or ORM for short) are a pattern to abstract away the database access and *project* SQL queries to objects. In our case it will be XPO that translates our access to the database.
+Object Relational Mappers (or ORM for short) are a pattern to abstract away the database access and _project_ SQL queries to objects. In our case it will be XPO that translates our access to the database.
 
-We use attributes to tell XPO about our database and its relationship between entities. That allows XPO to *guess* what SQL statements it should generate. This is a very powerful abstraction, because you don't have to think all the time about SQL and can focus on business logic. That's fine for the most part, but if the number of records grows (or tables and relationships get more complicated) that guess can go horribly wrong, or even worse, you give the wrong hints to the ORM and it it performs multiple superfluous queries to the database.
-To tell XPO about our database, we use attributes to specify relationships between entities. That allows XPO to *guess* what SQL statements it should generate. This is a very powerful abstraction, because you don't need to constantly think about SQL and can focus on business logic. That's fine for the most part but if the number of records grow (or tables and relationships get more complicated) that guess can go horribly wrong.
+We use attributes to tell XPO about our database and its relationship between entities. That allows XPO to _guess_ what SQL statements it should generate. This is a very powerful abstraction, because you don't have to think all the time about SQL and can focus on business logic. That's fine for the most part, but if the number of records grows (or tables and relationships get more complicated) that guess can go horribly wrong, or even worse, you give the wrong hints to the ORM and it it performs multiple superfluous queries to the database.
 
 Expensive queries are also something that can occur with ORMs (like massive JOINs) but that's not the focus of this blog post.
 
@@ -93,10 +92,10 @@ public class SlowOfferItem : BaseObject
 ```
 
 > For all examples I use 300 `Offers` with 1000 `OfferItems` each. It's sorted by the `HourSum` property ascending. I use SqlServer LocalDb for these tests on a Intel(R) Core(TM) i7-4770K CPU @ 3.50GHz with 16 GB of memory and a two SSD disks Raid 0 setup.  
-The build configuration is set on Debug with an attached debugger.  
-XPO log verbosity = 4  
-XAF log verbosity = 3  
-This means those numbers *will improve in Release* configuration, so we set a pessimistic base line (and also aim for a better developer feedback cycle).
+> The build configuration is set on Debug with an attached debugger.  
+> XPO log verbosity = 4  
+> XAF log verbosity = 3  
+> This means those numbers _will improve in Release_ configuration, so we set a pessimistic base line (and also aim for a better developer feedback cycle).
 
 This will result in horrible performance:
 
@@ -199,7 +198,7 @@ This results in the following performance
 2. Sort by `HourSum`: 5.672 seconds
 
 As you can see, it seams like it performs slightly faster, but on average it is exactly the same as the naive approach.  
-The reason for this is hard to spot (and that is why *lazy loading can be dangerous*, if you don't know what you are doing):
+The reason for this is hard to spot (and that is why _lazy loading can be dangerous_, if you don't know what you are doing):
 
 ```cs
 [NonPersistent]
@@ -276,12 +275,12 @@ This results in the following performance
 1. Sort by `Name`: 0.156 seconds
 2. Sort by `HourSum`: 1.554 seconds
 
-As you can see, it performs a lot better. And for the *most parts* of your application, this will be totally fine (esp. if you aren't dealing with too many records, or lists that aren't used that frequently).
+As you can see, it performs a lot better. And for the _most parts_ of your application, this will be totally fine (esp. if you aren't dealing with too many records, or lists that aren't used that frequently).
 The memory footprint of this method is also a lot better.
 
 ### PersistentAlias can perform better?
 
-XPO has a feature called `PersistentAlias`. This allows you to specify an aggregate criteria that *can* be applied directly to the database:
+XPO has a feature called `PersistentAlias`. This allows you to specify an aggregate criteria that _can_ be applied directly to the database:
 
 ```cs
 [DefaultClassOptions]
@@ -340,8 +339,8 @@ This results in the following performance
 1. Sort by `Name`: 0.671 seconds
 2. Sort by `HourSum`: 6.501 seconds
 
-But why is that? XAF will load data according to the `DataAccessMode` property of the `ListView`. Until now we always used the `Client` mode. Which is fine for the most part. It's the most convenient to use cause you *almost never*  need to think about the underlying database.  
-That also means, it will do the calculation client side, which will result in the same queries as we know from the *naive* approach.
+But why is that? XAF will load data according to the `DataAccessMode` property of the `ListView`. Until now we always used the `Client` mode. Which is fine for the most part. It's the most convenient to use cause you _almost never_ need to think about the underlying database.  
+That also means, it will do the calculation client side, which will result in the same queries as we know from the _naive_ approach.
 
 ### PersistentAlias performs better with the correct DataAccessMode
 
@@ -496,9 +495,9 @@ This results in the following performance
 2. Sort by `HourSum`: 0.236 seconds
 
 > **Important**: When using `PersistentAlias` for aggregate calculations always consider using a `DataAccessMode` that can perform database side calculation.  
-There is no silver bullet and you need to measure carefully using different configurations to find what is the best fit.
+> There is no silver bullet and you need to measure carefully using different configurations to find what is the best fit.
 
-All comes with a cost. All data access modes have [some limitations](https://docs.devexpress.com/eXpressAppFramework/113683/concepts/ui-construction/views/list-view-data-access-modes#non-persistent-object-support-limitations). If you need grouping and sorting capabilities by some fields (or even just display `NonPersistent` members) you are *out of luck*. It is also *may* be limited to the complexity you can fit into a single criteria.  
+All comes with a cost. All data access modes have [some limitations](https://docs.devexpress.com/eXpressAppFramework/113683/concepts/ui-construction/views/list-view-data-access-modes#non-persistent-object-support-limitations). If you need grouping and sorting capabilities by some fields (or even just display `NonPersistent` members) you are _out of luck_. It is also _may_ be limited to the complexity you can fit into a single criteria.
 
 ## Techniques that overcome the N+1 problems
 
@@ -510,10 +509,10 @@ One that is database agnostic and one is not.
 CQRS stands for `Command-Query-Responsibility-Segregation`. It's a pattern to split the `Query` part (in our case the calculation of the total sums) from the `Command` part (e.g. handling with the `Offer` objects)
 
 When dealing with statistics or calculated data, instead of calculating on the fly, we can calculate the data upfront. We can use several techniques to do that and it highly depends on your business needs.
-It all depends on how *stale* data is allowed to be. This is not a performance discussion though. You need to talk to your business on the right strategy for that.
+It all depends on how _stale_ data is allowed to be. This is not a performance discussion though. You need to talk to your business on the right strategy for that.
 
 > I'm not going into all details on every single technique on CQRS.  
-If you are interested on more powerful techniques on this let me know in the comments below.
+> If you are interested on more powerful techniques on this let me know in the comments below.
 
 Imagine we store the sum of every order everytime an `Offer` is saved. We will store that data in a separate table to keep our `Query` part from the `Command` part. With XPO it's quite easy to do that, cause we have a single point of truth for updating the `Query` table:
 
@@ -605,9 +604,9 @@ public class FasterOfferWithCQRSQuery : BaseObject
 ```
 
 > **Important**: this only covers this very basic example, and highly depends on your configuration (e.g. SecuritySystem, Deferred deletion etc.). You will need good testing on that to not get stale or out of sync.  
-Database side foreignkeys can help to mark stale objects, as well as triggers to handle that on a database level.  
-Also this *simple* technique only works if you are the only on that writes into the database.  
-I will cover mode advanced scenarios in the future, just let me know in the comments below.
+> Database side foreignkeys can help to mark stale objects, as well as triggers to handle that on a database level.  
+> Also this _simple_ technique only works if you are the only on that writes into the database.  
+> I will cover mode advanced scenarios in the future, just let me know in the comments below.
 
 This will result in a slower write performance for the `Offer` but a **huge** speed improvment on the `Query` table. I've set the `DataAccessMode` of the `Query` table to `DataView` and left the `DataAccessMode` for the `OfferTable` in `Client` mode:
 
@@ -626,7 +625,7 @@ This results in the following performance
 
 1. Sort by `Name`: 0.014 seconds
 
-> *Hint*: we can still provide an `NonPersistent` `HourSum` field in the `Offer` class, but make sure users can't display, filter, group by this field in any `ListView`. In `DetailViews` this should not be a huge performance penalty.
+> _Hint_: we can still provide an `NonPersistent` `HourSum` field in the `Offer` class, but make sure users can't display, filter, group by this field in any `ListView`. In `DetailViews` this should not be a huge performance penalty.
 
 `Query`:
 
@@ -643,13 +642,13 @@ This results in the following performance
 2. Sort by `HourSum`: 0.004 seconds
 
 > **Important**: This will of course result in data duplication and use more disk space.  
-Keep that in mind when designing your datacenter.  
-It also will slow down bulk inserts, because a lot of more records need to be created.
+> Keep that in mind when designing your datacenter.  
+> It also will slow down bulk inserts, because a lot of more records need to be created.
 
 ### Use the database at your advantage - Views
 
 Until now every technique we used does not care about the database underneath. If you don't plan to support more than one or two databases (and be honest, when did you switch your database the last time?) use the **power** of your database.
-Databases are good at this. That is their *job*. But we need to drop down to **SQL**. Don't be afraid, it has a lot of benefits on the long run.
+Databases are good at this. That is their _job_. But we need to drop down to **SQL**. Don't be afraid, it has a lot of benefits on the long run.
 
 This time there is a little bit more code but it's not that difficult:
 
@@ -721,10 +720,10 @@ public class CreateViewDatabaseUpdater : ModuleUpdater
 
         //Create the view and map all the columns. SUM from the join
         ExecuteNonQueryCommand(@"CREATE VIEW [dbo].[FasterOfferWithViewQuery]
-AS select [FasterOfferWithView].[Oid] as Oid, 
-[FasterOfferWithView].[Oid] as [FasterOfferWithView], 
-[FasterOfferWithView].[Name] as [Name], 
-[FasterOfferWithView].[OptimisticLockField] as [OptimisticLockField], 
+AS select [FasterOfferWithView].[Oid] as Oid,
+[FasterOfferWithView].[Oid] as [FasterOfferWithView],
+[FasterOfferWithView].[Name] as [Name],
+[FasterOfferWithView].[OptimisticLockField] as [OptimisticLockField],
 [FasterOfferWithView].[GCRecord] AS [GCRecord],
 sum([FasterOfferItemWithView].[Hours]) AS [HourSum]
 from FasterOfferWithView
@@ -761,7 +760,7 @@ This results in the following performance
 
 1. Sort by `Name`: 0.009 seconds
 
-> *Hint*: we can still provide a `NonPersistent` `HourSum` field in the `Offer` class, but make sure users can't display, filter, group by this field in any `ListView`. In `DetailViews` this should not be a huge performance penalty.
+> _Hint_: we can still provide a `NonPersistent` `HourSum` field in the `Offer` class, but make sure users can't display, filter, group by this field in any `ListView`. In `DetailViews` this should not be a huge performance penalty.
 
 `Query`:
 
@@ -782,12 +781,12 @@ That's pretty impressiv! Finally let's have a look at the totally unsupported pi
 ### Totally unsupported - There will be dragons - N+N query version
 
 > **WARNING**: THIS WILL AND CAN BREAK IN THE FUTURE!  
-FROM THIS POINT ON YOU ARE ON YOUR OWN.
+> FROM THIS POINT ON YOU ARE ON YOUR OWN.
 
 What if we can not avoid N+1 queries, but at least come down to N+N queries? That means we let XAF use a normal `Client` mode ListView and do 1 additional query for all records in that particular `ListView`?
 
 There is one in XAF unsupported features called `Session.Prefetch` but it also has some limitations. We need a way to do 1 query when the **first** N+1 query would occur, afterwards we cache it and just lookup data from this cache.  
-We can't use static fields, cause we have no idea when to purge the cache. But there is one *undocumented* feature of XPO called `IWideDataStorage` we can leverage.
+We can't use static fields, cause we have no idea when to purge the cache. But there is one _undocumented_ feature of XPO called `IWideDataStorage` we can leverage.
 
 ```cs
 [DefaultClassOptions]
@@ -884,9 +883,9 @@ This results in the following performance
 2. Sort by `HourSum`: 0.076 seconds
 
 > **Note**: Because XAF recreates a `Session` object every time it's refreshed, will fetch the second query only once in the lifetime of the session.  
-You can control the cache whichever way you like. 
-Beware that you will pay the cost of calculating the aggregates of ALL objects in the `DetailView` context as well (because there is no natural way to figure out if you are currently displayed in a `DetailView`).  
-There are several strategies you can further improve using this technique, but for now I think this is pretty impressive.
+> You can control the cache whichever way you like.
+> Beware that you will pay the cost of calculating the aggregates of ALL objects in the `DetailView` context as well (because there is no natural way to figure out if you are currently displayed in a `DetailView`).  
+> There are several strategies you can further improve using this technique, but for now I think this is pretty impressive.
 
 This is really awesome performance gain for very little effort. Of course you can combine those techniques. Use `XPQuery` combined with `XPView` and so on.
 The main goal of this post is how to identify performance bottlenecks in your application and how to overcome them when dealing with aggregates especially in `ListViews`.
@@ -908,7 +907,7 @@ The main goal of this post is how to identify performance bottlenecks in your ap
 1. Database `VIEWS` are cheaper from maintenance perspective than `CQRS`
 
 I didn't even dig into execution plans or something special database wise. That is totally out of scope of this post.  
-One thing I always recomend is: stick with the `Client` `DataAccessMode` as long as you can, esp. for smaller record sets. It will perform really well, if you keep an eye on *chatty* requests (N+1).
+One thing I always recomend is: stick with the `Client` `DataAccessMode` as long as you can, esp. for smaller record sets. It will perform really well, if you keep an eye on _chatty_ requests (N+1).
 
 We had no `Indexes` whatsoever (except the default ones XPO creates for us). Databases are pretty damn fast.
 
@@ -942,8 +941,8 @@ There is no one size fits it all. Performance will always be hard. But I hope yo
 If you find interesting what I'm doing, consider becoming a [patreon](//www.patreon.com/biohaz999) or [contact me](//www.delegate.at/) for training, development or consultancy.
 
 > **New Kid on the block**: You now can support me on several channels for all kind of projects. Head over to my [new baby called Tasty](https://tasty.xenial.io/support/).  
-[Tasty](https://tasty.xenial.io) is a delicious dotnet testing platform you can use with and in any application. I would be more than happy if you support me and the project.  
-There will be a new page for [Xenial](https://www.xenial.io/) soon. The project with the pure goal to make you even be **more** productive with XAF, XPO and all business related development.
+> [Tasty](https://tasty.xenial.io) is a delicious dotnet testing platform you can use with and in any application. I would be more than happy if you support me and the project.  
+> There will be a new page for [Xenial](https://www.xenial.io/) soon. The project with the pure goal to make you even be **more** productive with XAF, XPO and all business related development.
 
 As always you can find the sample code on [github](https://github.com/biohazard999/fixing-an-n-plus-1-perf-problem-in-xaf-xpo).
 
