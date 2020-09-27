@@ -1,5 +1,6 @@
 import pkg from "./package.json";
 
+import fg from "fast-glob";
 import { brotliCompressSync } from "zlib";
 
 import commonjs from "@rollup/plugin-commonjs";
@@ -10,16 +11,15 @@ import copy from "rollup-plugin-copy";
 import { terser } from "rollup-plugin-terser";
 import gzipPlugin from "rollup-plugin-gzip";
 import filesize from "rollup-plugin-filesize";
-import css from "rollup-plugin-css-porter";
 
 const extensions = [".js", ".jsx", ".ts", ".tsx"];
-const additionalFiles = [
-  // "./_site/css/bundle.css",
-  // ...fg.sync("./_site/css/*.svg"),
-  // ...fg.sync("./_site/css/*.ttf"),
-  // ...fg.sync("./_site/img/*.svg"),
-  // ...fg.sync("./_site/img/*.png"),
-  // ...fg.sync("./_site/img/*.ico"),
+const additionalFiles = () => [
+  "./_site/css/bundle.css",
+  ...fg.sync("./_site/css/*.svg"),
+  ...fg.sync("./_site/css/*.ttf"),
+  ...fg.sync("./_site/img/*.svg"),
+  ...fg.sync("./_site/img/**/*.png"),
+  ...fg.sync("./_site/img/**/*.ico"),
 ];
 
 export default [
@@ -29,7 +29,7 @@ export default [
       {
         file: pkg.main,
         format: "iife",
-        // plugins: [terser()]
+        plugins: [terser()],
       },
     ],
     external: [],
@@ -42,7 +42,7 @@ export default [
       }),
       scss({
         output: "_site/css/bundle.css",
-        // outputStyle: "compressed",
+        outputStyle: "compressed",
       }),
       copy({
         targets: [
@@ -63,20 +63,24 @@ export default [
             dest: "./_site/css",
           },
           {
-            src: "node_modules/@xenial-io/xenial-template/dist/img/*.*",
+            src: "node_modules/@xenial-io/xenial-template/dist/img/**/*",
+            dest: "./_site/img",
+          },
+          {
+            src: "img/**/*",
             dest: "./_site/img",
           },
         ],
       }),
-      // gzipPlugin({
-      //   additionalFiles,
-      // }),
-      // gzipPlugin({
-      //   additionalFiles,
-      //   customCompression: (content) =>
-      //     brotliCompressSync(Buffer.from(content)),
-      //   fileName: ".br",
-      // }),
+      gzipPlugin({
+        additionalFiles: additionalFiles(),
+      }),
+      gzipPlugin({
+        additionalFiles: additionalFiles(),
+        customCompression: (content) =>
+          brotliCompressSync(Buffer.from(content)),
+        fileName: ".br",
+      }),
       filesize(),
     ],
   },
