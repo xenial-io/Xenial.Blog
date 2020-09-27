@@ -2,150 +2,168 @@
 <html lang="en">
   {% include head.html %}
   <body>
-    <div class="container">
-      <nav class="mobilenav">
-        <a
-          class="brand"
-          href="/"
-          id="home"
-          title="Manuel Grundner - code &amp; consult"
-          alt="home"
+    <input
+      class="xenial__toggletheme-checkbox"
+      id="xenial-toggle-theme"
+      type="checkbox"
+      aria-hidden="true"
+    />
+    <div class="xenial-body">
+      <header class="xenial-header">
+        <input
+          class="xenial-header__togglenavbar-checkbox"
+          id="xenial-toggle-navbar"
+          type="checkbox"
+          aria-hidden="true"
+        />
+        <div class="xenial-header__logo__teaser" aria-hidden="true">
+          <img src="./img/logo.svg" />
+          <span class="xenial-header__logo__teaser__brand-rows">
+            <span class="xenial-header__logo__teaser__brand-first-row">
+              Manuel Grundner
+            </span>
+            <span class="xenial-header__logo__teaser__brand-second-row">
+              code & consult
+            </span>
+          </span>
+        </div>
+        <div class="xenial-header__logo">
+          <img src="./img/logo.svg" />
+          <span class="xenial-header__logo__brand-rows">
+            <span class="xenial-header__logo__brand-first-row">
+              Manuel Grundner
+            </span>
+            <span class="xenial-header__logo__brand-second-row">
+              code & consult
+            </span>
+          </span>
+        </div>
+        <label
+          class="xenial-header__togglenavbar-label"
+          for="xenial-toggle-navbar"
         >
-          <img
-            id="logo"
-            src="/img/logo.png"
-            class="u-max-full-width"
-            width="200"
-          />
-        </a>
-        <ul class="fa-lg nav-ul">
+          <div>
+            <span class="middle">
+              <span class="before"></span>
+              <span class="after"></span>
+            </span>
+          </div>
+        </label>
+        <nav class="xenial-header__nav">
+          <ul class="xenial-header__navlist">
+            <li>
+              <label for="xenial-toggle-theme">
+                <i class="fas fa-sun"></i>
+                Theme
+              </label>
+            </li>
+            <li>
+              <a href="/">
+                <i class="fas fa-home"></i>
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="/about">
+                <i class="fas fa-info-circle"></i>
+                About
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="fas fa-briefcase"></i>
+                Projects
+              </a>
+            </li>
+            <li>
+              <a href="/series">
+                <i class="fas fa-book"></i>
+                Series
+              </a>
+            </li>
+            <li>
+              <a href="/archive">
+                <i class="fas fa-archive"></i>
+                Archive
+              </a>
+            </li>
+            <li>
+              <a href="/tags">
+                <i class="fas fa-tag"></i>
+                Tags
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+    <main>
+      {{ content }}
+    </main>
+    <footer class="xenial-footer">
+      <div class="xenial-footer__social">
+        <h3>Learned something new?</h3>
+        <p>Consider supporting me on the following platforms</p>
+        <ul class="xenial-footer__social-links">
           <li>
-            <a href="/">
-              <span class="fa-stack">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i class="fa-li fa fa-stack-1x fa-inverse fa-home"></i>
-              </span>
-              Home
+            <a href="https://github.com/sponsors/biohazard999">
+              <i class="fab fa-github"></i>
             </a>
           </li>
           <li>
-            <a href="/about">
-              <span class="fa-stack">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i class="fa-li fa fa-stack-1x fa-inverse fa-info"></i>
-              </span>
-              About
+            <a href="https://www.patreon.com/biohaz999">
+              <i class="fab fa-patreon"></i>
             </a>
           </li>
           <li>
-            <a href="/series">
-              <span class="fa-stack">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i class="fa-li fa fa-stack-1x fa-inverse fa-book"></i>
-              </span>
-              Series
+            <a href="https://www.buymeacoffee.com/mgrundner">
+              <i class="fas fa-beer"></i>
+            </a>
+          </li>
+          <li class="break" aria-hidden="true"></li>
+          <li>
+            <a href="https://twitter.com/biohaz999">
+              <i class="fab fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a href="/archive">
-              <span class="fa-stack">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i class="fa-li fa fa-stack-1x fa-inverse fa-archive"></i>
-              </span>
-              Archive
-            </a>
+            <a href="/rss.xml"><i class="fas fa-rss-square"></i></a>
           </li>
           <li>
-            <a href="/tags">
-              <span class="fa-stack">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i class="fa-li fa fa-stack-1x fa-inverse fa-tag"></i>
-              </span>
-              Tags
-            </a>
-          </li>
-          <li>
-            <a href="/achievements">
-              <span class="fa-stack">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i class="fa-li fa fa-stack-1x fa-inverse fa-trophy"></i>
-              </span>
-              Achievements
-            </a>
-          </li>
-          <li>
-            <a href="/licence">
-              <span class="fa-stack">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i class="fa-li fa fa-stack-1x fa-inverse fa-file-alt"></i>
-              </span>
-              Licence
-            </a>
-          </li>
-          <li>
-            <a href="//github.com/biohazard999/" target="_blank">
-              <span class="fa-stack github">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i
-                  class="fa-li fab fa-stack-1x fa-inverse fa-github-square"
-                ></i>
-              </span>
-              Github
-            </a>
-          </li>
-          <li>
-            <a href="//twitter.com/biohaz999" target="_blank">
-              <span class="fa-stack twitter">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i
-                  class="fa-li fab fa-stack-1x fa-inverse fa-twitter-square"
-                ></i>
-              </span>
-              Twitter
-            </a>
-          </li>
-          <li>
-            <a href="//patreon.com/biohaz999" target="_blank">
-              <span class="fa-stack patreon">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i class="fa-li fab fa-stack-1x fa-inverse fa-patreon"></i>
-              </span>
-              Patreon
-            </a>
-          </li>
-          <li>
-            <a href="/rss.xml">
-              <span class="fa-stack rss">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i class="fa-li fa fa-stack-1x fa-inverse fa-rss-square"></i>
-              </span>
-              RSS
-            </a>
-          </li>
-          <li>
-            <a href="/atom.xml">
-              <span class="fa-stack atom">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i class="fa-li fa fa-stack-1x fa-inverse fa-rss-square"></i>
-              </span>
-              Atom
-            </a>
-          </li>
-          <li>
-            <div>
-              <span class="fa-stack">
-                <i class="fa fa-stack-2x fa-circle"></i>
-                <i class="fa-li fa fa-stack-1x fa-inverse fa-palette"></i>
-              </span>
-              <select id="theme-selector">
-                <option value="vs-dark" selected="selected">VS Dark</option>
-                <option value="vs-light">VS Light</option>
-                <option value="mg-light">MG Light</option>
-              </select>
-            </div>
+            <a href="/atom.xml"><i class="fas fa-atom"></i></a>
           </li>
         </ul>
-        <figure class="only-lg">
+      </div>
+      <div class="xenial-footer__fineprint">
+        <p class="xenial-footer__fineprint-love">
+          <span>Made with ❤💚❤💚 in Austria</span>
+        </p>
+        <ul class="xenial-footer__fineprint-imprint">
+          <li><a href="/license">Licenses</a></li>
+          <li><a href="#">Imprint</a></li>
+        </ul>
+        <p class="xenial-footer__fineprint-terms">
+          Use of this site constitutes acceptance of our
+          <a href="#">Website Terms of Use</a>
+          and
+          <a href="#">Privacy Policy</a>
+          <br />
+          Copyright © 2012-{{ site.last-update | date: "%Y" }} Manuel Grundner.
+          All trademarks or registered trademarks are property of their
+          respective owners
+        </p>
+        <p class="xenial-footer__fineprint-githash" aria-hidden="true">
+          <a
+            href="//github.com/biohazard999/Scissors.Blog/commit/{{site.commit}}"
+            title="Version: '{{site.version}}' Last update: '{{site.last-update}}' Sha: '{{site.commit}}'"
+          >
+            {{site.version}} - {{site.last-update}}
+          </a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- <figure class="only-lg">
           <a
             href="https://www.devexpress.com/Home/Community/mvp.xml"
             target="_blank"
@@ -158,29 +176,7 @@
             />
             <figcaption>I am a DevExpress MVP</figcaption>
           </a>
-        </figure>
-      </nav>
-      <a href="javascript:void(0)" class="icon">
-        <div class="hamburger">
-          <div class="menui top-menu"></div>
-          <div class="menui mid-menu"></div>
-          <div class="menui bottom-menu"></div>
-        </div>
-      </a>
-      <div class="row">
-        <div class="twelve columns">
-          {{ content }}
-          <footer>
-            <a
-              href="//github.com/biohazard999/Scissors.Blog/commit/{{site.commit}}"
-              title="Version: '{{site.version}}' Last update: '{{site.last-update}}' Sha: '{{site.commit}}'"
-            >
-              {{site.version}} - {{site.last-update}}
-            </a>
-          </footer>
-        </div>
-      </div>
-    </div>
+        </figure> -->
     <script
       id="dsq-count-scr"
       src="//delegateat.disqus.com/count.js"

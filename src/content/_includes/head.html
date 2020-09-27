@@ -1,30 +1,83 @@
-	<head>
-		<meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        {% if page.description %}<meta name="description" content="{{ page.description }}" />{% else %}<meta name="description" content="{{ page.title }}" />{% endif %}
-        {% if page.author %}<meta name="author" content="{{ page.author }}" />{% else %}<meta name="author" content="Manuel Grundner" />{% endif %}
-        <title>{{ page.title }} | Manuel Grundner - code &amp; consult</title>
-        {% if page.tags %}<meta name="keywords" content="{{ page.tags | join: "," }}" />{% endif %}
-		<link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Blog Feed" />
-		<link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Blog Feed" />
+<head>
+  <meta charset="utf-8" />
+  <base href="/" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1"
+  />
+  {% if page.description %}
+  <meta name="description" content="{{ page.description }}" />
+  {% else %}
+  <meta name="description" content="{{ page.title }}" />
+  {% endif %} {% if page.author %}
+  <meta name="author" content="{{ page.author }}" />
+  {% else %}
+  <meta name="author" content="Manuel Grundner" />
+  {% endif %}
+  <title>{{ page.title }} | Manuel Grundner - code &amp; consult</title>
+  {% if page.tags %}<meta name="keywords" content="{{ page.tags | join: "," }}"
+  />{% endif %}
+  <link
+    href="/rss.xml"
+    type="application/rss+xml"
+    rel="alternate"
+    title="Blog Feed"
+  />
+  <link
+    href="/atom.xml"
+    type="application/atom+xml"
+    rel="alternate"
+    title="Blog Feed"
+  />
 
-		<link rel="stylesheet" type="text/css" href="/css/bundle.css" id="main-stylesheet" />
-        
-		<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png?v=Lbzyy0AJYO">
-        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png?v=Lbzyy0AJYO">
-        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png?v=Lbzyy0AJYO">
-        <link rel="manifest" href="/img/site.webmanifest?v=Lbzyy0AJYO">
-        <link rel="mask-icon" href="/img/safari-pinned-tab.svg?v=Lbzyy0AJYO" color="#0eb1d2">
-        <link rel="shortcut icon" href="/img/favicon.ico?v=Lbzyy0AJYO">
-        <meta name="msapplication-TileColor" content="#0b2545">
-        <meta name="msapplication-config" content="/img/browserconfig.xml?v=Lbzyy0AJYO">
-        <meta name="theme-color" content="#ffffff">
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="/css/bundle.css"
+    id="main-stylesheet"
+  />
 
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140790339-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'UA-140790339-1');
-        </script>
-	</head>
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/img/apple-touch-icon.png?v=Lbzyy0AJYO"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/img/favicon-32x32.png?v=Lbzyy0AJYO"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="16x16"
+    href="/img/favicon-16x16.png?v=Lbzyy0AJYO"
+  />
+  <link rel="manifest" href="/img/site.webmanifest?v=Lbzyy0AJYO" />
+  <link
+    rel="mask-icon"
+    href="/img/safari-pinned-tab.svg?v=Lbzyy0AJYO"
+    color="#0eb1d2"
+  />
+  <link rel="shortcut icon" href="/img/favicon.ico?v=Lbzyy0AJYO" />
+  <meta name="msapplication-TileColor" content="#0b2545" />
+  <meta
+    name="msapplication-config"
+    content="/img/browserconfig.xml?v=Lbzyy0AJYO"
+  />
+  <meta name="theme-color" content="#ffffff" />
+
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=UA-140790339-1"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || []
+    function gtag() {
+      dataLayer.push(arguments)
+    }
+    gtag('js', new Date())
+    gtag('config', 'UA-140790339-1')
+  </script>
+</head>

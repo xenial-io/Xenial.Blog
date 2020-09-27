@@ -18,7 +18,7 @@ const additionalFiles = () => [
   ...fg.sync("./_site/css/*.svg"),
   ...fg.sync("./_site/css/*.ttf"),
   ...fg.sync("./_site/img/*.svg"),
-  ...fg.sync("./_site/img/**/*.png"),
+  // ...fg.sync("./_site/img/**/*.png"),
   ...fg.sync("./_site/img/**/*.ico"),
 ];
 
@@ -29,7 +29,7 @@ export default [
       {
         file: pkg.main,
         format: "iife",
-        // plugins: [terser()],
+        plugins: [terser()],
       },
     ],
     external: [],
@@ -76,15 +76,15 @@ export default [
           },
         ],
       }),
-      // gzipPlugin({
-      //   additionalFiles: additionalFiles(),
-      // }),
-      // gzipPlugin({
-      //   additionalFiles: additionalFiles(),
-      //   customCompression: (content) =>
-      //     brotliCompressSync(Buffer.from(content)),
-      //   fileName: ".br",
-      // }),
+      gzipPlugin({
+        additionalFiles: additionalFiles(),
+      }),
+      gzipPlugin({
+        additionalFiles: additionalFiles(),
+        customCompression: (content) =>
+          brotliCompressSync(Buffer.from(content)),
+        fileName: ".br",
+      }),
       filesize(),
     ],
   },
