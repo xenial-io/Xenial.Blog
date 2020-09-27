@@ -22,6 +22,7 @@ exclude:
   - js\
   - css\
   - img\
+  - node_modules\
 include:
   - downloads
   - .htaccess
@@ -33,6 +34,6 @@ main-url: https://www.delegate.at
 site-name: blog.delegate.at
 feed-name: blog.delegate.at
 site-url: https://blog.delegate.at
-version: 0.1.0-topic-fix-n-plus-1-xpo.1+281
-commit: b259a1f208ff67c61d97cbbb88e5232e65b70eae
-last-update: 2020-07-06
+version: 0.1.0-topic-xenial-theme.1+358
+commit: 976edcba3e1778a78ed4d5b8d48788b4305979d7
+last-update: 2020-09-27

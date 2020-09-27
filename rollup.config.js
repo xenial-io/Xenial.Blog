@@ -24,12 +24,12 @@ const additionalFiles = () => [
 
 export default [
   {
-    input: "js/index.ts",
+    input: "src/js/index.ts",
     output: [
       {
         file: pkg.main,
         format: "iife",
-        plugins: [terser()],
+        // plugins: [terser()],
       },
     ],
     external: [],
@@ -67,20 +67,24 @@ export default [
             dest: "./_site/img",
           },
           {
-            src: "img/**/*",
+            src: "src/img/**/*",
             dest: "./_site/img",
+          },
+          {
+            src: "src/downloads/**/*",
+            dest: "./_site/downloads",
           },
         ],
       }),
-      gzipPlugin({
-        additionalFiles: additionalFiles(),
-      }),
-      gzipPlugin({
-        additionalFiles: additionalFiles(),
-        customCompression: (content) =>
-          brotliCompressSync(Buffer.from(content)),
-        fileName: ".br",
-      }),
+      // gzipPlugin({
+      //   additionalFiles: additionalFiles(),
+      // }),
+      // gzipPlugin({
+      //   additionalFiles: additionalFiles(),
+      //   customCompression: (content) =>
+      //     brotliCompressSync(Buffer.from(content)),
+      //   fileName: ".br",
+      // }),
       filesize(),
     ],
   },
