@@ -7,11 +7,11 @@
 ---
 It's not a really easy task to correctly UnitTest a XAF/XPO application, but as we all know, UnitTesting is a very important part of our work today.
 
-## Why? ##
+## Why?
 
 Cause nobody can know all impacts a change can make in an application.
 
-## How? ##
+## How?
 
 I've written a bunch of little helpers to accomplish this tasks:
 
@@ -19,8 +19,8 @@ I've written a bunch of little helpers to accomplish this tasks:
 - `XafTest`
 - `XafModelTestHelper`
 
+### XpoTest
 
-### XpoTest ###
 I prefer this kind of test cause it is horrible fast and only tests model classes. Perfect to test DomainLogic.
 
 This baseclass provides all you need to test a business object in memory (and of course with `Unity`)
@@ -320,7 +320,7 @@ public class AutoMockingContainerExtension : UnityContainerExtension
 
 I have borrowed this classes from a blogpost i can't remember (sorry).
 
-### XafTest ###
+### XafTest
 
 Is intended to test all kinds of DomainLogic that interacts with XafTypesInfo and ObjectSpace relevant tests. It is much slower than the XpoTest cause the XafTypesInfo has to reset and needs to be repopulated.
 
@@ -373,17 +373,18 @@ public abstract class XafTest<T, T2, T3, T4, T5> : XafTest
 }
 ```
 
-### XafModelTestHelper ###
+### XafModelTestHelper
+
 Can be used to load a ApplicationModel and test it's properties. You can test orders and columns of listviews  or PropertyEditors of DetailViews ect.
 This is in fact the slowest guy in this round. But we have a lot of problems with small refactorings that can happen in huge view problems :(
- 
+
 ```cs
 public static class XafModelTestHelper
 {
     public static IModelApplication LoadApplicationModel(this ModuleBase module)
     {
         var manager = new ApplicationModulesManager();
-        
+
         manager.AddModule(module);
 
         manager.Load(XafTypesInfo.Instance, true);
@@ -395,7 +396,7 @@ public static class XafModelTestHelper
 }
 ```
 
-## Go and test! ##
+## Go and test!
 
 > For simplicity i only used one UnitTest project to test platform agnostic and winforms code.
 
@@ -558,7 +559,7 @@ public class XafTest_MyBo1 : XafTest<MyBo1>
 
 Boring. Nothing special here. but a lot slower:
 
-![](/img/posts/2013/XAFDISolution_2013-02-22_17-12-35.png)
+![XAF Dependency Injection](/img/posts/2013/XAFDISolution_2013-02-22_17-12-35.png)
 
 Now the XafApplicationModel part:
 
@@ -663,7 +664,7 @@ public class ApplicationTest_MyBo1
         var controller = TestApplication.CreateController<DevExpress.ExpressApp.SystemModule.ObjectMethodActionsViewController>();
 
         controller.SetView(detailView);
-        
+
         Assert.That(controller.Actions.Count, Is.GreaterThan(0));
     }
 }
@@ -675,13 +676,13 @@ But i think you get the point :)
 
 [Source](https://bitbucket.org/biohazard999/xafdisolution)
 
-
 Update:
 Thanks to [Robert Anderson][1] the ControllerTest is now working correctly :)
 
-# Imported Comments #
+## Imported Comments
 
-## Robert Anderson, 28 Feb, 2013 ## 
+### Robert Anderson, 28 Feb, 2013
+
 Fantastic work!
 
   [1]: https://bitbucket.org/shamp00

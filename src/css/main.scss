@@ -3,7 +3,6 @@
 
 .author {
   img {
-    margin-top: 2rem;
     border-radius: 35%;
   }
 }
@@ -13,7 +12,9 @@
     left: auto;
   }
 }
+
 aside {
+  padding-top: 2rem;
   figure {
     width: 204px;
     margin: 0;

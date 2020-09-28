@@ -29,15 +29,14 @@ layout: layout
         </div>
         <h1>{{page.title}}</h1>
         <div class="postcontent">
-        {{ content }}
-        </div>
+            {{ content }}
         </div>
     </article>
 </div>
+
 {% if page.tag or page.isseries %}
 {% else %}
-<nav id="page-navigation"> 
-      
+<nav id="page-navigation">
 	<div class="left"> {% if page.previous.url %} <a href="{{page.previous.url}}" title="Previous Post: {{page.previous.title}}">&larr; {{page.previous.title}}</a> {% endif %} </div> 
 	<div class="right"> {% if page.next.url %} <a href="{{page.next.url}}" title="next Post: {{page.next.title}}">{{page.next.title}} &rarr; </a> {% endif %} </div> 
 	<div class="clear">&nbsp;</div>

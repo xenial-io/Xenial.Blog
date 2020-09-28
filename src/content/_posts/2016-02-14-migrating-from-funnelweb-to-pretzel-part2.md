@@ -63,9 +63,9 @@ Task("Only-Bake")
         process.WaitForExit();
         var result = process.GetExitCode();
         Information("Exit code: {0}", result);
-        
+
         if(result != 0){
-            throw new Exception("Pretzel did not bake correctly: Error-Code: " + result); 
+            throw new Exception("Pretzel did not bake correctly: Error-Code: " + result);
         }
    }
 });
@@ -85,9 +85,9 @@ Task("Only-Taste")
         process.WaitForExit();
         var result = process.GetExitCode();
         Information("Exit code: {0}", result);
-        
+
         if(result != 0){
-            throw new Exception("Pretzel did not taste correctly: Error-Code: " + result); 
+            throw new Exception("Pretzel did not taste correctly: Error-Code: " + result);
         }
    }
 });
@@ -107,9 +107,9 @@ Task("Draft")
         process.WaitForExit();
         var result = process.GetExitCode();
         Information("Exit code: {0}", result);
-        
+
         if(result != 0){
-            throw new Exception("Pretzel did not ingredient correctly: Error-Code: " + result); 
+            throw new Exception("Pretzel did not ingredient correctly: Error-Code: " + result);
         }
    }
 });
@@ -125,9 +125,9 @@ Task("Ingredient")
         process.WaitForExit();
         var result = process.GetExitCode();
         Information("Exit code: {0}", result);
-        
+
         if(result != 0){
-            throw new Exception("Pretzel did not ingredient correctly: Error-Code: " + result); 
+            throw new Exception("Pretzel did not ingredient correctly: Error-Code: " + result);
         }
    }
 });
@@ -144,6 +144,7 @@ This is build script got a bunch of `Targets` but we can focus for now on `Bake`
 ```powershell
 .\build.ps1
 ```
+
 This will output:
 
 ```cmd
@@ -308,6 +309,7 @@ Press 'Q' to stop the web host...
 /img/logo.png
 /img/25.png
 ```
+
 > Make sure port 8080 is free and open on your machine
 
 Okay our build pipeline is ready, so lets hop over to Visual Studio Team Services
@@ -354,7 +356,6 @@ We will see the following page.
 ![Visual Studio Team Project](/img/posts/2016/vsts4.png)
 
 Grab the code from Push an exising repository and invoke it on the command line. Hit refresh in the browser:
-
 
 ![Visual Studio Team Project](/img/posts/2016/vsts5.png)
 
@@ -449,7 +450,6 @@ All build steps should now look something like this:
 ![Visual Studio Team Project](/img/posts/2016/vsts14.png)
 ![Visual Studio Team Project](/img/posts/2016/vsts15.png)
 ![Visual Studio Team Project](/img/posts/2016/vsts16.png)
-
 
 Hit save and give the build a name:
 

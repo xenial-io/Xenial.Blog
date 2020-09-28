@@ -4,13 +4,13 @@
  comments: false
  tags: ["13-2", "XAF", "DevExpress", "XPO"]
  series: devexpress-13-2-review
+ github: DX13_2
 ---
 After some days of hard work, not able to blog, here is my third part of the DevExpress review.
 
 This times i focused, as promised, about integrating the WinForms TaskbarAssistant into XAF.
 
-
-Cause i don't want to repeat myself here is the [readme][1] that can also be found on [github][2]. 
+Cause i don't want to repeat myself here is the [readme][1] that can also be found on [github][2].
 If i have time over the holidays, i try to make a screencast that explain my solution in further detail and show the little pitfalls I encountered.
  But, as expected, it was very easy to integrate in XAF and till now my absolute favorite of the 13.2 release. (i hate to write native calls on my own :D)
 
@@ -30,36 +30,32 @@ Deeper Windows Integration Features to XAF/Xpand
 
 This Module allows you to integrate the [TaskbarAssistent](https://documentation.devexpress.com/#WindowsForms/clsDevExpressUtilsTaskbarTaskbarAssistanttopic "TaskbarAssistent Component") into XAF.
 
-
-### Getting started ###
+### Getting started
 
 Integrate the `WindowsIntegrationWindowsFormsModule` like you would do with any Module.
 This is a WindowsForms only Module.
 
 Rebuild your project and you will see 2 additional nodes in the Options section:
 
-![](/img/posts/2013/dx13-2-review/xaftask1.png)
+![XAF Task #1](/img/posts/2013/dx13-2-review/xaftask1.png)
 
-The `TaskbarJumpListOptions` node allows you to specify `JumplistCategories` and `JumplistItems`. 
+The `TaskbarJumpListOptions` node allows you to specify `JumplistCategories` and `JumplistItems`.
 
-### Jumplists ###
+### Jumplists
 
 Set the `EnableJumplist` option to `True` and specify a argument name that will be used to launch your application with command line arguments.
 
-![](/img/posts/2013/dx13-2-review/xaftask2.png)
-
+![XAF Task #2](/img/posts/2013/dx13-2-review/xaftask2.png)
 
 > Note if you only like to launch external applications you can skip the `NavigationItemJumplistArgumentName`
 > The `NavigationItemJumplistArgumentName` should end with a **colon**.
 
 You see two nodes:
 
-
 1. The `CustomCategories` node: This allows you to specify custom categories with `JumpItems` in it.
-2. The `TasksCategory` is the default category provided by windows.
+1. The `TasksCategory` is the default category provided by windows.
 
-
-![](/img/posts/2013/dx13-2-review/xaftask3.png)
+![XAF Task #3](/img/posts/2013/dx13-2-review/xaftask3.png)
 
 Currently there are 3 types of `JumpListItems`:
 
@@ -67,12 +63,11 @@ Currently there are 3 types of `JumpListItems`:
 2. The `TaskbarJumplistJumpItemNavigationItem` allows you to specify a `NavigationItem` the user can select from the the Jumplist.
 3. The `TaskbarJumplistSeperatorItem` is a simple seperator that draws a horizontal line.
 
-![](/img/posts/2013/dx13-2-review/xaftask4.png)
+![XAF Task #4](/img/posts/2013/dx13-2-review/xaftask4.png)
 
+#### TaskbarJumplistJumpItemLaunch
 
-#### TaskbarJumplistJumpItemLaunch ####
-
-![](/img/posts/2013/dx13-2-review/xaftask5.png)
+![XAF Task #5](/img/posts/2013/dx13-2-review/xaftask5.png)
 
 You can currently specify:
 
@@ -84,32 +79,33 @@ You can currently specify:
 - `Index`: The order of the JumpListItem
 - `Id`: The Id of the item
 
-#### TaskbarJumplistJumpItemNavigationItem ####
-![](/img/posts/2013/dx13-2-review/xaftask6.png)
+#### TaskbarJumplistJumpItemNavigationItem
+
+![XAF Task #6](/img/posts/2013/dx13-2-review/xaftask6.png)
 
 You can currently specify:
 
 - `NavigationItem`: Specifies the NavigationItem that should be shown
 - `UseProtocolIfAvailable`: Uses the protocol handler if available
-- `ImageName`: An [ImageName](#Images) to provide an icon for the JumpListItem 
+- `ImageName`: An [ImageName](#Images) to provide an icon for the JumpListItem
 - `Caption`: The Text that is displayed to the user
 - `Index`: The order of the JumpListItem
 - `Id`: The Id of the item
 
-#### TaskbarJumplistSeperatorItem ####
-![](/img/posts/2013/dx13-2-review/xaftask7.png)
+#### TaskbarJumplistSeperatorItem
+
+![XAF Task #7](/img/posts/2013/dx13-2-review/xaftask7.png)
 
 You can currently specify:
 
 - `Index`: The order of the JumpListItem
 - `Id`: The Id of the item
 
+#### Custom Categories
 
-#### Custom Categories ####
-![](/img/posts/2013/dx13-2-review/xaftask8.png)
+![XAF Task #8](/img/posts/2013/dx13-2-review/xaftask8.png)
 
-![](/img/posts/2013/dx13-2-review/xaftask9.png)
-
+![XAF Task #9](/img/posts/2013/dx13-2-review/xaftask9.png)
 
 You can currently specify:
 
@@ -119,8 +115,7 @@ You can currently specify:
 
 Adding new items is exact the same as for the `TasksCategory`.
 
-
-### Bootstrapping code for NavigationItemJumplistItems ###
+### Bootstrapping code for NavigationItemJumplistItems
 
 ```cs
 static class Program
@@ -153,7 +148,6 @@ Specify a mutex name. This is an ordinary string, my experiance has shown that a
 
 Create an instance of the `SingleInstance` class that manages our application instances.
 Check if this is the first instance launched, attach the `ArgumentsReceived` event handler to the `WindowsIntegrationWindowsFormsModule.InstanceOnArgumentsReceived` method and call the `ListenForArgumentsFromSuccessiveInstances` method to listen for new arguments on the `NamedPipe`.
-
 
 Create your application as you always would:
 
@@ -312,13 +306,13 @@ namespace Xpand.Demo.Para.DemoCenter.Win
 
 That's it!
 
-### Custom Protocols ###
+### Custom Protocols
 
 The custom protocol options allow you to launch your application via an custom protocol. This can be handy if you like to send a link to another workstation to open the application with a specific window. You can think about this like a normal hyperlink but this works for your machine.
 
 Select the CustomProtocolOptions node:
 
-![](/img/posts/2013/dx13-2-review/xaftask10.png)
+![XAF Task #10](/img/posts/2013/dx13-2-review/xaftask10.png)
 
 Set the `EnableProtocols` to `True` and specify a `ProtolName`. You see a demo of the protocol under the `ProtocolHandler` node.
 
@@ -329,8 +323,7 @@ You can currently specify:
 - `ProtocolDescription`: This is a hint in the registry what this protocol does
 - `ProtoclName`: The name of your protocol. This should not start with a number, dashes are allowed. See more under the [microsoft documentation](https://msdn.microsoft.com/en-us/library/aa767914(VS.85).aspx)
 
-
-### Images ###
+### Images
 
 The Images will automatically be compiled into a new dll (based on `WinApplication.UserModelDifferenceFilePath`)
 You can specify the name of the generated assembly via the `Options.AutomaticImageAssemblyName` parameter. The default leads to `JumplistImages.dll`.
@@ -338,7 +331,6 @@ You can specify the name of the generated assembly via the `Options.AutomaticIma
 This is necessary because windows needs a `NativeResource` assembly. This will be full automatically generated for all images used by your `JumplistItems`.
 
 > If you launch your application, windows is sometimes caching the icons in the jumplists, so you may not see the actual image you set. After a reboot (or a windows logon/logoff) your application icon should be updated.
-
 
   [1]: https://github.com/biohazard999/Xpand.ExpressApp.Win.Para.WindowsIntegration/blob/master/README.md
   [2]: https://github.com/biohazard999/Xpand.ExpressApp.Win.Para.WindowsIntegration

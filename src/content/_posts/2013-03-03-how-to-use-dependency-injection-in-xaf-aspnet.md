@@ -8,18 +8,19 @@
 How to add support for ASP.NET WebAPI / MVC4 in XAF?
 It is not quite complicated, but took me also some hours of work to get it running.
 
-## Why? ##
+## Why?
+
 We'd like to provide a WebAPI to other companies to reduce our amount of work, when handling with other companies data.
 
 Microsoft's [WebAPI](https://www.asp.net/web-api)/[MVC4](https://www.asp.net/mvc) are great frameworks to easily write such platforms. [XPO](https://www.devexpress.com/) and [XAF](https://www.devexpress.com/Products/NET/Application_Framework/) are great products. So let's combine them.
 
-## How? ##
+## How?
 
 First of all we need 3 new projects in our solution.
 The first one is the WebApi project. The second one is the WebMvc Project. The third one will contain our Datatransfer objects to support strong typing. This one will be a portable class library.
 
+## WebApi
 
-## WebApi ##
 In this project goes the whole big stuff (domain logic & co).
 Let's start:
 
@@ -42,7 +43,7 @@ public static class Bootstrapper
         var container = new UnityContainer();
 
         // register all your components with the container here
-        // e.g. container.RegisterType<ITestService, TestService>();            
+        // e.g. container.RegisterType<ITestService, TestService>();
 
         return container;
     }
@@ -68,7 +69,7 @@ public class WebApiApplication : System.Web.HttpApplication
 }
 ```
 
-Nothing special so far. This is default ASP.NET WebApi. 
+Nothing special so far. This is default ASP.NET WebApi.
 
 How to deal now with XPO? We need to bootstrap the  `Datalayer` and the `Session`:
 
@@ -172,7 +173,7 @@ public static class Bootstrapper
 }
 ```
 
-In this case we need a `ContainerControlledLifetimeManager` so the instance will live for every `ChildUnityContainer ` that is created.
+In this case we need a `ContainerControlledLifetimeManager` so the instance will live for every `ChildUnityContainer` that is created.
 
 Of course we write a `UnitTest` for this:
 
@@ -187,7 +188,7 @@ public class DataLayerHelperTest
         Assert.DoesNotThrow(() =>
         {
             var helper = new DataLayerHelper();
-    
+
             Assert.That(helper, Is.InstanceOf<DataLayerHelper>());
         });
     }
@@ -293,7 +294,7 @@ public class XpoHelperTest
         var unityContainerMock = new Moq.Mock<IUnityContainer>();
         var sessionHelper = new XpoHelper(unityContainerMock.Object, dataLayerHelperMock.Object);
 
-        //Act 
+        //Act
         var session = sessionHelper.GetNewSession();
 
         //Assert
@@ -327,7 +328,7 @@ public static class Bootstrapper
 }
 ```
 
-## The portable assembly ##
+## The portable assembly
 
 > Note that the WebApi and WebMvc are using `.Net 4.5` to use the nice async/await featues we build the protable assembly with support for `.Net 4.0` support to use the calls from our *legacy* XAFSolution.
 
@@ -343,7 +344,7 @@ public class MyBo1
 }
 ```
 
-## Back to the future, ahm WebApi ##
+## Back to the future, ahm WebApi
 
 We know use a simple pattern called the [RepositoryPattern](https://msdn.microsoft.com/en-us/library/ff649690.aspx) to access our Database via XPO and keep testablility and [Seperation of Conserns](https://en.wikipedia.org/wiki/Separation_of_concerns):
 
@@ -396,7 +397,7 @@ public class MyBo1Repository : IBusinessObjectRepository
     XAFDISolution.Module.BusinessObjects.MyBo1 MapBusinessObject(MyBo1 bo, XAFDISolution.Module.BusinessObjects.MyBo1 boXPO)
     {
         boXPO.MyName = bo.MyName;
-        
+
         return boXPO;
     }
 
@@ -649,7 +650,7 @@ public class MyBo1RepositoryTests
         var xpoHelper = new XpoHelper(new Mock<IUnityContainer>().Object, CreateDataLayer());
 
         var session = xpoHelper.GetNewSession();
-        
+
         session.CommitTransaction();
 
         var repo = new MyBo1Repository(xpoHelper);
@@ -826,7 +827,7 @@ public class MyBusinessObjectControllerTests
 
         var controller = new MyBusinessObjectController(mockRepo.Object);
 
-        //Act 
+        //Act
         var result = await controller.Get();
 
         //Assert
@@ -842,7 +843,7 @@ public class MyBusinessObjectControllerTests
 
         var controller = new MyBusinessObjectController(mockRepo.Object);
 
-        //Act 
+        //Act
         var result = (await controller.Get()).OrderBy(m => m.Oid);
 
         //Assert
@@ -861,7 +862,7 @@ public class MyBusinessObjectControllerTests
 
         var controller = new MyBusinessObjectController(mockRepo.Object);
 
-        //Act 
+        //Act
         var result = await controller.Get(1);
 
         //Assert
@@ -878,7 +879,7 @@ public class MyBusinessObjectControllerTests
 
         var controller = new MyBusinessObjectController(mockRepo.Object);
 
-        //Act 
+        //Act
         var bo = new MyBo1() { MyName = "Test" };
         var result = await controller.Post(bo);
 
@@ -898,7 +899,7 @@ public class MyBusinessObjectControllerTests
 
         var controller = new MyBusinessObjectController(mockRepo.Object);
 
-        //Act 
+        //Act
         var bo = new MyBo1() { MyName = "Test" };
         var result = await controller.Put(1, bo);
 
@@ -918,7 +919,7 @@ public class MyBusinessObjectControllerTests
 
         var controller = new MyBusinessObjectController(mockRepo.Object);
 
-        //Act 
+        //Act
         var result = await controller.Delete(1);
 
         //Assert
@@ -930,11 +931,11 @@ public class MyBusinessObjectControllerTests
 }
 ```
 
-### Ready to rock! ###
+### Ready to rock!
 
 Starting up our [projects](https://msdn.microsoft.com/en-us/library/ms165413(v=vs.80).aspx) and see something in action.
 
-Hit the page from our controller (http://localhost:3786/api/MyBusinessObject) we get this result:
+Hit the page from our controller [http://localhost:3786/api/MyBusinessObject](http://localhost:3786/api/MyBusinessObject) we get this result:
 
 ```xml
 <ArrayOfMyBo1 xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/XAFDiSolution.DTO">
@@ -963,7 +964,6 @@ Outputs:
 
 ![Fiddler output](/img/posts/2013/fiddler_output.png)
 
-
 Nice!
 Lets input some data:
 
@@ -983,12 +983,11 @@ And delete it:
 
 ![XAF Delete from fiddler](/img/posts/2013/XAF_Delete_From_Fiddler.png)
 
-
 > As you maybe noticed, i've never startet the application so far. The unit-testing works like a charm.
 
-## WebMvc ##
-Here we need a little different package from nuget. Install [Unity.WebMvc3](https://nuget.org/packages/Unity.Mvc3/1.2) This will also work in Mvc4.
+## WebMvc
 
+Here we need a little different package from nuget. Install [Unity.WebMvc3](https://nuget.org/packages/Unity.Mvc3/1.2) This will also work in Mvc4.
 
 Our little friend the `Bootstrapper` is also present here:
 
@@ -1008,8 +1007,8 @@ public static class Bootstrapper
 
         // register all your components with the container here
         // it is NOT necessary to register your controllers
-        
-        // e.g. container.RegisterType<ITestService, TestService>();            
+
+        // e.g. container.RegisterType<ITestService, TestService>();
 
         return container;
     }
@@ -1038,7 +1037,7 @@ public class MvcApplication : System.Web.HttpApplication
 
 > Notice: The only thing we need in this assembly is the `XAFDISolution.DTO` Reference. Don't reference any XPO-specific here!!
 
-Unfortunately the portable lib doesn't provide support for the Task<T> class we used so far, so we have to recreate the `IBusinessObjectRepository`. But i don't like that. So i link the files via `Add Existing Item` feature from VisualStudio.
+Unfortunately the portable lib doesn't provide support for the `Task<T>` class we used so far, so we have to recreate the `IBusinessObjectRepository`. But i don't like that. So i link the files via `Add Existing Item` feature from VisualStudio.
 
 Now we need a new `Repository`. I call this one `WebApiBoRepository`:
 
@@ -1171,9 +1170,9 @@ public static class Bootstrapper
         // register all your components with the container here
         // it is NOT necessary to register your controllers
 
-        unityContainer.RegisterType<IEndpointProvider, HTTPEndpointProvider>();            
+        unityContainer.RegisterType<IEndpointProvider, HTTPEndpointProvider>();
 
-        unityContainer.RegisterType<IBusinessObjectRepository, WebApiBoRepository>();            
+        unityContainer.RegisterType<IBusinessObjectRepository, WebApiBoRepository>();
 
         return unityContainer;
     }
@@ -1462,12 +1461,13 @@ public class BOControllerTest
 }
 ```
 
-## Views ##
+## Views
+
 Let's modify the scaffolded views:
 
 Create.cshtml
 
-```razor
+```html
 @model XAFDISolution.DTO.MyBo1
 
 @{
@@ -1481,7 +1481,7 @@ Create.cshtml
 
     <fieldset>
         <legend>MyBo1</legend>
-        
+
         <div class="editor-label">
             @Html.LabelFor(model => model.MyName)
         </div>
@@ -1507,7 +1507,7 @@ Create.cshtml
 
 Delete.cshtml
 
-```razor
+```html
 @model XAFDISolution.DTO.MyBo1
 
 @{
@@ -1541,10 +1541,10 @@ Delete.cshtml
     </p>
 }
 ```
-    
+
 Details.cshtml
 
-```razor
+```html
 @model XAFDISolution.DTO.MyBo1
 
 @{
@@ -1578,7 +1578,7 @@ Details.cshtml
 
 Edit.cshtml
 
-```razor
+```html
 @model XAFDISolution.DTO.MyBo1
 
 @{
@@ -1596,7 +1596,7 @@ Edit.cshtml
         <div class="editor-label">
             @Model.Oid
         </div>
-        
+
         <div class="editor-label">
             @Html.LabelFor(model => model.MyName)
         </div>
@@ -1619,10 +1619,10 @@ Edit.cshtml
     @Scripts.Render("~/bundles/jqueryval")
 }
 ```
-	
+
 Index.cshtml
 
-```razor
+```html
 @model IEnumerable<XAFDISolution.DTO.MyBo1>
 
 @{
@@ -1664,7 +1664,7 @@ Index.cshtml
 </table>
 ```
 
-## Action! ##
+## Action!
 
 List:
 
@@ -1693,15 +1693,14 @@ Delete:
 
 ![MVC Delete](/img/posts/2013/MVC_Delete.png)
 
-
 Result:
 
 ![MVC Delete Result](/img/posts/2013/MVC_Delete1.png)
 
-# Missing Parts #
+## Missing Parts
 
 The one missing part is how to apply custom business logic for the XPO Object (Rename me, remember?). This will be covered in a future blog post.
 
-## Check out the sources ##
+## Check out the sources
 
 * [Bitbucket](https://bitbucket.org/biohazard999/xafdisolution)

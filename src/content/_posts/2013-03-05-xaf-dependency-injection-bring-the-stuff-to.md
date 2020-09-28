@@ -4,9 +4,8 @@ title: "XAF Dependency Injection - bring the stuff together"
 comments: false
 tags: ["XPO", "XAF", "WebApi", "Web", "WebMvc", "MVC", "Unity", "UnitTesting", "DI", "async", "await"]
 ---
-## XAF Dependency Injection - bring the stuff together #
 
-Somebody of you know that we actually use [FunnelWeb](https://www.funnelweblog.com/). Don't get me wrong, it is a good blog engine, but it's buggy, and it is a playground. 
+Somebody of you know that we actually use [FunnelWeb](https://www.funnelweblog.com/). Don't get me wrong, it is a good blog engine, but it's buggy, and it is a playground.
 
 I like opensource projects, and i like to contribute to FunnelWeb to make it a better blog engine. But my spare time is really, ...hmm rare? I try to make the best out of this problem and try to write a blog engine (oh no, not another one) that uses all the XPO/XAF/WebApi/WebMvc/Unity/DI/async/await features i blogged about earlier and get the thing into a real working application.
 
@@ -26,6 +25,6 @@ Some facts i want to keep in mind when i implement this thing:
 
 In the next weeks i will try to code every WE till this thing is done.
 
-Your help, thoughts, meanings and other ideas are wellcome! 
+Your help, thoughts, meanings and other ideas are welcome!
 
 Thanks, Manuel

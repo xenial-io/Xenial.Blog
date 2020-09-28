@@ -322,7 +322,7 @@ public async void Rename_Will_Call_Repo_Rename_Correct()
 
 Extent the Index.cshtml:
 
-```razor
+```html
 @model IEnumerable<XAFDISolution.DTO.MyBo1>
 
 @{

@@ -23,24 +23,24 @@ Install `Chocolatey` if you don't have it allready. Fire up a admin commandpromt
 
 For the commandline:
 
-```
+```cmd
 @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
 ```
 
 Or using Powershell
 
-```
+```powershell
 iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
 ```
 
 Next we install `pretzel`, initialize `git` and install the default template:
 
-```
+```cmd
 choco install pretzel -y
   
 mkdir myNewBlog
 cd myNewBlog
-    
+
 git init
 
 pretzel create
@@ -48,7 +48,7 @@ pretzel create
 
 This will create the following output:
 
-```
+```cmd
 C:\tmp>mkdir myNewBlog
 
 C:\tmp>cd myNewBlog
@@ -67,11 +67,11 @@ C:\tmp\myNewBlog>
 
 ## Taste it!
 
-```
+```cmd
 pretzel taste
 ```
 
-This will fire up a browser and start looking for all your html and md files in the blog, and regenerate the when files change. 
+This will fire up a browser and start looking for all your html and md files in the blog, and regenerate the when files change.
 
 ![Pretzel in the browser](/img/posts/2016/pretzel1.png)
 
@@ -95,11 +95,11 @@ exit
 
 Let's look at git:
 
-```
+```cmd
 git status
 ```
 
-```dos
+```cmd
 On branch master
 
 Initial commit
@@ -125,14 +125,14 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 Okay, lets check this in what we have so far.
 
-```
+```cmd
 git add .
 git commit -m "Pretzel blog is running"
 ```
 
 Now we need to get sure we don't have files in our `_site` directory that are not needed
 
-```
+```cmd
 pretzel bake --cleantarget
 explorer .\_site
 ```
@@ -142,9 +142,9 @@ explorer .\_site
 Open `_config.yml` and add a few lines we need in future blog posts.
 
 ```yaml
-pretzel: 
+pretzel:
     engine: liquid
-    
+
 exclude:
   - publish.ps1
   - build.cake
@@ -158,12 +158,12 @@ exclude:
 
 Lets checkin this.
 
-```
+```cmd
 git add .
 git commit -m "Pretzel now excludes tools we need in the future"
 ```
 
-Alright! That was easy. 
+Alright! That was easy.
 
 The next time we look how we build the blog in [Visual-Studio-Team-Services](//www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx) (former VSO, Visual-Studio-Online, now VSTS).
 
