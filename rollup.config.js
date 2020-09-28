@@ -29,7 +29,7 @@ export default [
       {
         file: pkg.main,
         format: "iife",
-        plugins: [terser()],
+        // plugins: [terser()],
       },
     ],
     external: [],
@@ -42,7 +42,7 @@ export default [
       }),
       scss({
         output: "_site/css/bundle.css",
-        outputStyle: "compressed",
+        // outputStyle: "compressed",
       }),
       copy({
         targets: [
@@ -76,16 +76,16 @@ export default [
           },
         ],
       }),
-      gzipPlugin({
-        additionalFiles: additionalFiles(),
-      }),
-      gzipPlugin({
-        additionalFiles: additionalFiles(),
-        customCompression: (content) =>
-          brotliCompressSync(Buffer.from(content)),
-        fileName: ".br",
-      }),
-      filesize(),
+      // gzipPlugin({
+      //   additionalFiles: additionalFiles(),
+      // }),
+      // gzipPlugin({
+      //   additionalFiles: additionalFiles(),
+      //   customCompression: (content) =>
+      //     brotliCompressSync(Buffer.from(content)),
+      //   fileName: ".br",
+      // }),
+      // filesize(),
     ],
   },
 ];

@@ -894,19 +894,20 @@ The main goal of this post is how to identify performance bottlenecks in your ap
 
 ### Summary - Lessions learned
 
-1. Performance is hard
-1. Measure, measure, measure
-1. Pick the right tool (and always keep memory and database load in sight)
-1. Never combine `PersistentAlias` with client mode aggregates if possible
-1. Use your database as a tool
-1. If everything performance wise breaks down: use and measure the last 3 options
-1. Use N+N query wisely. It doesn't have the same benefits like all the other `DataAccessModes` but it behaves linear, and can help calculate complicated business rules only once and avoid the N+1 problem.
-1. Everything is a tradeoff (implementation time, memory, cpu time, stale data)
-1. Use `DataView` or `InstantFeedbackView` in combination with `PersistentAlias` wherever you need to do aggregation with larger amounts of data
-1. `ServerMode`, `ServerView` and `InstantFeedback` will drive your `DBA` crazy, if used incorrectly
-1. Aim for UX first and stay with `Client` mode as much as you can
-1. You really need good reasons for `CQRS`. It adds **loads** of performance, but increases complexity and maintenance a **lot**
-1. Database `VIEWS` are cheaper from maintenance perspective than `CQRS`
+Performance is analysis is _hard_ work with so much available options. To pinpoint some learnings:
+
+- Measure, measure, measure
+- Pick the right tool (and always keep memory and database load in sight)
+- Never combine `PersistentAlias` with client mode aggregates if possible
+- Use your database as a tool
+- If everything performance wise breaks down: use and measure the last 3 options
+- Use N+N query wisely. It doesn't have the same benefits like all the other `DataAccessModes` but it behaves linear, and can help calculate complicated business rules only once and avoid the N+1 problem.
+- Everything is a tradeoff (implementation time, memory, cpu time, stale data)
+- Use `DataView` or `InstantFeedbackView` in combination with `PersistentAlias` wherever you need to do aggregation with larger amounts of data
+- `ServerMode`, `ServerView` and `InstantFeedback` will drive your `DBA` crazy, if used incorrectly
+- Aim for UX first and stay with `Client` mode as much as you can
+- You really need good reasons for `CQRS`. It adds **loads** of performance, but increases complexity and maintenance a **lot**
+- Database `VIEWS` are cheaper from maintenance perspective than `CQRS`
 
 I didn't even dig into execution plans or something special database wise. That is totally out of scope of this post.  
 One thing I always recomend is: stick with the `Client` `DataAccessMode` as long as you can, esp. for smaller record sets. It will perform really well, if you keep an eye on _chatty_ requests (N+1).

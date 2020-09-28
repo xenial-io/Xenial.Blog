@@ -4,7 +4,8 @@
   "description": "Find it on [blog.delegate.at](https://blog.delegate.at).",
   "main": "_site/js/index.min.js",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "watch": "chokidar src/**/* node_modules/@xenial-io/xenial-template/src/**/* -d 150 -c \"npm run build\""
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
     "@rollup/plugin-babel": "^5.2.1",
     "@rollup/plugin-commonjs": "^15.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
+    "chokidar-cli": "^2.1.0",
     "rollup": "^2.28.2",
     "rollup-plugin-bundle-scss": "^0.1.1",
     "rollup-plugin-copy": "^3.3.0",
