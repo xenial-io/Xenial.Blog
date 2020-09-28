@@ -788,7 +788,7 @@ What if we can not avoid N+1 queries, but at least come down to N+N queries? Tha
 There is one in XAF unsupported features called `Session.Prefetch` but it also has some limitations. We need a way to do 1 query when the **first** N+1 query would occur, afterwards we cache it and just lookup data from this cache.  
 We can't use static fields, cause we have no idea when to purge the cache. But there is one _undocumented_ feature of XPO called `IWideDataStorage` we can leverage.
 
-> Update: As Dennis kindly mentioned in the comments, `Session.Prefetch` is **supported** but [wont work in every scenario](https://supportcenter.devexpress.com/ticket/details/q558707/how-do-i-prefetch-related-details-data-to-increase-performance-for-calculated-fields).
+> Update: As Dennis kindly mentioned in the comments, `Session.Prefetch` is **supported** but [won't work in every scenario](https://supportcenter.devexpress.com/ticket/details/q558707/how-do-i-prefetch-related-details-data-to-increase-performance-for-calculated-fields).
 
 ```cs
 [DefaultClassOptions]
@@ -882,7 +882,7 @@ Let's look at the queries generated in the **Client** mode:
 This results in the following performance
 
 1. Sort by `Name`: 0.082 seconds
-2. Sort by `HourSum`: 0.076 seconds
+1. Sort by `HourSum`: 0.076 seconds
 
 > **Note**: Because XAF recreates a `Session` object every time it's refreshed, will fetch the second query only once in the lifetime of the session.  
 > You can control the cache whichever way you like.
