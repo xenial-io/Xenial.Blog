@@ -2,31 +2,34 @@
 layout: layout
 ---
 
-<article>
-	<div class='entry'>
-		<h1> {{page.title}} </h1>
+<div class="article-wrapper">
+    <aside>
         {% if page.tag or page.seriesid %}
         {% else %}
-		<div class="postdate">{{ page.date | date: "%e %B %Y"  }} by {% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}
-      <ul class="tags fa-ul">
-      {% for tag in page.tags %}
-          <li><i class="fa fa-tag"></i> <a href="/tags/{{ tag }}">{{ tag }}</a></li>
-      {% endfor %}
-      </ul>
-      {% endif %}
-      {% if page.github or page.nuget %}
-      <ul class="badges">
-        {% if page.github %}<li><a href="https://www.github.com/{{ page.author-github | default: site.author-github }}/{{ page.github }}"><img src="https://img.shields.io/github/license/{{ site.author-github }}/{{ page.github }}.svg" /></a></li>{% endif %}
-        {% if page.nuget %}<li><a href="https://www.nuget.org/packages/{{ page.nuget }}"><img src="https://buildstats.info/nuget/{{ page.nuget }}" /></a></li>{% endif %}
-      </ul>
-      {% endif %}
-    </div>
-    <hr />
-    <div class="postcontent">
-      {{ content }}
-    </div>
-	</div>
-</article>
+            <ul class="tags">
+                {% for tag in page.tags %}
+                    <li><i class="fa fa-tag"></i> <a href="/tags/{{ tag }}">{{ tag }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </aside>
+    <article>
+        <div class="article-header">
+            <div class="postdate">{{ page.date | date: "%e %B %Y"  }} by {% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</div>
+            {% if page.github or page.nuget %}
+            <ul class="badges">
+              {% if page.github %}<li><a href="https://www.github.com/{{ page.author-github | default: site.author-github }}/{{ page.github }}"><img src="https://img.shields.io/github/license/{{ site.author-github }}/{{ page.github }}.svg" /></a></li>{% endif %}
+              {% if page.nuget %}<li><a href="https://www.nuget.org/packages/{{ page.nuget }}"><img src="https://buildstats.info/nuget/{{ page.nuget }}" /></a></li>{% endif %}
+            </ul>
+            {% endif %}
+        </div>
+        <h1>{{page.title}}</h1>
+        <div class="postcontent">
+        {{ content }}
+        </div>
+        </div>
+    </article>
+</div>
 {% if page.tag or page.isseries %}
 {% else %}
 <nav id="page-navigation"> 

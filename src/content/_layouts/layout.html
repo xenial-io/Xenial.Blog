@@ -52,12 +52,6 @@
         <nav class="xenial-header__nav">
           <ul class="xenial-header__navlist">
             <li>
-              <label for="xenial-toggle-theme">
-                <i class="fas fa-sun"></i>
-                Theme
-              </label>
-            </li>
-            <li>
               <a href="/">
                 <i class="fas fa-home"></i>
                 Home
@@ -93,75 +87,81 @@
                 Tags
               </a>
             </li>
+            <li>
+              <label for="xenial-toggle-theme" title="Turn the lights on/off">
+                <i class="xenial-theme-indicator"></i>
+                <span class="xenial-theme-text">Theme</span>
+              </label>
+            </li>
           </ul>
         </nav>
       </header>
-    </div>
-    <main>
-      {{ content }}
-    </main>
-    <footer class="xenial-footer">
-      <div class="xenial-footer__social">
-        <h3>Learned something new?</h3>
-        <p>Consider supporting me on the following platforms</p>
-        <ul class="xenial-footer__social-links">
-          <li>
-            <a href="https://github.com/sponsors/biohazard999">
-              <i class="fab fa-github"></i>
+
+      <main>
+        {{ content }}
+      </main>
+      <footer class="xenial-footer">
+        <div class="xenial-footer__social">
+          <h3>Learned something new?</h3>
+          <p>Consider supporting me on the following platforms</p>
+          <ul class="xenial-footer__social-links">
+            <li>
+              <a href="https://github.com/sponsors/biohazard999">
+                <i class="fab fa-github"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.patreon.com/biohaz999">
+                <i class="fab fa-patreon"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.buymeacoffee.com/mgrundner">
+                <i class="fas fa-beer"></i>
+              </a>
+            </li>
+            <li class="break" aria-hidden="true"></li>
+            <li>
+              <a href="https://twitter.com/biohaz999">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li>
+              <a href="/rss.xml"><i class="fas fa-rss-square"></i></a>
+            </li>
+            <li>
+              <a href="/atom.xml"><i class="fas fa-atom"></i></a>
+            </li>
+          </ul>
+        </div>
+        <div class="xenial-footer__fineprint">
+          <p class="xenial-footer__fineprint-love">
+            <span>Made with ❤💚❤💚 in Austria</span>
+          </p>
+          <ul class="xenial-footer__fineprint-imprint">
+            <li><a href="/license">Licenses</a></li>
+            <li><a href="#">Imprint</a></li>
+          </ul>
+          <p class="xenial-footer__fineprint-terms">
+            Use of this site constitutes acceptance of our
+            <a href="#">Website Terms of Use</a>
+            and
+            <a href="#">Privacy Policy</a>
+            <br />
+            Copyright © 2012-{{ site.last-update | date: "%Y" }} Manuel Grundner.
+            All trademarks or registered trademarks are property of their
+            respective owners
+          </p>
+          <p class="xenial-footer__fineprint-githash" aria-hidden="true">
+            <a
+              href="//github.com/biohazard999/Scissors.Blog/commit/{{site.commit}}"
+              title="Version: '{{site.version}}' Last update: '{{site.last-update}}' Sha: '{{site.commit}}'"
+            >
+              {{site.version}} - {{site.last-update}}
             </a>
-          </li>
-          <li>
-            <a href="https://www.patreon.com/biohaz999">
-              <i class="fab fa-patreon"></i>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.buymeacoffee.com/mgrundner">
-              <i class="fas fa-beer"></i>
-            </a>
-          </li>
-          <li class="break" aria-hidden="true"></li>
-          <li>
-            <a href="https://twitter.com/biohaz999">
-              <i class="fab fa-twitter"></i>
-            </a>
-          </li>
-          <li>
-            <a href="/rss.xml"><i class="fas fa-rss-square"></i></a>
-          </li>
-          <li>
-            <a href="/atom.xml"><i class="fas fa-atom"></i></a>
-          </li>
-        </ul>
-      </div>
-      <div class="xenial-footer__fineprint">
-        <p class="xenial-footer__fineprint-love">
-          <span>Made with ❤💚❤💚 in Austria</span>
-        </p>
-        <ul class="xenial-footer__fineprint-imprint">
-          <li><a href="/license">Licenses</a></li>
-          <li><a href="#">Imprint</a></li>
-        </ul>
-        <p class="xenial-footer__fineprint-terms">
-          Use of this site constitutes acceptance of our
-          <a href="#">Website Terms of Use</a>
-          and
-          <a href="#">Privacy Policy</a>
-          <br />
-          Copyright © 2012-{{ site.last-update | date: "%Y" }} Manuel Grundner.
-          All trademarks or registered trademarks are property of their
-          respective owners
-        </p>
-        <p class="xenial-footer__fineprint-githash" aria-hidden="true">
-          <a
-            href="//github.com/biohazard999/Scissors.Blog/commit/{{site.commit}}"
-            title="Version: '{{site.version}}' Last update: '{{site.last-update}}' Sha: '{{site.commit}}'"
-          >
-            {{site.version}} - {{site.last-update}}
-          </a>
-        </p>
-      </div>
-    </footer>
+          </p>
+        </div>
+      </footer>
 
     <!-- <figure class="only-lg">
           <a
@@ -177,6 +177,7 @@
             <figcaption>I am a DevExpress MVP</figcaption>
           </a>
         </figure> -->
+    </div>
     <script
       id="dsq-count-scr"
       src="//delegateat.disqus.com/count.js"

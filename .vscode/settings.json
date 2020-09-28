@@ -1,33 +1,32 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-		"files.autoSave": "onFocusChange",
-		"cSpell.words": [
-			"EASYTEST",
-			"Makeify",
-			"Nilsen",
-			"Nutzung",
-			"Optionen",
-			"Ranorex",
-			"Shouldly",
-			"Sikuli",
-			"Tellitson",
-			"Tolis",
-			"Webtestit",
-			"Winforms",
-			"Xenial",
-			"discoverability",
-			"dotnetcore",
-			"markdownlint",
-			"nuget",
-			"typeof"
-		],
-		"files.exclude": {
-			"**/.classpath": true,
-			"**/.project": true,
-			"**/.settings": true,
-			"**/.factorypath": true
-		},
-		"editor.rulers": [
-			120
-		]
+  "files.autoSave": "onFocusChange",
+  "cSpell.words": [
+    "EASYTEST",
+    "Makeify",
+    "Nilsen",
+    "Nutzung",
+    "Optionen",
+    "Ranorex",
+    "Shouldly",
+    "Sikuli",
+    "Tellitson",
+    "Tolis",
+    "Webtestit",
+    "Winforms",
+    "Xenial",
+    "discoverability",
+    "dotnetcore",
+    "markdownlint",
+    "nuget",
+    "typeof"
+  ],
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  "editor.rulers": [120],
+  "editor.formatOnSave": false
 }
