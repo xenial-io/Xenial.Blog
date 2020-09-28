@@ -4,14 +4,18 @@ layout: layout
 
 <div class="article-wrapper">
     <aside>
+        {% include author.html %}
+
         {% if page.tag or page.seriesid %}
         {% else %}
             <ul class="tags">
                 {% for tag in page.tags %}
-                    <li><i class="fa fa-tag"></i> <a href="/tags/{{ tag }}">{{ tag }}</a></li>
+                    <li><a href="/tags/{{ tag }}">{{ tag }}</a></li>
                 {% endfor %}
             </ul>
         {% endif %}
+
+        {% include mvp.html %}
     </aside>
     <article>
         <div class="article-header">
