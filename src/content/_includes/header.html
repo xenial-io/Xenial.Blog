@@ -37,48 +37,7 @@
   </label>
   <nav class="xenial-header__nav">
     <ul class="xenial-header__navlist">
-      <li>
-        <a href="/">
-          <i class="fas fa-home"></i>
-          Home
-        </a>
-      </li>
-      <li>
-        <a href="/about">
-          <i class="fas fa-info-circle"></i>
-          About
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="fas fa-briefcase"></i>
-          Projects
-        </a>
-      </li>
-      <li>
-        <a href="/series">
-          <i class="fas fa-book"></i>
-          Series
-        </a>
-      </li>
-      <li>
-        <a href="/archive">
-          <i class="fas fa-archive"></i>
-          Archive
-        </a>
-      </li>
-      <li>
-        <a href="/tags">
-          <i class="fas fa-tag"></i>
-          Tags
-        </a>
-      </li>
-      <li>
-        <label for="xenial-toggle-theme" title="Turn the lights on/off">
-          <i class="xenial-theme-indicator"></i>
-          <span class="xenial-theme-text">Theme</span>
-        </label>
-      </li>
+      {% include header_links.html %}
     </ul>
   </nav>
 </header>
