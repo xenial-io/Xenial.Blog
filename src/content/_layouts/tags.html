@@ -1,0 +1,17 @@
+---
+layout: post
+---
+
+<div class="tag-overview">
+  <div class="tag-overview__search">
+    <input type="text" class="tag-overview__search-input" placeholder="Search for a tag"/>
+  </div>
+
+  <ul class="tag-overview__list tags">
+    {% for post in site.pages %} {% if post.tag and post.tag != " " %}
+    <li class="tag-overview__list-item">
+      <a href="/tags/{{ post.tag }}">{{ post.tag }}</a>
+    </li>
+    {% endif %} {% endfor %}
+  </ul>
+</div>

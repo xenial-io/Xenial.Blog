@@ -1,0 +1,37 @@
+.tag-overview {
+  &__search {
+    margin: {
+      top: 1rem;
+      bottom: 1rem;
+    }
+
+    &-input {
+      display: inline-block;
+      width: 100%;
+      padding: 0.5rem
+    }
+  }
+
+  &__list {
+    &-item {
+      transition: transform var(--xenial-anim-s2) ease-in,
+        height var(--xenial-anim-s3) ease-in-out,
+        width var(--xenial-anim-s3) ease-in-out;
+
+      transform: scale(1, 1);
+      transform-origin: left;
+
+      &::before {
+        content: none;
+      }
+    }
+    &-item.visible {
+      transform: scale(1, 1);
+    }
+    &-item.hidden {
+      transform: scale(0, 0);
+      height: 0;
+      width: 0;
+    }
+  }
+}
