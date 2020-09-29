@@ -7,6 +7,11 @@
 aside {
   padding-top: 2rem;
 
+  h3 i::before {
+    font-size: 1rem;
+    font-weight: normal;
+  }
+
   figure {
     margin: 0;
     display: block;
