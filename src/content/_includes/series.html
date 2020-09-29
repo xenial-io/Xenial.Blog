@@ -1,0 +1,19 @@
+{% if page.series and page.series != '' %}
+<div class="post-series">
+    {% for p in site.pages %}{% if p.seriesid and p.seriesid != '' and p.seriesid == page.series %}<h3><a href="/series/{{ p.seriesid }}">Series</a></h3>{% endif %}{% endfor %}
+    <ul class="post-series__list">
+        <!-- PAGE: {{ page.series }} -->
+        {% for post in site.posts %}
+            {% if post.series and post.series != '' and post.series == page.series %}
+                <li class="post-series__list-item">
+                    {% if post.title == page.title %}
+                    <span>{{ post.title }}</span>
+                    {% else %}
+                    <a href="{{ post.url }}">{{ post.title }}</a>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
