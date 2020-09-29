@@ -5,7 +5,7 @@ import { xenial } from "@xenial-io/xenial-template";
 
 xenial();
 
-document.querySelectorAll("article img").forEach(el => {
+document.querySelectorAll("article .postcontent img").forEach(el => {
     const img = <HTMLImageElement>el;
     img.onclick = ()  =>
     {

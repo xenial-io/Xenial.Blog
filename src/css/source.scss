@@ -26,10 +26,10 @@
           transition: color var(--xenial-anim-s) ease-in;
         }
         a:hover {
-          color: var(--xenial-highlight-color);
+          color: var(--xenial-tag-color);
         }
         a:hover span.nuget {
-          background-color: var(--xenial-highlight-color);
+          background-color: var(--xenial-tag-color);
         }
       }
     }

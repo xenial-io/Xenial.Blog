@@ -1,0 +1,33 @@
+.xenial-body {
+  main {
+    article {
+      .article-header {
+        display: flex;
+        margin: {
+          top: 0.5rem;
+          bottom: 1rem;
+        }
+      }
+      .badges {
+        list-style: none;
+        display: flex;
+        padding: 0;
+        margin: {
+          left: auto;
+          top: auto;
+          bottom: auto;
+        }
+
+        li {
+          img {
+            margin: 0;
+            margin-left: .2rem;
+          }
+          &::before {
+            content: none;
+          }
+        }
+      }
+    }
+  }
+}
