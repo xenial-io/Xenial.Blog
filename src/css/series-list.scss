@@ -1,17 +1,21 @@
 @import "search";
 
-.archive {
+.series {
   @include search-box;
 
   &__list {
     &-item {
+      .flex {
+        display: flex;
+        flex-wrap: wrap;
+      }
       transition: transform var(--xenial-anim-s2) ease-in,
         height var(--xenial-anim-s3) ease-in-out,
         width var(--xenial-anim-s3) ease-in-out;
 
       transform: scale(1, 1);
       transform-origin: left;
-      display: flex;
+
       &-date {
         min-width: 6rem;
         display: inline-block;

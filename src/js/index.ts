@@ -15,3 +15,4 @@ document.querySelectorAll("article .postcontent img").forEach(el => {
 
 search(".tag-overview__search-input", ".tag-overview__list");
 search(".archive__search-input", ".archive__list");
+search(".series__search-input", ".series__list");

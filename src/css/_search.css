@@ -1,0 +1,17 @@
+@mixin search-box {
+  &__search {
+    margin: {
+      top: 1rem;
+      bottom: 1rem;
+    }
+
+    &-input {
+      display: inline-block;
+      width: 100%;
+      padding: {
+        top: 0.5rem;
+        bottom: 0.5rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+---
+layout: post
+---
+
+<div class="series">
+  <div class="series__search">
+    <input
+      type="text"
+      class="series__search-input"
+      placeholder="Search for an article"
+    />
+  </div>
+  <ul class="series__list">
+    {% for post in site.pages %}
+    {% if post.seriesid and post.seriesid != " " %}
+      <li class="series__list-item">
+        <a href="/series/{{ post.seriesid }}">{{ post.title }}</a>
+        <ul>
+          {% for p in site.posts %}
+          {% if post.seriesid == p.series %}
+          <li class="series__list-item flex">
+            <span class="series__list-item-date">{{ p.date | date: "%Y-%m-%d"  }}:</span> <a class="series__list-item-link" href="{{ p.url }}">{{ p.title }}</a>
+
+          </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </li>
+    {% endif %} 
+  {% endfor %}
+  </ul>
+</div>

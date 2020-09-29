@@ -1,16 +1,7 @@
-.tag-overview {
-  &__search {
-    margin: {
-      top: 1rem;
-      bottom: 1rem;
-    }
+@import "search";
 
-    &-input {
-      display: inline-block;
-      width: 100%;
-      padding: 0.5rem
-    }
-  }
+.tag-overview {
+  @include search-box;
 
   &__list {
     &-item {
