@@ -25,7 +25,7 @@ layout: layout
     </aside>
     <article>
         <div class="article-header">
-            <div class="postdate">{% if page.nodate == false %}{{ page.date | date: "%e %B %Y"  }} by {% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}{% else %}&nbsp;{% endif %}</div>
+            <div class="postdate">{% if page.nodate == true or page.layout == 'tagpage' %}&nbsp;{% else %}{{ page.date | date: "%e %B %Y"  }} by {% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}{% endif %}</div>
             {% if page.github or page.nuget %}
             <ul class="badges">
               {% if page.github %}<li><a href="https://www.github.com/{{ page.author-github | default: site.author-github }}/{{ page.github }}"><img src="https://img.shields.io/github/license/{{ site.author-github }}/{{ page.github }}.svg" /></a></li>{% endif %}
