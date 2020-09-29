@@ -5,7 +5,7 @@
         <!-- PAGE: {{ page.series }} -->
         {% for post in site.posts %}
             {% if post.series and post.series != '' and post.series == page.series %}
-                <li class="post-series__list-item">
+                <li class="post-series__list-item {% if post.title == page.title %}current{% endif%}">
                     {% if post.title == page.title %}
                     <span>{{ post.title }}</span>
                     {% else %}
