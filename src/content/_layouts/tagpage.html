@@ -1,16 +1,19 @@
 ---
 layout: post
+nodate: true
 ---
-<ul>
+<div class="tag-page">
+<ul class="tag-page__list">
 {% for post in site.posts %}
   {% for tag in post.tags %}
     {% assign page_tag = page.tag | downcase %}
     {% assign current_tag = tag | downcase %}
     {% if page_tag == current_tag %}
-        <li>
-            {{ post.date | date: "%B %d, %Y" }}: <a href="{{ post.url }}">{{ post.title }}</a>
+        <li class="tag-page__list-item">
+            <span class="tag-page__list-item-date">{{ post.date | date: "%Y-%m-%d" }}:</span> <a class="tag-page__list-item-link" href="{{ post.url }}">{{ post.title }}</a>
         </li>
     {% endif %}
   {% endfor %}
 {% endfor %}
 </ul>
+</div>

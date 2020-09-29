@@ -2,7 +2,7 @@
  layout: post 
  title: Meeting Dennis Garavsky
  comments: true
- tags: [Personal, DevExpress, XAF, XPO, Blazor, MVP]
+ tags: [Personal, DevExpress, XAF, XPO, Blazor, MVP, Community]
 ---
 
 I had the rare opportunity to talk for the first time with [Dennis Garavsky](//twitter.com/DennisGaravsky) from [DevExpress](//www.devexpress.com) in person. After almost 10 years working with him closely in the [support center](//www.devexpress.com/Support/Center) and after getting my [MVP-Title](//www.devexpress.com/aboutus/mvp/) (which I am proud of ever since) working more closely together via email, facebook and twitter it was really time to meet up. He was on vacation in Austria and I hope he really enjoyed it. As usual for DevExpress (and esp. Dennis) they really try to find the perfect solution for their customers needs, so he asked me if we can meet up and speak a little bit about the future of XAF & XPO. So he visited me here in Graz before his flight back home.
