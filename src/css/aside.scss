@@ -1,0 +1,38 @@
+@mixin margin-auto {
+  margin: {
+    left: auto;
+  }
+}
+
+aside {
+  padding-top: 2rem;
+  figure {
+    width: 204px;
+    margin: 0;
+    display: block;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    @include margin-auto;
+
+    img {
+      display: block;
+      @include margin-auto;
+    }
+
+    figcaption {
+      text-align: center;
+    }
+  }
+  .author img {
+    display: block;
+    @include margin-auto;
+  }
+
+  > * {
+    margin-bottom: 1.8rem;
+  }
+
+  @import "share";
+}

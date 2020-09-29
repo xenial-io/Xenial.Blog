@@ -1,0 +1,19 @@
+.post-share {
+  &__list {
+    list-style: none;
+    display: flex;
+    font-size: 2rem;
+
+    &-item {
+      margin-right: 1rem;
+      a,
+      a:link,
+      a:visited {
+        transition: color var(--xenial-anim-s) ease-in;
+      }
+      a:hover {
+        color: var(--xenial-highlight-color);
+      }
+    }
+  }
+}
