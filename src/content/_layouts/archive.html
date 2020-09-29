@@ -1,0 +1,25 @@
+---
+layout: post
+---
+
+<div class="archive">
+  <div class="archive__search">
+    <input
+      type="text"
+      class="archive__search-input"
+      placeholder="Search for an article"
+    />
+  </div>
+  <ul class="archive__list">
+    {% for post in site.posts %}
+    <li class="archive__list-item">
+      <span class="archive__list-item-date">
+        {{ post.date | date: "%Y-%m-%d" }}:
+      </span>
+      <a class="archive__list-item-link" href="{{ post.url }}">
+        {{ post.title }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
