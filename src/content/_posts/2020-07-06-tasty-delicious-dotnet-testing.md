@@ -5,6 +5,7 @@
  tags: ["Tasty", "Testing", "BestPractices", "dotnet", "dotnetcore", "IntegrationTesting", "UITest", "UnitTesting", "Xenial", "async", "await"]
  series: Tasty
  github: Tasty
+ nuget: Xenial.Tasty
  author-github: xenial-io
 ---
 

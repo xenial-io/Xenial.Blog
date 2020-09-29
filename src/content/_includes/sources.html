@@ -1,10 +1,12 @@
 {% if page.nosource == true %}
 {% else %}
-<div class="post-source">
-    <h3><i class="fas fa-code"></i> Sources</h3>
-    <ul class="post-source__list">
-        <li class="post-source__list-item"><i class="fab fa-github"></i></li>
-        <li class="post-source__list-item"><img src="/img/nuget.svg" /></li>
-    </ul>
-</div>
+{% if page.github or page.nuget %}
+    <div class="post-source">
+        <h3><i class="fas fa-code"></i> Sources</h3>
+        <ul class="post-source__list">
+            {% if page.github %}<li class="post-source__list-item"><a href="https://www.github.com/{{ page.author-github | default: site.author-github }}/{{ page.github }}"><i class="fab fa-github"></i></a></li>{% endif %}
+            {% if page.nuget %}<li class="post-source__list-item"><a href="https://www.nuget.org/packages/{{ page.nuget }}"><span class="nuget">&nbsp;</span></a></li>{% endif %}
+        </ul>
+    </div>
+{% endif %}
 {% endif %}

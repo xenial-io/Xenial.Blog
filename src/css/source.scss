@@ -1,0 +1,37 @@
+.post-source {
+    &__list {
+      list-style: none;
+      display: flex;
+      font-size: 2rem;
+  
+      &-item {
+        margin-right: 1rem;
+
+        span.nuget {
+          width: 32px;
+          height: 33px;
+          background-color: var(--xenial-lighter-color);
+          -webkit-mask: url(/img/nuget.svg) no-repeat center;
+          mask: url(/img/nuget.svg);
+          display: inline-block;
+          font-style: normal;
+          font-variant: normal;
+          text-rendering: auto;
+          line-height: 1;
+          transition: background-color var(--xenial-anim-m) ease-in;
+        }
+        a,
+        a:link,
+        a:visited {
+          transition: color var(--xenial-anim-s) ease-in;
+        }
+        a:hover {
+          color: var(--xenial-highlight-color);
+        }
+        a:hover span.nuget {
+          background-color: var(--xenial-highlight-color);
+        }
+      }
+    }
+  }
+  
