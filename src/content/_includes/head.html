@@ -3,7 +3,7 @@
   <base href="/" />
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1"
+    content="width=device-width, initial-scale=1, maximum-scale=5"
   />
   {% if page.description %}
   <meta name="description" content="{{ page.description }}" />
@@ -36,6 +36,11 @@
     href="/css/bundle.css"
     id="main-stylesheet"
   />
+
+  <link rel="preload" href="/css/catamaran-regular-webfont.woff2" as="font" crossorigin />
+  <link rel="preload" href="/css/catamaran-bold-webfont.woff2" as="font" crossorigin />
+  <link rel="preload" href="/css/fa-solid-900.woff2" as="font" crossorigin />
+  <link rel="preload" href="/css/fa-brands-400.woff2" as="font" crossorigin />
 
   <link
     rel="apple-touch-icon"
