@@ -34,6 +34,6 @@ main-url: https://www.delegate.at
 site-name: blog.delegate.at
 feed-name: blog.delegate.at
 site-url: https://blog.delegate.at
-version: 0.1.0-topic-xenial-theme.1+395
-commit: cc5aa29162f152fa011add0907b51b144a3a90a5
+version: 0.1.0-topic-xenial-theme.1+396
+commit: ae9ad249e9d9c6b2ea13cf112a1c8d6e91440e9d
 last-update: 2020-09-30
