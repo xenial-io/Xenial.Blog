@@ -102,28 +102,11 @@ Task("UpdateVersionInfo")
     });
   
 Task("npm install")
-    .Does(() =>
-    {
-        var settings = new NpmInstallSettings
-        {
-            LogLevel = NpmLogLevel.Info
-        };
-
-        NpmInstall(settings);
-    });
+    .Does(() => NpmInstall());
 
 Task("npm run build")
     .IsDependentOn("npm install")
-    .Does(() =>
-    {
-        var settings = new NpmRunScriptSettings 
-        {
-            ScriptName = "build",
-            LogLevel = NpmLogLevel.Info
-        };
-
-        NpmRunScript(settings);
-    });
+    .Does(() => NpmRunScript("build"));
 
 Task("npm")
   .IsDependentOn("npm run build");
