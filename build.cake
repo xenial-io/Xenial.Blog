@@ -123,6 +123,7 @@ Task("npm run build")
         };
 
         NpmRunScript(settings);
+        NpmRunScript(settings);
     });
 
 Task("npm")
