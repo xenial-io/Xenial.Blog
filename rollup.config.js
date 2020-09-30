@@ -19,7 +19,6 @@ const additionalFiles = () => [
   ...fg.sync("./_site/css/*.svg"),
   ...fg.sync("./_site/css/*.ttf"),
   ...fg.sync("./_site/img/*.svg"),
-  ...fg.sync("./_site/img/**/*.png"),
   ...fg.sync("./_site/img/**/*.ico"),
 ];
 
@@ -47,47 +46,61 @@ export default (commandLineArgs) => {
           output: "_site/css/bundle.css",
           outputStyle: debug ? undefined : "compressed",
         }),
-        debug ? undefined : copy({
+        debug
+          ? undefined
+          : copy({
           targets: [
             {
-              src: "node_modules/@xenial-io/ src/css/*.woff",
-              dest: "./_site/css",
+              src: "src/img",
+              dest: "./_site",
             },
             {
-              src: "node_modules/@xenial-io/xenial-template/dist/css/*.woff2",
-              dest: "./_site/css",
-            },
-            {
-              src: "node_modules/@xenial-io/xenial-template/dist/css/*.ttf",
-              dest: "./_site/css",
-            },
-            {
-              src: "node_modules/@xenial-io/xenial-template/dist/css/*.svg",
-              dest: "./_site/css",
-            },
-            {
-              src: "node_modules/@xenial-io/xenial-template/dist/img/**/*",
-              dest: "./_site/img",
-            },
-            {
-              src: "src/img/**/*",
-              dest: "./_site/img",
-            },
-            {
-              src: "src/downloads/**/*",
-              dest: "./_site/downloads",
+              src: "src/downloads",
+              dest: "./_site",
             },
           ],
+          flatten: false,
         }),
-        debug ? undefined : gzipPlugin({
-          additionalFiles: additionalFiles(),
-        }),
-        debug ? undefined : gzipPlugin({
-          additionalFiles: additionalFiles(),
-          customCompression: (content) =>
-            brotliCompressSync(Buffer.from(content)),
-          fileName: ".br",
-        }),
+        debug
+          ? undefined
+          : copy({
+              targets: [
+                {
+                  src: "node_modules/@xenial-io/ src/css/*.woff",
+                  dest: "./_site/css",
+                },
+                {
+                  src:
+                    "node_modules/@xenial-io/xenial-template/dist/css/*.woff2",
+                  dest: "./_site/css",
+                },
+                {
+                  src: "node_modules/@xenial-io/xenial-template/dist/css/*.ttf",
+                  dest: "./_site/css",
+                },
+                {
+                  src: "node_modules/@xenial-io/xenial-template/dist/css/*.svg",
+                  dest: "./_site/css",
+                },
+                {
+                  src: "node_modules/@xenial-io/xenial-template/dist/img/**/*",
+                  dest: "./_site/img",
+                },
+              ],
+            }),
+        debug
+          ? undefined
+          : gzipPlugin({
+              additionalFiles: additionalFiles(),
+            }),
+        debug
+          ? undefined
+          : gzipPlugin({
+              additionalFiles: additionalFiles(),
+              customCompression: (content) =>
+                brotliCompressSync(Buffer.from(content)),
+              fileName: ".br",
+            }),
         debug ? undefined : filesize(),
       ],
     },
