@@ -5,7 +5,8 @@
   "main": "_site/js/index.min.js",
   "scripts": {
     "build": "rollup -c",
-    "watch": "chokidar src/**/* node_modules/@xenial-io/xenial-template/src/**/* -d 150 -c \"npm run build\""
+    "debug": "rollup -c --configDebug",
+    "watch": "chokidar src/**/* node_modules/@xenial-io/xenial-template/src/**/* rollup.config.js -d 150 -c \"npm run debug\""
   },
   "repository": {
     "type": "git",

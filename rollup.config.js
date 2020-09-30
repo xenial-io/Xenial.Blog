@@ -12,80 +12,84 @@ import { terser } from "rollup-plugin-terser";
 import gzipPlugin from "rollup-plugin-gzip";
 import filesize from "rollup-plugin-filesize";
 
-const extensions = [".js", ".jsx", ".ts", ".tsx"];
+const extensions = [".js", ".ts"];
+
 const additionalFiles = () => [
   "./_site/css/bundle.css",
   ...fg.sync("./_site/css/*.svg"),
   ...fg.sync("./_site/css/*.ttf"),
   ...fg.sync("./_site/img/*.svg"),
-  // ...fg.sync("./_site/img/**/*.png"),
+  ...fg.sync("./_site/img/**/*.png"),
   ...fg.sync("./_site/img/**/*.ico"),
 ];
 
-export default [
-  {
-    input: "src/js/index.ts",
-    output: [
-      {
-        file: pkg.main,
-        format: "iife",
-        // plugins: [terser()],
-      },
-    ],
-    external: [],
-    plugins: [
-      resolve({ extensions }),
-      commonjs(),
-      babel({
-        extensions,
-        exclude: "node_modules/**",
-      }),
-      scss({
-        output: "_site/css/bundle.css",
-        // outputStyle: "compressed",
-      }),
-      copy({
-        targets: [
-          {
-            src: "node_modules/@xenial-io/ src/css/*.woff",
-            dest: "./_site/css",
-          },
-          {
-            src: "node_modules/@xenial-io/xenial-template/dist/css/*.woff2",
-            dest: "./_site/css",
-          },
-          {
-            src: "node_modules/@xenial-io/xenial-template/dist/css/*.ttf",
-            dest: "./_site/css",
-          },
-          {
-            src: "node_modules/@xenial-io/xenial-template/dist/css/*.svg",
-            dest: "./_site/css",
-          },
-          {
-            src: "node_modules/@xenial-io/xenial-template/dist/img/**/*",
-            dest: "./_site/img",
-          },
-          {
-            src: "src/img/**/*",
-            dest: "./_site/img",
-          },
-          {
-            src: "src/downloads/**/*",
-            dest: "./_site/downloads",
-          },
-        ],
-      }),
-      // gzipPlugin({
-      //   additionalFiles: additionalFiles(),
-      // }),
-      // gzipPlugin({
-      //   additionalFiles: additionalFiles(),
-      //   customCompression: (content) =>
-      //     brotliCompressSync(Buffer.from(content)),
-      //   fileName: ".br",
-      // }),
-      // filesize(),
-    ],
-  },
-];
+export default (commandLineArgs) => {
+  const debug = commandLineArgs.configDebug;
+  return [
+    {
+      input: "src/js/index.ts",
+      output: [
+        {
+          file: pkg.main,
+          format: "iife",
+          plugins: debug ? [] : [terser()],
+        },
+      ],
+      external: [],
+      plugins: [
+        resolve({ extensions }),
+        commonjs(),
+        babel({
+          extensions,
+          exclude: "node_modules/**",
+        }),
+        scss({
+          output: "_site/css/bundle.css",
+          outputStyle: debug ? undefined : "compressed",
+        }),
+        debug ? undefined : copy({
+          targets: [
+            {
+              src: "node_modules/@xenial-io/ src/css/*.woff",
+              dest: "./_site/css",
+            },
+            {
+              src: "node_modules/@xenial-io/xenial-template/dist/css/*.woff2",
+              dest: "./_site/css",
+            },
+            {
+              src: "node_modules/@xenial-io/xenial-template/dist/css/*.ttf",
+              dest: "./_site/css",
+            },
+            {
+              src: "node_modules/@xenial-io/xenial-template/dist/css/*.svg",
+              dest: "./_site/css",
+            },
+            {
+              src: "node_modules/@xenial-io/xenial-template/dist/img/**/*",
+              dest: "./_site/img",
+            },
+            {
+              src: "src/img/**/*",
+              dest: "./_site/img",
+            },
+            {
+              src: "src/downloads/**/*",
+              dest: "./_site/downloads",
+            },
+          ],
+        }),
+        debug ? undefined : gzipPlugin({
+          additionalFiles: additionalFiles(),
+        }),
+        debug ? undefined : gzipPlugin({
+          additionalFiles: additionalFiles(),
+          customCompression: (content) =>
+            brotliCompressSync(Buffer.from(content)),
+          fileName: ".br",
+        }),
+        debug ? undefined : filesize(),
+      ],
+    },
+  ];
+};
