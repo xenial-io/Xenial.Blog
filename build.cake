@@ -1,12 +1,13 @@
 #tool "nuget:?package=GitVersion.CommandLine"
 #addin "nuget:?package=Cake.Yaml&version=3.1.1"
 #addin "nuget:?package=YamlDotNet&version=6.1.2"
+#addin "Cake.Npm"
 
 using YamlDotNet.Serialization;
 
 var target = string.IsNullOrEmpty(Argument("target", "Default")) ? "Default" : Argument("target", "Default");
-var endpoints = Argument("endpoints", "Chrome Headless,Firefox Headless");
-
+var blogDirectory = "src\\content";
+var defaultArguments = $"--s={blogDirectory} --destination=../../_site";
 var pretzelVersion = "0.7.1";
 
 public class Pretzel
@@ -75,13 +76,6 @@ Task("Clean")
       Recursive = true
     });
   }
-  if(DirectoryExists("_tests"))
-  {
-    DeleteDirectory("_tests", new DeleteDirectorySettings 
-    {
-      Recursive = true
-    });
-  }
 });
 
 Task("DownloadPretzel")
@@ -100,12 +94,33 @@ Task("UpdateVersionInfo")
     .Does(() =>
     {
       var result = GitVersion();
-      var config = DeserializeYamlFromFile<BlogConfig>("./_config.yml");
+      var config = DeserializeYamlFromFile<BlogConfig>($"{blogDirectory}\\_config.yml");
       config.Version = result.FullSemVer;
       config.Commit = result.Sha;
       config.LastUpdate = result.CommitDate;
-      SerializeYamlToFile("./_config.yml", config);
+      SerializeYamlToFile($"{blogDirectory}\\_config.yml", config);
     });
+  
+Task("npm install")
+    .Does(() =>
+    {
+        var settings = new NpmInstallSettings();
+
+        settings.LogLevel = NpmLogLevel.Info;
+        settings.Production = true;
+
+        NpmInstall(settings);
+    });
+
+Task("npm run build")
+    .IsDependentOn("npm install")
+    .Does(() =>
+    {
+        NpmRunScript("build");
+    });
+
+Task("npm")
+  .IsDependentOn("npm run build");
 
 Task("Only-Bake")
   .IsDependentOn("UpdateVersionInfo")
@@ -113,7 +128,7 @@ Task("Only-Bake")
   {
     using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
     {
-      Arguments = "bake"
+      Arguments = $"bake {defaultArguments}"
     }))
     {
       process.WaitForExit();
@@ -129,6 +144,7 @@ Task("Only-Bake")
 
 Task("Bake")
   .IsDependentOn("UnzipPretzel")
+  .IsDependentOn("npm")
   .IsDependentOn("Only-Bake");
 
 Task("Only-Taste")
@@ -136,7 +152,7 @@ Task("Only-Taste")
   {
     using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
     {
-      Arguments = "taste"
+      Arguments = $"taste {defaultArguments}"
     }))
     {
       process.WaitForExit();
@@ -152,6 +168,7 @@ Task("Only-Taste")
 
 Task("Taste")
   .IsDependentOn("UnzipPretzel")
+  .IsDependentOn("npm")
   .IsDependentOn("Only-Taste");
 
 Task("Draft")
@@ -159,7 +176,7 @@ Task("Draft")
   {
     using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
     {
-      Arguments = "ingredient --drafts"
+      Arguments = $"ingredient {defaultArguments} --drafts"
     }))
     {
       process.WaitForExit();
@@ -178,7 +195,7 @@ Task("Ingredient")
   {
     using(var process = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
     {
-      Arguments = "ingredient"
+      Arguments = $"ingredient {defaultArguments}"
     }))
     {
       process.WaitForExit();
@@ -191,72 +208,6 @@ Task("Ingredient")
       }
     }
   });
-
-var webtestit = MakeAbsolute(File(EnvironmentVariable("LOCALAPPDATA") + @"\Programs\rxse-app\Ranorex Webtestit.exe"));
-
-Task("UI-Test")
-  .IsDependentOn("UnzipPretzel")
-  .WithCriteria(() => FileExists(webtestit))
-  .Does(() => 
-  {
-    var port = 9999;
-    
-    using(var pretzelProcess = StartAndReturnProcess("Tools/Pretzel/Pretzel.exe", new ProcessSettings
-    {
-      Arguments = $"taste --nobrowser --p={port}",
-      RedirectStandardOutput = true,
-    }))
-    {
-      foreach(var output in pretzelProcess.GetStandardOutput())
-      {
-        Information(output);
-        if(output == "Press 'Q' to stop the web host...")
-        {
-          break;
-        }
-      }
-      try
-      {       
-        using(var process = StartAndReturnProcess(webtestit, new ProcessSettings
-        {
-          Arguments = $"run --report-file-name-pattern=UI-Tests --endpoints=\"{endpoints}\" --include-inactive-endpoints .\\tests\\ui-tests\\ts",
-          RedirectStandardOutput = true,
-          EnvironmentVariables = new Dictionary<string, string>
-          {
-            { "SITE_URL", "http://localhost" },
-            { "SITE_PORT", port.ToString() },
-          }
-        }))
-        { 
-          foreach(var output in process.GetStandardOutput())
-          {
-            Information(output);
-          }
-          
-          process.WaitForExit();
-          var result = process.GetExitCode();
-          Information("Exit code: {0}", result);
-          
-          if(result != 0)
-          {
-            throw new Exception($"Webtestit failed: Error-Code: {result}"); 
-          }
-        }
-
-        var pretzelResult = pretzelProcess.GetExitCode();
-        Information($"Exit code: {pretzelResult}");
-        if(pretzelResult != 0)
-        {
-          throw new Exception($"Pretzel did not taste correctly: Error-Code: {pretzelResult}"); 
-        }
-      }
-      finally
-      {
-        pretzelProcess.Kill();
-      }
-    }
-  });
-
 
 Task("Default")
   .IsDependentOn("Bake");

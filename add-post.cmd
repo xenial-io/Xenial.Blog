@@ -1,1 +1,1 @@
-tools\Pretzel\Pretzel.exe ingredient -n="%*"
+tools\Pretzel\Pretzel.exe ingredient --s=src\content -n="%*"

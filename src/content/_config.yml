@@ -1,31 +1,31 @@
 pretzel:
   engine: liquid
 exclude:
-  - publish.ps1
-  - build.cake
-  - build.ps1
-  - tools\
-  - .vscode\
-  - .git\
-  - .git
-  - .gitignore
-  - add-post.cmd
-  - add-tag.cmd
-  - add-draft.cmd
-  - add-series.cmd
-  - taste.cmd
-  - taste-drafts.cmd
-  - git-clean.cmd
-  - build.bat
-  - cake.config
-  - tests\
-  - js\
-  - css\
-  - img\
-  - node_modules\
+- publish.ps1
+- build.cake
+- build.ps1
+- tools\
+- .vscode\
+- .git\
+- .git
+- .gitignore
+- add-post.cmd
+- add-tag.cmd
+- add-draft.cmd
+- add-series.cmd
+- taste.cmd
+- taste-drafts.cmd
+- git-clean.cmd
+- build.bat
+- cake.config
+- tests\
+- js\
+- css\
+- img\
+- node_modules\
 include:
-  - downloads
-  - .htaccess
+- downloads
+- .htaccess
 author: Manuel Grundner
 author-email: m.grundner@delegate.at
 author-github: biohazard999
@@ -34,6 +34,6 @@ main-url: https://www.delegate.at
 site-name: blog.delegate.at
 feed-name: blog.delegate.at
 site-url: https://blog.delegate.at
-version: 0.1.0-topic-xenial-theme.1+358
-commit: 976edcba3e1778a78ed4d5b8d48788b4305979d7
-last-update: 2020-09-27
+version: 0.1.0-topic-xenial-theme.1+389
+commit: ad2878507e7a5cb0110d24da5b61111b0dff9e6d
+last-update: 2020-09-30

@@ -1,1 +1,1 @@
-code . & tools\pretzel\pretzel.exe taste --drafts %*
+code . & tools\pretzel\pretzel.exe taste --s=src\content --destination=../../_site%* --drafts %*
