@@ -1,18 +1,18 @@
 const debounce = (func: () => void, wait: number, immediate: boolean) => {
-  var timeout;
+  let timeout: NodeJS.Timeout;
 
   return function executedFunction() {
     var context = this;
     var args = arguments;
 
-    var later = function () {
+    const later = () => {
       timeout = null;
       if (!immediate) {
         func.apply(context, args);
       }
     };
 
-    var callNow = immediate && !timeout;
+    const callNow = immediate && !timeout;
 
     clearTimeout(timeout);
 
@@ -46,7 +46,7 @@ const search = (inputClass: string, targetUl: string) => {
             });
           });
         },
-        200,
+        150,
         false
       )();
     };
