@@ -13,7 +13,8 @@
     border-radius: 35%;
   }
 }
-
-.collapse {
-  display: none;
+@media (min-width: 768px) {
+  .collapse-lg {
+    display: none;
+  }
 }
