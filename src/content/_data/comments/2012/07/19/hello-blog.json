@@ -1,0 +1,8 @@
+{
+    "foo1": "bar1",
+    "comments": [{
+        "github": "biohazard999",
+        "name": "Manuel Grundner",
+        "content": "First Comment"
+    }]
+}

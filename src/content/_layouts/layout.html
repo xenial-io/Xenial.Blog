@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  {% include head.html %}
+  {% include 'head.html' %}
   <body>
     <input
       class="xenial__toggletheme-checkbox"
@@ -9,11 +9,11 @@
       aria-hidden="true"
     />
     <div class="xenial-body">
-      {% include header.html %}
+      {% include 'header.html' %}
       <main>
         {{ content }}
       </main>
-      {% include footer.html %}
+      {% include 'footer.html' %}
     </div>
     <!-- <script
       id="dsq-count-scr"

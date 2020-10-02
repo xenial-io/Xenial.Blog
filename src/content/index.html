@@ -9,7 +9,7 @@
 
 <div class="index">
     <div class="index__article-list">
-        {% for post in site.posts  limit:5 %}
+        {% for post in site.posts limit:5 %}
             <article class="index__article-item">
                 <div class="article-header">
                     <div class="postdate">{{ post.date | date: "%e %B %Y"  }} by {% if post.author %}{{ post.author }}{% else %}{{ site.author }}{% endif %}</div>

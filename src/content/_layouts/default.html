@@ -4,7 +4,7 @@ layout: layout
 
 <div class="article-wrapper">
     <aside>
-        {% include author.html %}
+        {% include 'author.html' %}
 
         {% if page.tag or page.seriesid %}
         {% else %}
@@ -15,15 +15,15 @@ layout: layout
             </ul>
         {% endif %}
 
-        {% include series.html %}
+        {% include 'series.html' %}
 
-        {% include share.html %}
+        {% include 'share.html' %}
         
-        {% include sources.html %}
+        {% include 'sources.html' %}
 
-        {% include history.html %}
+        {% include 'history.html' %}
 
-        {% include mvp.html %}
+        {% include 'mvp.html' %}
     </aside>
 
     {{ content }}

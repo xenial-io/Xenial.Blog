@@ -17,3 +17,5 @@ layout: default
         {{ content }}
     </div>
 </article>
+
+{% include 'comments.html', page_id: page.id, page_data: site.data %}

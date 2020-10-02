@@ -1,1 +1,1 @@
-code . & tools\pretzel\pretzel.exe taste --s=src\content --destination=../../_site%*
+code . & "C:\f\git\pretzel\src\Pretzel\bin\Debug\net5\Pretzel.exe" taste -s=src\content -d=../../_site%*

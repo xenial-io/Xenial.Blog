@@ -4,7 +4,7 @@
     <h3><a href="/archive"><i class="fas fa-history"></i> History</a></h3>
     <ul class="post-history__list">
         {% if page.isindex %}
-            {% for post in site.posts | offset:5 | limit:5 %}
+            {% for post in site.posts offset:5 limit:5 %}
                     <li>
                         <a class="postlink" href="{{ post.url }}">{{ post.title }}</a>
                     </li>
