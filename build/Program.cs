@@ -12,10 +12,6 @@ namespace build
     {
         static Task Main(string[] args)
         {
-            Console.WriteLine($"{Directory.GetCurrentDirectory()}");
-
-            Target("noop", () => { });
-
             Target("clean:npm", () => Ignored(() => RunAsync("cmd.exe", "/C rmdir /S /Q node_modules")));
             Target("clean:_site", () => Ignored(() => RunAsync("cmd.exe", "/C rmdir /S /Q _site")));
             Target("clean", DependsOn("clean:npm", "clean:_site"));
