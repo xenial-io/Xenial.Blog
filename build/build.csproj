@@ -3,11 +3,13 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="bullseye" Version="3.5.0" />
     <PackageReference Include="simpleexec" Version="6.2.0" />
+    <PackageReference Include="YamlDotNet" Version="8.1.2" />
   </ItemGroup>
 
 </Project>

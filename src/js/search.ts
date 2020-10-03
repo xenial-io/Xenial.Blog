@@ -1,26 +1,19 @@
-const debounce = (func: () => void, wait: number, immediate: boolean) => {
-  let timeout: NodeJS.Timeout;
+const _debounce = (func: () => void, wait: number, immediate: boolean = false) => {
+  let timeout: NodeJS.Timeout | null;
+  return () => {
+      const context = this;
+      const later = () => {
+          timeout = null;
+          if (!immediate) func.apply(context);
+      };
 
-  return function executedFunction() {
-    var context = this;
-    var args = arguments;
+      const callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
 
-    const later = () => {
-      timeout = null;
-      if (!immediate) {
-        func.apply(context, args);
+      if (callNow) {
+        func.apply(context);
       }
-    };
-
-    const callNow = immediate && !timeout;
-
-    clearTimeout(timeout);
-
-    timeout = setTimeout(later, wait);
-
-    if (callNow) {
-      func.apply(context, args);
-    }
   };
 };
 
@@ -30,7 +23,7 @@ const search = (inputClass: string, targetUl: string) => {
   if (input && ul) {
     input.onkeyup = () => {
       const filter = input.value.toUpperCase();
-      debounce(
+      _debounce(
         () => {
           ul.querySelectorAll("li").forEach((el) => {
             el.classList.remove("visible");
@@ -46,8 +39,7 @@ const search = (inputClass: string, targetUl: string) => {
             });
           });
         },
-        150,
-        false
+        150
       )();
     };
   }
