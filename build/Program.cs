@@ -8,10 +8,10 @@ using static Bullseye.Targets;
 using static SimpleExec.Command;
 using static System.Console;
 
-var version = new Lazy<Task<string>>(async () => await ReadToolAsync(() => ReadAsync("dotnet", "minver -v e", noEcho: true)));
-var branch = new Lazy<Task<string>>(async () => await ReadAsync("git", "rev-parse --abbrev-ref HEAD", noEcho: true));
-var lastUpdate = new Lazy<Task<string>>(async () => await ReadAsync("git", "log -1 --format=%cd", noEcho: true));
-var hash = new Lazy<Task<string>>(async () => await ReadAsync("git", "rev-parse HEAD", noEcho: true));
+var version = new Lazy<Task<string>>(async () => (await ReadToolAsync(() => ReadAsync("dotnet", "minver -v e", noEcho: true))).Trim());
+var branch = new Lazy<Task<string>>(async () => (await ReadAsync("git", "rev-parse --abbrev-ref HEAD", noEcho: true)).Trim());
+var lastUpdate = new Lazy<Task<string>>(async () => $"{UnixTimeStampToDateTime(await ReadAsync("git", "log -1 --format=%ct", noEcho: true)):yyyy-MM-dd}");
+var hash = new Lazy<Task<string>>(async () => (await ReadAsync("git", "rev-parse HEAD", noEcho: true)).Trim());
 
 var NpmLocation = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\nodejs\npm.cmd";
 var pretzelLocation = @"C:\f\git\pretzel\src\Pretzel\bin\Release\net5\Pretzel.exe";
@@ -32,7 +32,11 @@ Target("version:write", DependsOn("version:read"), async () =>
     var ymlContent = await File.ReadAllTextAsync(configFile);
     var deserializer = new DeserializerBuilder().Build();
     var result = deserializer.Deserialize<Dictionary<object, object>>(ymlContent);
-    Console.WriteLine(result["version"]);
+
+    result["version"] = await version.Value;
+    result["commit"] = await hash.Value;
+    result["last-update"] = await hash.Value;
+    Console.WriteLine();
 });
 
 Target("version", DependsOn("version:read", "version:write"));
@@ -94,4 +98,12 @@ static async Task Ignored(Func<Task> action)
     {
         Console.WriteLine($"Action Failed. Ignored {e}");
     }
+}
+
+static DateTime UnixTimeStampToDateTime(string unixTimeStamp)
+{
+    var time = double.Parse(unixTimeStamp.Trim());
+    var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+    dtDateTime = dtDateTime.AddSeconds(time).ToLocalTime();
+    return dtDateTime;
 }
