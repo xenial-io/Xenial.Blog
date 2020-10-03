@@ -11,8 +11,9 @@ var branch = new Lazy<Task<string>>(async () => await ReadAsync("git", "rev-pars
 var lastUpdate = new Lazy<Task<string>>(async () => await ReadAsync("git", "log -1 --format=%cd "));
 
 var NpmLocation = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\nodejs\npm.cmd";
+var pretzelLocation = @"C:\f\git\pretzel\src\Pretzel\bin\Release\net5\Pretzel.exe";
 var blogDirectory = "src\\content";
-var defaultArguments = $"--s={blogDirectory} --destination=../../_site";
+var defaultArguments = $"-s={blogDirectory} -d=../../_site";
 
 Target("version", async () =>
 {
@@ -29,9 +30,9 @@ Target("npm:install", () => RunAsync("npm", "install", windowsName: NpmLocation)
 Target("npm:run:build", DependsOn("npm:install"), () => RunAsync("npm", "run build", windowsName: NpmLocation));
 Target("npm", DependsOn("npm:run:build"));
 
-Target("build", DependsOn("clean", "npm"));
+Target("build:blog", DependsOn("version"), () => RunAsync(pretzelLocation, $"bake {defaultArguments}"));
 
-
+Target("build", DependsOn("clean", "npm", "build:blog"));
 
 
 Target("default", DependsOn("build"));
