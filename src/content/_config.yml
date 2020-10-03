@@ -36,3 +36,4 @@ site-url: https://blog.delegate.at
 version: 0.0.0-alpha.0.307
 commit: af50d0088c0ea3e96e2005eb0e6be903b0c4c8a3
 last-update: 2020-10-03
+comment-repo: https://github.com/xenial-io/Xenial.Blog.Comments.git
