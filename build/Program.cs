@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using YamlDotNet.Serialization;
@@ -17,6 +18,7 @@ var hash = new Lazy<Task<string>>(async () => (await ReadAsync("git", "rev-parse
 var NpmLocation = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\nodejs\npm.cmd";
 var pretzelLocation = @"C:\f\git\pretzel\src\Pretzel\bin\Release\net5\Pretzel.exe";
 var blogDirectory = "src\\content";
+var postsDirectory = Path.Combine(blogDirectory, "_posts");
 var configFile = Path.Combine(blogDirectory, "_config.yml");
 var defaultArguments = $"-s={blogDirectory} -d=../../_site";
 
@@ -57,7 +59,11 @@ Target("comments", async () =>
     {
         IsBare = true
     });
-
+    var posts = Directory.EnumerateFiles(postsDirectory);
+    foreach(var post in posts.Select(GetPostFileName))
+    {
+        WriteLine(post);
+    }
 });
 
 Target("build:blog", DependsOn("version", "comments"), () => RunAsync(pretzelLocation, $"bake {defaultArguments}"));
@@ -133,3 +139,5 @@ async Task WriteConfig(Dictionary<object, object> config)
     var ymlContent = serializer.Serialize(config);
     await File.WriteAllTextAsync(configFile, ymlContent);
 }
+
+string GetPostFileName(string post) => Path.GetFileNameWithoutExtension(post);
