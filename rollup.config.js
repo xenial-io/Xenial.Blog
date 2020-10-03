@@ -49,58 +49,58 @@ export default (commandLineArgs) => {
         debug
           ? undefined
           : copy({
-          targets: [
-            {
-              src: "src/img",
-              dest: "./_site",
-            },
-            {
-              src: "src/downloads",
-              dest: "./_site",
-            },
-          ],
-          flatten: false,
-        }),
+            targets: [
+              {
+                src: "node_modules/@xenial-io/xenial-template/src/css/*.woff",
+                dest: "./_site/css",
+              },
+              {
+                src:
+                  "node_modules/@xenial-io/xenial-template/src/css/*.woff2",
+                dest: "./_site/css",
+              },
+              {
+                src: "node_modules/@xenial-io/xenial-template/src/css/*.ttf",
+                dest: "./_site/css",
+              },
+              {
+                src: "node_modules/@xenial-io/xenial-template/src/css/*.svg",
+                dest: "./_site/css",
+              },
+              {
+                src: "node_modules/@xenial-io/xenial-template/src/img/**/*",
+                dest: "./_site/img",
+              },
+            ],
+          }),
         debug
           ? undefined
           : copy({
-              targets: [
-                {
-                  src: "node_modules/@xenial-io/ src/css/*.woff",
-                  dest: "./_site/css",
-                },
-                {
-                  src:
-                    "node_modules/@xenial-io/xenial-template/dist/css/*.woff2",
-                  dest: "./_site/css",
-                },
-                {
-                  src: "node_modules/@xenial-io/xenial-template/dist/css/*.ttf",
-                  dest: "./_site/css",
-                },
-                {
-                  src: "node_modules/@xenial-io/xenial-template/dist/css/*.svg",
-                  dest: "./_site/css",
-                },
-                {
-                  src: "node_modules/@xenial-io/xenial-template/dist/img/**/*",
-                  dest: "./_site/img",
-                },
-              ],
-            }),
+            targets: [
+              {
+                src: "src/img",
+                dest: "./_site",
+              },
+              {
+                src: "src/downloads",
+                dest: "./_site",
+              },
+            ],
+            flatten: false,
+          }),
         debug
           ? undefined
           : gzipPlugin({
-              additionalFiles: additionalFiles(),
-            }),
+            additionalFiles: additionalFiles(),
+          }),
         debug
           ? undefined
           : gzipPlugin({
-              additionalFiles: additionalFiles(),
-              customCompression: (content) =>
-                brotliCompressSync(Buffer.from(content)),
-              fileName: ".br",
-            }),
+            additionalFiles: additionalFiles(),
+            customCompression: (content) =>
+              brotliCompressSync(Buffer.from(content)),
+            fileName: ".br",
+          }),
         debug ? undefined : filesize(),
       ],
     },
