@@ -7,6 +7,7 @@ using YamlDotNet.Serialization;
 using static Bullseye.Targets;
 using static SimpleExec.Command;
 using static System.Console;
+using LibGit2Sharp;
 
 var version = new Lazy<Task<string>>(async () => (await ReadToolAsync(() => ReadAsync("dotnet", "minver -v e", noEcho: true))).Trim());
 var branch = new Lazy<Task<string>>(async () => (await ReadAsync("git", "rev-parse --abbrev-ref HEAD", noEcho: true)).Trim());
@@ -29,17 +30,13 @@ Target("version:read", async () =>
 
 Target("version:write", DependsOn("version:read"), async () =>
 {
-    var ymlContent = await File.ReadAllTextAsync(configFile);
-    var deserializer = new DeserializerBuilder().Build();
-    var result = deserializer.Deserialize<Dictionary<object, object>>(ymlContent);
+    var config = await ReadConfig();
 
-    result["version"] = await version.Value;
-    result["commit"] = await hash.Value;
-    result["last-update"] = await lastUpdate.Value;
+    config["version"] = await version.Value;
+    config["commit"] = await hash.Value;
+    config["last-update"] = await lastUpdate.Value;
 
-    var serializer = new SerializerBuilder().Build();
-    ymlContent = serializer.Serialize(result);
-    await File.WriteAllTextAsync(configFile, ymlContent);
+    await WriteConfig(config);
 });
 
 Target("version", DependsOn("version:read", "version:write"));
@@ -52,7 +49,18 @@ Target("npm:install", () => RunAsync("npm", "install", windowsName: NpmLocation)
 Target("npm:run:build", DependsOn("npm:install"), () => RunAsync("npm", "run build", windowsName: NpmLocation));
 Target("npm", DependsOn("npm:run:build"));
 
-Target("build:blog", DependsOn("version"), () => RunAsync(pretzelLocation, $"bake {defaultArguments}"));
+Target("comments", async () =>
+{
+    var config = await ReadConfig();
+    var repository = config["comment-repo"].ToString();
+    var repoPath = Repository.Clone(repository, Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()), new CloneOptions
+    {
+        IsBare = true
+    });
+
+});
+
+Target("build:blog", DependsOn("version", "comments"), () => RunAsync(pretzelLocation, $"bake {defaultArguments}"));
 
 Target("build", DependsOn("clean", "npm", "build:blog"));
 
@@ -109,4 +117,19 @@ static DateTime UnixTimeStampToDateTime(string unixTimeStamp)
     var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
     dtDateTime = dtDateTime.AddSeconds(time).ToLocalTime();
     return dtDateTime;
+}
+
+async Task<Dictionary<object, object>> ReadConfig()
+{
+    var ymlContent = await File.ReadAllTextAsync(configFile);
+    var deserializer = new DeserializerBuilder().Build();
+    var result = deserializer.Deserialize<Dictionary<object, object>>(ymlContent);
+    return result;
+}
+
+async Task WriteConfig(Dictionary<object, object> config)
+{
+    var serializer = new SerializerBuilder().Build();
+    var ymlContent = serializer.Serialize(config);
+    await File.WriteAllTextAsync(configFile, ymlContent);
 }
