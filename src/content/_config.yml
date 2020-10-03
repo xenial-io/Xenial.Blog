@@ -29,11 +29,10 @@ include:
 author: Manuel Grundner
 author-email: m.grundner@delegate.at
 author-github: biohazard999
-disqus-shortname: delegateat
 main-url: https://www.delegate.at
 site-name: blog.delegate.at
 feed-name: blog.delegate.at
 site-url: https://blog.delegate.at
-version: 0.1.0-topic-xenial-theme.1+398
-commit: e5c76d2a9128f4cbd74b32a7e6e4f3c71131a5f4
-last-update: 2020-09-30
+version: 0.0.0-alpha.0.307
+commit: af50d0088c0ea3e96e2005eb0e6be903b0c4c8a3
+last-update: 2020-10-03

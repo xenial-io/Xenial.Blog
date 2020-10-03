@@ -35,8 +35,11 @@ Target("version:write", DependsOn("version:read"), async () =>
 
     result["version"] = await version.Value;
     result["commit"] = await hash.Value;
-    result["last-update"] = await hash.Value;
-    Console.WriteLine();
+    result["last-update"] = await lastUpdate.Value;
+
+    var serializer = new SerializerBuilder().Build();
+    ymlContent = serializer.Serialize(result);
+    await File.WriteAllTextAsync(configFile, ymlContent);
 });
 
 Target("version", DependsOn("version:read", "version:write"));
