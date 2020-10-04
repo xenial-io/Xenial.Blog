@@ -1,5 +1,7 @@
 import { OpenAPI } from "./comments/core/OpenAPI";
 import { CommentsService } from "./comments/index";
+import { store } from "@xenial-io/xenial-template";
+
 
 const getValidUrl = (url = "") => {
     let newUrl = window.decodeURIComponent(url);
@@ -23,6 +25,29 @@ const comments = async () => {
         const inputs = [...formDiv.getElementsByTagName("input"), ...formDiv.getElementsByTagName("textarea"), ...formDiv.getElementsByTagName("button")];
         for (const input of inputs) {
             input.disabled = enable;
+        }
+    }
+
+    const name = store("comments-name");
+    if (name) {
+        const nameInput = (<HTMLInputElement>document.getElementById(`comments-name`));
+        if (nameInput) {
+            nameInput.value = name;
+        }
+    }
+    const homepage = store("comments-homepage");
+    if (homepage) {
+        const homepageInput = (<HTMLInputElement>document.getElementById(`comments-homepage`));
+        if (homepageInput) {
+            homepageInput.value = homepage;
+        }
+    }
+
+    const githubOrEmail = store("comments-githubOrEmail");
+    if (githubOrEmail) {
+        const githubOrEmailInput = (<HTMLInputElement>document.getElementById(`comments-githubOrEmail`));
+        if (githubOrEmailInput) {
+            githubOrEmailInput.value = githubOrEmail;
         }
     }
 
@@ -117,8 +142,13 @@ const comments = async () => {
         submitButton.onclick = async () => {
             try {
                 disableItems(true);
+                const fields = mapFields();
+                const result = await CommentsService.postCommentsService(fields);
 
-                const result = await CommentsService.postCommentsService(mapFields());
+                store("comments-name", fields.name);
+                store("comments-githubOrEmail", fields.githubOrEmail);
+                store("comments-homepage", fields.homepage);
+
                 const inputs = document.getElementById("comments-inputs");
                 if (inputs) {
                     inputs.classList.add("hide");
