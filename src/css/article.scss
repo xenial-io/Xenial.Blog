@@ -77,7 +77,77 @@
         left: auto;
         right: auto;
       }
+
+      &__header {
+        margin: {
+          top: 2rem;
+          bottom: 1rem;
+        }
+      }
+
+      &__list {
+        &-item {
+          list-style: none;
+
+          background-color: var(--highlight-bg);
+          border-left: var(--xenial-highlight-color) solid 3px;
+          border-radius: 0.5rem;
+          border-bottom-left-radius: 3px;
+
+          margin: {
+            top: 2rem;
+            bottom: 1rem;
+            left: 1rem;
+          }
+
+          &__header {
+            display: flex;
+            flex-wrap: wrap;
+            &-date {
+              margin-left: auto;
+              font-weight: normal;
+            }
+          }
+
+          &__body {
+            padding: {
+              top: 0.5rem;
+              left: 2rem;
+              right: 2rem;
+              bottom: 0.5rem;
+            }
+
+            position: relative;
+
+            &-avatar {
+              position: absolute;
+              font-style: normal;
+              font-variant: normal;
+              text-rendering: auto;
+              font-weight: 400;
+              color: var(--xenial-highlight-color);
+              background-color: var(--xenial-darker-color);
+              top: 0px;
+              left: 0px;
+              transform: translate(-50%, -50%);
+              border-radius: 50%;
+
+              img {
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                margin: 0;
+                padding: 0;
+                border: none;
+                padding: 8px;
+              }
+            }
+          }
+        }
+      }
     }
+
     .comments__floater {
       width: 220px;
       padding: {
