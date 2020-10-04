@@ -194,6 +194,22 @@
 }
 
 @media (min-width: 768px) {
+  .xenial-body {
+    .comments-wrapper {
+      .comments {
+        &__header {
+          margin-left: calc(-1rem + 4px);
+        }
+
+        &__list {
+          &-item {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+
   main {
     article {
       &:first-child {
