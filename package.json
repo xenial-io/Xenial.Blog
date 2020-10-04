@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rollup -c",
     "debug": "rollup -c --configDebug",
-    "watch": "chokidar src/**/* node_modules/@xenial-io/xenial-template/src/**/* rollup.config.js -d 150 -c \"npm run debug\""
+    "watch": "chokidar src/**/* node_modules/@xenial-io/xenial-template/src/**/* rollup.config.js -d 150 -c \"npm run debug\"",
+    "generate": "openapi --input http://localhost:5000/swagger/v1/swagger.json --output ./src/js/comments"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "@rollup/plugin-commonjs": "^15.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "chokidar-cli": "^2.1.0",
+    "openapi-typescript-codegen": "^0.5.0",
     "rollup": "^2.28.2",
     "rollup-plugin-bundle-scss": "^0.1.1",
     "rollup-plugin-copy": "^3.3.0",
