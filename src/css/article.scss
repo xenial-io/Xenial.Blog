@@ -61,7 +61,50 @@
       }
     }
   }
+
+  .comments-wrapper {
+    --margin-left: calc(1.1rem / 2);
+    background-color: var(--xenial-darker-color);
+    color: var(--xenial-light-color);
+    padding-left: var(--margin-left);
+    padding-right: var(--margin-left);
+    display: flex;
+
+    .comments {
+      max-width: 686px;
+      flex: 1 1 0%;
+      margin: {
+        left: auto;
+        right: auto;
+      }
+    }
+    .comments__floater {
+      width: 220px;
+      padding: {
+        left: 128px;
+        bottom: 1rem;
+      }
+      display: none;
+      position: sticky;
+      max-height: 100vh;
+      overflow: hidden;
+      overflow-y: auto;
+      top: 0;
+
+      &::after {
+        content: "";
+        padding-bottom: 3rem;
+        display: inline-block;
+      }
+    }
+    @media (min-width: 1099px) {
+      .comments__floater {
+        display: block;
+      }
+    }
+  }
 }
+
 @media (min-width: 768px) {
   main {
     article {
