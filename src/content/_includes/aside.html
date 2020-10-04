@@ -1,0 +1,22 @@
+<aside>
+    {% include 'author.html' %}
+
+    {% if page.tag or page.seriesid %}
+    {% else %}
+        <ul class="tags">
+            {% for tag in page.tags %}
+                <li><a href="/tags/{{ tag }}">{{ tag }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% include 'series.html' %}
+
+    {% include 'share.html' %}
+    
+    {% include 'sources.html' %}
+
+    {% include 'history.html' %}
+
+    {% include 'mvp.html' %}
+</aside>

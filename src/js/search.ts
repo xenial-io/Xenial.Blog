@@ -1,19 +1,18 @@
 const _debounce = (func: () => void, wait: number, immediate: boolean = false) => {
   let timeout: NodeJS.Timeout | null;
   return () => {
-      const context = this;
-      const later = () => {
-          timeout = null;
-          if (!immediate) func.apply(context);
-      };
+    const later = () => {
+      timeout = null;
+      if (!immediate) func();
+    };
 
-      const callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
+    const callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
 
-      if (callNow) {
-        func.apply(context);
-      }
+    if (callNow) {
+      func();
+    }
   };
 };
 

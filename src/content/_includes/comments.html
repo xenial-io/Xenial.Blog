@@ -1,3 +1,10 @@
-{% for comment in page_data['comments'][page_id].comments %}
-    {{ comment.github }}
-{% endfor %}
+<div class="comments">
+    <h4 id="comments" class="comments__header">Comments</h4>
+    <ul class="comments__list">
+        {% for comment in page_data['comments'][page_id].comments %}
+            <li class="comments__list-item">
+                {{ comment.name }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>

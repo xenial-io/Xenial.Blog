@@ -1,6 +1,8 @@
 .xenial-body {
   main {
     article {
+      margin-bottom: 4rem;
+
       .article-header {
         display: flex;
         margin: {
@@ -32,6 +34,18 @@
             content: none;
           }
         }
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  main {
+    article {
+      &:first-child {
+        padding-top: 1.5rem;
+      }
+      &:last-child {
+        padding-bottom: 1rem;
       }
     }
   }

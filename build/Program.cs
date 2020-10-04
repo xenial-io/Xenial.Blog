@@ -9,6 +9,10 @@ using static Bullseye.Targets;
 using static SimpleExec.Command;
 using static System.Console;
 using LibGit2Sharp;
+using Appy.GitDb.Local;
+using Appy.GitDb.Core.Interfaces;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 var version = new Lazy<Task<string>>(async () => (await ReadToolAsync(() => ReadAsync("dotnet", "minver -v e", noEcho: true))).Trim());
 var branch = new Lazy<Task<string>>(async () => (await ReadAsync("git", "rev-parse --abbrev-ref HEAD", noEcho: true)).Trim());
@@ -19,6 +23,7 @@ var NpmLocation = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Progra
 var pretzelLocation = @"C:\f\git\pretzel\src\Pretzel\bin\Release\net5\Pretzel.exe";
 var blogDirectory = "src\\content";
 var postsDirectory = Path.Combine(blogDirectory, "_posts");
+var dataDirectory = Path.Combine(blogDirectory, "_data");
 var configFile = Path.Combine(blogDirectory, "_config.yml");
 var defaultArguments = $"-s={blogDirectory} -d=../../_site";
 
@@ -57,12 +62,33 @@ Target("comments", async () =>
     var repository = config["comment-repo"].ToString();
     var repoPath = Repository.Clone(repository, Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()), new CloneOptions
     {
-        IsBare = true
+        IsBare = false
     });
+
     var posts = Directory.EnumerateFiles(postsDirectory);
-    foreach(var post in posts.Select(GetPostFileName))
+    var postIds = posts.Select(GetPostId).Select(p => $"comments/{p}").ToList();
+    using IGitDb db = new LocalGitDb(repoPath);
+    var branchName = "master";
+
+    foreach (var postId in postIds)
     {
-        WriteLine(post);
+        var pageInDb = await db.Get<Page>(branchName, postId);
+        if(pageInDb != null)
+        {
+            var comments = pageInDb.Comments.OrderBy(m => m.Date).ToList();
+            var data = new
+            {
+                commentsCount = comments.Count,
+                comments = comments
+            };
+            var dataFile = Path.Combine(dataDirectory, $"{postId}.json");
+            Directory.CreateDirectory(Path.GetDirectoryName(dataFile));
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(data, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+            await File.WriteAllTextAsync(dataFile, json);
+        }
     }
 });
 
@@ -140,4 +166,29 @@ async Task WriteConfig(Dictionary<object, object> config)
     await File.WriteAllTextAsync(configFile, ymlContent);
 }
 
-string GetPostFileName(string post) => Path.GetFileNameWithoutExtension(post);
+string GetPostId(string post) 
+{
+    var postName = Path.GetFileNameWithoutExtension(post);
+
+    var year = postName[0..4];
+    var month = postName[5..7];
+    var day = postName[8..10];
+    var name = postName[11..];
+
+    return $"{year}/{month}/{day}/{name}";
+}
+public class Page
+{
+    public string Id { get; set; }
+
+    public IList<Comment> Comments { get; } = new List<Comment>();
+}
+
+public class Comment
+{
+    public string Name { get; set; }
+    public string GithubOrEmail { get; set; }
+    public string Content { get; set; }
+    public DateTime Date { get; set; }
+    public string AvatarUrl { get; set; }
+}
