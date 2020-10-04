@@ -3,7 +3,7 @@
 /* eslint-disable */
 export interface PageInputModel {
     id: string;
-    name?: string | null;
+    name: string;
     githubOrEmail?: string | null;
     content: string;
     a: number;
