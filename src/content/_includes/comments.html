@@ -8,7 +8,7 @@
                     <div class="comments__list-item__body">
                         <div class="comments__list-item__body-avatar">{% if comment.avatarUrl != "" %}<img src="{{ comment.avatarUrl }}" />{% else %}<i class="fas fa-user"></i>{% endif %}</div>
                         <h5 class="comments__list-item__header"><span class="comments__list-item__header-name">{{ comment.name }}</span><span class="comments__list-item__header-date">{{ comment.date  | date: "%e %B %Y %H:%M" }}</span></h5>
-                        <div class="comments__list-item__content">{{ comment.content }}</div>
+                        <div class="comments__list-item__content">{{ comment.content | markdown }}</div>
                     </div>
                 </li>
             {% endfor %}

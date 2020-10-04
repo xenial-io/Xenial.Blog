@@ -157,6 +157,10 @@ const comments = async () => {
                 if (thanks) {
                     thanks.classList.remove("hide");
                 }
+                const preview = document.getElementById("comments-preview-container");
+                if (preview) {
+                    preview.classList.add("hide");
+                }
             }
             finally {
                 disableItems(false);
