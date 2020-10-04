@@ -6,9 +6,8 @@ layout: default
         {% include 'aside.html' %}
         <article>
             <div class="article-header">
-                <div class="postdate">{% if page.nodate == true or page.layout == 'tagpage' or page.layout == 'tags' or page.layout == 'seriespage' %}&nbsp;{% else %}{{ page.date | date: "%e %B %Y"  }} by {% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}{% endif %}</div>
-                <div class="comments">{% if page.comments == false %}&nbsp;{% else %}<a href="{{ page.url }}#comments">Comments {{ site.data['comments'][page.id].commentsCount | default:0 }}</a>{% endif %}</div>
-                
+                <div class="postdate">{% if page.nodate == true or page.layout == 'tagpage' or page.layout == 'tags' or page.layout == 'seriespage' %}&nbsp;{% else %}<span class="postdate__date">{{ page.date | date: "%e %B %Y"  }} by {% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</span><span class="postdate__comments">{% if page.comments == false %}&nbsp;{% else %}<a href="{{ page.url }}#comments">{{ site.data['comments'][page.id].commentsCount | default:0 }} comments</a>{% endif %}</span>{% endif %}</div>
+                                
                 {% if page.github or page.nuget %}
                 <ul class="badges">
                 {% if page.github %}<li><a href="https://www.github.com/{{ page.author-github | default: site.author-github }}/{{ page.github }}"><img src="https://img.shields.io/github/license/{{ site.author-github }}/{{ page.github }}.svg" /></a></li>{% endif %}

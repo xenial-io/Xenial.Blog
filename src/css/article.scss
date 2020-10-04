@@ -3,6 +3,30 @@
     article {
       margin-bottom: 4rem;
 
+      .postdate {
+        display: flex;
+        flex-direction: column;
+        &__date,
+        &__comments {
+          display: inline-block;
+        }
+      }
+      @media (min-width: 768px) {
+        .postdate {
+          display: block;
+
+          &__date,
+          &__comments {
+            display: inline;
+          }
+          &__comments {
+            &::before {
+              content: " | ";
+            }
+          }
+        }
+      }
+
       .article-header {
         display: flex;
         margin: {
