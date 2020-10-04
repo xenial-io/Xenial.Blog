@@ -1,7 +1,6 @@
 import { OpenAPI } from "./comments/core/OpenAPI";
 import { CommentsService } from "./comments/index";
-import { store } from "@xenial-io/xenial-template";
-
+import { store, Prism } from "@xenial-io/xenial-template";
 
 const getValidUrl = (url = "") => {
     let newUrl = window.decodeURIComponent(url);
@@ -132,6 +131,7 @@ const comments = async () => {
                 if (preview) {
                     preview.classList.remove("hide");
                 }
+                Prism.highlightAll();
             }
         }
     }
