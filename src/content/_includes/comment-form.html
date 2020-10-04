@@ -1,0 +1,31 @@
+<div class="comment-form">
+    <ul class="comment-form__inputs">
+        <li class="comment-form__inputs-listitem">
+            <input class="comment-form__inputs-a" type="hidden" name="a" />
+            <input class="comment-form__inputs-b" type="hidden" name="b" />
+            <input class="comment-form__inputs-operation" type="hidden" name="operation" />
+            <label for="comments-name{{ id }}">Name</label>
+            <input class="comment-form__inputs-name" type="text" name="name" id="comments-name{{ id }}"
+                placeholder="Name" required />
+        </li>
+
+        <li class="comment-form__inputs-listitem">
+            <label for="comments-githubOrEmail{{ id }}">Github / Email</label>
+            <input class="comment-form__inputs-githubOrEmail" type="text" id="comments-githubOrEmail{{ id }}"
+                name="githubOrEmail" placeholder="Github username or E-mail (optional)" title="This is only to show your github profile picture and will not be stored anywhere" />
+        </li>
+        <li class="comment-form__inputs-listitem">
+            <label class="comment-form__inputs-question" for="comments-answer{{ id }}"></label>
+            <input class="comment-form__inputs-answer" type="number" name="answer" id="comments-answer{{ id }}"
+                required />
+        </li>
+        <li class="comment-form__inputs-listitem">
+            <label for="comments-content{{ id }}">Content</label>
+            <textarea class="comment-form__inputs-content" name="content" id="comments-content{{ id }}" placeholder="Markdown is allowed"></textarea>
+        </li>
+        <li class="comment-form__inputs-listitem">
+            <button class="comment-form__inputs-preview">Preview</button>
+            <button class="comment-form__inputs-submit">Submit</button>
+        </li>
+    </ul>
+</div>
