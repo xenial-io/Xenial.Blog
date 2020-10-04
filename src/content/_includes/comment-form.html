@@ -1,31 +1,43 @@
-<div class="comment-form">
-    <ul class="comment-form__inputs">
+<div class="comment-form" id="comment-form">
+    <div id="comments-thanks" class="comment-form__thanks hide">
+        <h5>Thank you</h5>
+        <p>Your comment will appear in a few minutes.</p>
+    </div>
+    <ul id="comments-inputs" class="comment-form__inputs">
         <li class="comment-form__inputs-listitem">
-            <input class="comment-form__inputs-a" type="hidden" name="a" />
-            <input class="comment-form__inputs-b" type="hidden" name="b" />
-            <input class="comment-form__inputs-operation" type="hidden" name="operation" />
-            <label for="comments-name{{ id }}">Name</label>
-            <input class="comment-form__inputs-name" type="text" name="name" id="comments-name{{ id }}"
-                placeholder="Name" required />
+            <input id="comments-page-id" name="page-id" type="hidden" value="{{ page_id }}" />
+            <input id="comments-a" class="comment-form__inputs-a" type="hidden" name="a" />
+            <input id="comments-b" class="comment-form__inputs-b" type="hidden" name="b" />
+            <input id="comments-operation" class="comment-form__inputs-operation" type="hidden" name="operation" />
+            <label for="comments-name">Name</label>
+            <input id="comments-name" class="comment-form__inputs-name" type="text" name="name" placeholder="Name"
+                required />
         </li>
 
         <li class="comment-form__inputs-listitem">
-            <label for="comments-githubOrEmail{{ id }}">Github / Email</label>
-            <input class="comment-form__inputs-githubOrEmail" type="text" id="comments-githubOrEmail{{ id }}"
-                name="githubOrEmail" placeholder="Github username or E-mail (optional)" title="This is only to show your github profile picture and will not be stored anywhere" />
+            <label for="comments-githubOrEmail">Github / Email</label>
+            <input id="comments-githubOrEmail" class="comment-form__inputs-githubOrEmail" type="text"
+                name="githubOrEmail" placeholder="Github username or E-mail (optional)"
+                title="This is only to show your github profile picture and will not be stored anywhere" />
         </li>
         <li class="comment-form__inputs-listitem">
-            <label class="comment-form__inputs-question" for="comments-answer{{ id }}"></label>
-            <input class="comment-form__inputs-answer" type="number" name="answer" id="comments-answer{{ id }}"
-                required />
+            <label for="comments-homepage">Homepage</label>
+            <input id="comments-homepage" class="comment-form__inputs-homepage" type="text" name="homepage"
+                placeholder="Your homepage or blog (optional)" />
         </li>
         <li class="comment-form__inputs-listitem">
-            <label for="comments-content{{ id }}">Content</label>
-            <textarea class="comment-form__inputs-content" name="content" id="comments-content{{ id }}" placeholder="Markdown is allowed"></textarea>
+            <label id="comments-question" class="comment-form__inputs-question" for="comments-answer"></label>
+            <input id="comments-answer" class="comment-form__inputs-answer" type="number" name="answer" required />
         </li>
         <li class="comment-form__inputs-listitem">
-            <button class="comment-form__inputs-preview">Preview</button>
-            <button class="comment-form__inputs-submit">Submit</button>
+            <label for="comments-content">Content</label>
+            <textarea id="comments-content" class="comment-form__inputs-content" name="content"
+                placeholder="Markdown is allowed"></textarea>
+        </li>
+        <li class="comment-form__inputs-listitem">
+            <button id="comments-preview" class="comment-form__inputs-preview">Preview</button>
+            <button id="comments-submit" class="comment-form__inputs-submit">Submit</button>
         </li>
     </ul>
+
 </div>
