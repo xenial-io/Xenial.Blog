@@ -4,6 +4,6 @@
 import type { Comment } from './Comment';
 
 export interface Page {
-    id?: string | null;
-    readonly comments?: Array<Comment> | null;
+    id: string;
+    readonly comments: Array<Comment>;
 }

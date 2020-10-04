@@ -2,9 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export interface Comment {
-    name?: string | null;
+    name: string;
     githubOrEmail?: string | null;
-    content?: string | null;
-    date?: string;
+    homepage?: string | null;
+    content: string;
+    date: string;
     avatarUrl?: string | null;
 }
