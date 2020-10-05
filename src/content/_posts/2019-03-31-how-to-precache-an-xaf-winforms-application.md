@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: How to pre cache an XAF Winforms Application
- comments: true
  tags: [XAF, Deployment]
 ---
 

@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: "The Third Annual C# Advent - The journey of porting pretzel to dotnetcore"
- comments: true
  github: Pretzel
  tags: ["Advent", "Pretzel", "dotnetcore", "Jekyll", "OpenSource", "GitHub"]
  series: The-Third-Annual-CSharp-Advent

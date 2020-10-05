@@ -2,7 +2,6 @@
  layout: post 
  title: "Migrating from FunnelWeb to Pretzel - Part 1"
  series: migrating-from-funnelweb-to-pretzel
- comments: true
  tags: [Pretzel, Jekyll, Git]
 ---
 After now almost 2.5 years, I start blogging again.

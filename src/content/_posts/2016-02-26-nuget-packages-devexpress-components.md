@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: Nuget Packages for DevExpress Components
- comments: true
  tags: ["NuGet", "DevExpress"]
 ---
 For many years [NuGet](//nuget.org) is the defacto [standard](//www.hanselman.com/blog/NuGetForTheEnterpriseNuGetInAContinuousIntegrationAutomatedBuildSystem.aspx) for the dotnet ecosystem. It's [easy](//www.hanselman.com/blog/CreatingANuGetPackageIn7EasyStepsPlusUsingNuGetToIntegrateASPNETMVC3IntoExistingWebFormsApplications.aspx) and powerful.

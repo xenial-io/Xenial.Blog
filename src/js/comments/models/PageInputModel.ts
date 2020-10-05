@@ -11,4 +11,5 @@ export interface PageInputModel {
     b: number;
     operation: string;
     answer: number;
+    inReplyTo?: string | null;
 }

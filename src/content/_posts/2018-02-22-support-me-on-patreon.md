@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: Support me on patreon
- comments: true
  tags: ["Patreon", "Misc"]
 ---
 

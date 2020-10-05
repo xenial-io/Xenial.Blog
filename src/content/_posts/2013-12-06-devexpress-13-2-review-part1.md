@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "DevExpress 13.2 Review - Part 1"
-comments: false
 tags: ["13-2", "XAF", "DevExpress", "XPO"]
 series: devexpress-13-2-review
 github: DX13_2

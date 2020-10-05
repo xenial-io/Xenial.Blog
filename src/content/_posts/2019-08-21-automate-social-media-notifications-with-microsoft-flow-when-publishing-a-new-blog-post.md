@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: Automate Social-Media notifications with Microsoft Flow when publishing a new Blog-Post
- comments: true
  tags: ["Microsoft Flow", "Microsoft", "Flow", "Pretzel"]
 ---
 

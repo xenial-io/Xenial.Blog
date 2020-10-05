@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Introducing dotnet new Scissors.XafTemplates
-comments: true
 tags: [XAF, Scissors, dotnet, dotnetcore, new, templates, template]
 github: Scissors.XafTemplates
 nuget: Scissors.XafTemplates

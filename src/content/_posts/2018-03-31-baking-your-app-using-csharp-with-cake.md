@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: Baking your App using C# with Cake
- comments: true
  tags: [Build, CSharp, Cake, Fake]
 ---
 

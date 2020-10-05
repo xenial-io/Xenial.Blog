@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: "T is for Testing: XAF & XPO - Functional Tests 3"
- comments: true
  tags: ["Testing", "XAF", "XPO", "Builder", "Patterns", "DevExpress", "EasyTest", "Ranorex", "Webtestit", "XUnit", "NUnit"]
  series: t-is-for-testing-xaf-xpo
  github: XafEasyTestInCodeNUnit

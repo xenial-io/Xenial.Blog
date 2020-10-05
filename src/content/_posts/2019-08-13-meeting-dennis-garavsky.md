@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: Meeting Dennis Garavsky
- comments: true
  tags: [Personal, DevExpress, XAF, XPO, Blazor, MVP, Community]
 ---
 

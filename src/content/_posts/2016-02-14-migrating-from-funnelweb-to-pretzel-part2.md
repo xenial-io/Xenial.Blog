@@ -2,7 +2,6 @@
  layout: post 
  title: "Migrating from FunnelWeb to Pretzel - Part 2"
  series: migrating-from-funnelweb-to-pretzel
- comments: true
  tags: [Pretzel, Git, Cake, VSTS, VisualStudioTeamServices]
 ---
 In our [last post](/2016/02/13/migrating-from-funnelweb-to-pretzel-part1.html) we got up and running with pretzel.

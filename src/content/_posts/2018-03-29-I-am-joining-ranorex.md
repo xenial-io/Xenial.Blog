@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: I am joining Ranorex
- comments: true
  tags: ["Ranorex", "Misc", "Typescript"]
 ---
 I'm very excited to announce I'm joining [Ranorex](https://www.ranorex.com/).

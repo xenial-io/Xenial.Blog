@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: Use the Microsoft BotFramework-WebChat react component in vue.js
- comments: true
  tags: [React, Microsoft, VueJS, Vue, BotFramework, Programming, TypeScript, Aurelia, DevExtreme, Vuera]
 ---
 This is a quick one, cause I think it's worth writing down.
