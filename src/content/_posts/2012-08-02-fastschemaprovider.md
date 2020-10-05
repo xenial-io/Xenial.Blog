@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: "FastSchemaProvider"
- comments: false
  author: "René Grundner"
 ---
 I just released beta (hmm let me think..., okay V0.5) of [FastSchemaProvider][1]

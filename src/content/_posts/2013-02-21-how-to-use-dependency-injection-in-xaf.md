@@ -2,7 +2,6 @@
  layout: post 
  title: "How to use Dependency Injection in XAF"
  series: how-to-use-dependency-injection-in-xaf
- comments: false
  author: "Manuel Grundner"
  tags: ["XAF", "Unity", "DI"]
 ---
@@ -612,32 +611,6 @@ Thats it!
 
 Check out the video on [Screencast][1]
 And the source-code on [Bitbucket][2]
-
-# Imported Comments #
-## Petre, 03 Sep, 2015 ##
-
-Hello Manuel,
-
-I've been thinking of injecting dependencies into XPO objects and XAF Controllers and came across your blog.
-
-It seems like you are making the container available to business objects? I believe it is a service locator anti-pattern.
-
-I'm suggesting that you rework the solution by introducing dependencies in your classes, as opposed to having _container.Resolve calls, preferably initialized in a constructor (along with Session) or as injectable properties, and build the object graph in the Composition Root, i.e. at application startup.
-
-Take a look at the following: https://blog.ploeh.dk/2010/02/03/ServiceLocatorisanAnti-Pattern/ https://blog.ploeh.dk/2011/07/28/CompositionRoot/
-
-Thanks. Petre
-
-## Manuel, 03 Feb, 2016 ##
-
-Hi Petre,
-
-you are absolute right. It IS an antipattern, but you can't control the creation of XPO Objects no'r XAF Controllers. There isn't event a point where you can do properly do Property or Method injection.
-
-The main reason we use this in XPO Objects is to use some services like logging or Object initializers (AfterConstruction) from client specific assemblies/modules. Of course there are other patterns (EventAggregators, Messaging for example) that can handle this kind of problems, but at the time we didn't know how we can keep track of the objectspace scope.
-
-Cause the fact that the lifetime of objects is controlled by XAF & XPO we didn't find a better way to do this.
-
 
   [1]: https://www.screencast.com/users/Paragraph-Software/folders/Jing/media/0fd30e6c-8757-4293-91e9-29a1a67e5443
   [2]: https://bitbucket.org/biohazard999/xafdisolution

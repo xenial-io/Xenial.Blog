@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: "FastSchemaProvider V0.6"
- comments: false
  author: "René Grundner"
 ---
 I've just updated [FastSchemaProvider][1]
