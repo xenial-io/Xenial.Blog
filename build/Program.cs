@@ -187,7 +187,7 @@ public class Page
 public class Comment
 {
     public string Name { get; set; }
-    public string GithubOrEmail { get; set; }
+    public string Homepage { get; set; }
     public string Content { get; set; }
     public DateTime Date { get; set; }
     public string AvatarUrl { get; set; }

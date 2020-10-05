@@ -101,14 +101,16 @@ const comments = async () => {
                 const avatar = document.getElementById("comments-preview-avatar");
 
                 if (avatar) {
-                    avatar.innerHTML = comment.avatarUrl
+                    const avatarFragment = comment.avatarUrl
                         ? `<img src="${comment.avatarUrl}" />`
                         : `<i class="fas fa-user"></i>`;
+
+                    avatar.innerHTML = comment.homepage ? `<a href="${comment.homepage}">${avatarFragment}</a>` : avatarFragment;
                 }
 
                 const name = document.getElementById("comments-preview-name");
                 if (name) {
-                    name.innerHTML = comment.name;
+                    name.innerHTML = comment.homepage ? `<a href="${comment.homepage}">${comment.name}</a>` : comment.name;
                 }
 
                 const content = document.getElementById("comments-preview-content");
