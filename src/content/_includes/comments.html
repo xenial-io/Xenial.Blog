@@ -4,13 +4,7 @@
         <h4 id="comments" class="comments__header">Comments</h4>
         <ul class="comments__list">
             {% for comment in page_data['comments'][page_id].comments %}
-                <li class="comments__list-item">
-                    <div class="comments__list-item__body">
-                        <div class="comments__list-item__body-avatar">{% if comment.homepage != 'null' %}<a href="{{ comment.homepage }}">{% endif %}{% if comment.avatarUrl != "" and comment.avatarUrl != "null" %}<img src="{{ comment.avatarUrl }}" />{% else %}<i class="fas fa-user"></i>{% endif %}{% if comment.homepage != "null" %}</a>{% endif %}</div>
-                        <h5 class="comments__list-item__header">{% if comment.homepage != 'null' %}<a href="{{ comment.homepage }}">{% endif %}<span class="comments__list-item__header-name">{{ comment.name }}</span>{% if comment.homepage != "null" %}</a>{% endif %}<span class="comments__list-item__header-date">{{ comment.date  | date: "%e %B %Y %H:%M" }}</span></h5>
-                        <div class="comments__list-item__content">{{ comment.content | markdown }}</div>
-                    </div>
-                </li>
+                {% include "comments-list-item.html", comment: comment %}
             {% endfor %}
         </ul>
 

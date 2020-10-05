@@ -73,7 +73,7 @@ Target("comments", async () =>
     foreach (var postId in postIds)
     {
         var pageInDb = await db.Get<Page>(branchName, postId);
-        if(pageInDb != null)
+        if (pageInDb != null)
         {
             var comments = pageInDb.Comments.OrderBy(m => m.Date).ToList();
             var data = new
@@ -166,7 +166,7 @@ async Task WriteConfig(Dictionary<object, object> config)
     await File.WriteAllTextAsync(configFile, ymlContent);
 }
 
-string GetPostId(string post) 
+string GetPostId(string post)
 {
     var postName = Path.GetFileNameWithoutExtension(post);
 
@@ -186,9 +186,11 @@ public class Page
 
 public class Comment
 {
+    public string Id { get; set; }
     public string Name { get; set; }
     public string Homepage { get; set; }
     public string Content { get; set; }
     public DateTime Date { get; set; }
     public string AvatarUrl { get; set; }
+    public IList<Comment> Comments { get; } = new List<Comment>();
 }
