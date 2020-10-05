@@ -78,7 +78,7 @@ Target("comments", async () =>
             var comments = pageInDb.Comments.OrderBy(m => m.Date).ToList();
             var data = new
             {
-                commentsCount = comments.Count,
+                commentsCount = Flatten(pageInDb).Count(),
                 comments = comments
             };
             var dataFile = Path.Combine(dataDirectory, $"{postId}.json");
@@ -130,7 +130,6 @@ static async Task<string> ReadToolAsync(Func<Task<string>> action)
     }
 }
 
-
 static async Task Ignored(Func<Task> action)
 {
     try
@@ -177,6 +176,30 @@ string GetPostId(string post)
 
     return $"{year}/{month}/{day}/{name}";
 }
+
+
+static IEnumerable<Comment> Flatten(Page page)
+{
+    foreach (var comment in page.Comments)
+    {
+        foreach (var comment2 in Flatten(comment))
+        {
+            yield return comment2;
+        }
+        yield return comment;
+    }
+
+
+    static IEnumerable<Comment> Flatten(Comment comment)
+    {
+        foreach (var comment2 in comment.Comments)
+        {
+            yield return comment2;
+        }
+    }
+}
+
+
 public class Page
 {
     public string Id { get; set; }

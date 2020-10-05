@@ -33,7 +33,7 @@ main-url: https://www.delegate.at
 site-name: blog.delegate.at
 feed-name: blog.delegate.at
 site-url: https://blog.delegate.at
-version: 0.0.0-alpha.0.309
-commit: 8d612ef302a98a3016d874db2f02be202dfb01bd
-last-update: 2020-10-03
+version: 0.0.0-alpha.0.334
+commit: 6f97b1acd35b4189d8d900c92a31ab86f8f8fc53
+last-update: 2020-10-05
 comment-repo: https://github.com/biohazard999/TestingDb.git
