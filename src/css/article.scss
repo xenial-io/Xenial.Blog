@@ -169,6 +169,10 @@
             padding-left: calc(1.5rem - 2px);
             background-color: var(--xenial-darker-color);
 
+            .comments__list-item:not(:first-child) {
+              margin-top: -1rem;
+            }
+
             .comments__list-item__body-avatar {
               transform: translate(calc(-50% + 3px), calc(-50% + 3px));
             }
