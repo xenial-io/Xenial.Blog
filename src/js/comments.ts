@@ -6,6 +6,8 @@ const getValidUrl = (url = "") => {
     let newUrl = window.decodeURIComponent(url);
     newUrl = newUrl.trim().replace(/\s/g, "");
 
+    if(url === "") return "";
+
     if (/^(:\/\/)/.test(newUrl)) {
         return `http${newUrl}`;
     }
