@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: "Performance and XAF-Bootstrapping"
- comments: false
  author: "René Grundner"
  tags: ["XAF", "Performance", "Bootstrapping"]
 ---

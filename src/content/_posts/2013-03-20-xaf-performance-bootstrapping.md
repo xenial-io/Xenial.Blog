@@ -1,9 +1,8 @@
 --- 
-layout: post
-title: "Performance and XAF-Bootstrapping"
-author: "René Grundner"
-comments: false
-tags: ["XAF", "Performance", "Bootstrapping"]
+ layout: post
+ title: "Performance and XAF-Bootstrapping Part 2"
+ author: "René Grundner"
+ tags: ["XAF", "Performance", "Bootstrapping"]
 ---
 
 ## How to speed-up bootstrap time:

@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: "How to initialize an ObjectSpaceProvider with XPO"
- comments: false
  tags: ["XAF", "XPO", "UnitTesting"]
 ---
 If anybody needs to initialize an ObjectSpaceProvider with XPO for UnitTesting or a ServiceApplication here is the code:

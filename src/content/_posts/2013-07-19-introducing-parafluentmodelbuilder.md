@@ -1,7 +1,6 @@
 ---
  layout: post 
  title: "Introducing Para.FluentModelBuilder"
- comments: false
  tags: ["XAF", "XPO", "UnitTesting"]
 ---
 I like to introduce a little Framework about mapping/decorating XPO/EntityFramework classes in XAF using the typesystem XAF provided without having to 'pollute' your model-assembly with DevExpress.ExpressApp assemblies:
@@ -378,46 +377,3 @@ Feel free to contact, fork or ask me for questions on twitter, facebook or Email
 - Twitter: https://twitter.com/biohaz999
 - FB: https://www.facebook.com/manuel.grundner
 - E-Mail: m.grundner at paragraph-software dot at
-
-
-# Imported Comments #
-## Tolis 19 Jul, 2013 ## 
-
-Looks great but i do have a question, what about the Application Model it self? There you can do much more than any framework, it is more flexible and multilayered. I m interested to know why your team prefers to invent a code replacement of the amazing XAF application model. You can simply have many models and apply them as you wish. In eXpand as you probably know there are Global Application and Role models as well. Even multiple design time models are possible as you can see in https://apobekiaris.blogspot.gr/2010/08/xaf-models-xaf-models-and-again-xaf.html
-
-## Manuel 20 Jul, 2013 ##
-Tolis, It is not a code replacement :) cause it is applied to the TypesInfo before the Model is calculated, it supports the Model. We choose this approach for easier refactoring and code completition reasons. writing attributes lead us to very clutter design, and much errors in our main app is based on typos in string declarations (like spelled a PropertyName / Criterias wrong. ConditionalAppearance for example).
-
-Another thing i like to mention is the single-responsibility-principle, i don't think the model should know about appearance rules, so i have to put them in another place. But to have them only in the xafml makes it very hard to (unit)test, so now we have the possibility to test them seperate AND fast.
-
-Another reason is that we can apply all sort of metadata to our model in a centralized place in the project, so every developer knows where to put metadata for XAF. (we have also service applications that only need to know about XPO, but uses the same model)
-
-Sometimes we had metadata as attributes, sometimes in the xafml. And we have 9 of them, so it is very hard to tell them where to put them correctly (or to find them when something goes wrong) :)
-
-Thanks for your link, didn't know that one, Looks interestring.
-
-Ps.: And we are developers, we love code ;)
-
-## Manuel 20 Jul, 2013 ##
-From the technical perspective the only thing it does is:
-
-```cs
-public sealed partial class TestModule : ModuleBase
-{
-    public override void CustomizeTypesInfo(ITypesInfo typesInfo)
-    {
-        base.CustomizeTypesInfo(typesInfo);
-
-        var typeinfo = typesInfo.FindType(typeof(YourObject));
-
-        typeinfo.AddAttribute(new ModelDefaultAttribute("Caption", "Car"));
-
-        var memberInfo = typeinfo.FindMember("Doors");
-
-        memberInfo.AddAttribute(new ModelDefaultAttribute("Caption", "Doors"));
-
-        typesInfo.RefreshTypeInfo(typeinfo);
-    }
-}
-```
-
