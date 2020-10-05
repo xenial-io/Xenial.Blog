@@ -2,7 +2,6 @@
  layout: post 
  title: "How to use Dependency Injection in XAF (UnitTesting) Part 2"
  series: how-to-use-dependency-injection-in-xaf
- comments: false
  tags: ["Testing","UnitTesting", "XAF", "XPO", "Unity", "DI", "NUnit"]
 ---
 It's not a really easy task to correctly UnitTest a XAF/XPO application, but as we all know, UnitTesting is a very important part of our work today.
@@ -678,11 +677,5 @@ But i think you get the point :)
 
 Update:
 Thanks to [Robert Anderson][1] the ControllerTest is now working correctly :)
-
-## Imported Comments
-
-### Robert Anderson, 28 Feb, 2013
-
-Fantastic work!
 
   [1]: https://bitbucket.org/shamp00
