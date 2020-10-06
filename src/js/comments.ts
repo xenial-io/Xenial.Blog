@@ -1,5 +1,5 @@
 import { OpenAPI } from "./comments/core/OpenAPI";
-import { CommentsService } from "./comments/index";
+import { CommentsService, Page } from "./comments/index";
 import { store, Prism } from "@xenial-io/xenial-template";
 import { CaptchaModel } from "./comments/models/CaptchaModel";
 import { PageInputModel } from "./comments/models/PageInputModel";
@@ -68,6 +68,37 @@ const mapFields = (el: Element): PageInputModel => {
     }
 }
 
+const showPreview = (el: Element, inReplyTo: string, result: Page) => {
+    if (result.comments.length > 0) {
+        const comment = result.comments[0];
+
+        const avatarFragment = comment.avatarUrl
+            ? `<img src="${comment.avatarUrl}" />`
+            : `<i class="fas fa-user"></i>`;
+
+        const nameFragment = comment.homepage
+            ? `<a href="${comment.homepage}">${comment.name}</a>`
+            : comment.name;
+
+        const contentFragment = comment.content;
+
+        //{{ comment.date  | date: "%e %b %Y %H:%M" }}
+        const dateObject = new Date(comment.date);
+        const dateFragment = `${dateObject.toLocaleDateString("en-US", { day: "numeric" })} ${dateObject.toLocaleDateString("en-US", { month: "short" })} ${dateObject.toLocaleDateString("en-US", { year: "numeric" })} ${dateObject.getHours().toString().padStart(2, "0")}:${dateObject.getMinutes().toString().padStart(2, "0")}`;
+
+        const previewContainer = document.getElementById(`comments-preview-container${inReplyTo}`);
+        if (previewContainer) {
+            assignOnNameElement(previewContainer, "comments-preview-avatar", (e) => e.innerHTML = comment.homepage ? `<a href="${comment.homepage}">${avatarFragment}</a>` : avatarFragment);
+            assignOnNameElement(previewContainer, "comments-preview-name", (e) => e.innerHTML = nameFragment);
+            assignOnNameElement(previewContainer, "comments-preview-content", (e) => e.innerHTML = contentFragment);
+            assignOnNameElement(previewContainer, "comments-preview-date", (e) => e.innerHTML = dateFragment);
+            previewContainer.classList.remove("hide");
+        }
+
+        Prism.highlightAll();
+    }
+}
+
 const comment = (r: Element, defaults: {
     name?: string,
     homepage?: string,
@@ -108,40 +139,15 @@ const comment = (r: Element, defaults: {
     if (previewButton) {
         previewButton.onclick = async () => {
             try {
+                disableItems(r, true);
                 const values = mapFields(r);
                 console.warn("Making request");
                 console.warn(values);
                 const result = await CommentsService.postCommentsService1(values);
                 console.warn("Made request");
                 console.warn(result);
-                if (result.comments.length > 0) {
-                    const comment = result.comments[0];
 
-                    const avatarFragment = comment.avatarUrl
-                        ? `<img src="${comment.avatarUrl}" />`
-                        : `<i class="fas fa-user"></i>`;
-
-                    const nameFragment = comment.homepage
-                        ? `<a href="${comment.homepage}">${comment.name}</a>`
-                        : comment.name;
-
-                    const contentFragment = comment.content;
-
-                    //{{ comment.date  | date: "%e %b %Y %H:%M" }}
-                    const dateObject = new Date(comment.date);
-                    const dateFragment = `${dateObject.toLocaleDateString("en-US", { day: "numeric" })} ${dateObject.toLocaleDateString("en-US", { month: "short" })} ${dateObject.toLocaleDateString("en-US", { year: "numeric" })} ${dateObject.getHours().toString().padStart(2, "0")}:${dateObject.getMinutes().toString().padStart(2, "0")}`;
-
-                    const previewContainer = document.getElementById(`comments-preview-container${inReplyTo}`);
-                    if (previewContainer) {
-                        assignOnNameElement(previewContainer, "comments-preview-avatar", (e) => e.innerHTML = comment.homepage ? `<a href="${comment.homepage}">${avatarFragment}</a>` : avatarFragment);
-                        assignOnNameElement(previewContainer, "comments-preview-name", (e) => e.innerHTML = nameFragment);
-                        assignOnNameElement(previewContainer, "comments-preview-content", (e) => e.innerHTML = contentFragment);
-                        assignOnNameElement(previewContainer, "comments-preview-date", (e) => e.innerHTML = dateFragment);
-                        previewContainer.classList.remove("hide");
-                    }
-
-                    Prism.highlightAll();
-                }
+                showPreview(r, inReplyTo, result);
             }
             catch (e) {
                 if (e instanceof ApiError) {
@@ -154,6 +160,54 @@ const comment = (r: Element, defaults: {
                 } else {
                     console.error(e);
                 }
+            }
+            finally {
+                disableItems(r, false);
+            }
+        }
+    }
+    const submitButton = <HTMLButtonElement>r.querySelector(`button[name="submit"]`);
+    if (submitButton) {
+        submitButton.onclick = async () => {
+            try {
+                disableItems(r, true);
+                const values = mapFields(r);
+                console.warn("Making request");
+                console.warn(values);
+                const result = await CommentsService.postCommentsService(values);
+                console.warn("Made request");
+                console.warn(result);
+                store("comments-name", values.name);
+                store("comments-githubOrEmail", values.githubOrEmail);
+                store("comments-homepage", values.homepage);
+
+                showPreview(r, inReplyTo, result);
+
+                const inputs = r.querySelector(`*[name="comments-inputs"]`);
+                if (inputs) {
+                    inputs.classList.add("hide");
+                }
+
+                const thanks = r.querySelector(`*[name="comments-thanks"]`);
+                if (thanks) {
+                    thanks.classList.remove("hide");
+                }
+
+            }
+            catch (e) {
+                if (e instanceof ApiError) {
+                    console.error("Error on API");
+                    const apiError = JSON.parse(e.body);
+                    console.error(apiError);
+                    if (apiError.errors) {
+                        console.table(apiError.errors);
+                    }
+                } else {
+                    console.error(e);
+                }
+            }
+            finally {
+                disableItems(r, false);
             }
         }
     }
