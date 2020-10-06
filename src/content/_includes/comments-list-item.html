@@ -13,5 +13,5 @@
         </ul>
     {% endif %}
 
-    {% if comment.isLast %}{% include 'comment-form.html', replyTo: comment.replyTo %}{% endif %}
+    {% if comment.isLast and comment.replyTo %}{% include 'comment-form.html', replyTo: comment.replyTo %}{% endif %}
 </li>

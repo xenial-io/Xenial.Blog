@@ -6,7 +6,7 @@ const getValidUrl = (url = "") => {
     let newUrl = window.decodeURIComponent(url);
     newUrl = newUrl.trim().replace(/\s/g, "");
 
-    if(url === "") return "";
+    if (url === "") return "";
 
     if (/^(:\/\/)/.test(newUrl)) {
         return `http${newUrl}`;
@@ -18,158 +18,182 @@ const getValidUrl = (url = "") => {
     return newUrl;
 };
 
-const comments = async () => {
-    OpenAPI.BASE = "https://localhost:5001";
-
+const comment = (r: Element, defaults: { name?: string, homepage?: string, githubOrEmail?: string }) => {
     const disableItems = (enable: boolean) => {
-        const formDiv = document.getElementById(`comment-form`);
-        const inputs = [...formDiv.getElementsByTagName("input"), ...formDiv.getElementsByTagName("textarea"), ...formDiv.getElementsByTagName("button")];
+        const inputs = [...r.getElementsByTagName("input"), ...r.getElementsByTagName("textarea"), ...r.getElementsByTagName("button")];
         for (const input of inputs) {
             input.disabled = enable;
         }
     }
 
+    const assignOnElement = (el: Element, className: string, action: (e: HTMLInputElement) => void) => {
+        const elements = el.getElementsByClassName(className);
+        if (elements && elements.length > 0) {
+            const inputElement = <HTMLInputElement>elements[0];
+            action(inputElement);
+        }
+    }
+
+    if (defaults.name) {
+        assignOnElement(r, "comments-name", el => el.value = defaults.name);
+    }
+    if (defaults.homepage) {
+        assignOnElement(r, "comments-homepage", el => el.value = defaults.homepage);
+    }
+    if (defaults.githubOrEmail) {
+        assignOnElement(r, "comments-githubOrEmail", el => el.value = defaults.githubOrEmail);
+    }
+
+}
+
+const comments = async () => {
+    OpenAPI.BASE = "https://localhost:5001";
     const name = store("comments-name");
-    if (name) {
-        const nameInput = (<HTMLInputElement>document.getElementById(`comments-name`));
-        if (nameInput) {
-            nameInput.value = name;
-        }
-    }
     const homepage = store("comments-homepage");
-    if (homepage) {
-        const homepageInput = (<HTMLInputElement>document.getElementById(`comments-homepage`));
-        if (homepageInput) {
-            homepageInput.value = homepage;
-        }
-    }
-
     const githubOrEmail = store("comments-githubOrEmail");
-    if (githubOrEmail) {
-        const githubOrEmailInput = (<HTMLInputElement>document.getElementById(`comments-githubOrEmail`));
-        if (githubOrEmailInput) {
-            githubOrEmailInput.value = githubOrEmail;
-        }
+
+    for (const root of document.getElementsByClassName('comment-form')) {
+        comment(root, { name, homepage, githubOrEmail });
     }
 
-    try {
-        const captcha = await CommentsService.getCommentsService();
+    // if (name) {
+    //     const nameInput = (<HTMLInputElement>document.getElementById(`comments-name`));
+    //     if (nameInput) {
+    //         nameInput.value = name;
+    //     }
+    // }
+    // if (homepage) {
+    //     const homepageInput = (<HTMLInputElement>document.getElementById(`comments-homepage`));
+    //     if (homepageInput) {
+    //         homepageInput.value = homepage;
+    //     }
+    // }
 
-        const question = document.getElementById(`comments-question`);
-        if (question) {
-            question.innerHTML = captcha.text;
-        }
-        const operation = document.getElementById(`comments-operation`);
-        if (operation) {
-            (<HTMLInputElement>operation).value = captcha.operation;
-        }
+    // if (githubOrEmail) {
+    //     const githubOrEmailInput = (<HTMLInputElement>document.getElementById(`comments-githubOrEmail`));
+    //     if (githubOrEmailInput) {
+    //         githubOrEmailInput.value = githubOrEmail;
+    //     }
+    // }
 
-        var inputA = document.getElementById(`comments-a`);
-        if (inputA) {
-            (<HTMLInputElement>inputA).value = captcha.a.toString();
-        }
+    // try {
+    //     const captcha = await CommentsService.getCommentsService();
 
-        var inputB = document.getElementById(`comments-b`);
-        if (inputB) {
-            (<HTMLInputElement>inputB).value = captcha.b.toString();
-        }
-    }
-    catch (error) {
-        console.error(error);
-        disableItems(true);
-    }
+    //     const question = document.getElementById(`comments-question`);
+    //     if (question) {
+    //         question.innerHTML = captcha.text;
+    //     }
+    //     const operation = document.getElementById(`comments-operation`);
+    //     if (operation) {
+    //         (<HTMLInputElement>operation).value = captcha.operation;
+    //     }
 
-    const mapFields = () => {
-        return {
-            id: (<HTMLInputElement>document.getElementById(`comments-page-id`)).value,
-            name: (<HTMLInputElement>document.getElementById(`comments-name`)).value,
-            operation: (<HTMLInputElement>document.getElementById(`comments-operation`)).value,
-            githubOrEmail: (<HTMLInputElement>document.getElementById(`comments-githubOrEmail`)).value,
-            answer: parseInt((<HTMLInputElement>document.getElementById(`comments-answer`)).value),
-            homepage: getValidUrl((<HTMLInputElement>document.getElementById(`comments-homepage`)).value),
-            a: parseInt((<HTMLInputElement>document.getElementById(`comments-a`)).value),
-            b: parseInt((<HTMLInputElement>document.getElementById(`comments-b`)).value),
-            content: (<HTMLTextAreaElement>document.getElementById(`comments-content`)).value,
-        };
-    };
+    //     var inputA = document.getElementById(`comments-a`);
+    //     if (inputA) {
+    //         (<HTMLInputElement>inputA).value = captcha.a.toString();
+    //     }
 
-    const previewButton = <HTMLButtonElement>document.getElementById(`comments-preview`);
-    if (previewButton) {
-        previewButton.onclick = async () => {
-            const result = await CommentsService.postCommentsService1(mapFields());
-            if (result.comments.length > 0) {
-                const comment = result.comments[0];
-                console.log(comment);
-                const avatar = document.getElementById("comments-preview-avatar");
+    //     var inputB = document.getElementById(`comments-b`);
+    //     if (inputB) {
+    //         (<HTMLInputElement>inputB).value = captcha.b.toString();
+    //     }
+    // }
+    // catch (error) {
+    //     console.error(error);
+    //     disableItems(true);
+    // }
 
-                if (avatar) {
-                    const avatarFragment = comment.avatarUrl
-                        ? `<img src="${comment.avatarUrl}" />`
-                        : `<i class="fas fa-user"></i>`;
+    // const mapFields = () => {
+    //     return {
+    //         id: (<HTMLInputElement>document.getElementById(`comments-page-id`)).value,
+    //         name: (<HTMLInputElement>document.getElementById(`comments-name`)).value,
+    //         operation: (<HTMLInputElement>document.getElementById(`comments-operation`)).value,
+    //         githubOrEmail: (<HTMLInputElement>document.getElementById(`comments-githubOrEmail`)).value,
+    //         answer: parseInt((<HTMLInputElement>document.getElementById(`comments-answer`)).value),
+    //         homepage: getValidUrl((<HTMLInputElement>document.getElementById(`comments-homepage`)).value),
+    //         a: parseInt((<HTMLInputElement>document.getElementById(`comments-a`)).value),
+    //         b: parseInt((<HTMLInputElement>document.getElementById(`comments-b`)).value),
+    //         content: (<HTMLTextAreaElement>document.getElementById(`comments-content`)).value,
+    //     };
+    // };
 
-                    avatar.innerHTML = comment.homepage ? `<a href="${comment.homepage}">${avatarFragment}</a>` : avatarFragment;
-                }
+    // const previewButton = <HTMLButtonElement>document.getElementById(`comments-preview`);
+    // if (previewButton) {
+    //     previewButton.onclick = async () => {
+    //         const result = await CommentsService.postCommentsService1(mapFields());
+    //         if (result.comments.length > 0) {
+    //             const comment = result.comments[0];
+    //             console.log(comment);
+    //             const avatar = document.getElementById("comments-preview-avatar");
 
-                const name = document.getElementById("comments-preview-name");
-                if (name) {
-                    name.innerHTML = comment.homepage ? `<a href="${comment.homepage}">${comment.name}</a>` : comment.name;
-                }
+    //             if (avatar) {
+    //                 const avatarFragment = comment.avatarUrl
+    //                     ? `<img src="${comment.avatarUrl}" />`
+    //                     : `<i class="fas fa-user"></i>`;
 
-                const content = document.getElementById("comments-preview-content");
+    //                 avatar.innerHTML = comment.homepage ? `<a href="${comment.homepage}">${avatarFragment}</a>` : avatarFragment;
+    //             }
 
-                if (content) {
-                    content.innerHTML = comment.content;
-                }
+    //             const name = document.getElementById("comments-preview-name");
+    //             if (name) {
+    //                 name.innerHTML = comment.homepage ? `<a href="${comment.homepage}">${comment.name}</a>` : comment.name;
+    //             }
 
-                //{{ comment.date  | date: "%e %B %Y %H:%M" }}
-                const date = document.getElementById("comments-preview-date");
-                if (date) {
-                    const dateObject = new Date(comment.date);
-                    date.innerHTML = `${dateObject.toLocaleDateString("en-US", { day: "numeric" })} ${dateObject.toLocaleDateString("en-US", { month: "short" })} ${dateObject.toLocaleDateString("en-US", { year: "numeric" })} ${dateObject.getHours().toString().padStart(2, "0")}:${dateObject.getMinutes().toString().padStart(2, "0")}`;
-                }
-                if (content) {
-                    content.innerHTML = comment.content;
-                }
+    //             const content = document.getElementById("comments-preview-content");
 
-                const preview = document.getElementById("comments-preview-container");
-                if (preview) {
-                    preview.classList.remove("hide");
-                }
-                Prism.highlightAll();
-            }
-        }
-    }
+    //             if (content) {
+    //                 content.innerHTML = comment.content;
+    //             }
 
-    const submitButton = <HTMLButtonElement>document.getElementById(`comments-submit`);
+    //             //{{ comment.date  | date: "%e %B %Y %H:%M" }}
+    //             const date = document.getElementById("comments-preview-date");
+    //             if (date) {
+    //                 const dateObject = new Date(comment.date);
+    //                 date.innerHTML = `${dateObject.toLocaleDateString("en-US", { day: "numeric" })} ${dateObject.toLocaleDateString("en-US", { month: "short" })} ${dateObject.toLocaleDateString("en-US", { year: "numeric" })} ${dateObject.getHours().toString().padStart(2, "0")}:${dateObject.getMinutes().toString().padStart(2, "0")}`;
+    //             }
+    //             if (content) {
+    //                 content.innerHTML = comment.content;
+    //             }
 
-    if (submitButton) {
-        submitButton.onclick = async () => {
-            try {
-                disableItems(true);
-                const fields = mapFields();
-                const result = await CommentsService.postCommentsService(fields);
+    //             const preview = document.getElementById("comments-preview-container");
+    //             if (preview) {
+    //                 preview.classList.remove("hide");
+    //             }
+    //             Prism.highlightAll();
+    //         }
+    //     }
+    // }
 
-                store("comments-name", fields.name);
-                store("comments-githubOrEmail", fields.githubOrEmail);
-                store("comments-homepage", fields.homepage);
+    // const submitButton = <HTMLButtonElement>document.getElementById(`comments-submit`);
 
-                const inputs = document.getElementById("comments-inputs");
-                if (inputs) {
-                    inputs.classList.add("hide");
-                }
-                const thanks = document.getElementById("comments-thanks");
-                if (thanks) {
-                    thanks.classList.remove("hide");
-                }
-                const preview = document.getElementById("comments-preview-container");
-                if (preview) {
-                    preview.classList.add("hide");
-                }
-            }
-            finally {
-                disableItems(false);
-            }
-        };
-    }
+    // if (submitButton) {
+    //     submitButton.onclick = async () => {
+    //         try {
+    //             disableItems(true);
+    //             const fields = mapFields();
+    //             const result = await CommentsService.postCommentsService(fields);
+
+    //             store("comments-name", fields.name);
+    //             store("comments-githubOrEmail", fields.githubOrEmail);
+    //             store("comments-homepage", fields.homepage);
+
+    //             const inputs = document.getElementById("comments-inputs");
+    //             if (inputs) {
+    //                 inputs.classList.add("hide");
+    //             }
+    //             const thanks = document.getElementById("comments-thanks");
+    //             if (thanks) {
+    //                 thanks.classList.remove("hide");
+    //             }
+    //             const preview = document.getElementById("comments-preview-container");
+    //             if (preview) {
+    //                 preview.classList.add("hide");
+    //             }
+    //         }
+    //         finally {
+    //             disableItems(false);
+    //         }
+    //     };
+    // }
 }
 export { comments };
