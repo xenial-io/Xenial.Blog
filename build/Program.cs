@@ -84,6 +84,8 @@ Target("comments", async () =>
 
             foreach (var comment in pageInDb.Comments)
             {
+                comment.isRoot = true;
+
                 var lastInList = comment.Comments.LastOrDefault();
                 if (lastInList != null)
                 {
@@ -238,6 +240,7 @@ public class Comment
     public string AvatarUrl { get; set; }
 
     public bool isLast { get; set; }
+    public bool isRoot { get; set; }
     public string replyTo { get; set; }
     public IList<Comment> Comments { get; set; } = new List<Comment>();
 }

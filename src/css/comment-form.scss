@@ -14,8 +14,10 @@
   }
 
   .comments {
-    &__list.preview {
-      @include hide;
+    &__list {
+      &-item {
+        @include hide;
+      }
     }
   }
 

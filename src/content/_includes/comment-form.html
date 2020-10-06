@@ -5,49 +5,39 @@
     </div>
     <ul class="comment-form__inputs comments-inputs">
         <li class="comment-form__inputs-listitem">
-            <input class="comments-page-id" type="hidden" value="{{ page_id }}" />
-            <input class="comments-replyTo" type="hidden" value="{{ replyTo }}" />
-            <input class="comments-a" type="hidden" name="a" />
-            <input class="comments-b" type="hidden" name="b" />
-            <input class="comments-operation" type="hidden" />
+            <input data-field="id" class="comments-page-id" type="hidden" value="{{ page_id }}" />
+            <input data-field="inReplyTo" class="comments-replyTo" type="hidden" value="{{ replyTo }}" />
+            <input data-field="a" class="comments-a" type="hidden" />
+            <input data-field="b" class="comments-b" type="hidden" />
+            <input data-field="operation" class="comments-operation" type="hidden" />
             <label for="comments-name{{ replyTo }}">Name</label>
-            <input id="comments-name{{ replyTo }}" type="text" name="name" placeholder="Name"
+            <input data-field="name" id="comments-name{{ replyTo }}" type="text" placeholder="Name"
                 required />
         </li>
 
         <li class="comment-form__inputs-listitem">
             <label for="comments-githubOrEmail{{ replyTo }}">Github / Email</label>
-            <input id="comments-githubOrEmail{{ replyTo }}" type="text"
-                name="comments-githubOrEmail" placeholder="Github username or E-mail (optional)"
+            <input data-field="githubOrEmail" id="comments-githubOrEmail{{ replyTo }}" type="text"
+                placeholder="Github username or E-mail (optional)"
                 title="This is only to show your github profile picture and will not be stored anywhere" />
         </li>
         <li class="comment-form__inputs-listitem">
             <label for="comments-homepage{{ replyTo }}">Homepage</label>
-            <input id="comments-homepage{{ replyTo }}" type="text"
+            <input data-field="homepage" id="comments-homepage{{ replyTo }}" type="text"
                 placeholder="Your homepage or blog (optional)" />
         </li>
         <li class="comment-form__inputs-listitem">
-            <label name="comments-question" for="comments-answer{{ replyTo }}"></label>
-            <input name="comments-answer" id="comments-answer{{ replyTo }}" type="number" required />
+            <label class="comments-question" for="comments-answer{{ replyTo }}"></label>
+            <input data-field="answer" id="comments-answer{{ replyTo }}" type="number" required />
         </li>
         <li class="comment-form__inputs-listitem">
             <label for="comments-content{{ replyTo }}">Content</label>
-            <textarea name="comments-content" id="comments-content{{ replyTo }}"
+            <textarea data-field="content" id="comments-content{{ replyTo }}"
                 placeholder="Markdown is allowed"></textarea>
         </li>
         <li class="comment-form__inputs-listitem buttons">
-            <button name="comments-preview">Preview</button>
-            <button name="comments-submit">Submit</button>
+            <button name="preview" class="comment-form__inputs-listitem-preview">Preview</button>
+            <button name="submit" class="comment-form__inputs-listitem-submit">Submit</button>
         </li>
     </ul>
-</div>
-
-<div id="comments-preview-container" class="comments__list preview hide">
-    <div class="comments__list-item">
-        <div class="comments__list-item__body">
-            <div id="comments-preview-avatar" class="comments__list-item__body-avatar"><i class="fas fa-user"></i></div>
-            <h5 class="comments__list-item__header"><span id="comments-preview-name" class="comments__list-item__header-name"></span><span id="comments-preview-date" class="comments__list-item__header-date"></span></h5>
-            <div id="comments-preview-content" class="comments__list-item__content"></div>
-        </div>
-    </div>
 </div>
