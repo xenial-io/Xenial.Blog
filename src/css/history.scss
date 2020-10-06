@@ -1,0 +1,41 @@
+.post-history {
+  h3 {
+    a {
+      text-decoration: none;
+      color: var(--xenial-light-color);
+      font-style: normal;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__list {
+    font-style: italic;
+    a,
+    a:link,
+    a:visited {
+      font-style: normal;
+      color: var(--xenial-lighter-color);
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    &-item.current {
+      list-style: none;
+      position: relative;
+
+      &::before {
+        content: "▶";
+        position: absolute;
+        left: -1.5rem;
+        font-style: normal;
+        transform: scale(0.75, 0.75);
+      }
+    }
+  }
+}
