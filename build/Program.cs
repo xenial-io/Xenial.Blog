@@ -88,10 +88,12 @@ Target("comments", async () =>
                 if (lastInList != null)
                 {
                     lastInList.isLast = true;
+                    lastInList.replyTo = comment.Id;
                 }
                 else
                 {
                     comment.isLast = true;
+                    comment.replyTo = comment.Id;
                 }
             }
 
@@ -236,5 +238,6 @@ public class Comment
     public string AvatarUrl { get; set; }
 
     public bool isLast { get; set; }
+    public string replyTo { get; set; }
     public IList<Comment> Comments { get; set; } = new List<Comment>();
 }
