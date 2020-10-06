@@ -103,8 +103,15 @@
 
           a:link,
           a:visited,
-          a:active {
+          a:active,
+          .comments__list-item__links button {
             color: var(--xenial-lighter-color);
+            background-color: transparent;
+            border: none;
+            border-style: none;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 1rem;
 
             &:hover {
               text-decoration: none;

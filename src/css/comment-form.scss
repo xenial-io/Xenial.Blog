@@ -22,15 +22,13 @@
   }
 
   .comment-form {
+    @include hide;
     &__thanks {
       @include hide;
     }
     &__inputs {
-      @include hide;
       height: auto;
-      &.hide {
-        height: auto;
-      }
+      @include hide;
       display: flex;
       flex-direction: column;
       max-width: 800px;

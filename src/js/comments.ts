@@ -233,37 +233,19 @@ const comments = async () => {
             disableItems(root, true);
         }
     }
-
-    // const submitButton = <HTMLButtonElement>document.getElementById(`comments-submit`);
-
-    // if (submitButton) {
-    //     submitButton.onclick = async () => {
-    //         try {
-    //             disableItems(true);
-    //             const fields = mapFields();
-    //             const result = await CommentsService.postCommentsService(fields);
-
-    //             store("comments-name", fields.name);
-    //             store("comments-githubOrEmail", fields.githubOrEmail);
-    //             store("comments-homepage", fields.homepage);
-
-    //             const inputs = document.getElementById("comments-inputs");
-    //             if (inputs) {
-    //                 inputs.classList.add("hide");
-    //             }
-    //             const thanks = document.getElementById("comments-thanks");
-    //             if (thanks) {
-    //                 thanks.classList.remove("hide");
-    //             }
-    //             const preview = document.getElementById("comments-preview-container");
-    //             if (preview) {
-    //                 preview.classList.add("hide");
-    //             }
-    //         }
-    //         finally {
-    //             disableItems(false);
-    //         }
-    //     };
-    // }
 }
+
+for (const replyToButton of document.querySelectorAll(`*[name="comments-reply"]`)) {
+    const btn = <HTMLButtonElement>replyToButton;
+    btn.onclick = () => {
+        const replyToId = replyToButton.getAttribute("data-replyTo");
+        if (replyToId) {
+            const replyToForm = document.getElementById(`comment-form${replyToId}`);
+            if (replyToForm) {
+                replyToForm.classList.toggle("hide");
+            }
+        }
+    }
+}
+
 export { comments };

@@ -1,4 +1,5 @@
-<div class="comment-form {% if replyTo %} hide {% endif %}" {% if replyTo %} data-replyTo="{{ replyTo }}" {% endif %}>
+<div id="comment-form{{ replyTo }}" class="comment-form {% if replyTo %} hide {% endif %}" {% if replyTo %}
+    data-replyTo="{{ replyTo }}" {% endif %}>
     <div name="comments-thanks" class="comment-form__thanks comments-thanks hide">
         <h5>Thank you</h5>
         <p>Your comment will appear in a few minutes.</p>
@@ -11,8 +12,7 @@
             <input data-field="b" class="comments-b" type="hidden" />
             <input data-field="operation" class="comments-operation" type="hidden" />
             <label for="comments-name{{ replyTo }}">Name</label>
-            <input data-field="name" id="comments-name{{ replyTo }}" type="text" placeholder="Name"
-                required />
+            <input data-field="name" id="comments-name{{ replyTo }}" type="text" placeholder="Name" required />
         </li>
 
         <li class="comment-form__inputs-listitem">

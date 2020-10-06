@@ -39,7 +39,7 @@
 
         {% if comment.isLast %}
         <div class="comments__list-item__links">
-            <a href="{{ comment.replyTo }}"><i class="fas fa-reply"></i> Reply</a>
+            <button name="comments-reply" data-replyTo="{{ comment.replyTo }}"><i class="fas fa-reply"></i> Reply</button>
         </div>
         {% endif %}
 
