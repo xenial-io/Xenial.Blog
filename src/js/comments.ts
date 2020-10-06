@@ -237,11 +237,19 @@ const comments = async () => {
 
 for (const replyToButton of document.querySelectorAll(`*[name="comments-reply"]`)) {
     const btn = <HTMLButtonElement>replyToButton;
+
     btn.onclick = () => {
         const replyToId = replyToButton.getAttribute("data-replyTo");
         if (replyToId) {
-            const replyToForm = document.getElementById(`comment-form${replyToId}`);
+            const id = `comment-form${replyToId}`;
+            const replyToForm = document.getElementById(id);
             if (replyToForm) {
+                document.querySelectorAll(`.comment-form`).forEach(e => {
+                    if (e.id != "comment-form" && e.id != `comment-form${replyToId}`) {
+                        e.classList.add("hide");
+                    }
+                });
+
                 replyToForm.classList.toggle("hide");
             }
         }
