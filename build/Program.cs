@@ -82,6 +82,19 @@ Target("comments", async () =>
                 comment.Comments = comment.Comments.OrderBy(m => m.Date).ToList();
             }
 
+            foreach (var comment in pageInDb.Comments)
+            {
+                var lastInList = comment.Comments.LastOrDefault();
+                if (lastInList != null)
+                {
+                    lastInList.isLast = true;
+                }
+                else
+                {
+                    comment.isLast = true;
+                }
+            }
+
             var data = new
             {
                 commentsCount = Flatten(pageInDb).Count(),
@@ -221,5 +234,7 @@ public class Comment
     public string Content { get; set; }
     public DateTime Date { get; set; }
     public string AvatarUrl { get; set; }
+
+    public bool isLast { get; set; }
     public IList<Comment> Comments { get; set; } = new List<Comment>();
 }
