@@ -114,6 +114,9 @@
           }
 
           &__body {
+            position: relative;
+            word-break: break-word;
+
             padding: {
               top: 0.5rem;
               left: 2rem;
@@ -140,8 +143,6 @@
                 }
               }
             }
-
-            position: relative;
 
             &-avatar {
               position: absolute;
@@ -206,7 +207,7 @@
               top: -1px;
               z-index: -1;
               border: 3px solid var(--xenial-highlight-color);
-              border-top-left-radius: 999999px;  /* 100px of height + 10px of border */
+              border-top-left-radius: 999999px; /* 100px of height + 10px of border */
               border-bottom-left-radius: 999999px; /* 100px of height + 10px of border */
               border-right: 0;
               border-right: 0;
