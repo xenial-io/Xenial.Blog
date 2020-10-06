@@ -186,7 +186,7 @@
           .comments__list {
             transform: translateX(-4px);
             margin-right: -4px;
-            padding-left: calc(1.5rem - 2px);
+            padding-left: calc(0.5rem - 2px);
             background-color: var(--xenial-darker-color);
 
             .comments__list-item:not(:first-child) {
@@ -277,6 +277,10 @@
         &__list {
           &-item {
             margin-left: 0;
+          }
+
+          .comments__list {
+            padding-left: calc(1.5rem - 2px);
           }
         }
       }
