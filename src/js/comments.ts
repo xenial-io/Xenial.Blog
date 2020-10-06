@@ -125,7 +125,7 @@ const comments = async () => {
                 const date = document.getElementById("comments-preview-date");
                 if (date) {
                     const dateObject = new Date(comment.date);
-                    date.innerHTML = `${dateObject.toLocaleDateString("en-US", { day: "numeric" })} ${dateObject.toLocaleDateString("en-US", { month: "long" })} ${dateObject.toLocaleDateString("en-US", { year: "numeric" })} ${dateObject.getHours().toString().padStart(2, "0")}:${dateObject.getMinutes().toString().padStart(2, "0")}`;
+                    date.innerHTML = `${dateObject.toLocaleDateString("en-US", { day: "numeric" })} ${dateObject.toLocaleDateString("en-US", { month: "short" })} ${dateObject.toLocaleDateString("en-US", { year: "numeric" })} ${dateObject.getHours().toString().padStart(2, "0")}:${dateObject.getMinutes().toString().padStart(2, "0")}`;
                 }
                 if (content) {
                     content.innerHTML = comment.content;
