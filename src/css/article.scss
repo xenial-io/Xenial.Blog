@@ -194,10 +194,32 @@
             }
 
             .comments__list-item__body-avatar {
-              transform: translate(calc(-50% + 3px), calc(-50% + 3px));
+              transform: translate(calc(-50% + 3px), calc(-25% + 3px));
             }
 
             .comments__list-item__body-avatar::before {
+              position: absolute;
+              content: "";
+              bottom: -1px;
+              left: 0;
+              right: 0;
+              top: -1px;
+              z-index: -1;
+              border: 3px solid var(--xenial-highlight-color);
+              border-top-left-radius: 999999px;  /* 100px of height + 10px of border */
+              border-bottom-left-radius: 999999px; /* 100px of height + 10px of border */
+              border-right: 0;
+              border-right: 0;
+              clip-path: polygon(0 0, 50% 0, 50% 100%, 0% 100%);
+              transform: translate(-3px, 0);
+            }
+
+            .comments__list-item:first-child .comments__list-item__body-avatar {
+              transform: translate(calc(-50% + 3px), calc(-50% + 3px));
+            }
+
+            .comments__list-item:first-child
+              .comments__list-item__body-avatar::before {
               position: absolute;
               content: "";
               bottom: 1px;
