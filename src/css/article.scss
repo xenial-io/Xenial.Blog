@@ -87,6 +87,20 @@
 
       &__list {
         &-item {
+          .comment-form {
+            margin: {
+              left: 2rem;
+              right: 2rem;
+            }
+          }
+
+          @media (min-width: 768px) {
+            .comment-form {
+              margin-top: 1rem;
+              margin-left: 1.5rem;
+            }
+          }
+
           a:link,
           a:visited,
           a:active {
@@ -234,7 +248,8 @@
               display: inline-block;
               padding-left: 0.2rem;
               padding-right: 0.2rem;
-              font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+              font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono",
+                monospace;
               direction: ltr;
               text-align: left;
               word-spacing: normal;
@@ -360,7 +375,8 @@
               transform: translate(calc(-50% + 3px), calc(-50% + 3px));
             }
 
-            .comments__list-item:first-child .comments__list-item__body-avatar::before {
+            .comments__list-item:first-child
+              .comments__list-item__body-avatar::before {
               position: absolute;
               content: "";
               bottom: 1px;
