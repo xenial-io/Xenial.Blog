@@ -105,12 +105,21 @@
           a:visited,
           a:active {
             color: var(--xenial-lighter-color);
+
+            &:hover {
+              text-decoration: none;
+            }
           }
 
           list-style: none;
 
           background-color: var(--highlight-bg);
           border-left: var(--xenial-highlight-color) solid 3px;
+
+          &.preview {
+            border-color: var(--xenial-secondary-color);
+          }
+
           border-radius: 0.5rem;
           border-bottom-left-radius: 3px;
 
@@ -369,6 +378,10 @@
               border-right: 0;
               clip-path: polygon(0 0, 50% 0, 50% 100%, 0% 100%);
               transform: translate(-3px, 0);
+            }
+
+            .comments__list-item__body-avatar.preview::before {
+              border-color: var(--xenial-secondary-color);
             }
 
             .comments__list-item:first-child .comments__list-item__body-avatar {
