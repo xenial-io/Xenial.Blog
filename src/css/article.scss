@@ -171,131 +171,133 @@
               bottom: 0.5rem;
             }
 
-            p {
-              margin-bottom: 0.5rem;
+            &__content {
+              p {
+                margin-bottom: 0.5rem;
 
-              a[href^="http"]::after,
-              a[href^="//"]::after
-              {
-                font-family: "Font Awesome 5 Free";
-                content: " \f35d";
-                font-weight: 900;
-                font-size: 0.8rem;
-              }
-            }
-
-            img {
-              display: block;
-              height: auto;
-              max-width: 100%;
-              border-radius: 0.5rem;
-              cursor: pointer;
-              margin-top: 1rem;
-              margin-bottom: 1rem;
-            }
-
-            ol {
-              list-style: none;
-              counter-reset: listing;
-              padding: {
-                left: 1rem;
-                top: 0.5rem;
-                bottom: 0.5rem;
-              }
-            }
-
-            ol li {
-              counter-increment: listing;
-            }
-
-            ol li::before {
-              content: counters(listing, ".") ". ";
-              color: var(--xenial-secondary-color);
-              font-weight: bold;
-              min-width: 1.5rem;
-              display: inline-block;
-              padding-right: 0.2rem;
-            }
-
-            ul {
-              list-style: none;
-              padding: {
-                left: 2rem;
-                top: 0.5rem;
-                bottom: 0.5rem;
+                a[href^="http"]::after,
+                a[href^="//"]::after
+                {
+                  font-family: "Font Awesome 5 Free";
+                  content: " \f35d";
+                  font-weight: 900;
+                  font-size: 0.8rem;
+                }
               }
 
-              li {
-                ul {
-                  padding: {
-                    left: 1.25rem;
+              img {
+                display: block;
+                height: auto;
+                max-width: 100%;
+                border-radius: 0.5rem;
+                cursor: pointer;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+              }
+
+              ol {
+                list-style: none;
+                counter-reset: listing;
+                padding: {
+                  left: 1rem;
+                  top: 0.5rem;
+                  bottom: 0.5rem;
+                }
+              }
+
+              ol li {
+                counter-increment: listing;
+              }
+
+              ol li::before {
+                content: counters(listing, ".") ". ";
+                color: var(--xenial-secondary-color);
+                font-weight: bold;
+                min-width: 1.5rem;
+                display: inline-block;
+                padding-right: 0.2rem;
+              }
+
+              ul {
+                list-style: none;
+                padding: {
+                  left: 2rem;
+                  top: 0.5rem;
+                  bottom: 0.5rem;
+                }
+
+                li {
+                  ul {
+                    padding: {
+                      left: 1.25rem;
+                    }
+                  }
+                  position: relative;
+
+                  &::before {
+                    font-style: normal;
+                    font-variant: normal;
+                    text-rendering: auto;
+                    -webkit-font-smoothing: antialiased;
+                    font-family: "Font Awesome 5 Free";
+                    content: "\f111 ";
+                    color: var(--xenial-secondary-color);
+                    font-weight: bold;
+                    transform: scale(0.5, 0.5);
+                    display: inline-flex;
+                    position: absolute;
+                    left: -1.5rem;
+                    top: 0.5rem;
                   }
                 }
-                position: relative;
-
-                &::before {
-                  font-style: normal;
-                  font-variant: normal;
-                  text-rendering: auto;
-                  -webkit-font-smoothing: antialiased;
-                  font-family: "Font Awesome 5 Free";
-                  content: "\f111 ";
-                  color: var(--xenial-secondary-color);
-                  font-weight: bold;
-                  transform: scale(0.5, 0.5);
-                  display: inline-flex;
-                  position: absolute;
-                  left: -1.5rem;
-                  top: 0.5rem;
-                }
-              }
-            }
-
-            @mixin inline-code {
-              background-color: var(--xenial-darker-color);
-              border-radius: 2px;
-              display: inline-block;
-              padding-left: 0.2rem;
-              padding-right: 0.2rem;
-              font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono",
-                monospace;
-              direction: ltr;
-              text-align: left;
-              word-spacing: normal;
-              word-break: break-all;
-            }
-
-            p {
-              a:hover {
-                text-decoration: none;
               }
 
-              code {
-                @include inline-code;
-              }
-            }
-
-            li code {
-              @include inline-code;
-            }
-
-            blockquote {
-              background-color: var(--highlight-bg);
-              border-left: var(--xenial-highlight-color) solid 3px;
-              border-radius: 0;
-
-              margin: {
-                top: 0.75rem;
-                bottom: 0.75rem;
-                left: 0.5rem;
+              @mixin inline-code {
+                background-color: var(--xenial-darker-color);
+                border-radius: 2px;
+                display: inline-block;
+                padding-left: 0.2rem;
+                padding-right: 0.2rem;
+                font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono",
+                  monospace;
+                direction: ltr;
+                text-align: left;
+                word-spacing: normal;
+                word-break: break-all;
               }
 
               p {
-                padding: {
-                  top: 0.25rem;
-                  left: 1rem;
-                  right: 0.5rem;
-                  bottom: 0.25rem;
+                a:hover {
+                  text-decoration: none;
+                }
+
+                code {
+                  @include inline-code;
+                }
+              }
+
+              li code {
+                @include inline-code;
+              }
+
+              blockquote {
+                background-color: var(--highlight-bg);
+                border-left: var(--xenial-highlight-color) solid 3px;
+                border-radius: 0;
+
+                margin: {
+                  top: 0.75rem;
+                  bottom: 0.75rem;
+                  left: 0.5rem;
+                }
+
+                p {
+                  padding: {
+                    top: 0.25rem;
+                    left: 1rem;
+                    right: 0.5rem;
+                    bottom: 0.25rem;
+                  }
                 }
               }
             }

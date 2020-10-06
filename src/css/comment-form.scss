@@ -87,7 +87,7 @@
             margin-left: auto;
           }
 
-          &.comment-form__inputs-submit {
+          &.comment-form__inputs-listitem-submit {
             background-color: var(--xenial-highlight-color);
             color: var(--xenial-darker-color);
           }
@@ -106,6 +106,31 @@
 
         &.buttons {
           flex-direction: row;
+        }
+      }
+    }
+  }
+}
+
+.xenial-body {
+  .comments-wrapper {
+    .comments {
+      &__list {
+        &-item {
+          .comment-form {
+            margin-left: 0;
+            margin-right: -1rem;
+
+            @media (min-width: 768px) {
+              &__inputs {
+                &-listitem {
+                  label {
+                    padding-left: 0;
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
