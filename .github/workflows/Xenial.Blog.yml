@@ -56,4 +56,4 @@ jobs:
           FTP_PASS: ${{secrets.FTP_PASS}}
           FTP_USER: ${{secrets.FTP_USER}}
         run: |
-          creep -e "{\"default\": {\"connection\": \"ftp://$FTP_USER:$FTP_USER@$FTP_HOST\" }}" -b _site -y -v
+          creep -e "{\"default\": {\"connection\": \"ftp://"$FTP_USER":"$FTP_USER"@"$FTP_HOST"\" }}" -b _site -y -v
