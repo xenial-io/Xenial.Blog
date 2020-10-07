@@ -35,10 +35,9 @@ site-name: blog.delegate.at
 feed-name: blog.delegate.at
 site-url: https://blog.delegate.at
 site-repo: https://www.github.com/xenial-io/Xenial.Blog
-version: 0.0.0-alpha.0.334
-commit: 6f97b1acd35b4189d8d900c92a31ab86f8f8fc53
-last-update: 2020-10-05
+version: 0.0.0-alpha.0.372
+commit: 3bba75fb1171a224f672164310865ee8f86aa6b0
+last-update: 2020-10-07
 comment-repo: https://github.com/xenial-io/Xenial.Blog.Comments.git
 comment-branch: main
 comment-api: https://comments.xenial.io
-#comment-api: https://localhost:5001

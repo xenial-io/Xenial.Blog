@@ -7,6 +7,12 @@
       "commands": [
         "minver"
       ]
+    },
+    "xenial.pretzel": {
+      "version": "0.8.3",
+      "commands": [
+        "pretzel"
+      ]
     }
   }
 }

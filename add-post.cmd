@@ -1,1 +1,1 @@
-"C:\f\git\pretzel\src\Pretzel\bin\Debug\net5\Pretzel.exe" ingredient --s=src\content -n="%*"
+dotnet pretzel ingredient --s=src\content -n="%*"

@@ -20,7 +20,6 @@ var lastUpdate = new Lazy<Task<string>>(async () => $"{UnixTimeStampToDateTime(a
 var hash = new Lazy<Task<string>>(async () => (await ReadAsync("git", "rev-parse HEAD", noEcho: true)).Trim());
 
 var NpmLocation = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\nodejs\npm.cmd";
-var pretzelLocation = @"C:\f\git\pretzel\src\Pretzel\bin\Release\net5\Pretzel.exe";
 var blogDirectory = "src\\content";
 var postsDirectory = Path.Combine(blogDirectory, "_posts");
 var dataDirectory = Path.Combine(blogDirectory, "_data");
@@ -120,7 +119,7 @@ Target("comments", async () =>
     }
 });
 
-Target("build:blog", DependsOn("version", "comments"), () => RunAsync(pretzelLocation, $"bake {defaultArguments}"));
+Target("build:blog", DependsOn("version", "comments"), () => RunToolAsync(() => RunAsync("dotnet", $"pretzel bake {defaultArguments}")));
 
 Target("build", DependsOn("clean", "npm", "build:blog"));
 
