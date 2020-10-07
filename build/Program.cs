@@ -65,6 +65,7 @@ Target("comments", async () =>
 
     var config = await ReadConfig();
     var repository = config["comment-repo"].ToString();
+    var branchName = config["comment-branch"].ToString();
     var repoPath = Repository.Clone(repository, Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()), new CloneOptions
     {
         IsBare = false
@@ -73,7 +74,6 @@ Target("comments", async () =>
     var posts = Directory.EnumerateFiles(postsDirectory);
     var postIds = posts.Select(GetPostId).Select(p => $"comments/{p}").ToList();
     using IGitDb db = new LocalGitDb(repoPath);
-    var branchName = "master";
 
     foreach (var postId in postIds)
     {

@@ -36,6 +36,7 @@ site-url: https://blog.delegate.at
 version: 0.0.0-alpha.0.334
 commit: 6f97b1acd35b4189d8d900c92a31ab86f8f8fc53
 last-update: 2020-10-05
-comment-repo: https://github.com/biohazard999/TestingDb.git
-#comment-api: https://comments.xenial.io
-comment-api: https://localhost:5001
+comment-repo: https://github.com/xenial-io/Xenial.Blog.Comments.git
+comment-branch: main
+comment-api: https://comments.xenial.io
+#comment-api: https://localhost:5001
