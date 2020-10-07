@@ -120,9 +120,23 @@ Target("build:blog", DependsOn("version", "comments"), () => RunToolAsync(() => 
 
 Target("build", DependsOn("clean", "npm", "build:blog"));
 
-Target("deploy", () =>
+Target("deploy", async () =>
 {
-    RunAsync("creep", $"-e \"{{\"default\": {{\"connection\": \"ftp://{Environment.GetEnvironmentVariable("FTP_USER")}:{Environment.GetEnvironmentVariable("FTP_PASS")}@{Environment.GetEnvironmentVariable("FTP_HOST")}\" }}\" -b _site -y -v");
+    var connectionString = $"ftp://{Environment.GetEnvironmentVariable("FTP_USER")}:{Environment.GetEnvironmentVariable("FTP_PASS")}@{Environment.GetEnvironmentVariable("FTP_HOST")}";
+
+    var config = new
+    {
+        @default = new
+        {
+            connection = connectionString
+        }
+    };
+
+    await File.WriteAllTextAsync(".creep.env", JsonConvert.SerializeObject(config, Formatting.Indented));
+
+    Console.WriteLine(await File.ReadAllTextAsync(".creep.env"));
+
+    await RunAsync("creep.exe", "-b _site -y -v");
 });
 
 Target("default", DependsOn("build"));
