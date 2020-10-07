@@ -138,7 +138,7 @@ Target("deploy", async () =>
 
     Console.WriteLine(await File.ReadAllTextAsync("_site/.creep.env"));
 
-    await RunAsync("creep.exe", "-b _site -y -v");
+    await RunAsync("creep", "-b _site -y -v");
 });
 
 Target("default", DependsOn("build"));
