@@ -10,3 +10,4 @@ Feel free to send me a [pull request](https://github.com/xenial-io/Xenial.Blog/p
 Feel free to file an [issue](https://github.com/xenial-io/Xenial.Blog/issues) for discussions or wishes.
 
 Feel free to support me on [Patreon](https://www.patreon.com/biohaz999).
+
