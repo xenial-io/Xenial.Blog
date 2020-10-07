@@ -122,9 +122,8 @@ Target("build", DependsOn("clean", "npm", "build:blog"));
 
 
 Target("default", DependsOn("build"));
+
 await RunTargetsAndExitAsync(args);
-
-
 
 static async Task RunToolAsync(Func<Task> action)
 {
