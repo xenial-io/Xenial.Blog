@@ -120,6 +120,10 @@ Target("build:blog", DependsOn("version", "comments"), () => RunToolAsync(() => 
 
 Target("build", DependsOn("clean", "npm", "build:blog"));
 
+Target("deploy", () =>
+{
+    RunAsync("creep", $"-e \"{{\"default\": {{\"connection\": \"ftp://{Environment.GetEnvironmentVariable("FTP_USER")}:{Environment.GetEnvironmentVariable("FTP_PASS")}@{Environment.GetEnvironmentVariable("FTP_HOST")}\" }}\" -b _site -y -v");
+});
 
 Target("default", DependsOn("build"));
 
