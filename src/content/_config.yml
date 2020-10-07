@@ -23,6 +23,7 @@ exclude:
 - css\
 - img\
 - node_modules\
+- _data\
 include:
 - downloads
 - .htaccess

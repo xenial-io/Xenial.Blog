@@ -1,7 +1,7 @@
 {
-  "name": "scissors.blog",
+  "name": "xenial.blog",
   "version": "1.0.0",
-  "description": "Find it on [blog.delegate.at](https://blog.delegate.at).",
+  "description": "Find it on [xenial.xenial.io](https://blog.xenial.io).",
   "main": "_site/js/index.min.js",
   "scripts": {
     "build": "rollup -c",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://mgrundner.visualstudio.com/DefaultCollection/Scissors/_git/Scissors.Blog"
+    "url": "https://github.com/xenial-io/Xenial.Blog.Comments.git"
   },
   "author": "Manuel Grundner",
   "license": "MIT",

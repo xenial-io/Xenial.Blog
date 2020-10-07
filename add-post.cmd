@@ -1,1 +1,1 @@
-tools\Pretzel\Pretzel.exe ingredient --s=src\content -n="%*"
+"C:\f\git\pretzel\src\Pretzel\bin\Debug\net5\Pretzel.exe" ingredient --s=src\content -n="%*"
