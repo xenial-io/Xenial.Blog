@@ -148,6 +148,25 @@ const showValidation = (r: Element, error: BadRequestError) => {
     }
 }
 
+const handleApiError = (r: Element, error: ApiError) => {
+    console.error("Error on API");
+    console.error(error);
+    const apiErrorBody = JSON.parse(error.body);
+    showValidation(r, apiErrorBody);
+}
+
+const handleError = (r: Element, error: any) => {
+    console.error(error);
+    const errorListItem = r.querySelector(".comment-form__inputs-listitem.error");
+    if (errorListItem) {
+        errorListItem.classList.remove("hide");
+        const msg = errorListItem.querySelector(".message");
+        if (msg) {
+            msg.innerHTML = error.message;
+        }
+    }
+}
+
 const comment = (r: Element, defaults: {
     name?: string,
     homepage?: string,
@@ -200,12 +219,9 @@ const comment = (r: Element, defaults: {
             }
             catch (e) {
                 if (e instanceof ApiError) {
-                    console.error("Error on API");
-                    console.error(e);
-                    const apiErrorBody = JSON.parse(e.body);
-                    showValidation(r, apiErrorBody);
+                    handleApiError(r, e);
                 } else {
-                    console.error(e);
+                    handleError(r, e);
                 }
             }
             finally {
@@ -243,12 +259,9 @@ const comment = (r: Element, defaults: {
             }
             catch (e) {
                 if (e instanceof ApiError) {
-                    console.error("Error on API");
-                    console.error(e);
-                    const apiErrorBody = JSON.parse(e.body);
-                    showValidation(r, apiErrorBody);
+                    handleApiError(r, e);
                 } else {
-                    console.error(e);
+                    handleError(r, e);
                 }
             }
             finally {
@@ -259,7 +272,8 @@ const comment = (r: Element, defaults: {
 }
 
 const comments = async () => {
-    OpenAPI.BASE = "https://localhost:5001";
+    const body = document.querySelector("body");
+    OpenAPI.BASE = body.getAttribute("data-comment-api") ?? "https://localhost:5001";
     const rootClassName = 'comment-form';
 
     const name = store("comments-name");
@@ -274,6 +288,15 @@ const comments = async () => {
     }
     catch (error) {
         console.error(error);
+        if (error.message) {
+            document.querySelectorAll(".comment-form__inputs-listitem.error").forEach(i => {
+                i.classList.remove("hide");
+                const msg = i.querySelector(".message");
+                if (msg) {
+                    msg.innerHTML = error.message;
+                }
+            });
+        }
         for (const root of document.getElementsByClassName(rootClassName)) {
             disableItems(root, true);
         }
