@@ -33,24 +33,24 @@ jobs:
           path: _site/
 
   deploy-packages:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - uses: actions/checkout@v2
-      - name: Fetch all history for all tags and branches
-        run: |
-          git fetch --prune --unshallow
       - uses: actions/download-artifact@v2
         with:
           name: _site
           path: _site/
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
         with:
-          dotnet-version: 5.0.100-rc.1.20452.10
+          python-version: 3.8
       - name: Install dependencies
-        run: dotnet restore build/build.csproj
+        run: |
+          python -m pip install --upgrade pip
+          pip install wheel
+          pip install creep
       - name: Publish to blog.xenial.io
         env:
           NUGET_AUTH_TOKEN: ${{secrets.NUGET_API_KEY}}
-        run: dotnet run --project build/build.csproj deploy
+        run: |
+          creep -e "{\"default\": {\"connection\": \"ftp://$FtpUser:$FtpPass@$FtpHost\" }}" -b _site -y -v
