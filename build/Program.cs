@@ -123,6 +123,8 @@ Target("build", DependsOn("clean", "npm", "build:blog"));
 Target("deploy", async () =>
 {
     var connectionString = $"ftp://{Environment.GetEnvironmentVariable("FTP_USER")}:{Environment.GetEnvironmentVariable("FTP_PASS")}@{Environment.GetEnvironmentVariable("FTP_HOST")}";
+    
+    Console.WriteLine($"ConnectionString: {connectionString}");
 
     var config = new
     {
@@ -132,9 +134,9 @@ Target("deploy", async () =>
         }
     };
 
-    await File.WriteAllTextAsync(".creep.env", JsonConvert.SerializeObject(config, Formatting.Indented));
+    await File.WriteAllTextAsync("_site/.creep.env", JsonConvert.SerializeObject(config, Formatting.Indented));
 
-    Console.WriteLine(await File.ReadAllTextAsync(".creep.env"));
+    Console.WriteLine(await File.ReadAllTextAsync("_site/.creep.env"));
 
     await RunAsync("creep.exe", "-b _site -y -v");
 });
