@@ -136,11 +136,11 @@ Target("deploy:copy", async () =>
 
     await File.WriteAllTextAsync("_site/.creep.env", JsonConvert.SerializeObject(config, Formatting.Indented));
 
-    await RunAsync("ls", "_site");
+    await RunAsync("ls", "-d _site");
 
     DirectoryCopy("_site", deployDirectory, true);
 
-    await RunAsync("ls", deployDirectory);
+    await RunAsync("ls", $"-d {deployDirectory}");
 });
 
 Target("deploy", DependsOn("deploy:copy"), async () =>
