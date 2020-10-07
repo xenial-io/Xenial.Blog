@@ -58,6 +58,11 @@ Target("npm", DependsOn("npm:run:build"));
 
 Target("comments", async () =>
 {
+    if (Directory.Exists(dataDirectory))
+    {
+        Directory.Delete(dataDirectory, true);
+    }
+
     var config = await ReadConfig();
     var repository = config["comment-repo"].ToString();
     var repoPath = Repository.Clone(repository, Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()), new CloneOptions
