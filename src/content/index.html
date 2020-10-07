@@ -15,7 +15,7 @@ isindex: true
                 <article class="index__article-item">
                     <div class="article-header">
                         <div class="postdate">{{ post.date | date: "%e %B %Y"  }} by
-                            {% if post.author %}{{ post.author }}{% else %}{{ site.author }}{% endif %}</div>
+                            {% if post.author %}{{ post.author }}{% else %}{{ site.author }}{% endif %}<span class="postdate__comments">{% if post.comments == false %}&nbsp;{% else %}<a href="{{ post.Url }}#comments">{{ site.data['comments'][post.id].commentsCount | default:0 }} comments</a>{% endif %}</span></div>
                     </div>
                     <h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
                     {{ post.excerpt }}
