@@ -30,7 +30,7 @@ jobs:
         if: runner.os == 'Windows'
         with:
           name: _site
-          path: artifacts/_site/
+          path: _site/
 
   deploy-packages:
     runs-on: windows-latest
@@ -43,7 +43,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: _site
-          path: artifacts/_site/
+          path: _site/
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
