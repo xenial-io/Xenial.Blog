@@ -13,6 +13,12 @@
             <input data-field="operation" class="comments-operation" type="hidden" />
             <label for="comments-name{{ replyTo }}">Name</label>
             <input data-field="name" id="comments-name{{ replyTo }}" type="text" placeholder="Name" required />
+            <span data-validtion="id" class="validation-message"></span>
+            <span data-validtion="inReplyTo" class="validation-message"></span>
+            <span data-validtion="a" class="validation-message"></span>
+            <span data-validtion="b" class="validation-message"></span>
+            <span data-validtion="operation" class="validation-message"></span>
+            <span data-validtion="name" class="validation-message"></span>
         </li>
 
         <li class="comment-form__inputs-listitem">
@@ -20,20 +26,24 @@
             <input data-field="githubOrEmail" id="comments-githubOrEmail{{ replyTo }}" type="text"
                 placeholder="Github username or E-mail (optional)"
                 title="This is only to show your github profile picture and will not be stored anywhere" />
+            <span data-validtion="githubOrEmail" class="validation-message"></span>
         </li>
         <li class="comment-form__inputs-listitem">
             <label for="comments-homepage{{ replyTo }}">Homepage</label>
             <input data-field="homepage" id="comments-homepage{{ replyTo }}" type="text"
                 placeholder="Your homepage or blog (optional)" />
+            <span data-validtion="homepage" class="validation-message"></span>
         </li>
         <li class="comment-form__inputs-listitem">
             <label class="comments-question" for="comments-answer{{ replyTo }}"></label>
             <input data-field="answer" id="comments-answer{{ replyTo }}" type="number" required />
+            <span data-validtion="answer" class="validation-message"></span>
         </li>
         <li class="comment-form__inputs-listitem">
             <label for="comments-content{{ replyTo }}">Content</label>
             <textarea data-field="content" id="comments-content{{ replyTo }}"
                 placeholder="Markdown is allowed"></textarea>
+            <span data-validtion="content" class="validation-message"></span>
         </li>
         <li class="comment-form__inputs-listitem buttons">
             <button name="preview" class="comment-form__inputs-listitem-preview">Preview</button>

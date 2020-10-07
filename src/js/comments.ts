@@ -54,17 +54,18 @@ function getFieldValue(el: Element, fieldName: string): string {
 }
 
 const mapFields = (el: Element): PageInputModel => {
+    const answer = parseInt(getFieldValue(el, "answer"));
     return {
         id: getFieldValue(el, "id"),
         operation: getFieldValue(el, "operation"),
         name: getFieldValue(el, "name"),
         githubOrEmail: getFieldValue(el, "githubOrEmail"),
         content: getFieldValue(el, "content"),
-        homepage: getFieldValue(el, "homepage"),
+        homepage: getValidUrl(getFieldValue(el, "homepage")),
         inReplyTo: getFieldValue(el, "inReplyTo"),
         a: parseInt(getFieldValue(el, "a")),
         b: parseInt(getFieldValue(el, "b")),
-        answer: parseInt(getFieldValue(el, "answer"))
+        answer: isNaN(answer) ? 0 : answer
     }
 }
 
@@ -96,6 +97,45 @@ const showPreview = (el: Element, inReplyTo: string, result: Page) => {
         }
 
         Prism.highlightAll();
+    }
+}
+
+type BadRequestError = {
+    type: string,
+    tittle: string,
+    traceId: string,
+    status: number,
+    errors: Array<any>
+};
+
+const camelize = (str: string): string => {
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+        return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    }).replace(/\s+/g, '');
+};
+
+const showValidation = (r: Element, error: BadRequestError) => {
+
+    console.error(error);
+
+    r.querySelectorAll(`*[data-field]`).forEach(f => f.classList.remove("error"));
+    r.querySelectorAll(`*[data-validtion]`).forEach(f => f.innerHTML = "");
+
+    const keys = Object.keys(error.errors);
+    for (const key of keys) {
+        const fieldName = camelize(key.startsWith("$.") ? key.substr(2) : key);
+
+        console.warn(fieldName);
+
+        const field = r.querySelector(`*[data-field="${fieldName}"]`);
+        if (field) {
+            field.classList.add("error");
+        }
+        const msg = r.querySelector(`*[data-validtion="${fieldName}"]`);
+        if (msg) {
+            const errorMessages: string[] = error.errors[key];
+            msg.innerHTML = errorMessages.join("<br>");
+        }
     }
 }
 
@@ -152,11 +192,9 @@ const comment = (r: Element, defaults: {
             catch (e) {
                 if (e instanceof ApiError) {
                     console.error("Error on API");
-                    const apiError = JSON.parse(e.body);
-                    console.error(apiError);
-                    if (apiError.errors) {
-                        console.table(apiError.errors);
-                    }
+                    console.error(e);
+                    const apiErrorBody = JSON.parse(e.body);
+                    showValidation(r, apiErrorBody);
                 } else {
                     console.error(e);
                 }
@@ -197,11 +235,9 @@ const comment = (r: Element, defaults: {
             catch (e) {
                 if (e instanceof ApiError) {
                     console.error("Error on API");
-                    const apiError = JSON.parse(e.body);
-                    console.error(apiError);
-                    if (apiError.errors) {
-                        console.table(apiError.errors);
-                    }
+                    console.error(e);
+                    const apiErrorBody = JSON.parse(e.body);
+                    showValidation(r, apiErrorBody);
                 } else {
                     console.error(e);
                 }
