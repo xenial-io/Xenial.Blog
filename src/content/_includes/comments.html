@@ -9,6 +9,10 @@
         </ul>
 
         {% include 'comment-form.html', page_id: page_id %}
+
+        <ul class="comments__list">
+            {% include 'comments-list-item-preview.html' %}
+        </ul>
     </div>
     <div class="comments__floater"></div>
 </div>
