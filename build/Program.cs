@@ -51,17 +51,14 @@ Target("clean:npm", () => Ignored(() => RunAsync("cmd.exe", "/C rmdir /S /Q node
 Target("clean:_site", () => Ignored(() => RunAsync("cmd.exe", "/C rmdir /S /Q _site")));
 Target("clean", DependsOn("clean:npm", "clean:_site"));
 
-Target("npm:install", () => RunAsync("npm", "install", windowsName: NpmLocation));
-Target("npm:run:build", DependsOn("npm:install"), () => RunAsync("npm", "run build", windowsName: NpmLocation));
+Target("npm:ci", () => RunAsync("npm", "ci", windowsName: NpmLocation));
+Target("npm:run:build", DependsOn("npm:ci"), () => RunAsync("npm", "run build", windowsName: NpmLocation));
 Target("npm", DependsOn("npm:run:build"));
 
-Target("comments", async () =>
-{
-    if (Directory.Exists(dataDirectory))
-    {
-        Directory.Delete(dataDirectory, true);
-    }
 
+Target("clean:_data", () => Ignored(() => RunAsync("cmd.exe", $"/C rmdir /S /Q {dataDirectory}")));
+Target("comments", DependsOn("clean:_data"), async () =>
+{
     var config = await ReadConfig();
     var repository = config["comment-repo"].ToString();
     var branchName = config["comment-branch"].ToString();
