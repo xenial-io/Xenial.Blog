@@ -55,7 +55,7 @@
     {% endif %}
 
     {% if comment.isRoot == true and comment.isLast %}
-    <ul class="comments__list">
+    <ul class="comments__list hide">
         {% include 'comments-list-item-preview.html', replyTo: comment.replyTo %}
     </ul>
     {% endif %}

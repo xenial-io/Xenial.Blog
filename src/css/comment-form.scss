@@ -15,6 +15,9 @@
 
   .comments {
     &__list {
+      &.hide {
+        display: none;
+      }
       &-item {
         @include hide;
       }

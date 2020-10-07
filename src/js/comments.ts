@@ -70,6 +70,7 @@ const mapFields = (el: Element): PageInputModel => {
 }
 
 const showPreview = (el: Element, inReplyTo: string, result: Page) => {
+    clearValidation(el);
     if (result.comments.length > 0) {
         const comment = result.comments[0];
 
@@ -93,7 +94,10 @@ const showPreview = (el: Element, inReplyTo: string, result: Page) => {
             assignOnNameElement(previewContainer, "comments-preview-name", (e) => e.innerHTML = nameFragment);
             assignOnNameElement(previewContainer, "comments-preview-content", (e) => e.innerHTML = contentFragment);
             assignOnNameElement(previewContainer, "comments-preview-date", (e) => e.innerHTML = dateFragment);
-            previewContainer.classList.remove("hide");
+            if (previewContainer.parentElement) {
+                previewContainer.parentElement.classList.remove("hide");
+            }
+            setTimeout(() => previewContainer.classList.remove("hide"), 0);
         }
 
         Prism.highlightAll();
@@ -114,12 +118,17 @@ const camelize = (str: string): string => {
     }).replace(/\s+/g, '');
 };
 
+
+const clearValidation = (r: Element) => {
+    r.querySelectorAll(`*[data-field]`).forEach(f => f.classList.remove("error"));
+    r.querySelectorAll(`*[data-validtion]`).forEach(f => f.innerHTML = "");
+};
+
 const showValidation = (r: Element, error: BadRequestError) => {
 
     console.error(error);
 
-    r.querySelectorAll(`*[data-field]`).forEach(f => f.classList.remove("error"));
-    r.querySelectorAll(`*[data-validtion]`).forEach(f => f.innerHTML = "");
+    clearValidation(r);
 
     const keys = Object.keys(error.errors);
     for (const key of keys) {
