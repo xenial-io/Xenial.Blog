@@ -1,5 +1,3 @@
-import pkg from "./package.json";
-
 import fg from "fast-glob";
 import { brotliCompressSync } from "zlib";
 
@@ -11,11 +9,14 @@ import copy from "rollup-plugin-copy";
 import { terser } from "rollup-plugin-terser";
 import gzipPlugin from "rollup-plugin-gzip";
 import filesize from "rollup-plugin-filesize";
+import { execSync } from "child_process";
 
 const extensions = [".js", ".ts"];
 
+const hash = execSync("git rev-parse HEAD").toString().trim();
+
 const additionalFiles = () => [
-  "./_site/css/bundle.css",
+  `./_site/css/bundle.${hash}.css`,
   ...fg.sync("./_site/css/*.svg"),
   ...fg.sync("./_site/css/*.ttf"),
   ...fg.sync("./_site/img/*.svg"),
@@ -24,12 +25,13 @@ const additionalFiles = () => [
 
 export default (commandLineArgs) => {
   const debug = commandLineArgs.configDebug;
+
   return [
     {
       input: "src/js/index.ts",
       output: [
         {
-          file: pkg.main,
+          file: `_site/js/index.min.${hash}.js`,
           format: "iife",
           plugins: debug ? [] : [terser()],
         },
@@ -43,7 +45,7 @@ export default (commandLineArgs) => {
           exclude: "node_modules/**",
         }),
         scss({
-          output: "_site/css/bundle.css",
+          output: `_site/css/bundle.${hash}.css`,
           outputStyle: debug ? undefined : "compressed",
         }),
         debug
