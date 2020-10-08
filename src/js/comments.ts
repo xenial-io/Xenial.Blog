@@ -276,7 +276,10 @@ const comment = (r: Element, defaults: {
 
 const comments = async () => {
     const body = document.querySelector("body");
-    OpenAPI.BASE = body.getAttribute("data-comment-api") ?? "https://localhost:5001";
+    OpenAPI.BASE = body.getAttribute("data-comment-api");
+    if (!OpenAPI.BASE) {
+        OpenAPI.BASE = "https://localhost:5001";
+    }
     const rootClassName = 'comment-form';
 
     const name = store("comments-name");
