@@ -6,6 +6,7 @@ _site/
 tools/**/*.*
 !tools/*.*
 tools/nuget.exe
+*.webm
 
 # User-specific files
 *.suo
