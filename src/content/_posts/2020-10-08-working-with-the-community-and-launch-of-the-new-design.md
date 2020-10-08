@@ -75,7 +75,7 @@ It's not a place to shoot up a bunch of code and think some *sucker* will do *yo
 
 I have no problem (and I think most MVP's are happy) if people asks for contracts for [Code reviews](), [Freelancing]() or any [other work involved](). But it is *work*. **HARD work**. And time is limited and bills unfortunately don't pay themselves.  But you are using *my* time, so you should *pay* for it.  
 
-Most of us MVP's are very generous on rates and given the amount of value you get for the price is more than fair if you compare the time you need spend your self / your company on solving those tricky problems.
+Most of us MVP's are very generous on rates and given the amount of value you get for the price, it is more than fair if you compare the time you need spend yourself / your company on solving those tricky problems.
 
 Let's get really quick on the last point I missed out: **Funding**  
 If you can't give anything back to the community (some companies don't allow, etc.) consider *funding*. As for the new design I took the liberty to promote my funding options more prominently.
