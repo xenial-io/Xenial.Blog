@@ -96,10 +96,27 @@ I did [open source](https://github.com/xenial-io/Xenial.Template) that (although
 
 ### Light and dark themes
 
-Whatever your preferred mode on your device is (mine is of course the dark mode) it should be respected by your operating system / browser settings. You can toggle your preferred style in the toolbar or in the menu on your mobile device.
+Whatever your preferred mode on your device is (mine is of course the dark mode) it should be respected by your operating system / browser settings. You can toggle your preferred style in the toolbar or in the hamburger menu on your mobile device.
 
 ### Responsive design mobile first
 
-### New code highlight
+The last design was also mobile friendly but this time, I build everything mobile first. So this should be a first class experience on every device!
+
+### New code highlight and bundeling
+
+I needed a faster and smaller code highlighting that supports dark and light themes so I went for [prismjs](https://prismjs.com/) and [rollup](https://rollupjs.org/guide/en/) this time.
 
 ### New comment system
+
+This is the heart of the new blog. Previously I used [disqus](https://disqus.com/) but this time I rolled for an own system for 2 reasons:
+
+1. Performance
+1. Privacy
+
+So we can dig into technical details on the next post, let me know in the comments below if you are interested!
+
+## Recap
+
+I hope you like the new design, I will roll out this on all my sites and products in the future!
+
+Thanks Manuel
