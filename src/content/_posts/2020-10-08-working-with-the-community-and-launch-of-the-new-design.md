@@ -7,7 +7,7 @@
 I've worked hard the last couple of weeks getting my new design out there and today is the day!
 
 Building an online brand is hard work and needs to be considered carefully.
-I've thought about this really long and carefully, did some couple of drafts in the past, but never was happy with the results.
+I've thought about this really long and carefully, did a couple of drafts in the past, but I never was happy with the results.
 
 Until now. I did hundreds of iterations on the design, and there are still some places that I'm not 100% happy about,
 but I think it's time for getting your feedback!
