@@ -174,7 +174,10 @@ const comment = (r: Element, defaults: {
     captcha: CaptchaModel
 }) => {
 
-    const inReplyTo = r.getAttribute("data-replyTo") ?? "";
+    let inReplyTo = r.getAttribute("data-replyTo");
+    if (!inReplyTo) {
+        inReplyTo = "";
+    }
     console.error(inReplyTo);
 
     if (defaults.name) {
