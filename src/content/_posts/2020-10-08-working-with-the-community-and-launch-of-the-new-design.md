@@ -39,7 +39,7 @@ To mention a few with more traction:
 
 Some of them are obsolete now (`DXNugetPackageBuilder` is not longer needed, but for legacy apps it's still valuable).
 
-I put a lot of effort and time into this in the past and I am always happy if I put something out there that helped *somebody else* and I will continue to do so.
+I put a lot of effort and time into this and I am always happy when something I put out there helped *someone else* and I will continue to do so.
 
 This is the **giving** back to the community part.
 But a community is not only about *giving* it's also about **taking**.
