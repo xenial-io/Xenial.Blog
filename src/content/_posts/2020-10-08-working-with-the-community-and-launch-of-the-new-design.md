@@ -16,7 +16,7 @@ But first let me talk real quick a little bit about the community.
 
 ## Community
 
-Without all the private feedback I've got over the last couple of weeks, this would just not been possible.
+Without all the private feedback I've got over the last couple of weeks, this would just not have been possible.
 
 That's why I **really love** working with the community.
 
