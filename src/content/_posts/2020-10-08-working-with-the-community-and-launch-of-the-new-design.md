@@ -59,7 +59,7 @@ People are investing hundreds of thousands of hours into problem solving online.
   * Filing bugs/issues/ideas
 * Provide funding
 
-The last point is interesting, cause we all know that we need money for living, but let me focus know on parts that I don't think are part of an open community:
+The last point is interesting, because we all know that we need money for living, but let me now focus on parts that I don't think are part of an open community:
 
 * Spam
 * Being rude
