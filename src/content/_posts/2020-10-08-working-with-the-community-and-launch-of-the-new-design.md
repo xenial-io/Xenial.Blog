@@ -73,7 +73,7 @@ We have a lot of places to discuss today. We have [user groups](), [live communi
 We are not your search engine. We are the search engine for a problem you googled for hours and can't find an answer. Probably cause you asked the *wrong question*.  
 It's not a place to shoot up a bunch of code and think some *sucker* will do *your* job.
 
-I have no problem (and I think most MVP's are happy) if people asks for contracts for [Code reviews](), [Freelancing]() or any [other work involved](). But it is *work*. **HARD work**. And time is limited and bills unfortunately don't pay them selfs.  But you are using *my* time, so you should *pay* for it.  
+I have no problem (and I think most MVP's are happy) if people asks for contracts for [Code reviews](), [Freelancing]() or any [other work involved](). But it is *work*. **HARD work**. And time is limited and bills unfortunately don't pay themselves.  But you are using *my* time, so you should *pay* for it.  
 
 Most of us MVP's are very generous on rates and given the amount of value you get for the price is more than fair if you compare the time you need spend your self / your company on solving those tricky problems.
 
