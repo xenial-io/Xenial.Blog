@@ -71,7 +71,7 @@ The first 2 points are easy to explain. Nobody likes spam and nobody likes rude 
 The second 2 points are more interesting.  
 We have a lot of places to discuss today. We have [user groups](), [live community standups](), [online forums](), [Gitter Chat rooms](), [Facebook groups](), [LinkedIn](), [Github](), etc. We **love** to talk about stuff that gets us excited, we share ideas, solutions and ask questions.  **BUT** I don't think its a place to get free support. It's a chance to *speak* with experts *for free*. That does not mean you shouldn't ask questions! It only means, we can open doors, but you need to go through yourself. 
 We are not your search engine. We are the search engine for a problem you googled for hours and can't find an answer. Probably cause you asked the *wrong question*.  
-It's not a place to shoot up a bunch of code and think some *stupid* guy out there will do *your* job.
+It's not a place to shoot up a bunch of code and think some *sucker* will do *your* job.
 
 I have no problem (and I think most MVP's are happy) if people asks for contracts for [Code reviews](), [Freelancing]() or any [other work involved](). But it is *work*. **HARD work**. And time is limited and bills unfortunately don't pay them selfs.  But you are using *my* time, so you should *pay* for it.  
 
