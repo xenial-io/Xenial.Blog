@@ -48,7 +48,7 @@ We didn't want to force old users to switch to `netcoreapp2.2`, so we wanted to 
 
 We also aimed for usage compatibility. So from an end user perspective everything needed to be compatible.
 
-## The community
+## The community <a id="community"></a>
 
 I used the term *we* a lot in the post so far. That's rather rare from my perspective cause I'm only a one man shop (so far). What do I mean with *we*?
 
