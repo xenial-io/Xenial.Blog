@@ -81,4 +81,4 @@ Let's get really quick on the last point I missed out: **Funding**
 If you can't give anything back to the community (some companies don't allow, etc.) consider *funding*. As for the new design I took the liberty to promote my funding options more prominently.
 I don't do any advertisements on any of my sites. Running them is not free, writing the content is even more expensive. In average a post consists from research to published from 3-7 days. Don't get me wrong, I'm not begging for money, I just want to raise your awareness how much effort and work goes into high quality work.
 
-Enough talk as an moral apostle. Lets talk about the new design and some highlights!
+Enough talk as a moral apostle. Lets talk about the new design and some highlights!
