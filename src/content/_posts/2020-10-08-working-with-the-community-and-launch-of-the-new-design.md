@@ -64,7 +64,7 @@ The last point is interesting, because we all know that we need money for living
 * Spam
 * Being rude
 * Try to get support for free
-* Be upset cause somebody of the community does not respond quick enough / at all
+* Be upset because someone in the community does not respond quickly enough / at all
 
 The first 2 points are easy to explain. Nobody likes spam and nobody likes rude people. Like all people we have opinions and can disagree on topics, but we are professionals and should act like ones. We can discuss problems like grown ups and, of course, nobody can like everybody, but can talk on a professional level.
 
