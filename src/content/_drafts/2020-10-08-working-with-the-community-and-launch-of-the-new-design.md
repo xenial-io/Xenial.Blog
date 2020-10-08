@@ -18,7 +18,7 @@ But first let me talk real quick a little bit about the community.
 
 Without all the private feedback I've got over the last couple of weeks, this would just not been possible.
 
-That's why I **really love** working with the community. 
+That's why I **really love** working with the community.
 
 > Some special thanks to [Paramethod](https://github.com/Paramethod), [hazard999](https://github.com/hazard999), [egarim](https://github.com/egarim)  
 > and of course our newest MVP [jjcolumb](https://github.com/jjcolumb)! 🥳🥳
@@ -65,3 +65,21 @@ The last point is interesting, cause we all know that we need money for living, 
 * Being rude
 * Try to get support for free
 * Be upset cause somebody of the community does not respond quick enough / at all
+
+The first 2 points are easy to explain. Nobody likes spam and nobody likes rude people. Like all people we have opinions and can disagree on topics, but we are professionals and should act like ones. We can discuss problems like grown ups and, of course, nobody can like everybody, but can talk on a professional level.
+
+The second 2 points are more interesting.  
+We have a lot of places to discuss today. We have [user groups](), [live community standups](), we have [online forums](), [Gitter Chat rooms](), [Facebook groups](), [LinkedIn](), [Github](), etc. We **love** to talk about stuff that gets us excited, we share ideas, solutions and ask questions.  **BUT** I don't think its a place to get free support. It's a chance to *speak* with experts *for free*. That does not mean you shouldn't ask questions! It only means, we only can open doors. You need to go through yourself.  
+We are not your search engine. We are the search engine for a problem you googled for hours and can't find an answer. Probably cause you asked the *wrong question*.  
+It's not a place to shoot up a bunch of code and think some *stupid* guy out there will do *your* job.
+
+I have no problem (and I think most MVP's are happy) if people asks for contracts for [Code reviews](), [Freelancing]() or any [other work involved](). But it is *work*. **HARD work**. And time is limited and bills unfortunately don't pay them selfs.  But you are using *my* time, so you should *pay* for it.  
+
+Most of us MVP's are very generous on rates and given the amount of value you get for the price is more than fair if you compare the time you need spend your self / your company on solving those tricky problems.
+
+Let's get really quick on the last point I missed out: **Funding**  
+If you can't give back anything else to the community on contribution means (some companies don't allow, etc.) consider *funding*. As for the new design I took the liberty to promote my funding options more prominent.  
+I don't do any advertisements on any of my sites. Running them is not free, writing the content is even more expensive. In average a post consists from research to published from 3-7 days. Don't get me wrong, I'm not begging for money, I just want to raise your awareness how much effort and work goes into high quality work.
+
+Enough talk as an moral apostle. Lets talk about the new design and some highlights!
+
