@@ -25,7 +25,7 @@ That's why I **really love** working with the community.
 
 But what does it mean to be part of a community?
 
-I wrote about this [in the past](2019/12/05/the-third-annual-csharp-advent-pretzel-journey.html#community), but just a quick recap what it means working as an MVP in an open community and what *not*.
+I wrote about this [in the past](2019/12/05/the-third-annual-csharp-advent-pretzel-journey.html#community), but just a quick recap on what it means working as an MVP in an open community and what it does *not*.
 
 Back in the days I got voted as an MVP (I can't remember exactly when, @Dennis if you know, let me know in the comments below) I mainly did read the [supportcenter](https://supportcenter.devexpress.com/) tickets related to [XAF](tags/XAF.html) and [XPO](tags/XPO.html) and try to learn more about the framework and eco system and tried to answer questions I know an solution to, as well as getting inspiration how to make our team more productive.
 
