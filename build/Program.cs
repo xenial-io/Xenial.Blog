@@ -53,7 +53,7 @@ Target("clean", DependsOn("clean:npm", "clean:_site"));
 
 Target("npm:ci", () => RunAsync("npm", "ci", windowsName: NpmLocation));
 Target("npm:run:build", DependsOn("npm:ci"), () => RunAsync("npm", "run build", windowsName: NpmLocation));
-Target("npm", DependsOn("npm:run:build"));
+Target("npm", DependsOn("version", "npm:run:build"));
 
 
 Target("clean:_data", () => Ignored(() => RunAsync("cmd.exe", $"/C rmdir /S /Q {dataDirectory}")));

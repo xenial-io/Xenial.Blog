@@ -1,6 +1,8 @@
 import fg from "fast-glob";
-import { brotliCompressSync } from "zlib";
+import yaml from "js-yaml";
+import fs from "fs";
 
+import { brotliCompressSync } from "zlib";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import babel from "@rollup/plugin-babel";
@@ -9,11 +11,12 @@ import copy from "rollup-plugin-copy";
 import { terser } from "rollup-plugin-terser";
 import gzipPlugin from "rollup-plugin-gzip";
 import filesize from "rollup-plugin-filesize";
-import { execSync } from "child_process";
 
 const extensions = [".js", ".ts"];
 
-const hash = execSync("git rev-parse HEAD").toString().trim();
+const fileContents = fs.readFileSync('./src/content/_config.yml', 'utf8');
+const data = yaml.safeLoad(fileContents);
+const hash = data.commit;
 
 const additionalFiles = () => [
   `./_site/css/bundle.${hash}.css`,
