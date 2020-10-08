@@ -83,3 +83,26 @@ I don't do any advertisements on any of my sites. Running them is not free, writ
 
 Enough talk as an moral apostle. Lets talk about the new design and some highlights!
 
+## The new design
+
+I just want to highlight a few features I really put a lot of effort on the new design as well as some technical details.
+
+### Follow the xenial design language
+
+As a veteran of my blog you saw my logo and my corporate colors probably a few times. I did a theme on the old blog, but never was happy how it blended in.  
+Now every tool and website I will launch will follow the same design language.
+
+I did [open source](https://github.com/xenial-io/Xenial.Template) that (although it's strictly not open source) and wrote an [npm package](https://www.npmjs.com/package/@xenial-io/xenial-template) for consistent future use.
+
+### Light and dark themes
+
+Whatever your preferred mode on your device is (mine is of course the dark mode) it should be respected by your operating system / browser settings. You can toggle your preferred style in the toolbar or in the menu on your mobile device.
+
+
+
+### Responsive design mobile first
+
+### New code highlight
+
+### New comment system
+
