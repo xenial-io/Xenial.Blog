@@ -117,13 +117,8 @@ Run again. Fine! Everything looks pretty damn good! But it takes almost 8 second
 
 <!-- markdownlint-disable MD033 -->
 
-<video class="video-js" controls preload="auto" width="100%" height="auto" poster="/img/posts/2018/2018-04-09-packaging-project-run-win.png" data-setup="{}">
-  <source src="/img/posts/2018/2018-04-09-packaging-project-run-win.webm" type='video/webm'>
-  <p class="vjs-no-js">
-    To view this video please enable JavaScript, and consider upgrading to a web browser that
-    <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-  </p>
-</video>
+<iframe width="100%" height="415" src="https://www.youtube.com/embed/mBOVnoMcZ98" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 <!-- markdownlint-enable MD033 -->
 
 So let's focus next on the `Scissors.FeatureCenter.Win10` project. We need to do the same modification with the manifest as in the normal Win project.
@@ -705,13 +700,8 @@ Rebuild an run the package project without debugger:
 
 <!-- markdownlint-disable MD033 -->
 
-<video class="video-js" controls preload="auto" width="100%" height="auto" poster="/img/posts/2018/2018-04-09-packaging-project-run-win.png" data-setup="{}">
-  <source src="/img/posts/2018/2018-04-09-packaging-project-run-precompiled.webm" type='video/webm'>
-  <p class="vjs-no-js">
-    To view this video please enable JavaScript, and consider upgrading to a web browser that
-    <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-  </p>
-</video>
+<iframe width="100%" height="415" src="https://www.youtube.com/embed/WFy5vbd49rc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 <!-- markdownlint-enable MD033 -->
 
 > There is overhead from recording the video.  
