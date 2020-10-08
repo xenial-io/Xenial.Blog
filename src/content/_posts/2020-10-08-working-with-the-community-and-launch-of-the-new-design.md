@@ -78,7 +78,7 @@ I have no problem (and I think most MVP's are happy) if people asks for contract
 Most of us MVP's are very generous on rates and given the amount of value you get for the price is more than fair if you compare the time you need spend your self / your company on solving those tricky problems.
 
 Let's get really quick on the last point I missed out: **Funding**  
-If you can't give back anything else to the community on contribution means (some companies don't allow, etc.) consider *funding*. As for the new design I took the liberty to promote my funding options more prominent.  
+If you can't give anything back to the community (some companies don't allow, etc.) consider *funding*. As for the new design I took the liberty to promote my funding options more prominently.
 I don't do any advertisements on any of my sites. Running them is not free, writing the content is even more expensive. In average a post consists from research to published from 3-7 days. Don't get me wrong, I'm not begging for money, I just want to raise your awareness how much effort and work goes into high quality work.
 
 Enough talk as an moral apostle. Lets talk about the new design and some highlights!
