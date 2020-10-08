@@ -21,7 +21,7 @@ Without all the private feedback I've got over the last couple of weeks, this wo
 That's why I **really love** working with the community.
 
 > Some special thanks to [Paramethod](https://github.com/Paramethod), [hazard999](https://github.com/hazard999), [egarim](https://github.com/egarim)  
-> and of course our newest MVP [jjcolumb](https://github.com/jjcolumb)! ????
+> and of course our newest MVP [jjcolumb](https://github.com/jjcolumb)! 🥳🥳🥳🥳
 
 But what does it mean to be part of a community?
 
