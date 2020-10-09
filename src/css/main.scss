@@ -11,53 +11,8 @@
 @import "project-card";
 @import "index";
 
-.author {
-  img {
-    border-radius: 35%;
-  }
-}
 @media (min-width: 768px) {
   .collapse-lg {
     display: none;
-  }
-}
-
-
-.xenial-header {
-  &__logo__teaser,
-  &__logo {
-    a,
-    a:hover,
-    a:visited,
-    a:focus {
-      display: flex;
-      flex-direction: row-reverse;
-      text-decoration: none;
-      color: var(--xenial-lighter-color);
-        
-    }
-  }
-  &__logo__teaser {
-    a,
-    a:hover,
-    a:visited,
-    a:focus {
-      flex-direction: row-reverse;
-      text-decoration: none;
-      color: var(--xenial-lighter-color);
-    }
-  }
-}
-@media (min-width: 768px) {
-  .xenial-header {
-    &__logo {
-      a,
-      a:hover,
-      a:visited,
-      a:focus {
-        flex-direction: row;
-        color: var(--xenial-lighter-color);
-      }
-    }
   }
 }
