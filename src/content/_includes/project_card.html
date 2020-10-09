@@ -1,26 +1,39 @@
 <div class="project-card">
-    <div class="project-card__img"><a href="{{ project_url }}" target="_blank"><img src="{{ project_img }}" alt="{{ project_name }} logo" /></a></div>
+    <div class="project-card__img"><a href="{{ project_url }}" target="_blank"><img src="{{ project_img }}"
+                alt="{{ project_name }} logo" /></a></div>
     <h1 class="project-card__header">
         <a href="{{ project_url }}" target="_blank">{{ project_name }}</a>
     </h1>
     <p class="project-card__description">
-      {{ project_description}}
-      Maddie is a front end web developer in New York. She has worked in the field for 10 years now. Check out her projects in the links below. She is available for hire as well.
+        {{ project_description}}
+        Maddie is a front end web developer in New York. She has worked in the field for 10 years now. Check out her
+        projects in the links below. She is available for hire as well.
     </p>
     <div class="project-card__social">
-      <a>GitHub</a>
-      <a>Twitter</a>
-      <a>LinkedIn</a>
+        <a href="{{ project_github_url }}" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        <a href="{{project_nuget_url }} " target="_blank"><span class="nuget">&nbsp;</span> Nuget</a>
+        <a href="tags/{{ project_tag }}" target="_blank"><i class="fas fa-tag"></i> Blog</a>
     </div>
-    <a class="project-card__button" target="_blank" href="{{ project_support_url }}"><i class='fa fa-heart fa-beat'></i> Support the project</a>
+    <a class="project-card__button" target="_blank" href="{{ project_support_url }}"><i class='fa fa-heart fa-beat'></i>
+        Support the project</a>
     <div class="project-card__footer">
-      <div class="project-card__footer-likes">
-        <p><i class='fa fa-heart'></i></p>
-        <p>1.5K</p>
-      </div>
-      <div class="project-card__footer-projects">
-        <p>Projects</p>
-        <p>154</p>
-      </div>
+        <div class="project-card__footer-likes">
+            <a href="{{ project_github_url }}/stargazers" target="_blank">
+                <span><i class='fa fa-star'></i></span>
+                <span>{{ project_github_stargazers | default: 0 }}</span>
+            </a>
+        </div>
+        <div class="project-card__footer-watches">
+            <a href="{{ project_github_url }}/network/members" target="_blank">
+                <span><i class="fas fa-code-branch"></i></span>
+                <span>{{ project_github_forks | default: 0 }}</span>
+            </a>
+        </div>
+        <div class="project-card__footer-watches">
+            <a href="{{ project_github_url }}/watchers" target="_blank">
+                <span><i class='fa fa-eye'></i></span>
+                <span>{{ project_github_watchers | default: 0 }}</span>
+            </a>
+        </div>
     </div>
-  </div>
+</div>
