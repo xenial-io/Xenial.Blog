@@ -174,16 +174,16 @@
           @include fa-beat;
         }
       }
-      span:first-child {
-        &::after {
-          content: "|";
-          color: var(--xenial-darker-color);
-          margin: {
-            left: 5px;
-            right: 5px;
-          }
-        }
-      }
+      // span:last-child {
+      //   &::before {
+      //     content: "|";
+      //     color: var(--xenial-darker-color);
+      //     margin: {
+      //       left: 5px;
+      //       right: 5px;
+      //     }
+      //   }
+      // }
     }
   }
 }
