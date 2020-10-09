@@ -1,0 +1,18 @@
+---
+layout: default
+title: Projects
+---
+<main>
+    <div class="article-wrapper">
+        <div class="projects">
+            <ul class="projects__list">
+                <li class="projects__list-item">
+                    {% include 'project_card.html', project_name: 'Tasty', project_img: '/img/projects/tasty-logo.svg', project_url: 'https://tasty.xenial.io', project_support_url: 'https://tasty.xenial.io/support' %}
+                </li>
+                <li class="projects__list-item">
+                    {% include 'project_card.html', project_name: 'Xenial.Framework', project_img: '/img/projects/xenial-framework-logo.svg', project_url: 'https://www.xenial.io' %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
