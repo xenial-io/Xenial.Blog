@@ -11,6 +11,7 @@
     flex-wrap: wrap;
 
     &-item {
+      flex: 1;
       &::before {
         content: none;
       }
@@ -23,8 +24,8 @@
         right: auto;
       }
       padding: {
-          left: 2rem;
-          right: 2rem;
+        left: 2rem;
+        right: 2rem;
       }
     }
   }
