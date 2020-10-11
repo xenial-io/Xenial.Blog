@@ -1,7 +1,7 @@
 ---
  layout: post 
  title: Comment system on static sites with dotnet core and Github actions
- tags: [dotnet, dotnetcore, asp, aspnet, .NET, git, github, "GHActions", "Jekyll"]
+ tags: [dotnet, dotnetcore, asp, aspnet, .NET, git, github, "GHActions", "Jekyll", "Pretzel"]
 ---
 
 When designing the new blog I finally decided to replace the comment system previously provided by [disqus](https://disqus.com/) with a much leaner one.
@@ -18,12 +18,12 @@ I came across an library called [Appy.GitDb](https://github.com/YellowLineParkin
 ## Architecture
 
 <pre><code>@@sequence napkin
-note left of Blog.Build
+note left of Blog.Repo
 Clone Comments Repository
 Prepares data directory
 end note 
-Blog.Build->Blog.Build: Build content of blog
-Blog.Build->Blog: Upload via FTP
+Blog.Repo->Blog.Repo: Build content of blog
+Blog.Repo->Blog: Upload via FTP
 Blog->Api: POST comment
 Api->Blog: 200 OK
 Api->Background Task: Queue comment
@@ -34,6 +34,16 @@ end note
 Comments.Repo->Background Task: Pull
 Background Task->Background Task: Commit changes
 Background Task->Comments.Repo: Push
-Comments.Repo->Blog.Build: Trigger build
+Comments.Repo->Blog.Repo: Trigger build
 </code></pre>
 
+Let's talk a little bit about the moving components:
+
+* [Blog.Repo]({{ site.site-repo }}): This is the github repo where the contents of this blog are stored
+  * There is an [Github Action]({{ site.site-repo }}/blob/main/.github/workflows/Xenial.Blog.yml) that builds the contents.  
+      It fetches the [Comments.Repo]({{ site.comment-url }}) and prepares the `_data` directory.
+* [Blog]({{ site.site-url }}) this is this site. There is a simple FTP static host somewhere.
+* [Api](https://www.github.com/xenial-io/Xenial.Commentator) is a simple aspnet core api application.
+  * It has a background task that drains a queue.  
+    Does the hard work of fetching the [Comments.Repo]({{ site.comment-url }}) and commiting any new comment
+* [Comments.Repo]({{ site.comment-url }}) holds the data for each post and a [Github action]({{ site.comment-url }}/blob/main/.github/workflows/new-comment.yml) that triggers the workflow in the [Blog.Repo]({{ site.site-repo }})
