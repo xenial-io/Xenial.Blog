@@ -62,4 +62,5 @@ jobs:
           FTP_HOST: ${{secrets.FTP_HOST}}
           FTP_PASS: ${{secrets.FTP_PASS}}
           FTP_USER: ${{secrets.FTP_USER}}
+          FTP_DIRECTORY: "/blog"
         run: dotnet run --project build/build.csproj deploy

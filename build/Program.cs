@@ -124,7 +124,7 @@ var deployDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()
 
 Target("deploy:copy", async () =>
 {
-    var connectionString = $"ftp://{Environment.GetEnvironmentVariable("FTP_USER")}:{Environment.GetEnvironmentVariable("FTP_PASS")}@{Environment.GetEnvironmentVariable("FTP_HOST")}";
+    var connectionString = $"ftp://{Environment.GetEnvironmentVariable("FTP_USER")}:{Environment.GetEnvironmentVariable("FTP_PASS")}@{Environment.GetEnvironmentVariable("FTP_HOST")}{Environment.GetEnvironmentVariable("FTP_DIRECTORY")}";
 
     var config = new
     {
