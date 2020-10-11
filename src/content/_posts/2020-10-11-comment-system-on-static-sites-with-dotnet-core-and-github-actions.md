@@ -4,6 +4,7 @@
  tags: [dotnet, dotnetcore, asp, aspnet, .NET, git, github, "GHActions", "Jekyll", "Pretzel"]
  github: Xenial.Commentator
  author-github: xenial-io
+ series: migrating-from-funnelweb-to-pretzel
 ---
 
 When designing the new blog I finally decided to replace the comment system previously provided by [disqus](https://disqus.com/) with a much leaner one.
@@ -210,13 +211,13 @@ public class PushChangesWorker : IHostedService, IDisposable
     private Timer _timer;
     private Lazy<string> repositoryLocation;
     public PushChangesWorker(
-        ILogger<PushChangesWorker> logger, 
-        ConcurrentQueue<PageWorkModel> queue, 
-        IHttpClientFactory httpClientFactory, 
+        ILogger<PushChangesWorker> logger,
+        ConcurrentQueue<PageWorkModel> queue,
+        IHttpClientFactory httpClientFactory,
         GithubAvatarHelper githubAvatarHelper,
         IConfiguration configuration
         )
-        => (_logger, _queue, _httpClientFactory, repositoryLocation, _githubAvatarHelper, _configuration) 
+        => (_logger, _queue, _httpClientFactory, repositoryLocation, _githubAvatarHelper, _configuration)
             = (logger, queue, httpClientFactory, new Lazy<string>(() => CloneRepository()), githubAvatarHelper, configuration);
 
     private string repoUrl => _configuration.GetValue<string>("CommentsRepo");
@@ -256,6 +257,8 @@ public class PushChangesWorker : IHostedService, IDisposable
             {
                 using IGitDb db = new LocalGitDb(repositoryLocation.Value);
                 var id = page.Id.TrimStart('/');
+                //This is the page id. For example 2012/07/19/hello-blog
+                //We prefix with comments, cause we can use the database for other data as well
                 var key = $"comments/{id}";
                 //Check if we have any comment for the page
                 var pageInDb = await db.Get<Page>(branchName, key);
@@ -268,7 +271,7 @@ public class PushChangesWorker : IHostedService, IDisposable
                 //Create a unique ID for the comment, to support multiple threads
                 page.Comment.Id = CryptoRandom.CreateUniqueId();
                 page.Comment.Content = StringHelper.StripMarkdownTags(page.Comment.Content);
-                
+
                 //We fetch the github avatar
                 var client = _httpClientFactory.CreateClient(nameof(PushChangesWorker));
                 page.Comment.AvatarUrl = await _githubAvatarHelper.FetchAvatarFromGithub(client, _logger, page.Comment.GithubOrEmail);
@@ -316,6 +319,7 @@ public class PushChangesWorker : IHostedService, IDisposable
 
                     var creds = new UsernamePasswordCredentials
                     {
+                        //This is the github access token, just use this and auth will work as documented
                         Username = Environment.GetEnvironmentVariable("GITHUB_API_KEY"),
                         Password = string.Empty
                     };
@@ -356,6 +360,7 @@ public class PushChangesWorker : IHostedService, IDisposable
 
     public void Dispose() => _timer?.Dispose();
 
+    // Helper methods to iterate over a comments tree
     IEnumerable<Comment> Flatten(Comment comment)
     {
         foreach (var comment2 in comment.Comments)
@@ -377,3 +382,327 @@ public class PushChangesWorker : IHostedService, IDisposable
     }
 }
 ```
+
+To access the data from the [Comments.Repo]({{ site.comment-url }}) we need some code to clone the repository and do some little transformation so we can use it in [jekyll](https://jekyllrb.com/) or [pretzel](https://github.com/xenial-io/Xenial.Pretzel).
+
+```cs
+//Read just the config from the blog to avoid duplication
+var config = await ReadConfig();
+var repository = config["comment-repo"].ToString();
+var branchName = config["comment-branch"].ToString();
+
+//Clone the comments repository
+var repoPath = Repository.Clone(repository, Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()), new CloneOptions
+{
+    //This time we want to have a fully checked out repo
+    IsBare = false
+});
+
+//Enumerate all posts to know for what id's we are looking
+var posts = Directory.EnumerateFiles(postsDirectory);
+//We prefix with comments, cause we can use the database for other data as well
+var postIds = posts.Select(GetPostId).Select(p => $"comments/{p}").ToList();
+using IGitDb db = new LocalGitDb(repoPath);
+
+foreach (var postId in postIds)
+{
+    //This is the page id. For example 2012/07/19/hello-blog
+    var pageInDb = await db.Get<Page>(branchName, postId);
+    if (pageInDb != null)
+    {
+        //Just order the posts, and do some transformation to support multiple treads
+        var comments = pageInDb.Comments.OrderBy(m => m.Date).ToList();
+
+        foreach (var comment in Flatten(pageInDb))
+        {
+            comment.Comments = comment.Comments.OrderBy(m => m.Date).ToList();
+        }
+
+        foreach (var comment in pageInDb.Comments)
+        {
+            comment.isRoot = true;
+
+            var lastInList = comment.Comments.LastOrDefault();
+            if (lastInList != null)
+            {
+                lastInList.isLast = true;
+                lastInList.replyTo = comment.Id;
+            }
+            else
+            {
+                comment.isLast = true;
+                comment.replyTo = comment.Id;
+            }
+        }
+
+        //Write the file in the _data directory
+        var data = new
+        {
+            commentsCount = Flatten(pageInDb).Count(),
+            comments = comments
+        };
+        var dataFile = Path.Combine(dataDirectory, $"{postId}.json");
+        Directory.CreateDirectory(Path.GetDirectoryName(dataFile));
+        var json = Newtonsoft.Json.JsonConvert.SerializeObject(data, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        });
+        await File.WriteAllTextAsync(dataFile, json);
+    }
+}
+
+//the filename contains everything for the post id for example: 2012-07-19-hello-blog.md
+string GetPostId(string post)
+{
+    var postName = Path.GetFileNameWithoutExtension(post);
+
+    var year = postName[0..4];
+    var month = postName[5..7];
+    var day = postName[8..10];
+    var name = postName[11..];
+
+    return $"{year}/{month}/{day}/{name}";
+}
+```
+
+## Render the posts and a form
+
+Now we have anything for data entry and retrieval. Now we need to render the posts and do a basic form for data entry.
+
+{% raw %}
+
+```html
+<ul>
+  {% for comment in site.data['comments'][page.id].comments %}
+  <li>
+    <div>
+      {{ comment.homepage }} {{ comment.avatarUrl }} {{ comment.name }} {{
+      comment.date | date: "%e %b %Y %H:%M" }} {% if comment.homepage != 'null'
+      %}
+      <a
+        href="{{ site.comment-url }}/edit/main/comments{{ page.id }}"
+        title="Edit comment"
+        target="_blank"
+        >Edit Comment</a
+      >
+    </div>
+    <div>{{ comment.content }}</div>
+  </li>
+  {% endfor %}
+</ul>
+```
+
+{% endraw %}
+
+The comment form is rather boring
+
+{% raw %}
+
+```html
+<div id="comment-form">
+  <ul name="comments-inputs">
+    <li>
+      <input data-field="id" type="hidden" value="{{ page.id }}" />
+      <input data-field="a" type="hidden" />
+      <input data-field="b" type="hidden" />
+      <input data-field="operation" type="hidden" />
+      <label for="comments-name">Name</label>
+      <input data-field="name" type="text" placeholder="Name" required />
+    </li>
+
+    <li>
+      <label for="comments-githubOrEmail">Github / Email</label>
+      <input
+        data-field="githubOrEmail"
+        id="comments-githubOrEmail"
+        type="text"
+        placeholder="Github username or E-mail (optional)"
+        title="This is only to show your github profile picture and will not be stored anywhere"
+      />
+    </li>
+    <li>
+      <label for="comments-homepage">Homepage</label>
+      <input
+        data-field="homepage"
+        id="comments-homepage"
+        type="text"
+        placeholder="Your homepage or blog (optional)"
+      />
+    </li>
+    <li>
+      <label for="comments-answer"></label>
+      <input data-field="answer" id="comments-answer" type="number" required />
+    </li>
+    <li>
+      <label for="comments-content">Content</label>
+      <textarea
+        data-field="content"
+        id="comments-content"
+        placeholder="Markdown is allowed"
+      ></textarea>
+    </li>
+    <li>
+      <button name="submit">Submit</button>
+    </li>
+  </ul>
+</div>
+```
+
+{% endraw %}
+
+And we use some javascript/typescript to post the comment
+
+```ts
+function getFieldValue(el: Element, fieldName: string): string {
+  const element = el.querySelector(`*[data-field="${fieldName}"]`);
+  if (element) {
+    const inputElement = <HTMLInputElement>element;
+    return inputElement.value;
+  }
+  return "";
+}
+
+const mapFields = (el: Element): PageInputModel => {
+  const answer = parseInt(getFieldValue(el, "answer"));
+  return {
+    id: getFieldValue(el, "id"),
+    operation: getFieldValue(el, "operation"),
+    name: getFieldValue(el, "name"),
+    githubOrEmail: getFieldValue(el, "githubOrEmail"),
+    content: getFieldValue(el, "content"),
+    homepage: getValidUrl(getFieldValue(el, "homepage")),
+    inReplyTo: getFieldValue(el, "inReplyTo"),
+    a: parseInt(getFieldValue(el, "a")),
+    b: parseInt(getFieldValue(el, "b")),
+    answer: isNaN(answer) ? 0 : answer,
+  };
+};
+
+const comment = (
+  r: Element,
+  defaults: {
+    name?: string;
+    homepage?: string;
+    githubOrEmail?: string;
+    captcha: CaptchaModel;
+  }
+) => {
+  const submitButton = <HTMLButtonElement>(
+    r.querySelector(`button[name="submit"]`)
+  );
+  if (submitButton) {
+    submitButton.onclick = async () => {
+      try {
+        const values = mapFields(r);
+        //This is the POST to the API, the rest is more or less boilerplate
+        const result = await CommentsService.postCommentsService(values);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+  }
+};
+
+const comments = async () => {
+  const body = document.querySelector("body");
+  //This is the base url to the comments API
+  OpenAPI.BASE = body.getAttribute("data-comment-api");
+
+  const rootClassName = "comment-form";
+
+  for (const root of document.getElementsByClassName(rootClassName)) {
+    comment(root);
+  }
+};
+```
+
+It's not that complicated, but basically we are making an simple API request to the comments API.
+
+> We could use also simple formdata and post directly to the API and avoid all javascript. We need it only for the reply feature. But then the controller code would look slightly different.  
+Let me know in the comments if would like to see a sample of that.
+
+## Github actions
+
+The last pieces missing are the two github actions to make the circle finished. Let's start with the comments:
+
+```yml
+# Xenial.Blog.Comments/.github/workflows/new-comment.yml
+name: new-comment
+
+# Controls when the action will run. Triggers the workflow on push
+# events but only for the main branch
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          # Trigger a event in the blog repo
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: xenial-io/Xenial.Blog
+          event-type: new-comment
+```
+
+The last piece is the github action that will build and publish the blog.
+
+```yml
+# Xenial.Blog/.github/workflows/Xenial.Blog.yml
+name: Xenial.Blog
+
+on:
+  push:
+    branches: [main]
+  #Build when triggered by event
+  repository_dispatch:
+    types: [new-comment]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Fetch all history for all tags and branches
+        run: git fetch --prune --unshallow
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.100-rc.1.20452.10
+      - name: Install dependencies
+        run: dotnet restore build/build.csproj
+      #Build the blog
+      - name: Build
+        run: dotnet run --project build/build.csproj
+      - uses: actions/upload-artifact@v2
+        with:
+          name: _site
+          path: _site/
+
+  deploy-packages:
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.event.pull_request == false
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: _site
+          path: _site/
+      # upload via FTP
+```
+
+# Recap
+
+This was really easy!  
+After a comment it takes about 2-4 minutes for the comment to appear, but for a simple blog like this one, I think that is absolutely fine.
+
+Let me know in the comments below what you think about this solution!
+
+Stay awesome!  
+Manuel
