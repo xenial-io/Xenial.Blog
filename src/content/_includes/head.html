@@ -14,7 +14,7 @@
   {% else %}
   <meta name="author" content="Manuel Grundner" />
   {% endif %}
-  <title>{{ page.title }} | Manuel Grundner - code &amp; consult</title>
+  <title>{{ page.title | default:site.site-title }} | Manuel Grundner - code &amp; consult</title>
   {% if page.tags %}<meta name="keywords" content="{{ page.tags | join: "," }}"
   />{% endif %}
   <link

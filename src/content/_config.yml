@@ -30,13 +30,13 @@ include:
 author: Manuel Grundner
 author-email: m.grundner@delegate.at
 author-github: biohazard999
-main-url: https://www.delegate.at
+site-title: blog.delegate.at
 site-name: blog.delegate.at
 feed-name: blog.delegate.at
 site-url: https://blog.delegate.at
 site-repo: https://www.github.com/xenial-io/Xenial.Blog
-version: 0.0.0-alpha.0.414
-commit: a4edc414e39c902e4002a74d78cb423a05f85789
+version: 0.0.0-alpha.0.415
+commit: 446c750c12ff5dd15f7715d5e4015605356e4edc
 last-update: 2020-10-09
 comment-repo: https://github.com/xenial-io/Xenial.Blog.Comments.git
 comment-branch: main
