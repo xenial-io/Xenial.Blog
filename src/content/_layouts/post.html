@@ -10,7 +10,7 @@ layout: default
                                 
                 {% if page.github or page.nuget %}
                 <ul class="badges">
-                {% if page.github %}<li><a href="https://www.github.com/{{ page.author-github | default: site.author-github }}/{{ page.github }}"><img src="https://img.shields.io/github/license/{{ site.author-github }}/{{ page.github }}.svg" /></a></li>{% endif %}
+                {% if page.github %}<li><a href="https://www.github.com/{{ page.author-github | default: site.author-github }}/{{ page.github }}"><img src="https://img.shields.io/github/license/{{ page.author-github | default: site.author-github }}/{{ page.github }}.svg" /></a></li>{% endif %}
                 {% if page.nuget %}<li><a href="https://www.nuget.org/packages/{{ page.nuget }}"><img src="https://buildstats.info/nuget/{{ page.nuget }}" /></a></li>{% endif %}
                 </ul>
                 {% endif %}
