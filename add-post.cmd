@@ -1,1 +1,1 @@
-dotnet pretzel ingredient --s=src\content -n="%*"
+dotnet pretzel ingredient -s=src\content -n="%*"
