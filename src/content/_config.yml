@@ -39,5 +39,6 @@ version: 0.0.0-alpha.0.415
 commit: 446c750c12ff5dd15f7715d5e4015605356e4edc
 last-update: 2020-10-09
 comment-repo: https://github.com/xenial-io/Xenial.Blog.Comments.git
+comment-url: https://github.com/xenial-io/Xenial.Blog.Comments
 comment-branch: main
 comment-api: https://comments.xenial.io

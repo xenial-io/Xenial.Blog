@@ -152,11 +152,18 @@
           &__buttons {
             margin-right: -1rem;
             margin-left: 0.5rem;
-            padding-left: 0.5rem;
-
-            :last-child {
-              margin-left: 0.5rem;
+            a, a:link, a:visited {
+              color: var(--xenial-light-color);
+              font-weight: normal;
+              text-decoration: none;
+              font-size: 0.8rem;
             }
+            //TODO: when multiple buttons are supported
+            // padding-left: 0.5rem;
+
+            // :last-child {
+            //   margin-left: 0.5rem;
+            // }
           }
 
           &__links {

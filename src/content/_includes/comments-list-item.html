@@ -27,9 +27,10 @@
                 {{ comment.date  | date: "%e %b %Y %H:%M" }}
             </span>
 
-            {% comment %}
-            <div class="comments__list-item__buttons"><i class="fas fa-pencil-alt"></i><i class="fas fa-trash-alt"></i>
+            <div class="comments__list-item__buttons"><a href="{{ site.comment-url }}/edit/main/comments{{ page.id }}" title="Edit comment" target="_blank"><i class="fas fa-pencil-alt"></i></a>
             </div>
+            {% comment %}
+            <i class="fas fa-trash-alt"></i>
             {% endcomment %}
         </h5>
 
