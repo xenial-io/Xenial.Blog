@@ -1,4 +1,4 @@
-name: Xenial.Blog
+name: Xenial.Blog.xenial-io
 
 on:
   schedule:
@@ -27,6 +27,8 @@ jobs:
       - name: Install dependencies
         run: dotnet restore build/build.csproj
       - name: Build
+        env:
+          XENIAL-IO: true
         run: dotnet run --project build/build.csproj
       - uses: actions/upload-artifact@v2
         if: github.event.pull_request == false
@@ -57,10 +59,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install wheel
           pip install creep
-      - name: Publish to blog.delegate.at
+      - name: Publish to blog.xenial.io
         env:
           FTP_HOST: ${{secrets.FTP_HOST}}
           FTP_PASS: ${{secrets.FTP_PASS}}
           FTP_USER: ${{secrets.FTP_USER}}
-          FTP_DIRECTORY: "/blog"
+          FTP_DIRECTORY: /blog_xenial
         run: dotnet run --project build/build.csproj deploy

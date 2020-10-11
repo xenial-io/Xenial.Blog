@@ -42,6 +42,14 @@ Target("version:write", DependsOn("version:read"), async () =>
     config["commit"] = await hash.Value;
     config["last-update"] = await lastUpdate.Value;
 
+    if(!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("XENIAL-IO")))
+    {
+        config["site-title"] = "blog.xenial.io";
+        config["site-name"] = "blog.xenial.io";
+        config["feed-name"] = "blog.xenial.io";
+        config["site-url"] = "https://blog.xenial.io";
+    }
+
     await WriteConfig(config);
 });
 
