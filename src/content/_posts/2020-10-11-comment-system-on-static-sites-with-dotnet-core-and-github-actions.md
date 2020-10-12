@@ -43,7 +43,7 @@ Comments.Repo->Blog.Repo: Trigger build
 Let's talk a little bit about the moving components:
 
 - [Blog.Repo]({{ site.site-repo }}): This is the github repo where the contents of this blog are stored
-  - There is an [Github Action]({{ site.site-repo }}/blob/main/.github/workflows/Xenial.Blog.yml) that builds the contents.  
+  - There is a [Github Action]({{ site.site-repo }}/blob/main/.github/workflows/Xenial.Blog.yml) that builds the contents.  
      It fetches the [Comments.Repo]({{ site.comment-url }}) and prepares the `_data` directory.
 - [Blog]({{ site.site-url }}) this is this site. There is a simple FTP static host somewhere.
 - [Api](https://www.github.com/xenial-io/Xenial.Commentator) is a simple aspnet core api application.
