@@ -14,7 +14,7 @@ I played around with several options like [staticman](https://staticman.net/), b
 Most of the tools use git issues, some proprietary database or are using [jekyll's data file features](https://jekyllrb.com/docs/datafiles/) and commit directly to the repository.  
 This is not an issue per se, but I like to have _data_ separated from the content in the repository.
 
-I came across an library called [Appy.GitDb](https://github.com/YellowLineParking/Appy.GitDb) that uses git as a key value store. I think this is a perfect use case for this library so I thought I give it a try a shot and came up with a simple but I think powerful and robust solution.
+I came across a library called [Appy.GitDb](https://github.com/YellowLineParking/Appy.GitDb) that uses git as a key value store. I thought this was a perfect use case for this library, so I gave it a shot and came up with what I believe to be a simple, but also a powerful and robust solution.
 
 <!--more-->
 
