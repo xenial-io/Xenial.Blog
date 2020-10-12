@@ -11,7 +11,7 @@ When designing the new blog I finally decided to replace the comment system prev
 
 I played around with several options like [staticman](https://staticman.net/), but I was never really convinced to adopt any of them. So I thought why not build one myself?
 
-Most of the tools use git issues, or some own database, or are using [jekyll's data file features](https://jekyllrb.com/docs/datafiles/) and commit directly to the repository.  
+Most of the tools use git issues, some proprietary database or are using [jekyll's data file features](https://jekyllrb.com/docs/datafiles/) and commit directly to the repository.  
 This is per se not an issue, but I like to have _data_ separated from the content in the repository.
 
 I came across an library called [Appy.GitDb](https://github.com/YellowLineParking/Appy.GitDb) that uses git as a key value store. I think this is a perfect use case for this library so I thought I give it a try a shot and came up with a simple but I think powerful and robust solution.
