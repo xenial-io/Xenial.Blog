@@ -1,4 +1,6 @@
 ## This is my blog
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxenial-io%2FXenial.Blog.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxenial-io%2FXenial.Blog?ref=badge_shield)
+
 
 Find it on [blog.xenial.io](https://blog.xenial.io).
 
@@ -11,3 +13,7 @@ Feel free to file an [issue](https://github.com/xenial-io/Xenial.Blog/issues) fo
 
 Feel free to support me on [Patreon](https://www.patreon.com/biohaz999).
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxenial-io%2FXenial.Blog.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxenial-io%2FXenial.Blog?ref=badge_large)
