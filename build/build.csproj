@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\external\Appy.GitDb\Appy.GitDb.Core\Appy.GitDb.Core.csproj" />
     <ProjectReference Include="..\external\Appy.GitDb\Appy.GitDb.Local\Appy.GitDb.Local.csproj" />
   </ItemGroup>
 
