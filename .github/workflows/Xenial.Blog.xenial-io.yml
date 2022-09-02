@@ -46,15 +46,15 @@ jobs:
     if: github.event.pull_request == false
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: _site
-          path: _site/
       - uses: actions/checkout@v2
       - name: Checkout Submodules
         run: git submodule init
       - name: Checkout Submodules
         run: git submodule update
+      - uses: actions/download-artifact@v2
+        with:
+          name: _site
+          path: _site/      
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
