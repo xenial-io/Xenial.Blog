@@ -140,10 +140,13 @@ Target("deploy:copy", async () =>
             connection = connectionString
         }
     };
-
+    Console.WriteLine("TRY TO WRITE TO '_site/.creep.env'");
     await File.WriteAllTextAsync("_site/.creep.env", JsonConvert.SerializeObject(config, Formatting.Indented));
+    Console.WriteLine("WRITTEN TO '_site/.creep.env'");
 
+    Console.WriteLine("TRY COPY DIR");
     DirectoryCopy("_site", deployDirectory, true);
+    Console.WriteLine("COPYIED DIR");
 });
 
 Target("deploy", DependsOn("deploy:copy"), async () =>
