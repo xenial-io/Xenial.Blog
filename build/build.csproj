@@ -7,13 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Appy.GitDb.Local" Version="0.17.0" />
     <PackageReference Include="bullseye" Version="4.0.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
     <PackageReference Include="simpleexec" Version="11.0.0" />
     <PackageReference Include="YamlDotNet" Version="12.0.0" />
 	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	<PackageReference Include="NLog" Version="5.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\external\Appy.GitDb\Appy.GitDb.Local\Appy.GitDb.Local.csproj" />
   </ItemGroup>
 
 </Project>
