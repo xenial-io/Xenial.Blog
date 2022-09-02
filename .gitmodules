@@ -1,0 +1,3 @@
+[submodule "external/Appy.GitDb"]
+	path = external/Appy.GitDb
+	url = https://github.com/xenial-io/Appy.GitDb.git
