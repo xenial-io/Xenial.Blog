@@ -1,65 +1,99 @@
 {
-    "version": "0.1.0",
+    "version": "2.0.0",
     "command": "PowerShell.exe",
-    "isShellCommand": true,
     "args": [
         "-NoProfile",
         "./build.ps1"
     ],
     "tasks": [
         {
-            "taskName": "Bake",
-            "showOutput": "always",
-            "isBuildCommand": true,
-            "suppressTaskName": true,
+            "label": "Bake",
+            "type": "shell",
+            "command": "PowerShell.exe",
             "args": [
+                "-NoProfile",
+                "./build.ps1",
                 "-Target Only-Bake"
-            ]
-        },
-         {
-            "taskName": "Full-Bake",
-            "showOutput": "always",
-            "isBuildCommand": true,
-            "suppressTaskName": true
+            ],
+            "problemMatcher": [],
+            "group": {
+                "_id": "build",
+                "isDefault": false
+            }
         },
         {
-            "taskName": "Clean",
-            "showOutput": "always",
-            "isBuildCommand": true,
-            "suppressTaskName": true,
+            "label": "Full-Bake",
+            "type": "shell",
+            "command": "PowerShell.exe",
             "args": [
+                "-NoProfile",
+                "./build.ps1"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "_id": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "PowerShell.exe",
+            "args": [
+                "-NoProfile",
+                "./build.ps1",
                 "-Target Clean"
-            ]
+            ],
+            "problemMatcher": [],
+            "group": {
+                "_id": "build",
+                "isDefault": false
+            }
         },
         {
-            "taskName": "Ingredient",
-            "showOutput": "always",
-            "isBuildCommand": true,
-            "suppressTaskName": true,
+            "label": "Ingredient",
+            "type": "shell",
+            "command": "PowerShell.exe",
             "args": [
+                "-NoProfile",
+                "./build.ps1",
                 "-Target Ingredient"
-            ]
+            ],
+            "problemMatcher": [],
+            "group": {
+                "_id": "build",
+                "isDefault": false
+            }
         },
         {
-            "taskName": "Draft",
-            "showOutput": "always",
-            "isBuildCommand": true,
-            "suppressTaskName": true,
+            "label": "Draft",
+            "type": "shell",
+            "command": "PowerShell.exe",
             "args": [
+                "-NoProfile",
+                "./build.ps1",
                 "-Target Draft"
-            ]
+            ],
+            "problemMatcher": [],
+            "group": {
+                "_id": "build",
+                "isDefault": false
+            }
         },
         {
-            "taskName": "Taste",
-            "showOutput": "always",
-            "isBuildCommand": false,
-            "isTestCommand": true,
-            "isBackground": false,
-            "echoCommand": false,
-            "suppressTaskName": true,
+            "label": "Taste",
+            "type": "shell",
+            "command": "PowerShell.exe",
             "args": [
+                "-NoProfile",
+                "./build.ps1",
                 "-Target Only-Taste"
-            ]
+            ],
+            "problemMatcher": [],
+            "group": {
+                "_id": "test",
+                "isDefault": false
+            }
         }
     ]
 }

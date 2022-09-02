@@ -14,12 +14,11 @@ using Appy.GitDb.Core.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-var version = new Lazy<Task<string>>(async () => (await ReadToolAsync(() => ReadAsync("dotnet", "minver -v e", noEcho: true))).Trim());
-var branch = new Lazy<Task<string>>(async () => (await ReadAsync("git", "rev-parse --abbrev-ref HEAD", noEcho: true)).Trim());
-var lastUpdate = new Lazy<Task<string>>(async () => $"{UnixTimeStampToDateTime(await ReadAsync("git", "log -1 --format=%ct", noEcho: true)):yyyy-MM-dd}");
-var hash = new Lazy<Task<string>>(async () => (await ReadAsync("git", "rev-parse HEAD", noEcho: true)).Trim());
+var version = new Lazy<Task<string>>(async () => (await ReadToolAsync(() => ReadAsync("dotnet", "minver -v e"))).Trim());
+var branch = new Lazy<Task<string>>(async () => (await ReadAsync("git", "rev-parse --abbrev-ref HEAD")).StandardOutput.Trim());
+var lastUpdate = new Lazy<Task<string>>(async () => $"{UnixTimeStampToDateTime((await ReadAsync("git", "log -1 --format=%ct")).StandardOutput):yyyy-MM-dd}");
+var hash = new Lazy<Task<string>>(async () => ((await ReadAsync("git", "rev-parse HEAD")).StandardOutput).Trim());
 
-var NpmLocation = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\nodejs\npm.cmd";
 var blogDirectory = "src\\content";
 var postsDirectory = Path.Combine(blogDirectory, "_posts");
 var dataDirectory = Path.Combine(blogDirectory, "_data");
@@ -59,8 +58,8 @@ Target("clean:npm", () => Ignored(() => RunAsync("cmd.exe", "/C rmdir /S /Q node
 Target("clean:_site", () => Ignored(() => RunAsync("cmd.exe", "/C rmdir /S /Q _site")));
 Target("clean", DependsOn("clean:npm", "clean:_site"));
 
-Target("npm:ci", () => RunAsync("npm", "ci", windowsName: NpmLocation));
-Target("npm:run:build", DependsOn("npm:ci"), () => RunAsync("npm", "run build", windowsName: NpmLocation));
+Target("npm:ci", () => RunAsync("npm", "ci"));
+Target("npm:run:build", DependsOn("npm:ci"), () => RunAsync("npm", "run build"));
 Target("npm", DependsOn("version", "npm:run:build"));
 
 
@@ -149,7 +148,7 @@ Target("deploy:copy", async () =>
 
 Target("deploy", DependsOn("deploy:copy"), async () =>
 {
-    await RunAsync("creep", "-y -v", windowsName: "creep.exe", workingDirectory: deployDirectory);
+    await RunAsync("creep", "-y -v", workingDirectory: deployDirectory);
 });
 
 Target("default", DependsOn("build"));
@@ -162,7 +161,7 @@ static async Task RunToolAsync(Func<Task> action)
     {
         await action();
     }
-    catch (SimpleExec.NonZeroExitCodeException)
+    catch (SimpleExec.ExitCodeException)
     {
         Console.WriteLine("Tool seams missing. Try to restore");
         await RunAsync("dotnet", "tool restore");
@@ -170,17 +169,17 @@ static async Task RunToolAsync(Func<Task> action)
     }
 }
 
-static async Task<string> ReadToolAsync(Func<Task<string>> action)
+static async Task<string> ReadToolAsync(Func<Task<(string StandardOutput, string StandardError)>> action)
 {
     try
     {
-        return await action();
+        return (await action()).StandardOutput;
     }
-    catch (SimpleExec.NonZeroExitCodeException)
+    catch (SimpleExec.ExitCodeException)
     {
         Console.WriteLine("Tool seams missing. Try to restore");
         await RunAsync("dotnet", "tool restore");
-        return await action();
+        return (await action()).StandardOutput;
     }
 }
 
@@ -190,7 +189,7 @@ static async Task Ignored(Func<Task> action)
     {
         await action();
     }
-    catch (SimpleExec.NonZeroExitCodeException e)
+    catch (SimpleExec.ExitCodeException e)
     {
         Console.WriteLine($"Action Failed. Ignored {e}");
     }

@@ -1,0 +1,65 @@
+{
+    "version": "0.1.0",
+    "command": "PowerShell.exe",
+    "isShellCommand": true,
+    "args": [
+        "-NoProfile",
+        "./build.ps1"
+    ],
+    "tasks": [
+        {
+            "taskName": "Bake",
+            "showOutput": "always",
+            "isBuildCommand": true,
+            "suppressTaskName": true,
+            "args": [
+                "-Target Only-Bake"
+            ]
+        },
+         {
+            "taskName": "Full-Bake",
+            "showOutput": "always",
+            "isBuildCommand": true,
+            "suppressTaskName": true
+        },
+        {
+            "taskName": "Clean",
+            "showOutput": "always",
+            "isBuildCommand": true,
+            "suppressTaskName": true,
+            "args": [
+                "-Target Clean"
+            ]
+        },
+        {
+            "taskName": "Ingredient",
+            "showOutput": "always",
+            "isBuildCommand": true,
+            "suppressTaskName": true,
+            "args": [
+                "-Target Ingredient"
+            ]
+        },
+        {
+            "taskName": "Draft",
+            "showOutput": "always",
+            "isBuildCommand": true,
+            "suppressTaskName": true,
+            "args": [
+                "-Target Draft"
+            ]
+        },
+        {
+            "taskName": "Taste",
+            "showOutput": "always",
+            "isBuildCommand": false,
+            "isTestCommand": true,
+            "isBackground": false,
+            "echoCommand": false,
+            "suppressTaskName": true,
+            "args": [
+                "-Target Only-Taste"
+            ]
+        }
+    ]
+}
