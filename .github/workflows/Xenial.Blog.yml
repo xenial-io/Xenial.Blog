@@ -49,6 +49,11 @@ jobs:
         with:
           name: _site
           path: _site/
+      - uses: actions/checkout@v2
+      - name: Checkout Submodules
+        run: git submodule init
+      - name: Checkout Submodules
+        run: git submodule update
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
