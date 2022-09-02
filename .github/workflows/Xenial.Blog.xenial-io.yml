@@ -46,7 +46,6 @@ jobs:
     if: github.event.pull_request == false
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/checkout@v2
       - name: Checkout Submodules
         run: git submodule init
       - name: Checkout Submodules
