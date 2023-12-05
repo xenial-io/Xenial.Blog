@@ -9,10 +9,11 @@
 ---
 
 Happy Holidays everyone!  
-Some might be wondering why it got so silent on this blog almost 2 years, but there is a very valid reason. Almost all my time went into development of this *little* gem called [Vertiq Framework](https://fc.vertiq.io)!  
+This post will be published on 
+<!-- Some might be wondering why it got so silent on this blog almost 2 years, but there is a very valid reason. Almost all my time went into development of this *little* gem called [Vertiq Framework](https://fc.vertiq.io)!  
 So let's begin with with a little introduction first. 
 
-## A brief Overview
+## A *brief* problem overview
 
 ### Writing frontends for applications
 
@@ -49,3 +50,15 @@ Architecture and *Abstractions* are always a tradeoff between complexity, choice
 ### Clients, Servers, Mobile, Apps, Offline & the Fridge
 
 Technologie moves fast, Frameworks come and go. We've come a long long way from simple Console apps over Desktop to the Web, Mobile Applications and hell now even Fridges can run **your** code. All platforms come with their own challanges on their own. But one question always bouthert me the most: where should you place your business logic. Where should and will it run? Nowadays users expect their settings, data to move and roam across devices, and as a sweet cherry on top it should work reliable and resilient even if **offline** or *with low bandwithes*. 
+
+Why do we still need to jump between all layers and do a lot of complicated stuff? We need to rethink the way we *think* application architectutre and design. In the end it's about messages flowing through systems and beeing displayed to the users in some form or the other. But we also need to be **efficient**. We don't want to put hundrets of megs on your smartphone, have poor performance, or need to download hundrets of thousand of files in the browser. And of course we want to run code on that lovely fridge.
+
+### Modular, Monolithic, Micro, Macro, Cloud, AOT and more
+
+Working in hundrets of projects tried so solve the same problem over and over again. We have those challeges, of course, because requirements change. The number of users, the load we have on our systems and the way we need to scale.  
+But the amount of labor we need to restructure (and sometimes we might reuse functionallity for some customers) simply almost never scales. Either the amount of rework we need to put in is so high that the project just get's cancelled so it's simply cheaper to throw more money at it (nobody bought a stronger server, or just split load by simply *load balance* their application by some kind of user groups. *Liar*. **WE ALL DID**) that's because we did not care enough, had no time to do it, or the teams just didn't know better.
+
+## The VertiQ Way
+
+Now we know the problems teams need to tackle all day long, so *why* we don't think in a more broad way how we structure our applications to tackle those. -->
+
