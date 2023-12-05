@@ -11,6 +11,7 @@
 Happy Holidays everyone!  
 This post will be published on 7th of Dezember.
 
+
 <!-- Some might be wondering why it got so silent on this blog almost 2 years, but there is a very valid reason. Almost all my time went into development of this *little* gem called [Vertiq Framework](https://fc.vertiq.io)!  
 So let's begin with with a little introduction first. 
 
