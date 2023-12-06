@@ -104,7 +104,7 @@ The other important project is what we call a `Hosting` module. In our case that
 
 That results in a *quite* scary dependency tree:
 
-![]()
+![App Screenshot #1](/img/posts/2023/2023-12-07-vertiq-introduction-module-tree.png)
 
 But although it **seams** over complicated and not performant, it *actually is*, because the loading is linear:
 
@@ -188,11 +188,15 @@ Templates allow you to quickly get started, and drop in corporate design in at a
 
 We've successfully built dozens of applications, from small to large, online, offline, hybrid and embedded.
 
-![]()
+![App Screenshot #1](/img/posts/2023/2023-12-07-vertiq-introduction-app1.png)
+![App Screenshot #2](/img/posts/2023/2023-12-07-vertiq-introduction-app2.png)
+![App Screenshot #3](/img/posts/2023/2023-12-07-vertiq-introduction-app3.png)
 
 So we think it's time to share our product with you! If you are interested in a tour, some additional information or any questions feel free to [reach out to me via email](mailto:m.grundner@delegate.at?subject=Vertiq) or my [other channels](/about)!
 
 Let me know what you think and feel free to comment below!
+
+Also check out our [Feature Center](https://fc.vertiq.io/) that is also our interactive documentation!
 
 ## Happy Holidays!
 
