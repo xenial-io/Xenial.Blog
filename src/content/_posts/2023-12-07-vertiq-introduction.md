@@ -8,9 +8,10 @@
  series: vertiq
 ---
 
-Happy Holidays everyone!  
-Some might be wondering why it got so silent on this blog for almost 2 years, but there is a very valid reason. Almost all my time went into the development of this *little* gem called [Vertiq Framework](https://fc.vertiq.io)!  
-So let's begin with with a teaser and little problem introduction first.
+Happy Holidays everyone! This post is part of [C# Advent](https://csadvent.christmas/)! Be sure to check every day for new posts from the .NET community!
+
+Some might be wondering why it got so silent on this blog almost 2 years, but there is a very valid reason. Almost all my time went into development of this *little* gem called [Vertiq Framework](https://fc.vertiq.io)!  
+So let's begin with with a teaser and little problem introduction first. 
 
 ![Todo App Screenshot](/img/posts/2023/2023-12-07-vertiq-introduction-todo-app.png)
 
