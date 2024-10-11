@@ -48,7 +48,7 @@ jobs:
         run: git submodule init
       - name: Checkout Submodules
         run: git submodule update
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4s
         with:
           name: _site
           path: _site/      
