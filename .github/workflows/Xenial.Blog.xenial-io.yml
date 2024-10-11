@@ -32,7 +32,7 @@ jobs:
         env:
           XENIAL-IO: true
         run: dotnet run --project build/build.csproj
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: github.event.pull_request == false
         with:
           name: _site
